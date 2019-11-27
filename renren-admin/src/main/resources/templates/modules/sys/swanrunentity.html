@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns="">
+<head>
+    <title>运行实例</title>
+		<#include "/header.html">
+    <script src="${request.contextPath}/statics/js/modules/sys/lib/ace.js"></script>
+    <!-- 用来提供代码提示和自动补全的插件 -->
+    <script src="${request.contextPath}/statics/js/modules/sys/lib/ext-language_tools.js"></script>
+
+
+
+</head>
+<body>
+
+
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+            <div class="form-group col-sm-2">
+                <input type="text" class="form-control" v-model="q.key" @keyup.enter="query" placeholder="脚本ID">
+            </div>
+
+            <a class="btn btn-primary" @click="query">查询</a>
+
+
+        <#if shiro.hasPermission("sys:swanrunentity:update")>
+        <a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;查看</a>
+        </#if>
+
+</div>
+<table id="jqGrid"></table>
+<div id="jqGridPager"></div>
+</div>
+
+
+<div v-show="!showList" class="panel panel-default">
+    <div class="panel-heading">{{title}}</div>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <div class="col-sm-2 control-label">操作人</div>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" v-model="swanRunEntity.userId" placeholder="操作人"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">PID</div>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" v-model="swanRunEntity.pid" placeholder="PID"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">文件路径</div>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" v-model="swanRunEntity.codeUrl" placeholder="文件路径"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">代码</div>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" v-model="swanRunEntity.codeDetail" placeholder="代码"  @click="menuTree2"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">脚本ID</div>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" v-model="swanRunEntity.pyControlId" placeholder="脚本ID"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">开始时间</div>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" v-model="swanRunEntity.startTime" placeholder="开始时间"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">停止时间</div>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" v-model="swanRunEntity.endTime" placeholder="停止时间"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">停止方式</div>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" v-model="swanRunEntity.endType" placeholder="停止方式"  />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">脚本输出</div>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" v-model="swanRunEntity.pyOutput" placeholder="脚本输出" @click="menuTree"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label"></div>
+            <!--<input type="button" class="btn btn-primary" id="btnSaveOrUpdate" data-loading-text="保存中..." @click="saveOrUpdate" value="确定"/>-->
+            &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+        </div>
+    </form>
+</div>
+
+
+</div>
+</body>
+
+
+<div id="menuLayer" style="display: none;padding:10px;">
+    <!--<textarea style="width:800px;height:600px" id="sifany-text" name="code"></textarea>-->
+    <style>
+        #sifany-text{
+            width:800px;
+            height:500px;
+        }
+    </style>
+    <div id="sifany-text">
+
+    </div>
+</div>
+
+<div id="menuLayer2" style="display: none;padding:10px;">
+    <!--<textarea style="width:800px;height:600px" id="sifany-text" name="code"></textarea>-->
+    <style>
+        #sifany-text2{
+            width:800px;
+            height:500px;
+        }
+    </style>
+    <div id="sifany-text2">
+
+    </div>
+</div>
+
+<script>
+    // ace.require("ace/ext/language_tools");
+    // 初始化editor(）
+    var editor = ace.edit("sifany-text");
+    editor.setOptions({
+        // 默认:false
+        wrap: true, // 换行
+        autoScrollEditorIntoView: false, // 自动滚动编辑器视图
+        enableLiveAutocompletion: true, // 智能补全
+        enableSnippets: true, // 启用代码段
+        enableBasicAutocompletion: true, // 启用基本完成 不推荐使用
+    });
+    // 设置主题  cobalt monokai
+    editor.setTheme("ace/theme/cobalt");
+    // 设置编辑语言
+    editor.getSession().setMode("ace/mode/text");
+    editor.setFontSize(16);
+    editor.setReadOnly(false)
+    editor.getSession().setTabSize(4);
+    editor.setKeyboardHandler("ace/keyboard/sublime")
+    // 获取编辑内容
+    // var v = editor.getValue();
+    // console.log(v);
+    // 编辑内容搜索  快捷键打开->ctrl+f
+    // editor.execCommand('find');
+    // 设置编辑内容
+    // var editorValue = '<h2>测试数据</h2>';
+    // editor.setValue(editorValue);
+</script>
+
+<script>
+    // ace.require("ace/ext/language_tools");
+    // 初始化editor(）
+    var editor2 = ace.edit("sifany-text2");
+    editor.setOptions({
+        // 默认:false
+        wrap: true, // 换行
+        autoScrollEditorIntoView: false, // 自动滚动编辑器视图
+        enableLiveAutocompletion: true, // 智能补全
+        enableSnippets: true, // 启用代码段
+        enableBasicAutocompletion: true, // 启用基本完成 不推荐使用
+    });
+    // 设置主题  cobalt monokai
+    editor2.setTheme("ace/theme/cobalt");
+    // 设置编辑语言
+    editor2.getSession().setMode("ace/mode/python");
+    editor2.setFontSize(16);
+    editor2.setReadOnly(false)
+    editor2.getSession().setTabSize(4);
+    editor2.setKeyboardHandler("ace/keyboard/sublime")
+    // 获取编辑内容
+    // var v = editor.getValue();
+    // console.log(v);
+    // 编辑内容搜索  快捷键打开->ctrl+f
+    // editor.execCommand('find');
+    // 设置编辑内容
+    // var editorValue = '<h2>测试数据</h2>';
+    // editor.setValue(editorValue);
+</script>
+
+
+
+
+
+<script src="${request.contextPath}/statics/js/modules/sys/swanrunentity.js?_${.now?long}"></script>
+</body>
+</html>

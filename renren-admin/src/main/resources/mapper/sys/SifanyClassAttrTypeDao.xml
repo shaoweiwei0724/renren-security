@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.sys.dao.SifanyClassAttrTypeDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.sys.entity.SifanyClassAttrTypeEntity" id="sifanyClassAttrTypeMap">
+        <result property="id" column="id"/>
+        <result property="types" column="types"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="name" column="name"/>
+    </resultMap>
+
+
+    <select id="queryList" resultType="io.renren.modules.sys.entity.SifanyClassAttrTypeEntity">
+        select * from sifany_class_attr_type
+    </select>
+
+</mapper>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns="">
+<head>
+<title>脚本控制; InnoDB free: 88064 kB</title>
+    <#include "/header.html">
+
+    <!-- 主要文件 -->
+    <script src="${request.contextPath}/statics/js/modules/sys/lib/ace.js"></script>
+    <!-- 用来提供代码提示和自动补全的插件 -->
+    <script src="${request.contextPath}/statics/js/modules/sys/lib/ext-language_tools.js"></script>
+
+</head>
+<body>
+
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+
+            <div class="form-group col-sm-2">
+                <input type="text" class="form-control" v-model="q.key" @keyup.enter="query" placeholder="脚本名称">
+            </div>
+            <a class="btn btn-primary" @click="query">查询</a>
+			<#if shiro.hasPermission("sys:swanpycontrol:save")>
+            <a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+			</#if>
+
+			<#if shiro.hasPermission("sys:swanpycontrol:update")>
+            <a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+			</#if>
+			<#if shiro.hasPermission("sys:swanpycontrol:delete")>
+            <a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+			</#if>
+            <#if shiro.hasPermission("sys:swanpycontrol:delete")>
+            <a class="btn btn-primary" @click="start"><i class="fa fa-plus"></i>&nbsp;运行</a>
+            </#if>
+            <#if shiro.hasPermission("sys:swanpycontrol:delete")>
+            <a class="btn btn-primary" @click="stop"><i class="fa fa-plus"></i>&nbsp;停止</a>
+            </#if>
+            <#if shiro.hasPermission("sys:swanpycontrol:delete")>
+            <a class="btn btn-primary" @click="reload"><i class="fa fa-plus"></i>&nbsp;刷新</a>
+            </#if>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <form class="form-horizontal">
+														                    <div class="form-group">
+                        <div class="col-sm-2 control-label">脚本名</div>
+                        <div class="col-sm-10">
+                            <input type="text"  class="form-control" v-model="swanPyControl.name" placeholder="脚本名"/>
+                        </div>
+                    </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">代码</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="swanPyControl.txtt" placeholder="代码" @click="menuTree"/>
+            </div>
+            </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">脚本路径</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" readonly="true" v-model="swanPyControl.path" placeholder="脚本路径"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">进程id</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" readonly="true" v-model="swanPyControl.pid" placeholder="进程id"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">脚本运行状态</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" readonly="true" v-model="swanPyControl.states" placeholder="脚本运行状态"/>
+
+                        </div>
+                    </div>
+
+					 <div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <input type="button" class="btn btn-primary" id="btnSaveOrUpdate" data-loading-text="保存中..." @click="saveOrUpdate" value="确定"/>
+
+                &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+
+
+<div id="menuLayer" style="display: none;padding:10px;">
+    <!--<textarea style="width:800px;height:600px" id="sifany-text" name="code"></textarea>-->
+    <style>
+        #sifany-text{
+            width:800px;
+            height:500px;
+        }
+    </style>
+    <div id="sifany-text">
+
+
+
+
+
+    </div>
+</div>
+
+<script>
+    // ace.require("ace/ext/language_tools");
+    // 初始化editor(）
+    var editor = ace.edit("sifany-text");
+    editor.setOptions({
+        // 默认:false
+        wrap: true, // 换行
+        autoScrollEditorIntoView: false, // 自动滚动编辑器视图
+        enableLiveAutocompletion: true, // 智能补全
+        enableSnippets: true, // 启用代码段
+        enableBasicAutocompletion: true, // 启用基本完成 不推荐使用
+    });
+    // 设置主题  cobalt monokai
+    editor.setTheme("ace/theme/cobalt");
+    // 设置编辑语言
+    editor.getSession().setMode("ace/mode/python");
+    editor.setFontSize(16);
+    editor.setReadOnly(false)
+    editor.getSession().setTabSize(4);
+    editor.setKeyboardHandler("ace/keyboard/sublime")
+    // 获取编辑内容
+    // var v = editor.getValue();
+    // console.log(v);
+    // 编辑内容搜索  快捷键打开->ctrl+f
+    // editor.execCommand('find');
+    // 设置编辑内容
+    // var editorValue = '<h2>测试数据</h2>';
+    // editor.setValue(editorValue);
+</script>
+<!--</body>-->
+<!--<script>-->
+    <!--//根据DOM元素的id构造出一个编辑器-->
+
+    <!--var editor = CodeMirror.fromTextArea(document.getElementById("sifany-text"), {-->
+        <!--mode: {name: "python",-->
+            <!--version: 3,-->
+            <!--singleLineStringErrors: false},-->
+        <!--lineNumbers: true,-->
+        <!--//indentUnit: 4,-->
+        <!--matchBrackets: true,-->
+        <!--autofocus:true,-->
+        <!--inputStyle:'textarea',-->
+        <!--//theme: 'dracula',-->
+        <!--lineWrapping: true,-->
+        <!--autoRefresh: true,-->
+
+    <!--});-->
+    <!--//editor.setValue('import numpy as np\r\n')-->
+
+
+    <!--//document.getElementById("scripText").innerHTML = editor.getValue();-->
+    <!--//vm.swanPyControl=editor.getAttribute()-->
+<!--</script>-->
+<script src="${request.contextPath}/statics/js/modules/sys/swanpycontrol.js?_${.now?long}"></script>
+
+</html>
+

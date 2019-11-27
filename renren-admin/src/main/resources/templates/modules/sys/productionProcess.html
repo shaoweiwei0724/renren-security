@@ -1,0 +1,69 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Production Process GoJS Sample</title>
+  <meta name="description" content="Oil a
+  nd gas byproduct production diagram." />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Copyright 1998-2019 by Northwoods Software Corporation. -->
+    <link rel="stylesheet" href="layui/css/model.css"  media="all">
+  <script src="../release/go.js"></script>
+
+  <style type="text/css">
+    #infobox {
+      width: 256px;
+      background: #757575;
+      color: #FFF;
+      padding: 20px;
+    }
+  </style>
+<script src="${request.contextPath}/statics/js/modules/sys/model.js"></script>
+
+</head>
+<body onload="init()">
+<div id="sample">
+
+    <div style="width: 100%; display: flex; justify-content: space-between">
+        <div id="bu" style="background-color:#4682B4;  overflow: auto; z-index:10;height:590px;width: 200px; margin-right: 2px;position: fixed">
+        </div>
+        <!--<div id="myPaletteDiv" style="margin-top:100px;z-index:99;height:400px;width: 200px; margin-right: 2px; background-color: whitesmoke; border: solid 1px black;position: fixed"></div>-->
+        <div id="myDiagramDiv" style="flex-grow: 1; height: 620px; border: solid 1px black"></div>
+
+    </div>
+    <input onclick="save()" value="保存"/>
+    <div class="layui-upload">
+        <button type="button" class="layui-btn" id="test1">上传图片</button>
+        <div class="layui-upload-list">
+            <img class="layui-upload-img" id="demo1">
+            <p id="demoText"></p>
+        </div>
+    </div>
+  <div>
+  
+    <textarea id="mySavedModel" style="width: 800px; height: 400px;display: none">
+      { "class": "GraphLinksModel",
+        "nodeDataArray": [
+        {"icon":24, "iconWidth":30, "iconHeight":60, "text":"自然吸气发动机", "source":{"id":24, "name":"自然吸气发动机", "parentId":19, "createTime":1572600708465, "updateTime":null, "status":1, "userId":1, "icons":"27", "type":"base", "childs":null}, "key":-2, "pos":"-200 -20"},
+        {"icon":23, "iconWidth":30, "iconHeight":60, "text":"涡轮增压发动机", "source":{"id":23, "name":"涡轮增压发动机", "parentId":19, "createTime":1572600610625, "updateTime":null, "status":1, "userId":1, "icons":"26", "type":"base", "childs":null}, "key":-1, "pos":"100 -20"} ],
+        "linkDataArray": [
+        {"from":-2, "to":-1, "points":[-150,-20,-140,-20,-50,-20,-50,-19.999999999999986,40,-19.999999999999986,50,-19.999999999999986]}
+        ]}
+    </textarea>
+  </div>
+
+    <div id="popLayer"></div>
+    <div id="popBox">
+        <div class="close">
+            <a href="javascript:void(0)" onclick="closeSave()">关闭</a>
+        </div>
+        <div class="content">
+<!--            图片上传及预览-->
+            <input type="file"/>
+            <img src="images/null.png" width="50px" height="50px"/>
+        </div>
+    </div>
+</div>
+</body>
+</html>

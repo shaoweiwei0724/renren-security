@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.sys.dao.SwanRunEntityDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.sys.entity.SwanRunEntityEntity" id="swanRunEntityMap">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="pid" column="pid"/>
+        <result property="codeUrl" column="code_url"/>
+        <result property="codeDetail" column="code_detail"/>
+        <result property="pyControlId" column="py_control_id"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="endType" column="end_type"/>
+        <result property="pyOutput" column="py_output"/>
+        <result property="outputPath" column="output_path"/>
+    </resultMap>
+
+
+</mapper>
