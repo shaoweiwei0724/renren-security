@@ -867,6 +867,7 @@ var vm = new Vue({
 
                     console.log("=============="+vm.sifanyClass.icons);
                     layer.close(index);
+                    $("#menuLayer").hide();
 
                 }
             });
@@ -901,7 +902,7 @@ var vm = new Vue({
                         console.log("+++++++++++====="+values);
 
                         vm.sifanyClass.modelId=encodeURI(values);
-                        alert(vm.sifanyClass.modelId)
+                       // alert(vm.sifanyClass.modelId)
 
                         var url ="sys/sifanyclass/update";
                        // vm.sifanyClass['type']='map';
