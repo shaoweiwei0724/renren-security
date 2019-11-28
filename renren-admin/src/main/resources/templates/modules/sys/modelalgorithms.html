@@ -97,13 +97,15 @@
                     </div>
                     <div class="layui-tab-item">
                     <#if shiro.hasPermission("sys:sifanyclassattr:save")>
-                    <a class="btn btn-primary" @click="edit"><i class="fa fa-plus"></i>&nbsp;编辑</a>
+                    <a class="btn btn-primary" @click="configmenu"><i class="fa fa-plus"></i>&nbsp;编辑</a>
                     </#if>
                     <div  style="display: none">
+                        <input type="text"  v-model="sifanyClass.id"  placeholder="id"/>
                         <input type="text"  v-model="sifanyClass.icons"  placeholder="图标"/>
                     </div>
                     <div>
-                        <img style="height:500px;width:500px;"  @click="menuTreeInfo" v-bind:src="sifanyClass.irconurl">
+                        <iframe src="${request.contextPath}/statics/gojs/samples/model_show.html"
+                                width="1000px" id="config-swan-svg0" height="800px"></iframe>
                     </div>
                     </div>
                     <div class="layui-tab-item">
@@ -305,10 +307,10 @@
     <iframe src="${request.contextPath}/statics/svgedit-5.0.0/editor/svg-editor.html?extensions="
             width="1000px" id="swan-svg" height="1000px"></iframe>
 </div>
-<div id="menuLayerInfo" style="display: none;padding:10px;">
+<div id="menumapLayer" style="display: none;padding:10px;">
 
     <iframe src="${request.contextPath}/statics/gojs/samples/productionProcess.html"
-            width="1000px" id="swan-svg-info" height="800px"></iframe>
+            width="1000px" id="config-swan-svg" height="800px"></iframe>
 </div>
 <script src="${request.contextPath}/statics/js/modules/sys/modelalgorithms.js?_${.now?long}"></script>
 <script src="${request.contextPath}/statics/plugins/layui/lay/dest/layui.all.js"></script>
