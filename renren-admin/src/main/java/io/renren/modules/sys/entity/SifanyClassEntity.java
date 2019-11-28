@@ -60,6 +60,7 @@ public class SifanyClassEntity implements Serializable {
 	private String type;
 	private String code;
 	private String remark;
+	private String modelId;
 
 	public String getType() {
 		return type;
@@ -171,5 +172,13 @@ public class SifanyClassEntity implements Serializable {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public String getModelId() {
+		return modelId;
+	}
+
+	public void setModelId(String modelId) {
+		this.modelId = modelId;
 	}
 }

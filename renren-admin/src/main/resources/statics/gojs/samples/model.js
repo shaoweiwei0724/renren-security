@@ -12,7 +12,7 @@ function init() {
                 strs = JSON.parse(xmlHttp1.responseText);
 
                 var map = strs.icons.content.toString();
-                console.log(map);
+                console.log("+++++++++"+strs.icons);
                 // var map = JSON.parse(strs.icons.content);
                 document.getElementById("mySavedModel").value = map;
                 // alert(document.getElementById("mySavedModel").value);

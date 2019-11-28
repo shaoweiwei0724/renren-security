@@ -141,8 +141,8 @@ var ztreeMain;
 function tree_click_swan(e,treeId, treeNode) {
     var node = ztreeMain.getSelectedNodes();
     selected_id=node[0].id;
-   vm.sifanyClass = {id:node[0].id,name:node[0].name,code:node[0].code,icons:node[0].icons,remark:node[0].remark,irconurl:node[0].irconurl };
-   localStorage.iconsId = vm.sifanyClass.icons;
+   vm.sifanyClass = {id:node[0].id,name:node[0].name,code:node[0].code,icons:node[0].icons,remark:node[0].remark,irconurl:node[0].irconurl,modelId:node[0].modelId };
+   localStorage.iconsId = vm.sifanyClass.modelId;
    $('#config-swan-svg0').attr('src',$('#config-swan-svg0').attr('src'));
 console.log(vm.sifanyClass);
     var page = $("#jqGrid").jqGrid('getGridParam','page');
@@ -214,7 +214,7 @@ function addHoverDom() {
     }
 
     var url = "sys/sifanyclass/save";
-    vm.sifanyClass = {id:null,name:"example",parentId:nodes[0].id,orderNum:0,'icons':'',type:'base'};
+    vm.sifanyClass = {id:null,name:"example",parentId:nodes[0].id,orderNum:0,'icons':''};
 
     $.ajax({
         type: "POST",
@@ -539,7 +539,7 @@ function reloadTree(){
             //触发默认数据的click事件
             $("#"+node.tId+"_a").dblclick();//触发ztree点击事件
             console.log(node);
-            vm.sifanyClass = {id:node.id,name:node.name,code:node.code,icons:node.icons,remark:node.remark,irconurl:node.irconurl };
+            vm.sifanyClass = {id:node.id,name:node.name,code:node.code,icons:node.icons,remark:node.remark,irconurl:node.irconurl,modelId:node.modelId };
         }
         // vm.sifanyClass.parentName = node.name;
     })
@@ -611,7 +611,8 @@ var vm = new Vue({
             icons:null,
             irconurl:null,
             remark:null,
-            orderNum:0
+            orderNum:0,
+            modelId:null
         },
         sifanyClassAttrGather: {
             className:null,
@@ -847,33 +848,33 @@ var vm = new Vue({
         },
         menuTree: function(){
             // editor.setValue(vm.sifanyClass.icon);
-            // layer.open({
-            //     type: 1,
-            //     offset: '0',
-            //     skin: 'layui-layer-molv',
-            //     title: "svg-edit",
-            //     area: ['1000px', '1000px'],
-            //     shade: 0,
-            //     shadeClose: false,
-            //     content: jQuery("#menuLayer"),
-            //     btn: ['确定', '取消'],
-            //     btn1: function (index) {
-            //         var values =$("#swan-svg").contents().find("#svg_source_textarea").val();
-            //
-            //         console.log(values);
-            //
-            //         vm.sifanyClass.icons=encodeURI(values);
-            //
-            //         console.log("=============="+vm.sifanyClass.icons);
-            //         layer.close(index);
-            //
-            //     }
-            // });
+            layer.open({
+                type: 1,
+                offset: '0',
+                skin: 'layui-layer-molv',
+                title: "svg-edit",
+                area: ['1000px', '1000px'],
+                shade: 0,
+                shadeClose: false,
+                content: jQuery("#menuLayer"),
+                btn: ['确定', '取消'],
+                btn1: function (index) {
+                    var values =$("#swan-svg").contents().find("#svg_source_textarea").val();
+
+                    console.log(values);
+
+                    vm.sifanyClass.icons=encodeURI(values);
+
+                    console.log("=============="+vm.sifanyClass.icons);
+                    layer.close(index);
+
+                }
+            });
         },
         configmenu:function () {
 
                 // editor.setValue(vm.sifanyClass.icon);
-                localStorage.iconsId = vm.sifanyClass.icons;
+                localStorage.iconsId = vm.sifanyClass.modelId;
                 // alert(localStorage.iconsId);
                 // // if(localStorage.iconsId != null)
                 // $.get(baseURL + "sys/sifanydatatext/scene/"+localStorage.iconsId, function(r){
@@ -899,11 +900,11 @@ var vm = new Vue({
 
                         console.log("+++++++++++====="+values);
 
-                        vm.sifanyClass.icons=encodeURI(values);
-                        alert(vm.sifanyClass.icons)
+                        vm.sifanyClass.modelId=encodeURI(values);
+                        alert(vm.sifanyClass.modelId)
 
                         var url ="sys/sifanyclass/update";
-                        vm.sifanyClass['type']='map';
+                       // vm.sifanyClass['type']='map';
 
                         $.ajax({
                             type: "POST",
