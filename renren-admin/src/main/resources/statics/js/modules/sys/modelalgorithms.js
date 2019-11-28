@@ -10,7 +10,7 @@ $(function () {
     });
     $(document).ready(function () {
        var element= layui.element;
-       element.render();
+       // element.render();
     });
 
     reloadTree();
@@ -142,6 +142,8 @@ function tree_click_swan(e,treeId, treeNode) {
     var node = ztreeMain.getSelectedNodes();
     selected_id=node[0].id;
    vm.sifanyClass = {id:node[0].id,name:node[0].name,code:node[0].code,icons:node[0].icons,remark:node[0].remark,irconurl:node[0].irconurl };
+   localStorage.iconsId = vm.sifanyClass.icons;
+   $('#config-swan-svg0').attr('src',$('#config-swan-svg0').attr('src'));
 console.log(vm.sifanyClass);
     var page = $("#jqGrid").jqGrid('getGridParam','page');
     $("#jqGrid").jqGrid('setGridParam',{
@@ -845,36 +847,33 @@ var vm = new Vue({
         },
         menuTree: function(){
             // editor.setValue(vm.sifanyClass.icon);
-            layer.open({
-                type: 1,
-                offset: '0',
-                skin: 'layui-layer-molv',
-                title: "svg-edit",
-                area: ['1000px', '1000px'],
-                shade: 0,
-                shadeClose: false,
-                content: jQuery("#menuLayer"),
-                btn: ['确定', '取消'],
-                btn1: function (index) {
-                    var values =$("#swan-svg").contents().find("#svg_source_textarea").val();
-
-                    console.log(values);
-
-                    vm.sifanyClass.icons=encodeURI(values);
-
-                    console.log("=============="+vm.sifanyClass.icons);
-                    layer.close(index);
-
-                }
-            });
+            // layer.open({
+            //     type: 1,
+            //     offset: '0',
+            //     skin: 'layui-layer-molv',
+            //     title: "svg-edit",
+            //     area: ['1000px', '1000px'],
+            //     shade: 0,
+            //     shadeClose: false,
+            //     content: jQuery("#menuLayer"),
+            //     btn: ['确定', '取消'],
+            //     btn1: function (index) {
+            //         var values =$("#swan-svg").contents().find("#svg_source_textarea").val();
+            //
+            //         console.log(values);
+            //
+            //         vm.sifanyClass.icons=encodeURI(values);
+            //
+            //         console.log("=============="+vm.sifanyClass.icons);
+            //         layer.close(index);
+            //
+            //     }
+            // });
         },
-        edit:function(){
-
-        },
-        menuTreeInfo:function () {
+        configmenu:function () {
 
                 // editor.setValue(vm.sifanyClass.icon);
-                //localStorage.iconsId = vm.sifanyClass.icons;
+                localStorage.iconsId = vm.sifanyClass.icons;
                 // alert(localStorage.iconsId);
                 // // if(localStorage.iconsId != null)
                 // $.get(baseURL + "sys/sifanydatatext/scene/"+localStorage.iconsId, function(r){
@@ -887,19 +886,46 @@ var vm = new Vue({
                     type: 1,
                     offset: '0',
                     skin: 'layui-layer-molv',
-                    title: "svg-edit",
+                    title: "svg1-edit",
                     area: ['1000px', '1000px'],
                     shade: 0,
                     shadeClose: false,
-                    content: jQuery("#menuLayerInfo"),
+                    content: jQuery("#menumapLayer"),
                     btn: ['确定', '取消'],
                     btn1: function (index) {
-                        var values =$("#swan-svg-info").contents().find("#swan-res").val();
 
-                        console.log(values);
+                        var values =$("#config-swan-svg").contents().find("#swan-res").val();
+                        console.log($("#config-swan-svg").contents());
+
+                        console.log("+++++++++++====="+values);
 
                         vm.sifanyClass.icons=encodeURI(values);
+                        alert(vm.sifanyClass.icons)
+
+                        var url ="sys/sifanyclass/update";
+                        vm.sifanyClass['type']='map';
+
+                        $.ajax({
+                            type: "POST",
+                            url: baseURL + url,
+                            contentType: "application/json",
+                            data: JSON.stringify(vm.sifanyClass),
+                            success: function(r){
+                                if(r.code === 0){
+                                    layer.msg("操作成功", {icon: 1});
+                                    //vm.reload();
+                                    $(document).ready(reloadTree);
+                                }else{
+                                    layer.alert(r.msg);
+
+                                }
+                            }
+                        });
                         layer.close(index);
+                        $("#menumapLayer").hide();
+                        // setTimeout(function () {
+                        //
+                        // },1000)
 
                     }
                 });

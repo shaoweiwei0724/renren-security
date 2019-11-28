@@ -389,9 +389,12 @@ var vm = new Vue({
                 btn1: function (index) {
                     var values =$("#swan-svg").contents().find("#swan-res").val();
 
-                    console.log(values);
+
+                    console.log("+++++++++++++++++++++++++++++++++++"+values);
 
                     vm.sifanyClass.icons=encodeURI(values);
+
+                    alert(vm.sifanyClass.icons);
                     layer.close(index);
 
                 }
