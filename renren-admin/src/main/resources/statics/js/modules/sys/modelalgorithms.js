@@ -209,9 +209,9 @@ function addHoverDom() {
     var newNode = { name: "example" };
 
     //4、把这个新节点添加到当前选中的节点下，作为它的子节点
-    if(nodes.length > 0){
-        newNode = ztreeMain.addNodes(nodes[0], newNode);
-    }
+    // if(nodes.length > 0){
+    //     newNode = ztreeMain.addNodes(nodes[0], newNode);
+    // }
 
     var url = "sys/sifanyclass/save";
     vm.sifanyClass = {id:null,name:"example",parentId:nodes[0].id,orderNum:0,'icons':''};
@@ -226,7 +226,8 @@ function addHoverDom() {
                 layer.msg("操作成功", {icon: 1});
                 //vm.reload();
                 $('#treeContextMenu').hide();
-                $(document).ready(reloadTree);
+                refreshNodeTree(nodes,nodes[0].id)
+               // $(document).ready();
 
             }else{
                 layer.alert(r.msg);
@@ -241,12 +242,21 @@ function addHoverDom() {
      if(id == null){
          return ;
      }
+
+     var parentId = nodes[0].parentId;
+
+     if(parentId==-1){
+       //  layer.msg("根节点不允许删除。", {icon: 1});
+          layer.alert("根节点不允许删除。");
+         return ;
+     }
      var lock = false;
      layer.confirm('确定要删除选中的记录？', {
          btn: ['确定','取消'] //按钮
      }, function(){
          if(!lock) {
              lock = true;
+
              $.ajax({
                  type: "POST",
                  url: baseURL + "sys/sifanyclass/deleteDom",
@@ -544,7 +554,24 @@ function reloadTree(){
         // vm.sifanyClass.parentName = node.name;
     })
 }
+function refreshNodeTree(nodes,id){
+    $.get(baseURL + "sys/sifanyclass/select", function(r){
+        // var a = JSON.stringify(r.classLists);?type=base
+        // alert(a);
+        ztreeMain = $.fn.zTree.init($("#classTreeMain"), setting, r.classLists);
+       var node = ztreeMain.getNodeByParam("id",id);
 
+        ztreeMain.selectNode(node);
+
+        if(node){
+            //触发默认数据的click事件
+            $("#"+node.tId+"_a").dblclick();//触发ztree点击事件
+            console.log(node);
+            vm.sifanyClass = {id:node.id,name:node.name,code:node.code,icons:node.icons,remark:node.remark,irconurl:node.irconurl,modelId:node.modelId };
+        }
+        // vm.sifanyClass.parentName = node.name;
+    })
+}
 var setting = {
     data: {
         simpleData: {
@@ -825,6 +852,7 @@ var vm = new Vue({
             }).trigger("reloadGrid");
         },
         addclass:function(){
+            var nodes = ztreeMain.getSelectedNodes();
 
                 var url ="sys/sifanyclass/update";
                 vm.sifanyClass['type']='base';
@@ -837,7 +865,8 @@ var vm = new Vue({
                         if(r.code === 0){
                             layer.msg("操作成功", {icon: 1});
                             vm.reload();
-                            $(document).ready(reloadTree);
+                           // $(document).ready(reloadTree);
+                            refreshNodeTree(nodes,nodes[0].id);
                         }else{
                             layer.alert(r.msg);
 
