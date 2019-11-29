@@ -570,6 +570,8 @@ function refreshNodeTree(nodes,id){
             vm.sifanyClass = {id:node.id,name:node.name,code:node.code,icons:node.icons,remark:node.remark,irconurl:node.irconurl,modelId:node.modelId };
         }
         // vm.sifanyClass.parentName = node.name;
+        localStorage.iconsId = vm.sifanyClass.modelId;
+        $('#config-swan-svg0').attr('src',$('#config-swan-svg0').attr('src'));
     })
 }
 var setting = {
@@ -898,6 +900,10 @@ var vm = new Vue({
                     layer.close(index);
                     $("#menuLayer").hide();
 
+                },
+                btn2: function (index) {
+                    layer.close(index);
+                    $("#menuLayer").hide();
                 }
             });
         },
@@ -912,7 +918,7 @@ var vm = new Vue({
                 //     // document.getElementById("mySavedModel").value = r.icons;
                 //     console.log(r.icons);
                 // });
-
+                 var nodes = ztreeMain.getSelectedNodes();
                 layer.open({
                     type: 1,
                     offset: '0',
@@ -944,8 +950,9 @@ var vm = new Vue({
                             success: function(r){
                                 if(r.code === 0){
                                     layer.msg("操作成功", {icon: 1});
-                                    //vm.reload();
-                                    $(document).ready(reloadTree);
+
+                                    refreshNodeTree(nodes,nodes[0].id);
+
                                 }else{
                                     layer.alert(r.msg);
 
@@ -958,6 +965,10 @@ var vm = new Vue({
                         //
                         // },1000)
 
+                    },
+                    btn2: function (index) {
+                        layer.close(index);
+                        $("#menumapLayer").hide();
                     }
                 });
 
