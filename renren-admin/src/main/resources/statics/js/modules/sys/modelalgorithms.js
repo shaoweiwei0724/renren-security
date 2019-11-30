@@ -901,8 +901,13 @@ var vm = new Vue({
                     // window.postMessage("家用热水器用户行为分析", '*');
                     //
                     // vm.sifanyClass.icons=encodeURI(values);
-                    // layer.close(index);
+                     layer.close(index);
 
+                    $("#editProject-info").hide();
+                },
+                btn2: function (index) {
+                    layer.close(index);
+                    $("#editProject-info").hide();
                 }
             });
         },
