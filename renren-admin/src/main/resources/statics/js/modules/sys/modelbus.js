@@ -902,7 +902,7 @@ var vm = new Vue({
 
                     console.log("10",values);
 
-                    // vm.sifanyObj.icons=encodeURI(values);
+                    vm.sifanyObj.icons=encodeURI(values);
 
                     // console.log("=============="+vm.sifanyObj.icons);
                     layer.close(index);

@@ -152,6 +152,10 @@ public class SifanyClassController extends AbstractController{
         SifanyDataTextEntity sifanyDataTextEntity=new SifanyDataTextEntity();
         if(sifanyClass.getIcons() != null)
             sifanyDataTextEntity.setContent(URLDecoder.decode(sifanyClass.getIcons(),"utf-8"));
+
+
+
+//        sifany_now
         sifanyDataTextEntity.setCreateTime(new Date().getTime());
         sifanyDataTextEntity.setUpdateTime(sifanyDataTextEntity.getCreateTime());
         sifanyDataTextService.save(sifanyDataTextEntity);

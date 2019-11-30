@@ -881,7 +881,7 @@ var vm = new Vue({
             // editor.setValue(vm.sifanyClass.icon);
             var iframe = document.getElementById('editProject-info');
             iframe.onload = function(){
-                iframe.contentWindow.postMessage('家用热水器用户行为分析','*');
+                iframe.contentWindow.postMessage('耗电量计算','*');
             }
             layer.open({
                 type: 1,

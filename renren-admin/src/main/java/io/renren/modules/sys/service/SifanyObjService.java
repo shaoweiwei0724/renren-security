@@ -25,6 +25,8 @@ public interface SifanyObjService extends IService<SifanyObjEntity> {
     List<SifanyObjEntity> queryList(Map<String, Object> map);
 
     List<SifanyObjEntity> scadalist();
+    void toObj(SifanyObjEntity sifanyObjEntity);
+
 
 }
 

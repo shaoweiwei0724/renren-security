@@ -71,7 +71,7 @@ public class SifanyObjController  extends AbstractController{
 
     @RequestMapping("/select")
     public R selects(){
-        List<SifanyObjEntity> objEntityLists = sifanyObjService.list();
+        List<SifanyObjEntity> objEntityLists = sifanyObjService.swanList(new QueryWrapper());
 
         SifanyObjEntity sifanyObjEntity = new SifanyObjEntity();
         sifanyObjEntity.setName("场景实例");
@@ -116,13 +116,21 @@ public class SifanyObjController  extends AbstractController{
         sifanyObj.setCreateTime(time);
         sifanyObj.setUserId(getUserId());
         SifanyDataTextEntity sifanyDataTextEntity=new SifanyDataTextEntity();
-        if(sifanyObj.getIcons() != null)
+        if(sifanyObj.getIcons() != null){
             sifanyDataTextEntity.setContent(URLDecoder.decode(sifanyObj.getIcons(),"utf-8"));
-        sifanyDataTextEntity.setCreateTime(new Date().getTime());
-        sifanyDataTextEntity.setUpdateTime(sifanyDataTextEntity.getCreateTime());
-        sifanyDataTextService.save(sifanyDataTextEntity);
+
+            sifanyDataTextEntity.setCreateTime(new Date().getTime());
+            sifanyDataTextEntity.setUpdateTime(sifanyDataTextEntity.getCreateTime());
+            sifanyDataTextService.save(sifanyDataTextEntity);
+        }
+
+
         sifanyObj.setIcons(sifanyDataTextEntity.getId().toString());
         sifanyObjService.save(sifanyObj);
+//        if(sifanyObj.getModelId() != null){
+//            sifanyObjService.toObj(sifanyObj);
+//        }
+
         List<SifanyObjAttrEntity> objAttrEntities =  sifanyObjAttrService.list(new QueryWrapper<SifanyObjAttrEntity>().eq("class_id",sifanyObj.getParentId()));
         for(SifanyObjAttrEntity attr:objAttrEntities){
             attr.setClassId(sifanyObj.getId());
@@ -156,6 +164,7 @@ public class SifanyObjController  extends AbstractController{
         SifanyDataTextEntity sifanyDataTextEntity=new SifanyDataTextEntity();
         if(sifanyObj.getIcons() != null)
             sifanyDataTextEntity.setContent(URLDecoder.decode(sifanyObj.getIcons(),"utf-8"));
+
         sifanyDataTextEntity.setCreateTime(new Date().getTime());
         sifanyDataTextEntity.setUpdateTime(sifanyDataTextEntity.getCreateTime());
         sifanyDataTextService.save(sifanyDataTextEntity);
@@ -170,6 +179,9 @@ public class SifanyObjController  extends AbstractController{
         }
         sifanyObjService.updateById(sifanyObj);
 
+        if(sifanyObj.getModelId() != null){
+            sifanyObjService.toObj(sifanyObj);
+        }
         System.out.println("obj_sifanyObj+++++++++++++++++++++++++++++++");
         System.out.println(sifanyObj);
 
