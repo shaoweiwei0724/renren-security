@@ -1,11 +1,18 @@
 package io.renren.modules.sys.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.renren.common.utils.RedisUtils;
 import io.renren.common.validator.ValidatorUtils;
+import io.renren.modules.sys.entity.SifanyDataTextEntity;
+import io.renren.modules.sys.service.SifanyObjAttrService;
+import io.renren.modules.sys.service.SifanyDataTextService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.renren.modules.sys.entity.SifanyObjEntity;
+import io.renren.modules.sys.entity.SifanyObjAttrEntity;
 import io.renren.modules.sys.service.SifanyObjService;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
@@ -30,9 +38,15 @@ import io.renren.common.utils.R;
  */
 @RestController
 @RequestMapping("sys/sifanyobj")
-public class SifanyObjController {
+public class SifanyObjController  extends AbstractController{
     @Autowired
     private SifanyObjService sifanyObjService;
+    @Autowired
+    private SifanyDataTextService sifanyDataTextService;
+    @Autowired
+    private RedisUtils redisUtils;
+    @Autowired
+    private SifanyObjAttrService sifanyObjAttrService;
 
     /**
      * 列表
@@ -63,10 +77,12 @@ public class SifanyObjController {
         sifanyObjEntity.setName("场景实例");
         sifanyObjEntity.setId(-1l);
         objEntityLists.add(sifanyObjEntity);
+        System.out.println(objEntityLists);
         for(SifanyObjEntity obj : objEntityLists){
             if(obj.getParentId() == null)
                 obj.setParentId(sifanyObjEntity.getId());
         }
+
         return R.ok().put("objEntityLists", objEntityLists);
     }
 
@@ -89,9 +105,36 @@ public class SifanyObjController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("sys:sifanyobj:save")
-    public R save(@RequestBody SifanyObjEntity sifanyObj){
-        sifanyObjService.save(sifanyObj);
+    public R save(@RequestBody SifanyObjEntity sifanyObj) throws UnsupportedEncodingException{
+//        sifanyObjService.save(sifanyObj);
+//        System.out.println("__________________save_________________");
+//        System.out.println(sifanyObj);
+//
+//        return R.ok();
 
+        Long time = System.currentTimeMillis();
+        sifanyObj.setCreateTime(time);
+        sifanyObj.setUserId(getUserId());
+        SifanyDataTextEntity sifanyDataTextEntity=new SifanyDataTextEntity();
+        if(sifanyObj.getIcons() != null)
+            sifanyDataTextEntity.setContent(URLDecoder.decode(sifanyObj.getIcons(),"utf-8"));
+        sifanyDataTextEntity.setCreateTime(new Date().getTime());
+        sifanyDataTextEntity.setUpdateTime(sifanyDataTextEntity.getCreateTime());
+        sifanyDataTextService.save(sifanyDataTextEntity);
+        sifanyObj.setIcons(sifanyDataTextEntity.getId().toString());
+        sifanyObjService.save(sifanyObj);
+        List<SifanyObjAttrEntity> objAttrEntities =  sifanyObjAttrService.list(new QueryWrapper<SifanyObjAttrEntity>().eq("class_id",sifanyObj.getParentId()));
+        for(SifanyObjAttrEntity attr:objAttrEntities){
+            attr.setClassId(sifanyObj.getId());
+            attr.setId(null);
+            attr.setCreateTime(time);
+            attr.setUpdateTime(time);
+            attr.setUserId(getUserId());
+            sifanyObjAttrService.save(attr);
+        }
+
+        System.out.println("obj_save_sifanyObj+++++++++++++++++++++++++++++++");
+        System.out.println(sifanyObj);
         return R.ok();
     }
 
@@ -100,11 +143,39 @@ public class SifanyObjController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("sys:sifanyobj:update")
-    public R update(@RequestBody SifanyObjEntity sifanyObj){
+    public R update(@RequestBody SifanyObjEntity sifanyObj) throws UnsupportedEncodingException {
+//        ValidatorUtils.validateEntity(sifanyObj);
+//        sifanyObjService.updateById(sifanyObj);
+//        System.out.println("__________________update_________________");
+//        System.out.println(sifanyObj);
+//        return R.ok();
+
         ValidatorUtils.validateEntity(sifanyObj);
+        Long time = System.currentTimeMillis();
+        sifanyObj.setUpdateTime(time);
+        SifanyDataTextEntity sifanyDataTextEntity=new SifanyDataTextEntity();
+        if(sifanyObj.getIcons() != null)
+            sifanyDataTextEntity.setContent(URLDecoder.decode(sifanyObj.getIcons(),"utf-8"));
+        sifanyDataTextEntity.setCreateTime(new Date().getTime());
+        sifanyDataTextEntity.setUpdateTime(sifanyDataTextEntity.getCreateTime());
+        sifanyDataTextService.save(sifanyDataTextEntity);
+        sifanyObj.setIcons(sifanyDataTextEntity.getId().toString());
+        SifanyDataTextEntity sifanyDataText=new SifanyDataTextEntity();
+        if(sifanyObj.getModelId() != null) {
+            sifanyDataText.setContent(URLDecoder.decode(sifanyObj.getModelId(), "utf-8"));
+            sifanyDataText.setCreateTime(new Date().getTime());
+            sifanyDataText.setUpdateTime(sifanyDataText.getCreateTime());
+            sifanyDataTextService.save(sifanyDataText);
+            sifanyObj.setModelId(sifanyDataText.getId().toString());
+        }
         sifanyObjService.updateById(sifanyObj);
-        
+
+        System.out.println("obj_sifanyObj+++++++++++++++++++++++++++++++");
+        System.out.println(sifanyObj);
+
         return R.ok();
+
+
     }
 
     /**

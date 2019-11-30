@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="io.renren.modules.sys.dao.SifanyObjDao">
+<mapper namespace="io.renren.modules.sys.dao.SifanyClassAttrDao">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="io.renren.modules.sys.entity.SifanyObjEntity" id="sifanyObjMap">
+    <resultMap type="io.renren.modules.sys.entity.SifanyObjAttrEntity" id="sifanyObjAttrMap">
         <result property="id" column="id"/>
         <result property="classId" column="class_id"/>
         <result property="name" column="name"/>
-        <result property="parentId" column="parent_id"/>
+        <result property="typeId" column="type_id"/>
+        <result property="dataType" column="data_type"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
-        <result property="status" column="status"/>
         <result property="userId" column="user_id"/>
-        <result property="modelId" column="model_id"/>
-        <result property="icons" column="icons"/>
         <result property="code" column="code"/>
+        <result property="attrstypeId" column="attrstype_id"/>
+        <result property="unitId" column="unit_id"/>
         <result property="remark" column="remark"/>
     </resultMap>
 
@@ -23,7 +23,6 @@
         select t1.*,(select t2.name from sifany_obj t2 where t2.id=t1.parent_id)parentName from sifany_obj t1
 --         select * from sifany_class
     </select>
-
 
 
 </mapper>

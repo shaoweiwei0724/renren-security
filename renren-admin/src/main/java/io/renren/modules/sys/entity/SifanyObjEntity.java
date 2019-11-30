@@ -55,7 +55,22 @@ public class SifanyObjEntity implements Serializable {
 
 	private Integer goKey;
 
+
+	private String modelId;
+
+	private String type;
+	private String code;
+	private String remark;
+
+
+
 	@TableField(exist=false)
+	private String irconurl;
+
+	private String icons;
+
+
+
 	private List<SifanyObjDataEntity> attrs;
 
 	public Integer getGoKey() {
@@ -78,6 +93,8 @@ public class SifanyObjEntity implements Serializable {
 
 		return parentId;
 	}
+
+
 
 	public void setParentId(Long parentId) {
 		this.parentId = parentId;
@@ -137,5 +154,53 @@ public class SifanyObjEntity implements Serializable {
 
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+
+	public String getModelId() {
+		return modelId;
+	}
+
+	public void setModelId(String modelId) {
+		this.modelId = modelId;
+	}
+
+	public String getIcons() {
+		return icons;
+	}
+
+	public void setIcons(String icons) {
+		this.icons = icons;
+	}
+
+	public String getIrconurl() {
+		return irconurl;
+	}
+
+	public void setIrconurl(String irconurl) {
+		this.irconurl = irconurl;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 }
