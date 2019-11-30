@@ -109,7 +109,7 @@
                     </div>
                     </div>
                     <div class="layui-tab-item">
-                        <div style="float:left ;width:50%;">
+                        <div style="float:left ;width:500px;">
                             <table id="jqGridgather"></table>
                             <div id="jqGridPagergather"></div>
                         </div>
@@ -154,7 +154,7 @@
                         </div>
                     </div>
                     <div class="layui-tab-item">
-                        <div style="float:left ;width:50%;">
+                        <div style="float:left ;width:500px;">
                             <table id="jqGridget"></table>
                             <div id="jqGridPagerget"></div>
                         </div>
@@ -197,7 +197,7 @@
                                 </div>
                             </form>
                             <div style="height: 500px;">
-                                <img style="height:400px;width:300px;"  src="../../statics/1234.png">
+                                <img style="height:400px;width:300px;" @click="editProject" src="../../statics/1234.png">
                             </div>
                         </div>
                     </div>
@@ -312,6 +312,13 @@
     <iframe src="${request.contextPath}/statics/gojs/samples/productionProcess.html"
             width="1000px" id="config-swan-svg" height="800px"></iframe>
 </div>
+
+<div id="editProject" style="display: none;padding:10px;">
+
+    <iframe src="http://localhost:8089/home/project_iframe"
+            width="1000px" id="editProject-info" height="800px"></iframe>
+</div>
+
 <script src="${request.contextPath}/statics/js/modules/sys/modelalgorithms.js?_${.now?long}"></script>
 <script src="${request.contextPath}/statics/plugins/layui/lay/dest/layui.all.js"></script>
 <link rel="stylesheet" href="${request.contextPath}/statics/plugins/layui/css/layui.css">

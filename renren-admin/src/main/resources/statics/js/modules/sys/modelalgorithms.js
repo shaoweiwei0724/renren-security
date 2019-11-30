@@ -877,6 +877,40 @@ var vm = new Vue({
                 });
 
         },
+        editProject: function(){
+            // editor.setValue(vm.sifanyClass.icon);
+            var iframe = document.getElementById('editProject-info');
+            iframe.onload = function(){
+                iframe.contentWindow.postMessage('家用热水器用户行为分析','*');
+            }
+            layer.open({
+                type: 1,
+                offset: '0',
+                skin: 'layui-layer-molv',
+                title: "edit-project",
+                area: ['1000px', '1000px'],
+                shade: 0,
+                shadeClose: false,
+                content: jQuery("#editProject"),
+                btn: ['确定', '取消'],
+                btn1: function (index) {
+                    // var values =$("#swan-svg").contents().find("#svg_source_textarea").val();
+                    //
+                    // console.log(values);
+
+                    // window.postMessage("家用热水器用户行为分析", '*');
+                    //
+                    // vm.sifanyClass.icons=encodeURI(values);
+                     layer.close(index);
+
+                    $("#editProject-info").hide();
+                },
+                btn2: function (index) {
+                    layer.close(index);
+                    $("#editProject-info").hide();
+                }
+            });
+        },
         menuTree: function(){
             // editor.setValue(vm.sifanyClass.icon);
             layer.open({
