@@ -2,14 +2,12 @@ package io.renren.modules.sys.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.renren.common.utils.RedisUtils;
 import io.renren.common.validator.ValidatorUtils;
+import io.renren.modules.sys.entity.SifanyClassAttrEntity;
 import io.renren.modules.sys.entity.SifanyDataTextEntity;
 import io.renren.modules.sys.service.SifanyObjAttrService;
 import io.renren.modules.sys.service.SifanyDataTextService;
@@ -198,6 +196,22 @@ public class SifanyObjController  extends AbstractController{
     public R delete(@RequestBody Long[] ids){
         sifanyObjService.removeByIds(Arrays.asList(ids));
 
+        return R.ok();
+    }
+
+    /**
+     * 删除
+     */
+    @RequestMapping("/deleteDom")
+    @RequiresPermissions("sys:sifanyobj:delete")
+    public R deleteDom(@RequestBody Long id){
+        sifanyObjService.removeById(id);
+        List<SifanyObjAttrEntity> objAttrEntities =  sifanyObjAttrService.list(new QueryWrapper<SifanyObjAttrEntity>().eq("class_id",id));
+        List<Long> setn = new ArrayList<Long>();
+        for(SifanyObjAttrEntity attr:objAttrEntities){
+            setn.add(attr.getId());
+            sifanyObjAttrService.removeByIds(setn);
+        }
         return R.ok();
     }
 
