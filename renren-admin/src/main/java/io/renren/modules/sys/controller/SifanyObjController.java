@@ -139,8 +139,6 @@ public class SifanyObjController  extends AbstractController{
             sifanyObjAttrService.save(attr);
         }
 
-        System.out.println("obj_save_sifanyObj+++++++++++++++++++++++++++++++");
-        System.out.println(sifanyObj);
         return R.ok();
     }
 
