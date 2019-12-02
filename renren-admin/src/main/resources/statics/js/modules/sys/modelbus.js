@@ -911,7 +911,7 @@ var vm = new Vue({
                     var values =$("#swan-svg").contents().find("#svg_source_textarea").val();
 
                     console.log("10",values);
-
+                    values = values.replace(/\+/g,"%2B");
                     vm.sifanyObj.icons=encodeURI(values);
 
                     // console.log("=============="+vm.sifanyObj.icons);
@@ -987,7 +987,6 @@ var vm = new Vue({
                     console.log($("#config-swan-svg").contents());
 
                     console.log("+++++++++++====="+values);
-
                     vm.sifanyObj.modelId=encodeURI(values);
                     // alert(vm.sifanyClass.modelId)
 

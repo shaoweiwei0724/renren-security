@@ -939,7 +939,7 @@ var vm = new Vue({
                     var values =$("#swan-svg").contents().find("#svg_source_textarea").val();
 
                     console.log(values);
-
+                    values = values.replace(/\+/g,"%2B");
                     vm.sifanyClass.icons=encodeURI(values);
 
                     console.log("=============="+vm.sifanyClass.icons);
