@@ -563,7 +563,7 @@ function refreshNodeTree(nodes,id){
         // var a = JSON.stringify(r.classLists);?type=base
         // alert(a);
         ztreeMain = $.fn.zTree.init($("#classTreeMain"), setting, r.objEntityLists);
-        var node = ztreeMain.getNodeByParam("id","-1l");
+        var node = ztreeMain.getNodeByParam("id",id);
         console.log("node2",node)
 
         ztreeMain.selectNode(node);

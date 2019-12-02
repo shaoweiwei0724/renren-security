@@ -135,6 +135,12 @@ public class SifanyObjServiceImpl extends ServiceImpl<SifanyObjDao, SifanyObjEnt
                 sifanyObjAttrEntity.setDataType(classAttrEntity.getDataType());
                 sifanyObjAttrEntity.setCode(classAttrEntity.getCode());
                 sifanyObjAttrEntity.setName(classAttrEntity.getName());
+                sifanyObjAttrEntity.setTypeId(classAttrEntity.getTypeId());
+                sifanyObjAttrEntity.setUnitId(classAttrEntity.getUnitId());
+                sifanyObjAttrEntity.setRemark(classAttrEntity.getRemark());
+                sifanyObjAttrEntity.setCreateTime(classAttrEntity.getCreateTime());
+                sifanyObjAttrEntity.setUpdateTime(classAttrEntity.getUpdateTime());
+                sifanyObjAttrEntity.setAttrstypeId(classAttrEntity.getAttrstypeId());
 
                 sifanyObjAttrService.save(sifanyObjAttrEntity);
             }
