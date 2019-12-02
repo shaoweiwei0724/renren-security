@@ -924,6 +924,7 @@ var vm = new Vue({
                 content: jQuery("#menuLayer"),
                 btn: ['确定', '取消'],
                 btn1: function (index) {
+                    $("#swan-svg").contents().find("#tool_source").click();
                     var values =$("#swan-svg").contents().find("#svg_source_textarea").val();
 
                     console.log(values);
