@@ -801,6 +801,11 @@ var vm = new Vue({
                     // vm.sifanyClassAttr.className = node[0].name;
 
                     layer.close(index);
+                    $("#classLayer").hide();
+                },
+                btn2: function (index) {
+                    layer.close(index);
+                    $("#classLayer").hide();
                 }
             });
         },
