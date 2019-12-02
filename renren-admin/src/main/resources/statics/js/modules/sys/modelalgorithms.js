@@ -973,7 +973,7 @@ var vm = new Vue({
                         vm.sifanyClass.modelId=encodeURI(values);
                        // alert(vm.sifanyClass.modelId)
 
-                        var url ="sys/sifanyclass/update";
+                        var url ="sys/sifanyclass/updateModel";
                        // vm.sifanyClass['type']='map';
 
                         $.ajax({

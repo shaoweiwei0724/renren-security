@@ -152,27 +152,37 @@ public class SifanyClassController extends AbstractController{
         SifanyDataTextEntity sifanyDataTextEntity=new SifanyDataTextEntity();
         if(sifanyClass.getIcons() != null)
             sifanyDataTextEntity.setContent(URLDecoder.decode(sifanyClass.getIcons(),"utf-8"));
-
-
-
-//        sifany_now
         sifanyDataTextEntity.setCreateTime(new Date().getTime());
         sifanyDataTextEntity.setUpdateTime(sifanyDataTextEntity.getCreateTime());
         sifanyDataTextService.save(sifanyDataTextEntity);
         sifanyClass.setIcons(sifanyDataTextEntity.getId().toString());
+
+        sifanyClassService.updateById(sifanyClass);
+        
+        return R.ok();
+    }
+    /**
+     * 修改
+     */
+    @RequestMapping("/updateModel")
+    @RequiresPermissions("sys:sifanyclass:update")
+    public R updateModel(@RequestBody SifanyClassEntity sifanyClass) throws UnsupportedEncodingException {
+        ValidatorUtils.validateEntity(sifanyClass);
+        Long time = System.currentTimeMillis();
+        sifanyClass.setUpdateTime(time);
+
         SifanyDataTextEntity sifanyDataText=new SifanyDataTextEntity();
-        if(sifanyClass.getModelId() != null) {
+        if(sifanyClass.getModelId() != null)
             sifanyDataText.setContent(URLDecoder.decode(sifanyClass.getModelId(), "utf-8"));
             sifanyDataText.setCreateTime(new Date().getTime());
             sifanyDataText.setUpdateTime(sifanyDataText.getCreateTime());
             sifanyDataTextService.save(sifanyDataText);
             sifanyClass.setModelId(sifanyDataText.getId().toString());
-        }
+
         sifanyClassService.updateById(sifanyClass);
-        
+
         return R.ok();
     }
-
     /**
      * 删除
      */
