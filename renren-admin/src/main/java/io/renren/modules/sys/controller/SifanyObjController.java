@@ -204,7 +204,7 @@ public class SifanyObjController  extends AbstractController{
     @RequiresPermissions("sys:sifanyobj:delete")
     public R deleteDom(@RequestBody Long id){
         sifanyObjService.removeById(id);
-        List<SifanyObjAttrEntity> objAttrEntities =  sifanyObjAttrService.list(new QueryWrapper<SifanyObjAttrEntity>().eq("class_id",id));
+        List<SifanyObjAttrEntity> objAttrEntities =  sifanyObjAttrService.list(new QueryWrapper<SifanyObjAttrEntity>().eq("obj_id",id));
         List<Long> setn = new ArrayList<Long>();
         for(SifanyObjAttrEntity attr:objAttrEntities){
             setn.add(attr.getId());
