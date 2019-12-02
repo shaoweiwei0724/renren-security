@@ -21,7 +21,7 @@ $(function () {
         datatype: "json",
         colModel: [
             { label: 'id', name: 'id', index: 'id', width: 50, key: true ,hidden:true},
-            { label: '所属类id', name: 'classId', index: 'class_id', width: 40 },
+            { label: '所属类id', name: 'objId', index: 'obj_id', width: 40 },
             { label: '属性名', name: 'name', index: 'name', width: 80 },
             { label: '编码', name: 'code', index: 'code', width: 50 },
             { label: '类型id', name: 'typeId', index: 'type_id', width: 80 ,hidden:true},
@@ -625,7 +625,7 @@ var vm = new Vue({
         title: null,
         sifanyObjAttr: {
             className:null,
-            classId:0,
+            objId:0,
             typeName:null,
             typeId:0,
             orderNum:0,
@@ -650,7 +650,7 @@ var vm = new Vue({
         },
         sifanyObjAttrGather: {
             className:null,
-            classId:0,
+            objId:0,
             typeName:null,
             typeId:0,
             orderNum:0,
@@ -678,7 +678,7 @@ var vm = new Vue({
                 // var a = JSON.stringify(r.classLists);
                 // alert(a);
                 ztree = $.fn.zTree.init($("#classTree"), setting, r.objEntityLists);
-                var node = ztree.getNodeByParam("id", vm.sifanyObjAttr.classId);
+                var node = ztree.getNodeByParam("id", vm.sifanyObjAttr.objId);
                 ztree.selectNode(node);
                 // vm.sifanyClassAttr.className = node.name;
             })
@@ -713,7 +713,7 @@ var vm = new Vue({
             vm.showList = false;
             //  vm.devList = true;
             vm.title = "新增";
-            vm.sifanyObjAttr = {className:null,classId:selected_id,typeName:null,typeId:0,orderNum:0};
+            vm.sifanyObjAttr = {className:null,objId:selected_id,typeName:null,typeId:0,orderNum:0};
             vm.getSifanyclass();
             vm.getSifanyclassattr();
 
@@ -804,7 +804,7 @@ var vm = new Vue({
                 btn1: function (index) {
                     var node = ztree.getSelectedNodes();
                     //选择所属类
-                    vm.sifanyObjAttr.classId = node[0].id;
+                    vm.sifanyObjAttr.objId = node[0].id;
                     // vm.sifanyClassAttr.className = node[0].name;
 
                     layer.close(index);
