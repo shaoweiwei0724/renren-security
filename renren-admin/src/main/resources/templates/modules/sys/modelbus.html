@@ -176,7 +176,7 @@
                                 </div>
                             </form>
                             <div style="height: 500px;">
-                                <img style="height:400px;width:300px;"  src="../../statics/1234.png">
+                                <img style="height:400px;width:300px;" @click="editProject" src="../../statics/1234.png">
                             </div>
                         </div>
                     </div>
@@ -203,7 +203,7 @@
         <div class="form-group">
             <div class="col-sm-2 control-label">设备</div>
             <div class="col-sm-10">
-                <input type="text" class="form-control" style="cursor:pointer;" v-model="sifanyObjAttr.classId" @click="classTree" readonly="readonly" placeholder="所属类"/>
+                <input type="text" class="form-control" style="cursor:pointer;" v-model="sifanyObjAttr.objId" @click="classTree" readonly="readonly" placeholder="所属实例"/>
             </div>
         </div>
         <div class="form-group">
@@ -290,6 +290,12 @@
 
     <iframe src="${request.contextPath}/statics/gojs/samples/productionProcess.html"
             width="1000px" id="config-swan-svg" height="800px"></iframe>
+</div>
+
+<div id="editProject" style="display: none;padding:10px;">
+
+    <iframe src="http://localhost:8089/home/project_iframe"
+            width="1000px" id="editProject-info" height="800px"></iframe>
 </div>
 <script src="${request.contextPath}/statics/js/modules/sys/modelbus.js?_${.now?long}"></script>
 <script src="${request.contextPath}/statics/plugins/layui/lay/dest/layui.all.js"></script>

@@ -26,7 +26,7 @@ public class SifanyObjAttrEntity implements Serializable {
 	/**
 	 * 所属类id
 	 */
-	private Long classId;
+	private Long objId;
 	/**
 	 * 属性名
 	 */
@@ -69,12 +69,12 @@ public class SifanyObjAttrEntity implements Serializable {
 		this.id = id;
 	}
 
-	public Long getClassId() {
-		return classId;
+	public Long getObjId() {
+		return objId;
 	}
 
-	public void setClassId(Long classId) {
-		this.classId = classId;
+	public void setObjId(Long objId) {
+		this.objId = objId;
 	}
 
 	public String getName() {

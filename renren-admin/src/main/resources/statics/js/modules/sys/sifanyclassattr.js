@@ -18,8 +18,8 @@ $(function () {
         datatype: "json",
         colModel: [			
 			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
-			{ label: '所属类id', name: 'classId', index: 'class_id', width: 80 },
-			{ label: '属性名', name: 'name', index: 'name', width: 80 }, 			
+			{ label: '所属实列', name: 'objId', index: 'obj_id', width: 80 },
+			{ label: '属性名', name: 'name', index: 'name', width: 80 },
 			{ label: '类型id', name: 'typeId', index: 'type_id', width: 80 }, 			
 			{ label: '数据类型', name: 'dataType', index: 'data_type', width: 80 }, 			
 			{ label: '创建时间', name: 'createTime', index: 'create_time', width: 80 , formatter: function(value, options, row){

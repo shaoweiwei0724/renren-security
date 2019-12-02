@@ -6,7 +6,7 @@
 	<!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="io.renren.modules.sys.entity.SifanyObjAttrEntity" id="sifanyObjAttrMap">
         <result property="id" column="id"/>
-        <result property="classId" column="class_id"/>
+        <result property="objId" column="obj_id"/>
         <result property="name" column="name"/>
         <result property="typeId" column="type_id"/>
         <result property="dataType" column="data_type"/>

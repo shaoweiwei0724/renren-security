@@ -302,7 +302,7 @@ function getGridDom(){
         postData: PostData,
         colModel: [
             { label: 'id', name: 'id', index: 'id', width: 50, key: true ,hidden:true},
-            { label: '所属类id', name: 'classId', index: 'class_id', width: 40 },
+            { label: '所属实列Id', name: 'objId', index: 'obj_id', width: 40 },
             { label: '属性名', name: 'name', index: 'name', width: 80 },
             { label: '编码', name: 'code', index: 'code', width: 50 },
             { label: '类型id', name: 'typeId', index: 'type_id', width: 80 ,hidden:true},
@@ -426,7 +426,7 @@ function getGridGatherDom(){
         postData: PostData,
         colModel: [
             { label: 'id', name: 'id', index: 'id', width: 50, key: true ,hidden:true},
-            { label: '所属类id', name: 'classId', index: 'class_id', width: 40 },
+            { label: '所属实列Id', name: 'objId', index: 'obj_id', width: 40 },
             { label: '属性名', name: 'name', index: 'name', width: 80 },
             { label: '编码', name: 'code', index: 'code', width: 50 },
             { label: '类型id', name: 'typeId', index: 'type_id', width: 80 ,hidden:true},
@@ -912,6 +912,40 @@ var vm = new Vue({
                 btn2: function (index) {
                     layer.close(index);
                     $("#menuLayer").hide();
+                }
+            });
+        },
+        editProject: function(){
+            // editor.setValue(vm.sifanyClass.icon);
+            var iframe = document.getElementById('editProject-info');
+            iframe.onload = function(){
+                iframe.contentWindow.postMessage('耗电量计算','*');
+            }
+            layer.open({
+                type: 1,
+                offset: '0',
+                skin: 'layui-layer-molv',
+                title: "edit-project",
+                area: ['1000px', '1000px'],
+                shade: 0,
+                shadeClose: false,
+                content: jQuery("#editProject"),
+                btn: ['确定', '取消'],
+                btn1: function (index) {
+                    // var values =$("#swan-svg").contents().find("#svg_source_textarea").val();
+                    //
+                    // console.log(values);
+
+                    // window.postMessage("家用热水器用户行为分析", '*');
+                    //
+                    // vm.sifanyClass.icons=encodeURI(values);
+                    layer.close(index);
+
+                    $("#editProject-info").hide();
+                },
+                btn2: function (index) {
+                    layer.close(index);
+                    $("#editProject-info").hide();
                 }
             });
         },

@@ -131,9 +131,9 @@ public class SifanyObjController  extends AbstractController{
 //            sifanyObjService.toObj(sifanyObj);
 //        }
 
-        List<SifanyObjAttrEntity> objAttrEntities =  sifanyObjAttrService.list(new QueryWrapper<SifanyObjAttrEntity>().eq("class_id",sifanyObj.getParentId()));
+        List<SifanyObjAttrEntity> objAttrEntities =  sifanyObjAttrService.list(new QueryWrapper<SifanyObjAttrEntity>().eq("obj_id",sifanyObj.getParentId()));
         for(SifanyObjAttrEntity attr:objAttrEntities){
-            attr.setClassId(sifanyObj.getId());
+            attr.setObjId(sifanyObj.getId());
             attr.setId(null);
             attr.setCreateTime(time);
             attr.setUpdateTime(time);
@@ -182,8 +182,6 @@ public class SifanyObjController  extends AbstractController{
         if(sifanyObj.getModelId() != null){
             sifanyObjService.toObj(sifanyObj);
         }
-        System.out.println("obj_sifanyObj+++++++++++++++++++++++++++++++");
-        System.out.println(sifanyObj);
 
         return R.ok();
 

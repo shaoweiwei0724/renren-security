@@ -23,13 +23,13 @@ public class SifanyObjAttrServiceImpl extends ServiceImpl<SifanyObjAttrDao, Sifa
         if(params.get("attrstypeId")!= null) {
              page = this.page(
                     new Query<SifanyObjAttrEntity>().getPage(params),
-                    new QueryWrapper<SifanyObjAttrEntity>().eq("class_id", params.get("selected_id"))
+                    new QueryWrapper<SifanyObjAttrEntity>().eq("obj_id", params.get("selected_id"))
                     .eq("attrstype_id", params.get("attrstypeId"))
             );
         }else{
           page = this.page(
                     new Query<SifanyObjAttrEntity>().getPage(params),
-                    new QueryWrapper<SifanyObjAttrEntity>().eq("class_id", params.get("selected_id"))
+                    new QueryWrapper<SifanyObjAttrEntity>().eq("obj_id", params.get("selected_id"))
             );
         }
 
