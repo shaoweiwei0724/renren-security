@@ -199,13 +199,14 @@ public class SifanyClassController extends AbstractController{
     @RequestMapping("/deleteDom")
     @RequiresPermissions("sys:sifanyclass:delete")
     public R deleteDom(@RequestBody Long id){
-        sifanyClassService.removeById(id);
-        List<SifanyClassAttrEntity> classAttrEntities =  sifanyClassAttrService.list(new QueryWrapper<SifanyClassAttrEntity>().eq("class_id",id));
-        List<Long> setn = new ArrayList<Long>();
-        for(SifanyClassAttrEntity attr:classAttrEntities){
-             setn.add(attr.getId());
-            sifanyClassAttrService.removeByIds(setn);
-        }
+//        sifanyClassService.removeById(id);
+//        List<SifanyClassAttrEntity> classAttrEntities =  sifanyClassAttrService.list(new QueryWrapper<SifanyClassAttrEntity>().eq("class_id",id));
+//        List<Long> setn = new ArrayList<Long>();
+//        for(SifanyClassAttrEntity attr:classAttrEntities){
+//             setn.add(attr.getId());
+//            sifanyClassAttrService.removeByIds(setn);
+//        }
+        delete_child(id);
         return R.ok();
     }
     /**
@@ -216,6 +217,26 @@ public class SifanyClassController extends AbstractController{
         sifanyClassService.toObj(ids);
 
         return R.ok();
+    }
+
+    public String delete_child(Long id){
+        //删除节点
+        sifanyClassService.removeById(id);
+        //删除节点属性
+        List<SifanyClassAttrEntity> classAttrEntities =  sifanyClassAttrService.list(new QueryWrapper<SifanyClassAttrEntity>().eq("class_id",id));
+        List<Long> setn = new ArrayList<Long>();
+
+        for(SifanyClassAttrEntity attr:classAttrEntities){
+            setn.add(attr.getId());
+            sifanyClassAttrService.removeByIds(setn);
+        }
+        //删除子节点
+        List<SifanyClassEntity> classEntities =  sifanyClassService.list(new QueryWrapper<SifanyClassEntity>().eq("parent_id",id));
+        List<Long> child_id = new ArrayList<Long>();
+        for(SifanyClassEntity child_obj:classEntities) {
+            delete_child(child_obj.getId());
+        }
+        return "sucess";
     }
 
 }

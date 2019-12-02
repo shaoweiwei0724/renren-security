@@ -201,14 +201,44 @@ public class SifanyObjController  extends AbstractController{
     @RequestMapping("/deleteDom")
     @RequiresPermissions("sys:sifanyobj:delete")
     public R deleteDom(@RequestBody Long id){
+        //删除节点
+//        sifanyObjService.removeById(id);
+////        //删除节点属性
+////        List<SifanyObjAttrEntity> objAttrEntities =  sifanyObjAttrService.list(new QueryWrapper<SifanyObjAttrEntity>().eq("obj_id",id));
+////        List<Long> setn = new ArrayList<Long>();
+////        List<SifanyObjEntity> objEntities =  sifanyObjService.list(new QueryWrapper<SifanyObjEntity>().eq("parent_id",id));
+////        List<Long> child_id = new ArrayList<Long>();
+////        for(SifanyObjAttrEntity attr:objAttrEntities){
+////            setn.add(attr.getId());
+////            sifanyObjAttrService.removeByIds(setn);
+////        }
+////        //删除子节点
+////        for(SifanyObjEntity child_obj:objEntities) {
+////            child_id.add(child_obj.getId());
+////            sifanyObjService.removeByIds(child_id);
+////        }
+        delete_child(id);
+        return R.ok();
+    }
+
+    public String delete_child(Long id){
+        //删除节点
         sifanyObjService.removeById(id);
+        //删除节点属性
         List<SifanyObjAttrEntity> objAttrEntities =  sifanyObjAttrService.list(new QueryWrapper<SifanyObjAttrEntity>().eq("obj_id",id));
         List<Long> setn = new ArrayList<Long>();
+
         for(SifanyObjAttrEntity attr:objAttrEntities){
             setn.add(attr.getId());
             sifanyObjAttrService.removeByIds(setn);
         }
-        return R.ok();
+        //删除子节点
+        List<SifanyObjEntity> objEntities =  sifanyObjService.list(new QueryWrapper<SifanyObjEntity>().eq("parent_id",id));
+        List<Long> child_id = new ArrayList<Long>();
+        for(SifanyObjEntity child_obj:objEntities) {
+            delete_child(child_obj.getId());
+        }
+        return "sucess";
     }
 
 }
