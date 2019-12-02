@@ -545,8 +545,8 @@ function reloadTree(){
         // var a = JSON.stringify(r.classLists);?type=base
         // alert(a);
         ztreeMain = $.fn.zTree.init($("#classTreeMain"), setting, r.objEntityLists);
-        var node = ztreeMain.getNodeByParam("id","-1l");
-        console.log("node1:",node)
+        var node = ztreeMain.getNodeByParam("id","-1");
+        console.log("node1:", node)
         ztreeMain.selectNode(node);
 
         if(node){
