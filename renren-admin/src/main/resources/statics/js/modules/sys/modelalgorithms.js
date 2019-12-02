@@ -916,6 +916,9 @@ var vm = new Vue({
                 btn2: function (index) {
                     layer.close(index);
                     $("#editProject-info").hide();
+                },
+                end:function(){
+                    $("#editProject-info").hide();
                 }
             });
         },
@@ -946,6 +949,9 @@ var vm = new Vue({
                 },
                 btn2: function (index) {
                     layer.close(index);
+                    $("#menuLayer").hide();
+                },
+                end:function(){
                     $("#menuLayer").hide();
                 }
             });
@@ -1011,6 +1017,9 @@ var vm = new Vue({
                     },
                     btn2: function (index) {
                         layer.close(index);
+                        $("#menumapLayer").hide();
+                    },
+                    end:function(){
                         $("#menumapLayer").hide();
                     }
                 });
