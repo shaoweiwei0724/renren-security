@@ -806,6 +806,9 @@ var vm = new Vue({
                 btn2: function (index) {
                     layer.close(index);
                     $("#classLayer").hide();
+                },
+                end:function(){
+                    $("#classLayer").hide();
                 }
             });
         },
