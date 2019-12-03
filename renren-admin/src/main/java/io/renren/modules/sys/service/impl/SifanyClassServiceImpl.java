@@ -3,11 +3,13 @@ package io.renren.modules.sys.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import io.renren.common.annotation.DataFilter;
 import io.renren.common.utils.R;
 import io.renren.modules.sys.dao.SifanyObjDao;
 import io.renren.modules.sys.entity.*;
 import io.renren.modules.sys.service.*;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +37,11 @@ public class SifanyClassServiceImpl extends ServiceImpl<SifanyClassDao, SifanyCl
     private SifanyClassAttrService sifanyClassAttrService;
     @Autowired
     private SifanyObjDataService sifanyObjDataService;
+
+    protected SysUserEntity getUser() {
+        return (SysUserEntity) SecurityUtils.getSubject().getPrincipal();
+    }
+
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
 
@@ -73,7 +80,10 @@ public class SifanyClassServiceImpl extends ServiceImpl<SifanyClassDao, SifanyCl
     }
     @Override
     public List<SifanyClassEntity> scadalist() {
-        return this.addIronUrl(this.list(Wrappers.emptyWrapper()));
+       if(getUser().getUsername().equals("admin"))
+           return this.addIronUrl(this.list(Wrappers.emptyWrapper()));
+       else
+           return this.addIronUrl(this.list(new QueryWrapper<SifanyClassEntity>().eq("user_id",getUser().getUserId())));
     }
     @Override
     public List<SifanyClassEntity> queryList(Map<String, Object> map) {

@@ -3,9 +3,11 @@ package io.renren.modules.sys.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import io.renren.common.annotation.DataFilter;
 import io.renren.common.utils.R;
 import io.renren.modules.sys.entity.*;
 import io.renren.modules.sys.service.*;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -53,7 +55,7 @@ public class SifanyObjServiceImpl extends ServiceImpl<SifanyObjDao, SifanyObjEnt
     @Override
     public PageUtils queryPageTree(Map<String, Object> params) {
         IPage<SifanyObjEntity> page = null;
-        if(params.size() == 7 || Long.parseLong(params.get("selected_id").toString()) == -1l) {
+        if(params.get("selected_id") != null && (params.size() == 7 || Long.parseLong(params.get("selected_id").toString()) == -1l)) {
             page = this.page(
                     new Query<SifanyObjEntity>().getPage(params),
                     new QueryWrapper<SifanyObjEntity>().isNull("parent_id")
@@ -89,7 +91,9 @@ public class SifanyObjServiceImpl extends ServiceImpl<SifanyObjDao, SifanyObjEnt
     public List<SifanyObjEntity> scadalist() {
         return this.addIronUrl(this.list(Wrappers.emptyWrapper()));
     }
-
+    protected SysUserEntity getUser() {
+        return (SysUserEntity) SecurityUtils.getSubject().getPrincipal();
+    }
 
     @Override
     public void toObj(SifanyObjEntity sifanyObjEntity) {
@@ -113,6 +117,7 @@ public class SifanyObjServiceImpl extends ServiceImpl<SifanyObjDao, SifanyObjEnt
             objEntity.setUpdateTime(time);
             objEntity.setIcons(obj.getIcons());
             objEntity.setParentId(sifanyObjEntity.getId());
+            objEntity.setUserId(getUser().getUserId());
             sifanyObjService.save(objEntity);
 
             List<SifanyClassAttrEntity> classAttrEntities =  sifanyClassAttrService.list(new QueryWrapper<SifanyClassAttrEntity>().eq(true,"class_id",obj.getId()));

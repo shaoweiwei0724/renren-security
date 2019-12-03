@@ -72,8 +72,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 	}
 
 	@Override
-
-
+	@Transactional(rollbackFor = Exception.class)
 	public void saveUser(SysUserEntity user) {
 		user.setCreateTime(new Date());
 		//sha256加密
