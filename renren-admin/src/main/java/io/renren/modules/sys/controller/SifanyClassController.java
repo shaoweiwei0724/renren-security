@@ -7,6 +7,7 @@ import java.util.*;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.gson.JsonObject;
+
 import io.renren.common.utils.RedisUtils;
 import io.renren.common.validator.ValidatorUtils;
 import io.renren.modules.sys.entity.*;
@@ -75,12 +76,18 @@ public class SifanyClassController extends AbstractController{
         sifanyClass.setCreateTime(time);
         sifanyClass.setUserId(getUserId());
         SifanyDataTextEntity sifanyDataTextEntity=new SifanyDataTextEntity();
-        if(sifanyClass.getIcons() != null)
+
+        if(sifanyClass.getIcons()!=null&& !sifanyClass.getIcons().trim().equals("") ){
             sifanyDataTextEntity.setContent(URLDecoder.decode(sifanyClass.getIcons(),"utf-8"));
-        sifanyDataTextEntity.setCreateTime(new Date().getTime());
-        sifanyDataTextEntity.setUpdateTime(sifanyDataTextEntity.getCreateTime());
-        sifanyDataTextService.save(sifanyDataTextEntity);
-        sifanyClass.setIcons(sifanyDataTextEntity.getId().toString());
+            sifanyDataTextEntity.setCreateTime(new Date().getTime());
+            sifanyDataTextEntity.setUpdateTime(sifanyDataTextEntity.getCreateTime());
+            sifanyDataTextService.save(sifanyDataTextEntity);
+            sifanyClass.setIcons(sifanyDataTextEntity.getId().toString());
+        }else{
+            SifanyClassEntity parent=sifanyClassService.getById(sifanyClass.getParentId());
+            sifanyClass.setIcons(parent.getIcons());
+        }
+
         sifanyClassService.save(sifanyClass);
         List<SifanyClassAttrEntity> classAttrEntities =  sifanyClassAttrService.list(new QueryWrapper<SifanyClassAttrEntity>().eq("class_id",sifanyClass.getParentId()));
         for(SifanyClassAttrEntity attr:classAttrEntities){
