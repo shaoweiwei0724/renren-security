@@ -55,6 +55,7 @@ public class SifanyObjAttrEntity implements Serializable {
 	private Integer unitId;
 	private Integer attrstypeId;
 	private String remark;
+	private String algorithmName;
 
 
 	public static long getSerialVersionUID() {
@@ -155,5 +156,13 @@ public class SifanyObjAttrEntity implements Serializable {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public String getAlgorithmName() {
+		return algorithmName;
+	}
+
+	public void setAlgorithmName(String algorithmName) {
+		this.algorithmName = algorithmName;
 	}
 }

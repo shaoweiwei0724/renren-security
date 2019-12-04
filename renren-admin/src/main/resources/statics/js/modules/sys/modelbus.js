@@ -21,7 +21,7 @@ $(function () {
         datatype: "json",
         colModel: [
             { label: 'id', name: 'id', index: 'id', width: 50, key: true ,hidden:true},
-            { label: '所属类id', name: 'objId', index: 'obj_id', width: 40 },
+            { label: '所属实列id', name: 'objId', index: 'obj_id', width: 40 },
             { label: '属性名', name: 'name', index: 'name', width: 80 },
             { label: '编码', name: 'code', index: 'code', width: 50 },
             { label: '类型id', name: 'typeId', index: 'type_id', width: 80 ,hidden:true},
@@ -29,6 +29,7 @@ $(function () {
             { label: '单位', name: 'unitId', index: 'unit_id', width: 80 ,hidden:true},
             { label: '备注', name: 'remark', index: 'remark', width: 80 },
             { label: '指标种类', name: 'attrstypeId', index: 'attrstype_id', width: 80 ,hidden:true},
+            { label: '算法名称', name: 'algorithmName', index: 'algorithm_name', width: 80 ,hidden:true},
 
             { label: '创建时间', name: 'createTime', index: 'create_time', width: 80 , formatter: function(value, options, row){
                     if(value == null)
@@ -310,7 +311,7 @@ function getGridDom(){
             { label: '单位', name: 'unitId', index: 'unit_id', width: 80 ,hidden:true},
             { label: '备注', name: 'remark', index: 'remark', width: 80 },
             { label: '指标种类', name: 'attrstypeId', index: 'attrstype_id', width: 80 ,hidden:true},
-
+            { label: '算法名称', name: 'algorithmName', index: 'algorithm_name', width: 80 ,hidden:true},
             { label: '创建时间', name: 'createTime', index: 'create_time', width: 60 , formatter: function(value, options, row){
                     if(value == null)
                         return "";
@@ -411,7 +412,7 @@ function getGridDom(){
         onSelectRow: function (row) {
 
             var rowData = $("#jqGridget").getRowData(row);
-            vm.sifanyObjAttr = {name:rowData.name,code:rowData.code,unitId:rowData.unitId,attrstypeId:rowData.attrstypeId,remark:rowData.remark};
+            vm.sifanyObjAttr = {objId:rowData.objId,id:rowData.id,name:rowData.name,code:rowData.code,unitId:rowData.unitId,attrstypeId:rowData.attrstypeId,remark:rowData.remark,algorithmName:rowData.algorithmName};
             console.log("3",rowData);
         }
     });
@@ -434,7 +435,7 @@ function getGridGatherDom(){
             { label: '单位', name: 'unitId', index: 'unit_id', width: 80 ,hidden:true},
             { label: '备注', name: 'remark', index: 'remark', width: 80 },
             { label: '指标种类', name: 'attrstypeId', index: 'attrstype_id', width: 80 ,hidden:true},
-
+            { label: '算法名称', name: 'algorithmName', index: 'algorithm_name', width: 80 ,hidden:true},
             { label: '创建时间', name: 'createTime', index: 'create_time', width: 60 , formatter: function(value, options, row){
                     if(value == null)
                         return "";
@@ -930,10 +931,19 @@ var vm = new Vue({
         },
         editProject: function(){
             // editor.setValue(vm.sifanyClass.icon);
+            var algorithmName = vm.sifanyObjAttr.algorithmName;
+            var timestamp = Date.parse(new Date());
+            if((algorithmName == null || algorithmName == "") && vm.sifanyObjAttr.name != null){
+                algorithmName = vm.sifanyObjAttr.name + vm.sifanyObjAttr.id + vm.sifanyObjAttr.objId;
+                vm.sifanyObjAttr.algorithmName = algorithmName;
+            }
+
             var iframe = document.getElementById('editProject-info');
             iframe.onload = function(){
                 iframe.contentWindow.postMessage('耗电量计算','*');
+                // iframe.contentWindow.postMessage(vm.sifanyObjAttr.algorithmName,'*');
             }
+
             layer.open({
                 type: 1,
                 offset: '0',

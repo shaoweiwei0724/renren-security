@@ -17,6 +17,7 @@
         <result property="attrstypeId" column="attrstype_id"/>
         <result property="unitId" column="unit_id"/>
         <result property="remark" column="remark"/>
+        <result property="algorithmName" column="algorithm_name"/>
     </resultMap>
 
     <select id="queryList" resultType="io.renren.modules.sys.entity.SifanyClassEntity">

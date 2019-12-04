@@ -136,7 +136,10 @@ public class SifanyClassController extends AbstractController{
         if(type == null) {
             classLists = sifanyClassService.scadalist();
         }else {
-            classLists = sifanyClassService.swanList(new QueryWrapper<SifanyClassEntity>().eq("type", type));
+            if (getUser().getUsername().equals("admin"))
+                classLists = sifanyClassService.swanList(new QueryWrapper<SifanyClassEntity>().eq("type", type));
+            else
+                classLists = sifanyClassService.swanList(new QueryWrapper<SifanyClassEntity>().eq("type", type).eq("user_id",getUser().getUserId()));
         }
         return R.ok().put("classLists", classLists);
     }
@@ -157,14 +160,15 @@ public class SifanyClassController extends AbstractController{
         ValidatorUtils.validateEntity(sifanyClass);
         Long time = System.currentTimeMillis();
         sifanyClass.setUpdateTime(time);
-        SifanyDataTextEntity sifanyDataTextEntity=new SifanyDataTextEntity();
-        if(sifanyClass.getIcons() != null && !sifanyClass.getIcons().trim().equals(""))
-            sifanyDataTextEntity.setContent(URLDecoder.decode(sifanyClass.getIcons(),"utf-8"));
 
-        sifanyDataTextEntity.setCreateTime(new Date().getTime());
-        sifanyDataTextEntity.setUpdateTime(sifanyDataTextEntity.getCreateTime());
-        sifanyDataTextService.save(sifanyDataTextEntity);
-        sifanyClass.setIcons(sifanyDataTextEntity.getId().toString());
+        if(sifanyClass.getIcons().length() >= 10){
+            SifanyDataTextEntity sifanyDataTextEntity=new SifanyDataTextEntity();
+            sifanyDataTextEntity.setContent(URLDecoder.decode(sifanyClass.getIcons(),"utf-8"));
+            sifanyDataTextEntity.setCreateTime(new Date().getTime());
+            sifanyDataTextEntity.setUpdateTime(sifanyDataTextEntity.getCreateTime());
+            sifanyDataTextService.save(sifanyDataTextEntity);
+            sifanyClass.setIcons(sifanyDataTextEntity.getId().toString());
+        }
 
         sifanyClassService.updateById(sifanyClass);
         

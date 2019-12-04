@@ -163,6 +163,7 @@ public class SifanyObjController  extends AbstractController{
         Long time = System.currentTimeMillis();
         sifanyObj.setUpdateTime(time);
         SifanyDataTextEntity sifanyDataTextEntity=new SifanyDataTextEntity();
+
         if(sifanyObj.getIcons() != null)
             sifanyDataTextEntity.setContent(URLDecoder.decode(sifanyObj.getIcons(),"utf-8"));
 
