@@ -148,7 +148,7 @@ public class SifanyClassServiceImpl extends ServiceImpl<SifanyClassDao, SifanyCl
     @Override
     public R getMap(Long id){
         SifanyObjEntity sifanyObjEntity=sifanyObjService.getById(id);
-        String mapJson=sifanyDataTextService.getById(this.getById(sifanyObjEntity.getClassId()).getIcons()).getContent();
+        String mapJson=sifanyDataTextService.getById(sifanyObjEntity.getModelId()).getContent();
         Map res=new HashMap();
         res.put("mapJson",mapJson);
 

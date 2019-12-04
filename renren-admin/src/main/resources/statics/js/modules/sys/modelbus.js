@@ -144,6 +144,7 @@ function tree_click_swan(e,treeId, treeNode) {
     console.log("---------");
     console.log(node);
     selected_id=node[0].id;
+    localStorage.selectSceneId=selected_id;
     vm.sifanyObj = {id:node[0].id,name:node[0].name,code:node[0].code,icons:node[0].icons,remark:node[0].remark,irconurl:node[0].irconurl,modelId:node[0].modelId };
     localStorage.iconsId = vm.sifanyObj.modelId;
     $('#config-swan-svg0').attr('src',$('#config-swan-svg0').attr('src'));
@@ -932,7 +933,6 @@ var vm = new Vue({
         editProject: function(){
             // editor.setValue(vm.sifanyClass.icon);
             var algorithmName = vm.sifanyObjAttr.algorithmName;
-            var timestamp = Date.parse(new Date());
             if((algorithmName == null || algorithmName == "") && vm.sifanyObjAttr.name != null){
                 algorithmName = vm.sifanyObjAttr.name + vm.sifanyObjAttr.id + vm.sifanyObjAttr.objId;
                 vm.sifanyObjAttr.algorithmName = algorithmName;

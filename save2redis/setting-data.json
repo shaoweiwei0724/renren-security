@@ -1,0 +1,3 @@
+{"datasource_ip":"localhost","datasource_username":"root",
+"datasource_password":"root","datasource_sql_name":"sifany_obj","port":3306,"sleepTime":1,
+"redis_ip":"127.0.0.1","redis_port":6378}

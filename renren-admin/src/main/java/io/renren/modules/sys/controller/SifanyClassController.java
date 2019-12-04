@@ -161,7 +161,7 @@ public class SifanyClassController extends AbstractController{
         Long time = System.currentTimeMillis();
         sifanyClass.setUpdateTime(time);
 
-        if(sifanyClass.getIcons().length() >= 10){
+        if(sifanyClass.getIcons().length() >= 20 && sifanyClass.getIcons() != null && sifanyClass.getIcons() != ""){
             SifanyDataTextEntity sifanyDataTextEntity=new SifanyDataTextEntity();
             sifanyDataTextEntity.setContent(URLDecoder.decode(sifanyClass.getIcons(),"utf-8"));
             sifanyDataTextEntity.setCreateTime(new Date().getTime());
