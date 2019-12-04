@@ -1,0 +1,122 @@
+html,body{
+    margin: 0;
+    padding: 0;
+    color: #fff;
+}
+a{
+    text-decoration: none;
+    color: #3F8CDD;
+}
+a:hover{
+    text-decoration: none;
+    color: #CDE1ED;
+}
+#bg{
+    width: 100%;
+    height: 100%;
+    background:url(../images/modelbusiness/menu.png) no-repeat;
+    position: fixed;
+    background-size: 100% 100%;
+}
+#content{
+    width: 96%;
+    height: 70%;
+    margin-top: 8%;
+    margin-left: 2%;
+}
+#top{
+    width: 96%;
+    height: 7%;
+    margin-top: 2%;
+    margin-left: 2%;
+    position: fixed;
+    color: #3F8CDD;
+}
+#top_logo{
+    float: left;
+    width: 50%;
+    height: 80%;
+}
+#logo{
+    width:70%;
+    height: 70%;
+    margin-left: 10%;
+}
+#top_table{
+    width: 100%;
+    height: 100%;
+}
+#top_td_1{
+    width: 35%;
+    height: 100%;
+    background:url(../images/modelbusiness/top_logo.png) no-repeat;
+    background-size: 100% 100%;
+
+}
+#top_td_2{
+     width: 35%;
+    height: 100%;
+ }
+#top_td_3{
+    width: 30%;
+    height: 100%;
+}
+
+#menu_top1{
+    float: right;
+    width: 49%;
+    height: 100%;
+}
+#d1{
+    float: left;
+    width: 2%;
+    height: 100%;
+}
+#menu_top2{
+    float: left;
+    width: 49%;
+    height: 100%;
+}
+.menu_top{
+    width:48%;
+    height: 60%;
+    margin-top: 5%;
+    background:url(../images/modelbusiness/menu_top.png) no-repeat;
+    background-size: 100% 100%;
+}
+.select_menu{
+    float: left;
+    width:48%;
+    height: 60%;
+    margin-top: 5%;
+    background:url(../images/modelbusiness/bg2.png) no-repeat;
+    background-size: 100% 100%;
+    color: #CDE1ED;
+}
+#home{
+    float: left;
+}
+#modelequip{
+    float: right;
+}
+#business{
+    float: left;
+}
+#modelalgo{
+    float: right;
+}
+#menu{
+    background:url(../images/modelbusiness/menub.png) no-repeat;
+    background-size: 100% 100%;
+}
+
+#user{
+    width: 50%;
+    height: 100%;
+    float: right;
+}
+#user_table{
+    width: 100%;
+    height: 100%;
+}
+

@@ -9,9 +9,9 @@ html,body{
     opacity:1;
     margin-top: 0;
     margin-left: 0;
-    background:url(../../statics/images/bg3.png) no-repeat;
+    background:url(../images/home/bg3.png) no-repeat;
     position: fixed;
-    background-size: 100%;
+    background-size: 100% 100%;
     /*background: #0a0a0a;*/
 }
 
@@ -22,7 +22,7 @@ html,body{
     opacity:1;
     margin: 0;
     position: fixed;
-    background:url(../../statics/images/top3.png) no-repeat;
+    background:url(../images/home/top3.png) no-repeat;
     background-size: 100%;
 }
 
@@ -33,7 +33,7 @@ html,body{
     padding: 0;
 }
 table{
-    margin-top: 15%;
+    margin-top: 12%;
     border-collapse: separate;
     border-spacing: 70px 50px;
     text-align: center;
@@ -44,6 +44,9 @@ a{
 
 .icon{
     height: 70px;
+}
+.icon:hover{
+    opacity:0.6;
 }
 
 .title{
