@@ -1,0 +1,26 @@
+
+
+.bg{
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    opacity:1;
+    margin-top: 0;
+    margin-left: 0;
+    background:url(../../statics/statimg/bg.png) no-repeat;
+    position: fixed;
+    background-size: 100%;
+
+}
+
+.std{
+
+    background:url(../../statics/statimg/bgxt.png) no-repeat;
+
+}
+.stdright{
+    background:url(../../statics/statimg/bgright.png) no-repeat;
+}
+
+
+
