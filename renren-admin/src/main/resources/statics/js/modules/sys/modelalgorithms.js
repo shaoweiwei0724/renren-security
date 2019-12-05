@@ -266,7 +266,7 @@ function addHoverDom() {
                      if(r.code == 0){
 
                          layer.msg("操作成功", {icon: 1});
-                         $(document).ready(reloadTree);
+                         refreshNodeTree(nodes,parentId);
                          $("#jqGrid").trigger("reloadGrid");
 
                      }else{
