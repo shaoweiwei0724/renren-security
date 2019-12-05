@@ -85,7 +85,7 @@ public class SifanyClassController extends AbstractController{
             sifanyClass.setIcons(sifanyDataTextEntity.getId().toString());
         }else{
             SifanyClassEntity parent=sifanyClassService.getById(sifanyClass.getParentId());
-            if(parent.getIcons() != null)
+            if(parent != null && parent.getIcons() != null)
                 sifanyClass.setIcons(parent.getIcons());
         }
 
