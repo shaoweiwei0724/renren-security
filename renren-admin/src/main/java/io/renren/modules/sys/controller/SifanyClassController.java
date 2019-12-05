@@ -85,7 +85,8 @@ public class SifanyClassController extends AbstractController{
             sifanyClass.setIcons(sifanyDataTextEntity.getId().toString());
         }else{
             SifanyClassEntity parent=sifanyClassService.getById(sifanyClass.getParentId());
-            sifanyClass.setIcons(parent.getIcons());
+            if(parent.getIcons() != null)
+                sifanyClass.setIcons(parent.getIcons());
         }
 
         sifanyClassService.save(sifanyClass);
@@ -168,6 +169,15 @@ public class SifanyClassController extends AbstractController{
             sifanyDataTextEntity.setUpdateTime(sifanyDataTextEntity.getCreateTime());
             sifanyDataTextService.save(sifanyDataTextEntity);
             sifanyClass.setIcons(sifanyDataTextEntity.getId().toString());
+        }
+
+        if(sifanyClass.getModelId() != null) {
+            SifanyDataTextEntity sifanyDataText=new SifanyDataTextEntity();
+            sifanyDataText.setContent(URLDecoder.decode(sifanyClass.getModelId(), "utf-8"));
+            sifanyDataText.setCreateTime(new Date().getTime());
+            sifanyDataText.setUpdateTime(sifanyDataText.getCreateTime());
+            sifanyDataTextService.save(sifanyDataText);
+            sifanyClass.setModelId(sifanyDataText.getId().toString());
         }
 
         sifanyClassService.updateById(sifanyClass);

@@ -7,87 +7,67 @@
 <body>
 <div id="rrapp" v-cloak>
     <div v-show="showList">
-    <!--<div v-show="showList">-->
-    <!--<div class="grid-btn">-->
-    <!--<#if shiro.hasPermission("sys:sifanyclassattr:save")>-->
-    <!--<a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>-->
-    <!--</#if>-->
-    <!--<#if shiro.hasPermission("sys:sifanyclassattr:update")>-->
-    <!--<a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>-->
-    <!--</#if>-->
-    <!--<#if shiro.hasPermission("sys:sifanyclassattr:delete")>-->
-    <!--<a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>-->
-    <!--</#if>-->
 
-    <!--<#if shiro.hasPermission("sys:sifanyclass:update")>-->
-    <!--<a class="btn btn-primary" @click="updateclass"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>-->
-    <!--</#if>-->
-    <!--<#if shiro.hasPermission("sys:sifanyclass:delete")>-->
-    <!--<a class="btn btn-primary" @click="delclass"><i class="fa fa-trash-o"></i>&nbsp;删除</a>-->
-
-    <!--</#if>-->
-
-<!--  <table id="jqGrid"></table>
-  <div id="jqGridPager"></div>-->
 <table>
     <tr>
         <td width="200px" style="vertical-align:top" ><!-- 选择父类-->
 
-            <div id="classLayerMain" style="padding:10px;">
-                <ul id="classTreeMain" class="ztree"></ul>
-            </div>
-        </td>
-        <td width="1000px"  >
+        <div id="classLayerMain" style="padding:10px;">
+            <ul id="classTreeMain" class="ztree"></ul>
+        </div>
+    </td>
+        <td width="1200px"  >
 
             <div  class="layui-tab layui-tab-card">
                 <ul class="layui-tab-title">
-                    <li class="layui-this"><span>指标</span></li>
-                    <li ><span>组态</span></li>
+                    <li ><span>指标</span></li>
+                    <li id="svg-show-id" class="layui-this"><span>组态</span></li>
                     <li ><span>采集</span></li>
                     <li ><span>算法</span></li>
 
                 </ul>
                 <div class="layui-tab-content" style="height: 500px;">
-                    <div class="layui-tab-item layui-show">
+                    <div class="layui-tab-item">
                         <form >
 
                             <div class="div-inline">名称</div>
                             <div class="div-inline">
-                                <input type="hidden"  v-model="sifanyClass.id"  readonly="readonly" />
-                                <input type="text"  v-model="sifanyClass.name"   placeholder="名称"/>
+                                <input type="hidden"  v-model="sifanyObj.id"  readonly="readonly" />
+                                <input type="text"  v-model="sifanyObj.name"   placeholder="名称"/>
                             </div>
 
                             <div class="div-inline">编码</div>
                             <div class="div-inline">
-                                <input type="text"  v-model="sifanyClass.code"  placeholder="编码"/>
+                                <input type="text"  v-model="sifanyObj.code"  placeholder="编码"/>
                             </div>
                             <div class="div-inline">图标</div>
                             <div class="div-inline" style="display: none">
-                                <input type="text"  v-model="sifanyClass.icons"  @click="menuTree" placeholder="图标"/>
+                                <input type="text"  v-model="sifanyObj.icons"  @click="menuTree" placeholder="图标"/>
                             </div>
                             <div  class="div-inline">
-                                <img style="height:50px;width:50px;"  @click="menuTree" v-bind:src="sifanyClass.irconurl">
+                                <img style="height:50px;width:50px;"  @click="menuTree" v-bind:src="sifanyObj.irconurl">
                             </div>
                             </br>
                             <div class="div-inline">备注</div>
                             <div class="div-inline">
-                                <input type="text"  v-model="sifanyClass.remark"  placeholder="备注"/>
+                                <input type="text"  v-model="sifanyObj.remark"  placeholder="备注"/>
                             </div>
                         </form>
 
                         <div class="grid-btn">
-                            <#if shiro.hasPermission("sys:sifanyclassattr:save")>
+                            <#if shiro.hasPermission("sys:sifanyobjattr:save")>
                             <a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
                             </#if>
-                            <#if shiro.hasPermission("sys:sifanyclassattr:update")>
+                            <#if shiro.hasPermission("sys:sifanyobjattr:update")>
                              <a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
                              </#if>
-                             <#if shiro.hasPermission("sys:sifanyclassattr:delete")>
+                             <#if shiro.hasPermission("sys:sifanyobjattr:delete")>
                              <a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
                              </#if>
-                              <#if shiro.hasPermission("sys:sifanyclassattr:save")>
+                              <#if shiro.hasPermission("sys:sifanyobjattr:save")>
                              <a class="btn btn-primary" @click="addclass"><i class="fa fa-plus"></i>&nbsp;保存</a>
                              </#if>
+                                <a class="btn btn-primary" href="modelbus.html"><i class="fa fa-plus"></i>&nbsp;返回</a>
                         </div>
 
                         <table id="jqGrid"></table>
@@ -95,24 +75,24 @@
 
 
                     </div>
-                    <div class="layui-tab-item">
-                    <!--<#if shiro.hasPermission("sys:sifanyclassattr:save")>-->
+                    <div class="layui-tab-item layui-show" >
+                    <!--<#if shiro.hasPermission("sys:sifanyobjattr:save")>-->
                     <!--<a class="btn btn-primary" @click="configmenu"><i class="fa fa-plus"></i>&nbsp;编辑</a>-->
                     <!--</#if>-->
-                        <div>
-
-                            <iframe src="${request.contextPath}/statics/gojs/samples/productionProcess.html"
-                                    width="900px" id="config-swan-svg" height="400px"></iframe>
-                        </div>
-
                     <div  style="display: none">
-                        <input type="text"  v-model="sifanyClass.id"  placeholder="id"/>
-                        <input type="text"  v-model="sifanyClass.modelId"  placeholder="图标"/>
+                        <input type="text"  v-model="sifanyObj.id"  placeholder="id"/>
+                        <input type="text"  v-model="sifanyObj.modelId"  placeholder="图标"/>
                     </div>
                     <!--<div>-->
-                        <!--<iframe src="${request.contextPath}/statics/gojs/samples/model_show.html"-->
+                        <!--<iframe src="${request.contextPath}/statics/gojs/samples/show.html"-->
                                 <!--width="900px" id="config-swan-svg0" height="400px"></iframe>-->
                     <!--</div>-->
+    <div id="swan-svg-div">
+
+        <iframe src="${request.contextPath}/statics/gojs/samples/productionProcess.html"
+                width="900px" id="config-swan-svg" height="400px"></iframe>
+    </div>
+
                     </div>
                     <div class="layui-tab-item">
                         <div style="float:left ;width:500px;">
@@ -124,29 +104,28 @@
 
                                 <div class="div-inline">名称</div>
                                 <div class="div-inline">
-                                    <input type="hidden"  v-model="sifanyClassAttrGather.id"  readonly="readonly" />
-                                    <input type="text"  v-model="sifanyClassAttrGather.name"  style="width:110px;height:26px;" readonly="readonly" placeholder="名称"/>
+                                    <input type="hidden"  v-model="sifanyObjAttrGather.id"  readonly="readonly" />
+                                    <input type="text"  v-model="sifanyObjAttrGather.name"  style="width:110px;height:26px;" readonly="readonly" placeholder="名称"/>
                                 </div>
 
                                 <div class="div-inline">编码</div>
                                 <div class="div-inline">
-                                    <input type="text"  v-model="sifanyClassAttrGather.code" style="width:110px;height:26px;" readonly="readonly" placeholder="编码"/>
+                                    <input type="text"  v-model="sifanyObjAttrGather.code" style="width:110px;height:26px;" readonly="readonly" placeholder="编码"/>
                                 </div>
                                 </br>
                                 <div class="div-inline">单位</div>
                                 <div class="div-inline" >
 
-                                    <select  v-model="sifanyClassAttrGather.unitId" readonly="readonly" style="width:110px;height:26px;">
+                                    <select  v-model="sifanyObjAttrGather.unitId" readonly="readonly" style="width:110px;height:26px;">
                                         <option value="0">Kg</option>
                                         <option value="1">N</option>
                                         <option value="2">Pa</option>
-                                        <option value="3">KW</option>
                                     </select>
                                 </div>
                                 <div class="div-inline">类型</div>
                                 <div  class="div-inline">
 
-                                    <select  v-model="sifanyClassAttrGather.attrstypeId" readonly="readonly" style="width:110px;height:26px;">
+                                    <select  v-model="sifanyObjAttrGather.attrstypeId" readonly="readonly" style="width:110px;height:26px;">
                                         <option value="0">输入类</option>
                                         <option value="1">采集类</option>
                                         <option value="2">计算类</option>
@@ -155,7 +134,7 @@
                                 </br>
                                 <div class="div-inline">备注</div>
                                 <div class="div-inline">
-                                    <input type="text"  v-model="sifanyClassAttrGather.remark" readonly="readonly" placeholder="备注" style="width:160px;height:26px;"/>
+                                    <input type="text"  v-model="sifanyObjAttrGather.remark" readonly="readonly" placeholder="备注" style="width:160px;height:26px;"/>
                                 </div>
                             </form>
                         </div>
@@ -170,29 +149,29 @@
 
                                 <div class="div-inline">名称</div>
                                 <div class="div-inline">
-                                    <input type="hidden"  v-model="sifanyClassAttr.id"  readonly="readonly" />
-                                    <input type="text"  v-model="sifanyClassAttr.name"  style="width:110px;height:26px;" readonly="readonly" placeholder="名称"/>
+                                    <input type="hidden"  v-model="sifanyObjAttr.id"  readonly="readonly" />
+                                    <input type="text"  v-model="sifanyObjAttr.name"  style="width:110px;height:26px;" readonly="readonly" placeholder="名称"/>
                                 </div>
 
                                 <div class="div-inline">编码</div>
                                 <div class="div-inline">
-                                    <input type="text"  v-model="sifanyClassAttr.code" style="width:110px;height:26px;" readonly="readonly" placeholder="编码"/>
+                                    <input type="text"  v-model="sifanyObjAttr.code" style="width:110px;height:26px;" readonly="readonly" placeholder="编码"/>
                                 </div>
                                 </br>
                                 <div class="div-inline">单位</div>
                                 <div class="div-inline" >
 
-                                    <select  v-model="sifanyClassAttr.unitId" readonly="readonly" style="width:110px;height:26px;">
+                                    <select  v-model="sifanyObjAttr.unitId" readonly="readonly" style="width:110px;height:26px;">
                                         <option value="0">Kg</option>
                                         <option value="1">N</option>
                                         <option value="2">Pa</option>
-                                        <option value="3">KW</option>
+                                        <option value="2">KW</option>
                                     </select>
                                 </div>
                                 <div class="div-inline">类型</div>
                                 <div  class="div-inline">
 
-                                    <select  v-model="sifanyClassAttr.attrstypeId" readonly="readonly" style="width:110px;height:26px;">
+                                    <select  v-model="sifanyObjAttr.attrstypeId" readonly="readonly" style="width:110px;height:26px;">
                                         <option value="0">输入类</option>
                                         <option value="1">采集类</option>
                                         <option value="2">计算类</option>
@@ -201,12 +180,18 @@
                                 </br>
                                 <div class="div-inline">备注</div>
                                 <div class="div-inline">
-                                    <input type="text"  v-model="sifanyClassAttr.remark" readonly="readonly" placeholder="备注" style="width:160px;height:26px;"/>
+                                    <input type="text"  v-model="sifanyObjAttr.remark" readonly="readonly" placeholder="备注" style="width:160px;height:26px;"/>
+                                </div>
+
+                                <div class="div-inline">
+                                    <input type="text"  v-model="sifanyObjAttr.algorithmName" readonly="readonly" placeholder="算法名称" style="width:160px;height:26px;"/>
+                                </div>
+
+                                <div style="height: 500px;">
+                                    <img style="height:400px;width:300px;" @click="editProject" src="../../statics/1234.png">
                                 </div>
                             </form>
-                            <div style="height: 500px;">
-                                <img style="height:400px;width:300px;" @click="editProject" src="../../statics/1234.png">
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -232,25 +217,25 @@
         <div class="form-group">
             <div class="col-sm-2 control-label">设备</div>
             <div class="col-sm-10">
-                <input type="text" class="form-control" style="cursor:pointer;" v-model="sifanyClassAttr.classId" @click="classTree" readonly="readonly" placeholder="所属类"/>
+                <input type="text" class="form-control" style="cursor:pointer;" v-model="sifanyObjAttr.objId" @click="classTree" readonly="readonly" placeholder="所属实例"/>
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-2 control-label">属性名</div>
             <div class="col-sm-10">
-                <input type="text" class="form-control" v-model="sifanyClassAttr.name" placeholder="属性名"/>
+                <input type="text" class="form-control" v-model="sifanyObjAttr.name" placeholder="属性名"/>
             </div>
         </div>
         <div class="form-group" style="display:none">
             <div class="col-sm-2 control-label">类型id</div>
             <div class="col-sm-10">
-                <input type="text" class="form-control" style="cursor:pointer;" v-model="sifanyClassAttr.typeId" @click="typeTree" readonly="readonly" placeholder="属性类型"/>
+                <input type="text" class="form-control" style="cursor:pointer;" v-model="sifanyObjAttr.typeId" @click="typeTree" readonly="readonly" placeholder="属性类型"/>
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-2 control-label">数据类型</div>
             <div class="col-sm-10">
-                <select class="form-control" v-model="sifanyClassAttr.dataType">
+                <select class="form-control" v-model="sifanyObjAttr.dataType">
                     <option value="">&#45;&#45;请选择&#45;&#45;</option>
                     <option value="1">int</option>
                     <option value="2">double</option>
@@ -260,18 +245,18 @@
         <div class="form-group">
             <div class="col-sm-2 control-label">单位</div>
             <div class="col-sm-10">
-                <select class="form-control" v-model="sifanyClassAttr.unitId">
+                <select class="form-control" v-model="sifanyObjAttr.unitId">
                     <option value="0">Kg</option>
                     <option value="1">N</option>
                     <option value="2">Pa</option>
-                    <option value="3">KW</option>
+                    <option value="2">KW</option>
                 </select>
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-2 control-label">指标种类</div>
             <div class="col-sm-10">
-                <select class="form-control" v-model="sifanyClassAttr.attrstypeId">
+                <select class="form-control" v-model="sifanyObjAttr.attrstypeId">
                     <option value="0">输入类</option>
                     <option value="1">采集类</option>
                     <option value="2">计算类</option>
@@ -327,8 +312,7 @@
     <iframe src="http://localhost:8089/home/project_iframe"
             width="1000px" id="editProject-info" height="800px"></iframe>
 </div>
-
-<script src="${request.contextPath}/statics/js/modules/sys/modelalgorithms.js?_${.now?long}"></script>
+<script src="${request.contextPath}/statics/js/modules/sys/modelbus2.js?_${.now?long}"></script>
 <script src="${request.contextPath}/statics/plugins/layui/lay/dest/layui.all.js"></script>
 <link rel="stylesheet" href="${request.contextPath}/statics/plugins/layui/css/layui.css">
 </body>

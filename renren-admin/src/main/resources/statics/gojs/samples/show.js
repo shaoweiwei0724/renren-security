@@ -119,7 +119,7 @@ function init() {
                 return baseIP+"sys/sifanydataimage/image/"+geo+".svg";
             }
             function textStyle() {
-                return { font: "9pt  Segoe UI,sans-serif", stroke: "#fff" };
+                return { font: "9pt  Segoe UI,sans-serif", stroke: "#000" };
             }
             function makePort(name, spot, output, input) {
                 // the port is basically just a small transparent square
@@ -157,11 +157,11 @@ function init() {
                     // define the node's outer shape
                     $(go.Shape, "Rectangle",
                         {
-                            name: "SHAPE", fill: "#3A5FCD", stroke: null,
+                            name: "SHAPE", fill:"transparent",stroke: null,
                             // set the port properties:
                             portId: "", fromLinkable: true, toLinkable: true, cursor: "pointer"
                         }),
-                    $(go.Panel, "Horizontal",
+                    $(go.Panel, "Vertical",
                         $(go.Picture,
                             {
                                 name: "Picture",

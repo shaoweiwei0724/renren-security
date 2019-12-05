@@ -9,19 +9,19 @@ $(function () {
         addHoverDom();
     });
     $(document).ready(function () {
-       var element= layui.element;
-       // element.render();
+        var element= layui.element;
+        // element.render();
     });
 
     reloadTree();
     getGridDom();
     getGridGatherDom();
     $("#jqGrid").jqGrid({
-        url: baseURL + 'sys/sifanyclassattr/list',
+        url: baseURL + 'sys/sifanyobjattr/list',
         datatype: "json",
         colModel: [
             { label: 'id', name: 'id', index: 'id', width: 50, key: true ,hidden:true},
-            { label: '所属类id', name: 'classId', index: 'class_id', width: 40 },
+            { label: '所属实列id', name: 'objId', index: 'obj_id', width: 40 },
             { label: '属性名', name: 'name', index: 'name', width: 80 },
             { label: '编码', name: 'code', index: 'code', width: 50 },
             { label: '类型id', name: 'typeId', index: 'type_id', width: 80 ,hidden:true},
@@ -29,6 +29,7 @@ $(function () {
             { label: '单位', name: 'unitId', index: 'unit_id', width: 80 ,hidden:true},
             { label: '备注', name: 'remark', index: 'remark', width: 80 },
             { label: '指标种类', name: 'attrstypeId', index: 'attrstype_id', width: 80 ,hidden:true},
+            { label: '算法名称', name: 'algorithmName', index: 'algorithm_name', width: 80 ,hidden:true},
 
             { label: '创建时间', name: 'createTime', index: 'create_time', width: 80 , formatter: function(value, options, row){
                     if(value == null)
@@ -126,12 +127,12 @@ $(function () {
             //隐藏grid底部滚动条
             $("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
         }
-       /* onSelectRow: function (row) {
+        /* onSelectRow: function (row) {
 
-            var rowData = $("#jqGrid").getRowData(row);
-            vm.sifanyClassAttr = {name:rowData.name,code:rowData.code,unitId:rowData.unitId,attrstypeId:rowData.attrstypeId,remark:rowData.remark};
-            console.log(rowData);
-        }*/
+             var rowData = $("#jqGrid").getRowData(row);
+             vm.sifanyClassAttr = {name:rowData.name,code:rowData.code,unitId:rowData.unitId,attrstypeId:rowData.attrstypeId,remark:rowData.remark};
+             console.log(rowData);
+         }*/
     });
 });
 
@@ -140,12 +141,15 @@ var selected_id=0;
 var ztreeMain;
 function tree_click_swan(e,treeId, treeNode) {
     var node = ztreeMain.getSelectedNodes();
+    console.log("---------");
+    console.log(node);
     selected_id=node[0].id;
+    //localStorage.selectSceneId=selected_id;
     // localStorage.iconsId = selected_id;
-   vm.sifanyClass = {id:node[0].id,name:node[0].name,code:node[0].code,icons:node[0].icons,remark:node[0].remark,irconurl:node[0].irconurl,modelId:node[0].modelId };
-   localStorage.iconsId = vm.sifanyClass.modelId;
-   $('#config-swan-svg').attr('src',$('#config-swan-svg').attr('src'));
-console.log(vm.sifanyClass);
+    vm.sifanyObj = {id:node[0].id,name:node[0].name,code:node[0].code,icons:node[0].icons,remark:node[0].remark,irconurl:node[0].irconurl,modelId:node[0].modelId };
+    localStorage.iconsId = vm.sifanyObj.modelId;
+    $('#config-swan-svg').attr('src',$('#config-swan-svg').attr('src'));
+    console.log("1",vm.sifanyObj);
     var page = $("#jqGrid").jqGrid('getGridParam','page');
     $("#jqGrid").jqGrid('setGridParam',{
         page:page,
@@ -161,6 +165,9 @@ console.log(vm.sifanyClass);
         page:page,
         postData:{'selected_id':selected_id,'attrstypeId':1},
     },true).trigger("reloadGrid");
+
+    $("#svg-show-id").click();
+    // document.getElementById('config-swan-svg').contentWindow.location.reload(true);
 
 }
 
@@ -214,21 +221,22 @@ function addHoverDom() {
     //     newNode = ztreeMain.addNodes(nodes[0], newNode);
     // }
 
-    var url = "sys/sifanyclass/save";
-    vm.sifanyClass = {id:null,name:"example",parentId:nodes[0].id,orderNum:0,'icons':''};
+    var url = "sys/sifanyobj/save";
+    vm.sifanyObj = {id:null,name:"example",parentId:nodes[0].id,orderNum:0,'icons':''};
+    console.log("--------------------",vm.sifanyObjAttr);
 
     $.ajax({
         type: "POST",
         url: baseURL + url,
         contentType: "application/json",
-        data: JSON.stringify(vm.sifanyClass),
+        data: JSON.stringify(vm.sifanyObj),
         success: function(r){
             if(r.code === 0){
                 layer.msg("操作成功", {icon: 1});
                 //vm.reload();
                 $('#treeContextMenu').hide();
                 refreshNodeTree(nodes,nodes[0].id)
-               // $(document).ready();
+                // $(document).ready();
 
             }else{
                 layer.alert(r.msg);
@@ -236,49 +244,49 @@ function addHoverDom() {
             }
         }
     });
- }
- function deleteDom(){
-     var nodes = ztreeMain.getSelectedNodes();
-     var id = nodes[0].id;
-     if(id == null){
-         return ;
-     }
+}
+function deleteDom(){
+    var nodes = ztreeMain.getSelectedNodes();
+    var id = nodes[0].id;
+    if(id == null){
+        return ;
+    }
 
-     var parentId = nodes[0].parentId;
+    var parentId = nodes[0].parentId;
 
-     if(parentId==-1){
-       //  layer.msg("根节点不允许删除。", {icon: 1});
-          layer.alert("根节点不允许删除。");
-         return ;
-     }
-     var lock = false;
-     layer.confirm('确定要删除选中的记录？', {
-         btn: ['确定','取消'] //按钮
-     }, function(){
-         if(!lock) {
-             lock = true;
+    if(parentId==-1){
+        //  layer.msg("根节点不允许删除。", {icon: 1});
+        layer.alert("根节点不允许删除。");
+        return ;
+    }
+    var lock = false;
+    layer.confirm('确定要删除选中的记录？', {
+        btn: ['确定','取消'] //按钮
+    }, function(){
+        if(!lock) {
+            lock = true;
 
-             $.ajax({
-                 type: "POST",
-                 url: baseURL + "sys/sifanyclass/deleteDom",
-                 contentType: "application/json",
-                 data: JSON.stringify(id),
-                 success: function(r){
-                     if(r.code == 0){
+            $.ajax({
+                type: "POST",
+                url: baseURL + "sys/sifanyobj/deleteDom",
+                contentType: "application/json",
+                data: JSON.stringify(id),
+                success: function(r){
+                    if(r.code == 0){
 
-                         layer.msg("操作成功", {icon: 1});
-                         refreshNodeTree(nodes,parentId);
-                         $("#jqGrid").trigger("reloadGrid");
+                        layer.msg("操作成功", {icon: 1});
+                        refreshNodeTree(nodes,parentId);
+                        $("#jqGrid").trigger("reloadGrid");
 
-                     }else{
-                         layer.alert(r.msg);
-                     }
-                 }
-             });
-         }
-     }, function(){
-     });
- }
+                    }else{
+                        layer.alert(r.msg);
+                    }
+                }
+            });
+        }
+    }, function(){
+    });
+}
 function refreshNode() {
     /*根据 treeId 获取 zTree 对象*/
     var zTree = $.fn.zTree.getZTreeObj("classTreeMain"),
@@ -286,7 +294,7 @@ function refreshNode() {
         silent = false,
         /*获取 zTree 当前被选中的节点数据集合*/
         nodes = zTree.getSelectedNodes();
-        console.log(nodes);
+    console.log("2",nodes);
     /*强行异步加载父节点的子节点。[setting.async.enable = true 时有效]*/
     zTree.reAsyncChildNodes(nodes[0], type, silent);
 
@@ -295,12 +303,12 @@ function getGridDom(){
 
     var PostData={attrstypeId:2};
     $("#jqGridget").jqGrid({
-        url: baseURL + 'sys/sifanyclassattr/list',
+        url: baseURL + 'sys/sifanyobjattr/list',
         datatype: "json",
         postData: PostData,
         colModel: [
             { label: 'id', name: 'id', index: 'id', width: 50, key: true ,hidden:true},
-            { label: '所属类id', name: 'classId', index: 'class_id', width: 40 },
+            { label: '所属实列Id', name: 'objId', index: 'obj_id', width: 40 },
             { label: '属性名', name: 'name', index: 'name', width: 80 },
             { label: '编码', name: 'code', index: 'code', width: 50 },
             { label: '类型id', name: 'typeId', index: 'type_id', width: 80 ,hidden:true},
@@ -308,7 +316,7 @@ function getGridDom(){
             { label: '单位', name: 'unitId', index: 'unit_id', width: 80 ,hidden:true},
             { label: '备注', name: 'remark', index: 'remark', width: 80 },
             { label: '指标种类', name: 'attrstypeId', index: 'attrstype_id', width: 80 ,hidden:true},
-
+            { label: '算法名称', name: 'algorithmName', index: 'algorithm_name', width: 80 ,hidden:true},
             { label: '创建时间', name: 'createTime', index: 'create_time', width: 60 , formatter: function(value, options, row){
                     if(value == null)
                         return "";
@@ -409,8 +417,8 @@ function getGridDom(){
         onSelectRow: function (row) {
 
             var rowData = $("#jqGridget").getRowData(row);
-            vm.sifanyClassAttr = {name:rowData.name,code:rowData.code,unitId:rowData.unitId,attrstypeId:rowData.attrstypeId,remark:rowData.remark};
-            console.log(rowData);
+            vm.sifanyObjAttr = {objId:rowData.objId,id:rowData.id,name:rowData.name,code:rowData.code,unitId:rowData.unitId,attrstypeId:rowData.attrstypeId,remark:rowData.remark,algorithmName:rowData.algorithmName};
+            console.log("3",rowData);
         }
     });
 }
@@ -419,12 +427,12 @@ function getGridGatherDom(){
 
     var PostData={attrstypeId:1};
     $("#jqGridgather").jqGrid({
-        url: baseURL + 'sys/sifanyclassattr/list',
+        url: baseURL + 'sys/sifanyobjattr/list',
         datatype: "json",
         postData: PostData,
         colModel: [
             { label: 'id', name: 'id', index: 'id', width: 50, key: true ,hidden:true},
-            { label: '所属类id', name: 'classId', index: 'class_id', width: 40 },
+            { label: '所属实列Id', name: 'objId', index: 'obj_id', width: 40 },
             { label: '属性名', name: 'name', index: 'name', width: 80 },
             { label: '编码', name: 'code', index: 'code', width: 50 },
             { label: '类型id', name: 'typeId', index: 'type_id', width: 80 ,hidden:true},
@@ -432,7 +440,7 @@ function getGridGatherDom(){
             { label: '单位', name: 'unitId', index: 'unit_id', width: 80 ,hidden:true},
             { label: '备注', name: 'remark', index: 'remark', width: 80 },
             { label: '指标种类', name: 'attrstypeId', index: 'attrstype_id', width: 80 ,hidden:true},
-
+            { label: '算法名称', name: 'algorithmName', index: 'algorithm_name', width: 80 ,hidden:true},
             { label: '创建时间', name: 'createTime', index: 'create_time', width: 60 , formatter: function(value, options, row){
                     if(value == null)
                         return "";
@@ -533,46 +541,55 @@ function getGridGatherDom(){
         onSelectRow: function (row) {
 
             var rowData = $("#jqGridgather").getRowData(row);
-            vm.sifanyClassAttrGather = {name:rowData.name,code:rowData.code,unitId:rowData.unitId,attrstypeId:rowData.attrstypeId,remark:rowData.remark};
-            console.log(rowData);
+            vm.sifanyObjAttrGather = {name:rowData.name,code:rowData.code,unitId:rowData.unitId,attrstypeId:rowData.attrstypeId,remark:rowData.remark};
+            console.log("4",rowData);
         }
     });
 }
 function reloadTree(){
-    $.get(baseURL + "sys/sifanyclass/select", function(r){
+    $.get(baseURL + "sys/sifanyobj/select", function(r){
         // var a = JSON.stringify(r.classLists);?type=base
         // alert(a);
-        ztreeMain = $.fn.zTree.init($("#classTreeMain"), setting, r.classLists);
-        var node = ztreeMain.getNodeByParam("id",18);
+        ztreeMain = $.fn.zTree.init($("#classTreeMain"), setting, r.objEntityLists);
+
+
+        if(localStorage.selectSceneId){
+            var node = ztreeMain.getNodeByParam("id",localStorage.selectSceneId);
+        }else{
+            var node = ztreeMain.getNodeByParam("id","-1");
+        }
+
+        console.log("node1:", node)
         ztreeMain.selectNode(node);
 
         if(node){
             //触发默认数据的click事件
             $("#"+node.tId+"_a").dblclick();//触发ztree点击事件
-            console.log(node);
-            vm.sifanyClass = {id:node.id,name:node.name,code:node.code,icons:node.icons,remark:node.remark,irconurl:node.irconurl,modelId:node.modelId };
+            console.log("5",node);
+            vm.sifanyObj = {id:node.id,name:node.name,code:node.code,icons:node.icons,remark:node.remark,irconurl:node.irconurl,modelId:node.modelId };
         }
         // vm.sifanyClass.parentName = node.name;
     })
 }
 function refreshNodeTree(nodes,id){
-    $.get(baseURL + "sys/sifanyclass/select", function(r){
+    $.get(baseURL + "sys/sifanyobj/select", function(r){
         // var a = JSON.stringify(r.classLists);?type=base
         // alert(a);
-        ztreeMain = $.fn.zTree.init($("#classTreeMain"), setting, r.classLists);
-       var node = ztreeMain.getNodeByParam("id",id);
+        ztreeMain = $.fn.zTree.init($("#classTreeMain"), setting, r.objEntityLists);
+        var node = ztreeMain.getNodeByParam("id",id);
+        console.log("node2",node)
 
         ztreeMain.selectNode(node);
 
         if(node){
             //触发默认数据的click事件
             $("#"+node.tId+"_a").dblclick();//触发ztree点击事件
-            console.log(node);
-            vm.sifanyClass = {id:node.id,name:node.name,code:node.code,icons:node.icons,remark:node.remark,irconurl:node.irconurl,modelId:node.modelId };
+            console.log("6",node);
+            vm.sifanyObj = {id:node.id,name:node.name,code:node.code,icons:node.icons,remark:node.remark,irconurl:node.irconurl,modelId:node.modelId };
         }
         // vm.sifanyClass.parentName = node.name;
-        localStorage.iconsId = vm.sifanyClass.modelId;
-        $('#config-swan-svg').attr('src',$('#config-swan-svg').attr('src'));
+        localStorage.iconsId = vm.sifanyObj.modelId;
+        $('#config-swan-svg0').attr('src',$('#config-swan-svg0').attr('src'));
     })
 }
 var setting = {
@@ -619,9 +636,9 @@ var vm = new Vue({
         showList: true,
         //devList:true,
         title: null,
-        sifanyClassAttr: {
+        sifanyObjAttr: {
             className:null,
-            classId:0,
+            objId:0,
             typeName:null,
             typeId:0,
             orderNum:0,
@@ -632,7 +649,7 @@ var vm = new Vue({
             name:null
 
         },
-        sifanyClass: {
+        sifanyObj: {
             parentName:null,
             parentId:0,
             classId:0,
@@ -644,9 +661,9 @@ var vm = new Vue({
             orderNum:0,
             modelId:null
         },
-        sifanyClassAttrGather: {
+        sifanyObjAttrGather: {
             className:null,
-            classId:0,
+            objId:0,
             typeName:null,
             typeId:0,
             orderNum:0,
@@ -663,40 +680,40 @@ var vm = new Vue({
             var node = ztreeMain.getSelectedNodes();
 
             selected_id=node[0].id;
-            console.log(selected_id);
+            console.log("7",selected_id);
 
             vm.reload();
         },
 
         getSifanyclass: function(){
             //加载模型类树
-            $.get(baseURL + "sys/sifanyclass/select?type=base", function(r){
+            $.get(baseURL + "sys/sifanyobj/select?type=base", function(r){
                 // var a = JSON.stringify(r.classLists);
                 // alert(a);
-                ztree = $.fn.zTree.init($("#classTree"), setting, r.classLists);
-                var node = ztree.getNodeByParam("id", vm.sifanyClassAttr.classId);
+                ztree = $.fn.zTree.init($("#classTree"), setting, r.objEntityLists);
+                var node = ztree.getNodeByParam("id", vm.sifanyObjAttr.objId);
                 ztree.selectNode(node);
                 // vm.sifanyClassAttr.className = node.name;
             })
         },
         getSifanyDevclass: function(){
             //加载模型类树
-            $.get(baseURL + "sys/sifanyclass/select", function(r){
+            $.get(baseURL + "sys/sifanyobj/select", function(r){
                 // var a = JSON.stringify(r.classLists);
                 // alert(a);
-                ztree2 = $.fn.zTree.init($("#classTreeDev"), setting, r.classLists);
-                var node = ztree2.getNodeByParam("id", vm.sifanyClass.parentId);
+                ztree2 = $.fn.zTree.init($("#classTreeDev"), setting, r.objEntityLists);
+                var node = ztree2.getNodeByParam("id", vm.sifanyObj.parentId);
                 ztree2.selectNode(node);
-                console.log(node);
+                console.log("9",node);
                 //   vm.sifanyClass.parentName = node.name;
             })
         },
         getSifanyclassattr: function(){
             //加载属性类树
-            $.get(baseURL + "sys/sifanyclassattrtype/select", function(r){
+            $.get(baseURL + "sys/sifanyobjattrtype/select", function(r){
 
                 ztree1 = $.fn.zTree.init($("#typeTree"), setting1, r.typeLists);
-                var node = ztree1.getNodeByParam("id", vm.sifanyClassAttr.typeId);
+                var node = ztree1.getNodeByParam("id", vm.sifanyObjAttr.typeId);
                 ztree1.selectNode(node);
 
                 // vm.sifanyClassAttr.typeName = node.type;
@@ -707,20 +724,21 @@ var vm = new Vue({
 
         add: function(){
             vm.showList = false;
-          //  vm.devList = true;
+            //  vm.devList = true;
             vm.title = "新增";
-            vm.sifanyClassAttr = {className:null,classId:selected_id,typeName:null,typeId:0,orderNum:0};
+            vm.sifanyObjAttr = {className:null,objId:selected_id,typeName:null,typeId:0,orderNum:0};
             vm.getSifanyclass();
             vm.getSifanyclassattr();
 
         },
         update: function (event) {
             var id = getSelectedRow();
+            console.log("id:",id);
             if(id == null){
                 return ;
             }
             vm.showList = false;
-          //  vm.devList = true;
+            //  vm.devList = true;
             vm.title = "修改";
 
             vm.getInfo(id)
@@ -729,12 +747,13 @@ var vm = new Vue({
         },
         saveOrUpdate: function (event) {
             $('#btnSaveOrUpdate').button('loading').delay(1000).queue(function() {
-                var url = vm.sifanyClassAttr.id == null ? "sys/sifanyclassattr/save" : "sys/sifanyclassattr/update";
+                var url = vm.sifanyObjAttr.id == null ? "sys/sifanyobjattr/save" : "sys/sifanyobjattr/update";
+                console.log("attr--------------------",vm.sifanyObjAttr);
                 $.ajax({
                     type: "POST",
                     url: baseURL + url,
                     contentType: "application/json",
-                    data: JSON.stringify(vm.sifanyClassAttr),
+                    data: JSON.stringify(vm.sifanyObjAttr),
                     success: function(r){
                         if(r.code === 0){
                             layer.msg("操作成功", {icon: 1});
@@ -763,7 +782,7 @@ var vm = new Vue({
                     lock = true;
                     $.ajax({
                         type: "POST",
-                        url: baseURL + "sys/sifanyclassattr/delete",
+                        url: baseURL + "sys/sifanyobjattr/delete",
                         contentType: "application/json",
                         data: JSON.stringify(ids),
                         success: function(r){
@@ -780,8 +799,8 @@ var vm = new Vue({
             });
         },
         getInfo: function(id){
-            $.get(baseURL + "sys/sifanyclassattr/info/"+id, function(r){
-                vm.sifanyClassAttr = r.sifanyClassAttr;
+            $.get(baseURL + "sys/sifanyobjattr/info/"+id, function(r){
+                vm.sifanyObjAttr = r.sifanyObjAttr;
             });
         },
         classTree: function(){
@@ -798,11 +817,12 @@ var vm = new Vue({
                 btn1: function (index) {
                     var node = ztree.getSelectedNodes();
                     //选择所属类
-                    vm.sifanyClassAttr.classId = node[0].id;
+                    vm.sifanyObjAttr.objId = node[0].id;
                     // vm.sifanyClassAttr.className = node[0].name;
 
                     layer.close(index);
                     $("#classLayer").hide();
+
                 },
                 btn2: function (index) {
                     layer.close(index);
@@ -827,8 +847,8 @@ var vm = new Vue({
                 btn1: function (index) {
                     var node = ztree.getSelectedNodes();
                     //选择父类
-                    vm.sifanyClass.parentId = node[0].id;
-                    vm.sifanyClass.parentName = node[0].name;
+                    vm.sifanyObj.parentId = node[0].id;
+                    vm.sifanyObj.parentName = node[0].name;
 
                     layer.close(index);
                 }
@@ -848,7 +868,7 @@ var vm = new Vue({
                 btn1: function (index) {
                     var node = ztree1.getSelectedNodes();
                     //选择所属类
-                    vm.sifanyClassAttr.typeId = node[0].id;
+                    vm.sifanyObjAttr.typeId = node[0].id;
                     // vm.sifanyClassAttr.typeName = node[0].type;
 
                     layer.close(index);
@@ -856,6 +876,7 @@ var vm = new Vue({
             });
         },
         reload: function (event) {
+            // alert("123");
             vm.showList = true;
             var page = $("#jqGrid").jqGrid('getGridParam','page');
             $("#jqGrid").jqGrid('setGridParam',{
@@ -864,37 +885,85 @@ var vm = new Vue({
         },
         addclass:function(){
             var nodes = ztreeMain.getSelectedNodes();
-            var url ="sys/sifanyclass/update";
+
             var values =$("#config-swan-svg").contents().find("#swan-res").val();
+            console.log($("#config-swan-svg").contents());
+
+            console.log("+++++++++++====="+values);
             if(values != null && values != ""){
-                vm.sifanyClass.modelId=encodeURI(values);
+                vm.sifanyObj.modelId=encodeURI(values);
             }
-                vm.sifanyClass['type']='base';
-                $.ajax({
-                    type: "POST",
-                    url: baseURL + url,
-                    contentType: "application/json",
-                    data: JSON.stringify(vm.sifanyClass),
-                    success: function(r){
-                        if(r.code === 0){
-                            layer.msg("操作成功", {icon: 1});
-                            vm.reload();
-                           // $(document).ready(reloadTree);
-                            refreshNodeTree(nodes,nodes[0].id);
-                        }else{
-                            layer.alert(r.msg);
 
-                        }
+
+            var url ="sys/sifanyobj/update";
+            vm.sifanyObj['type']='base';
+            $.ajax({
+                type: "POST",
+                url: baseURL + url,
+                contentType: "application/json",
+                data: JSON.stringify(vm.sifanyObj),
+                success: function(r){
+                    if(r.code === 0){
+                        layer.msg("操作成功", {icon: 1});
+                        vm.reload();
+                        // $(document).ready(reloadTree);
+                        refreshNodeTree(nodes,nodes[0].id);
+                    }else{
+                        layer.alert(r.msg);
+
                     }
-                });
+                }
+            });
 
+        },
+        menuTree: function(){
+            // editor.setValue(vm.sifanyClass.icon);
+            layer.open({
+                type: 1,
+                offset: '0',
+                skin: 'layui-layer-molv',
+                title: "svg-edit",
+                area: ['1000px', '1000px'],
+                shade: 0,
+                shadeClose: false,
+                content: jQuery("#menuLayer"),
+                btn: ['确定', '取消'],
+                btn1: function (index) {
+                    $("#swan-svg").contents().find("#tool_source").click();
+                    var values =$("#swan-svg").contents().find("#svg_source_textarea").val();
+
+                    console.log("10",values);
+                    values = values.replace(/\+/g,"%2B");
+                    vm.sifanyObj.icons=encodeURI(values);
+
+                    // console.log("=============="+vm.sifanyObj.icons);
+                    layer.close(index);
+                    $("#menuLayer").hide();
+
+                },
+                btn2: function (index) {
+                    layer.close(index);
+                    $("#menuLayer").hide();
+                },
+                end:function(){
+                    $("#menuLayer").hide();
+                }
+            });
         },
         editProject: function(){
             // editor.setValue(vm.sifanyClass.icon);
+            var algorithmName = vm.sifanyObjAttr.algorithmName;
+            if((algorithmName == null || algorithmName == "") && vm.sifanyObjAttr.name != null){
+                algorithmName = vm.sifanyObjAttr.name + vm.sifanyObjAttr.id + vm.sifanyObjAttr.objId;
+                vm.sifanyObjAttr.algorithmName = algorithmName;
+            }
+
             var iframe = document.getElementById('editProject-info');
             iframe.onload = function(){
                 iframe.contentWindow.postMessage('耗电量计算','*');
+                // iframe.contentWindow.postMessage(vm.sifanyObjAttr.algorithmName,'*');
             }
+
             layer.open({
                 type: 1,
                 offset: '0',
@@ -913,7 +982,7 @@ var vm = new Vue({
                     // window.postMessage("家用热水器用户行为分析", '*');
                     //
                     // vm.sifanyClass.icons=encodeURI(values);
-                     layer.close(index);
+                    layer.close(index);
 
                     $("#editProject-info").hide();
                 },
@@ -923,110 +992,69 @@ var vm = new Vue({
                 },
                 end:function(){
                     $("#editProject-info").hide();
-                }
-            });
-        },
-        menuTree: function(){
-            // editor.setValue(vm.sifanyClass.icon);
-            layer.open({
-                type: 1,
-                offset: '0',
-                skin: 'layui-layer-molv',
-                title: "svg-edit",
-                area: ['1000px', '1000px'],
-                shade: 0,
-                shadeClose: false,
-                content: jQuery("#menuLayer"),
-                btn: ['确定', '取消'],
-                btn1: function (index) {
-                    $("#swan-svg").contents().find("#tool_source").click();
-                    var values =$("#swan-svg").contents().find("#svg_source_textarea").val();
-
-                    console.log(values);
-                    values = values.replace(/\+/g,"%2B");
-                    vm.sifanyClass.icons=encodeURI(values);
-
-                    console.log("=============="+vm.sifanyClass.icons);
-                    layer.close(index);
-                    $("#menuLayer").hide();
-
-                },
-                btn2: function (index) {
-                    layer.close(index);
-                    $("#menuLayer").hide();
-                },
-                end:function(){
-                    $("#menuLayer").hide();
                 }
             });
         },
         configmenu:function () {
 
-                // editor.setValue(vm.sifanyClass.icon);
-                localStorage.iconsId = vm.sifanyClass.modelId;
-                // alert(localStorage.iconsId);
-                // // if(localStorage.iconsId != null)
-                // $.get(baseURL + "sys/sifanydatatext/scene/"+localStorage.iconsId, function(r){
-                //     alert(r.icons);
-                //     // document.getElementById("mySavedModel").value = r.icons;
-                //     console.log(r.icons);
-                // });
-                 var nodes = ztreeMain.getSelectedNodes();
-                layer.open({
-                    type: 1,
-                    offset: '0',
-                    skin: 'layui-layer-molv',
-                    title: "svg1-edit",
-                    area: ['1000px', '1000px'],
-                    shade: 0,
-                    shadeClose: false,
-                    content: jQuery("#menumapLayer"),
-                    btn: ['确定', '取消'],
-                    btn1: function (index) {
 
-                        var values =$("#config-swan-svg").contents().find("#swan-res").val();
-                        console.log($("#config-swan-svg").contents());
+            localStorage.iconsId = vm.sifanyObj.modelId;
 
-                        console.log("+++++++++++====="+values);
+            var nodes = ztreeMain.getSelectedNodes();
+            layer.open({
+                type: 1,
+                offset: '0',
+                skin: 'layui-layer-molv',
+                title: "svg1-edit",
+                area: ['1000px', '1000px'],
+                shade: 0,
+                shadeClose: false,
+                content: jQuery("#menumapLayer"),
+                btn: ['确定', '取消'],
+                btn1: function (index) {
 
-                        vm.sifanyClass.modelId=encodeURI(values);
-                       // alert(vm.sifanyClass.modelId)
+                    var values =$("#config-swan-svg").contents().find("#swan-res").val();
+                    console.log($("#config-swan-svg").contents());
 
-                        var url ="sys/sifanyclass/updateModel";
-                       // vm.sifanyClass['type']='map';
+                    console.log("+++++++++++====="+values);
+                    vm.sifanyObj.modelId=encodeURI(values);
+                    // alert(vm.sifanyClass.modelId)
 
-                        $.ajax({
-                            type: "POST",
-                            url: baseURL + url,
-                            contentType: "application/json",
-                            data: JSON.stringify(vm.sifanyClass),
-                            success: function(r){
-                                if(r.code === 0){
-                                    layer.msg("操作成功", {icon: 1});
+                    var url ="sys/sifanyobj/update";
+                    // vm.sifanyClass['type']='map';
 
-                                    refreshNodeTree(nodes,nodes[0].id);
+                    $.ajax({
+                        type: "POST",
+                        url: baseURL + url,
+                        contentType: "application/json",
+                        data: JSON.stringify(vm.sifanyObj),
+                        success: function(r){
+                            if(r.code === 0){
+                                layer.msg("操作成功", {icon: 1});
 
-                                }else{
-                                    layer.alert(r.msg);
+                                refreshNodeTree(nodes,nodes[0].id);
 
-                                }
+                            }else{
+                                layer.alert(r.msg);
+
                             }
-                        });
-                        layer.close(index);
-                        $("#menumapLayer").hide();
-                        // setTimeout(function () {
-                        //
-                        // },1000)
+                        }
+                    });
+                    layer.close(index);
+                    $("#menumapLayer").hide();
+                    // setTimeout(function () {
+                    //
+                    // },1000)
 
-                    },
-                    btn2: function (index) {
-                        layer.close(index);
-                        $("#menumapLayer").hide();
-                    },
-                    end:function(){
-                        $("#menumapLayer").hide();
-                    }
-                });
+                },
+                btn2: function (index) {
+                    layer.close(index);
+                    $("#menumapLayer").hide();
+                },
+                end:function(){
+                    $("#menumapLayer").hide();
+                }
+            });
 
         }
     }

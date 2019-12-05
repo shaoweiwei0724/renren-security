@@ -144,6 +144,7 @@ function tree_click_swan(e,treeId, treeNode) {
     console.log("---------");
     console.log(node);
     selected_id=node[0].id;
+
     localStorage.selectSceneId=selected_id;
     vm.sifanyObj = {id:node[0].id,name:node[0].name,code:node[0].code,icons:node[0].icons,remark:node[0].remark,irconurl:node[0].irconurl,modelId:node[0].modelId };
     localStorage.iconsId = vm.sifanyObj.modelId;
@@ -547,7 +548,11 @@ function reloadTree(){
         // var a = JSON.stringify(r.classLists);?type=base
         // alert(a);
         ztreeMain = $.fn.zTree.init($("#classTreeMain"), setting, r.objEntityLists);
-        var node = ztreeMain.getNodeByParam("id","-1");
+        if(localStorage.selectSceneId){
+            var node = ztreeMain.getNodeByParam("id",localStorage.selectSceneId);
+        }else{
+            var node = ztreeMain.getNodeByParam("id","-1");
+        }
         console.log("node1:", node)
         ztreeMain.selectNode(node);
 
@@ -975,66 +980,45 @@ var vm = new Vue({
                 }
             });
         },
+
+        copyurl:function () {
+            var clipBoardContent="http://localhost:8080/swan-admin/statics/gojs/samples/model_show.html"
+            alert(clipBoardContent);
+            var oInput = document.createElement('input');
+            oInput.value = clipBoardContent;
+            document.body.appendChild(oInput);
+            oInput.select(); // 选择对象
+            document.execCommand("Copy"); // 执行浏览器复制命令
+            oInput.className = 'oInput';
+            oInput.style.display='none';
+            alert('复制成功');
+
+        },
         configmenu:function () {
 
-
-            localStorage.iconsId = vm.sifanyObj.modelId;
-
             var nodes = ztreeMain.getSelectedNodes();
-            layer.open({
-                type: 1,
-                offset: '0',
-                skin: 'layui-layer-molv',
-                title: "svg1-edit",
-                area: ['1000px', '1000px'],
-                shade: 0,
-                shadeClose: false,
-                content: jQuery("#menumapLayer"),
-                btn: ['确定', '取消'],
-                btn1: function (index) {
 
-                    var values =$("#config-swan-svg").contents().find("#swan-res").val();
-                    console.log($("#config-swan-svg").contents());
+            var url ="modules/sys/modelbus2.html";
 
-                    console.log("+++++++++++====="+values);
-                    vm.sifanyObj.modelId=encodeURI(values);
-                    // alert(vm.sifanyClass.modelId)
-
-                    var url ="sys/sifanyobj/update";
-                    // vm.sifanyClass['type']='map';
-
-                    $.ajax({
-                        type: "POST",
-                        url: baseURL + url,
-                        contentType: "application/json",
-                        data: JSON.stringify(vm.sifanyObj),
-                        success: function(r){
-                            if(r.code === 0){
-                                layer.msg("操作成功", {icon: 1});
-
-                                refreshNodeTree(nodes,nodes[0].id);
-
-                            }else{
-                                layer.alert(r.msg);
-
-                            }
-                        }
-                    });
-                    layer.close(index);
-                    $("#menumapLayer").hide();
-                    // setTimeout(function () {
-                    //
-                    // },1000)
-
-                },
-                btn2: function (index) {
-                    layer.close(index);
-                    $("#menumapLayer").hide();
-                },
-                end:function(){
-                    $("#menumapLayer").hide();
-                }
-            });
+            // window.open(baseURL + url)
+            location.href=baseURL + url;
+            // $.ajax({
+            //     type: "POST",
+            //     url: baseURL + url,
+            //     contentType: "application/json",
+            //     data: JSON.stringify(vm.sifanyObj),
+            //     success: function(r){
+            //         if(r.code === 0){
+            //             layer.msg("操作成功", {icon: 1});
+            //             vm.reload();
+            //             // $(document).ready(reloadTree);
+            //             refreshNodeTree(nodes,nodes[0].id);
+            //         }else{
+            //             layer.alert(r.msg);
+            //
+            //         }
+            //     }
+            // });
 
         }
     }
