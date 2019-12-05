@@ -120,13 +120,30 @@ a:hover{
     height: 100%;
 }
 input{
-    width: 150px;
+    /*width: 150px;*/
     height: 50px;
     text-align: center;
     vertical-align: middle;
     border-style: none;
     background-color: transparent;
     background: url(../images/modelbusiness/bg_input.png) no-repeat;
+    background-size: 100% 100%;
+}
+select{
+    width:110px;
+    height:26px;
+    text-align: center;
+    vertical-align: middle;
+    border-style: none;
+    background-color: transparent;
+    background: url(../images/modelbusiness/bg_input.png) no-repeat;
+    background-size: 100% 100%;
+    text-align-last: center;
+}
+option{
+    color: #000;
+    background-color: transparent;
+    /*background: url(../images/modelbusiness/bg_input.png) no-repeat;*/
     background-size: 100% 100%;
 }
 

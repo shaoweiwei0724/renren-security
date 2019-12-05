@@ -32,16 +32,22 @@ html,body{
     margin: 0;
     padding: 0;
 }
-table{
-    margin-top: 12%;
+.main{
+    width: 80%;
+    margin-top: 10%;
     border-collapse: separate;
-    border-spacing: 70px 50px;
+    border-spacing: 70px 10px;
     text-align: center;
+
 }
 a{
     text-decoration: none;
 }
-
+.name{
+    width: 33%;
+    text-align: center;
+    vertical-align: middle;
+}
 .icon{
     height: 70px;
 }
@@ -55,5 +61,28 @@ a{
     font-weight:400;
     color:#fff;
     line-height:10px;
+}
+.menu{
+    width:100%;
+    border-collapse: separate;
+    border-spacing: 40px 30px;
+    text-align: center;
+    background:url(../images/home/menub.png) no-repeat;
+    /*position: fixed;*/
+    background-size: 100% 100%;
+}
+.menuchild{
+    width: 50%;
+}
+.main_title{
+    width: 60%;
+    margin: 0 auto;
+    vertical-align: middle;
+    text-align: center;
+    color:#CDE1ED;
+    font-size: 20px;
+    background:url(../images/home/menu_top.png) no-repeat;
+    /*position: fixed;*/
+    background-size: 100% 100%;
 }
 
