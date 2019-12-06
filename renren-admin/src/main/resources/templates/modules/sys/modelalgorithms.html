@@ -262,13 +262,13 @@
 
     <div class="panel-heading" style="font-size: 20px">{{title}}</div>
     <form class="form-horizontal" style="text-align: center">
-        <table style="width: 60%">
+        <table style="width: 90%">
             <tr>
                 <td>
                     <div class="form-group">
                         <div class="col-sm-2 control-label">设备</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" style="cursor:pointer;" v-model="sifanyClassAttr.classId" @click="classTree" readonly="readonly" placeholder="所属类"/>
+                        <div class="col-sm-10" style="width: 60%">
+                            <input type="text" class="form-control" class="input_data" style="cursor:pointer;margin:  0 auto; height: 40px;width: 60%; background: transparent; background: url(../../statics/images/modelbusiness/bg_input.png) no-repeat;background-size: 100% 100%; border: none;" v-model="sifanyClassAttr.classId" @click="classTree" readonly="readonly" placeholder="所属类"/>
                         </div>
                     </div>
                 </td>
@@ -277,8 +277,8 @@
                 <td>
                     <div class="form-group">
                         <div class="col-sm-2 control-label">属性名</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="sifanyClassAttr.name" placeholder="属性名"/>
+                        <div class="col-sm-10" style="width: 60%">
+                            <input type="text" class="form-control" class="input_data" class="input_data" style="margin:  0 auto; height: 40px;width: 60%; background: transparent; background: url(../../statics/images/modelbusiness/bg_input.png) no-repeat;background-size: 100% 100%; border: none;"  v-model="sifanyClassAttr.name" placeholder="属性名"/>
                         </div>
                     </div>
                 </td>
@@ -287,8 +287,8 @@
                 <td>
                     <div class="form-group" style="display:none">
                         <div class="col-sm-2 control-label">类型id</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" style="cursor:pointer;" v-model="sifanyClassAttr.typeId" @click="typeTree" readonly="readonly" placeholder="属性类型"/>
+                        <div class="col-sm-10" style="width: 60%">
+                            <input type="text" class="form-control" class="input_data" style="cursor:pointer;margin:  0 auto; height: 40px;width: 60%; background: transparent; background: url(../../statics/images/modelbusiness/bg_input.png) no-repeat;background-size: 100% 100%; border: none;" v-model="sifanyClassAttr.typeId" @click="typeTree" readonly="readonly" placeholder="属性类型"/>
                         </div>
                     </div>
                 </td>
@@ -297,8 +297,8 @@
                 <td>
                     <div class="form-group">
                         <div class="col-sm-2 control-label">数据类型</div>
-                        <div class="col-sm-10">
-                            <select class="form-control" v-model="sifanyClassAttr.dataType">
+                        <div class="col-sm-10" style="width: 60%">
+                            <select class="form-control" style="margin:  0 auto; height: 40px;width: 60%; background: transparent; background: url(../../statics/images/modelbusiness/bg_input.png) no-repeat;background-size: 100% 100%; border: none;"  v-model="sifanyClassAttr.dataType">
                                 <option value="">&#45;&#45;请选择&#45;&#45;</option>
                                 <option value="1">int</option>
                                 <option value="2">double</option>
@@ -311,8 +311,8 @@
                 <td>
                     <div class="form-group">
                         <div class="col-sm-2 control-label">单位</div>
-                        <div class="col-sm-10">
-                            <select class="form-control" v-model="sifanyClassAttr.unitId">
+                        <div class="col-sm-10" style="width: 60%">
+                            <select class="form-control" style="margin:  0 auto; height: 40px;width: 60%; background: transparent; background: url(../../statics/images/modelbusiness/bg_input.png) no-repeat;background-size: 100% 100%; border: none;"  v-model="sifanyClassAttr.unitId">
                                 <option value="0">Kg</option>
                                 <option value="1">N</option>
                                 <option value="2">Pa</option>
@@ -326,8 +326,8 @@
                 <td>
                     <div class="form-group">
                         <div class="col-sm-2 control-label">指标种类</div>
-                        <div class="col-sm-10">
-                            <select class="form-control" v-model="sifanyClassAttr.attrstypeId">
+                        <div class="col-sm-10" style="width: 60%">
+                            <select class="form-control" style="margin:  0 auto; height: 40px;width: 60%; background: transparent; background: url(../../statics/images/modelbusiness/bg_input.png) no-repeat;background-size: 100% 100%; border: none;"  v-model="sifanyClassAttr.attrstypeId">
                                 <option value="0">输入类</option>
                                 <option value="1">采集类</option>
                                 <option value="2">计算类</option>
