@@ -119,7 +119,7 @@ function init() {
                 return baseIP+"sys/sifanydataimage/image/"+geo+".svg";
             }
             function textStyle() {
-                return { font: "9pt  Segoe UI,sans-serif", stroke: "#000" };
+                return { font: "9pt  Segoe UI,sans-serif", stroke: "#fff" };
             }
             function makePort(name, spot, output, input) {
                 // the port is basically just a small transparent square
