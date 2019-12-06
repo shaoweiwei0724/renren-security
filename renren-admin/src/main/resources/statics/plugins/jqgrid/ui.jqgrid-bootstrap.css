@@ -84,7 +84,7 @@
 .ui-first-th-ltr { }
 .ui-first-th-rtl { }
 .ui-jqgrid tr.jqg-first-row-header th {
-	height:auto; 
+	height:auto;
 	border-top:none; 
 	padding-bottom: 0;
 	padding-top: 0;
@@ -178,19 +178,21 @@ div.tablediv > .table-bordered {
 	border-top:none; 
 	margin-bottom: 0px
 }
-.ui-jqgrid tr.jqgrow {  
+.ui-jqgrid tr.jqgrow {
 	outline-style: none; 
 }
 .ui-jqgrid tr.jqgroup {  
 	outline-style: none; 
 }
-.ui-jqgrid .ui-jqgrid-btable tbody tr.jqgrow td { 
+.ui-jqgrid .ui-jqgrid-btable tbody tr.jqgrow td {
+
 	overflow: hidden; 
 	white-space: pre; 
 	padding-right: 2px;
+	height: 30px;
 }
 .ui-jqgrid tr.jqgfirstrow  td {
-	height:auto; 
+	height:auto;
 	border-top:none; 
 	padding-bottom: 0;
 	padding-top: 0;

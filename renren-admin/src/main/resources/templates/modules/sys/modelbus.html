@@ -4,13 +4,13 @@
     <title>模型类属性</title>
     <#include "/header.html">
 </head>
-<body>
-<div id="rrapp" v-cloak>
+<body style="background: transparent">
+<div id="rrapp" v-cloak style="width: 100%">
     <div v-show="showList">
 
-<table>
+<table style="width: 100%;">
     <tr>
-        <td width="200px" style="vertical-align:top" ><!-- 选择父类-->
+        <td id="menu" width="20%" style="vertical-align:top" ><!-- 选择父类-->
 
             <div id="classLayerMain" style="padding:10px;">
                 <ul id="classTreeMain" class="ztree"></ul>
@@ -49,5 +49,8 @@
 <script src="${request.contextPath}/statics/js/modules/sys/modelbus.js?_${.now?long}"></script>
 <script src="${request.contextPath}/statics/plugins/layui/lay/dest/layui.all.js"></script>
 <link rel="stylesheet" href="${request.contextPath}/statics/plugins/layui/css/layui.css">
+<link rel="stylesheet" href="${request.contextPath}/statics/css/modelbusiness.css">
+<link rel="stylesheet" href="${request.contextPath}/statics/css/bootstrap_new.min.css">
+
 </body>
 </html>

@@ -19,15 +19,15 @@ function init() {
     console.log(str.classLists);
     var html="";
     for(var i=0;i< str.classLists.length;i++){
-       html+='<div style="background-color:#1E90FF; width: 200px">\n' +
-           '                <div onclick="setTab(\''+(i+1)+'\')"  style="float: top; cursor: pointer;z-index: 99; width: 200px; background-color: #1E90FF;">\n' +
-           '                    <input id="model'+(i+1)+'"  style=" cursor: pointer; font-size: large; width:70%; height:40px;margin-left:30px;background-color:#1E90FF; border:0px; color:#EBEBEB"  value="'+str.classLists[i].name+'"/>\n' +
-           '                    <img id="pic'+(i+1)+'" style=" width:10%;  float: left; margin-top:10px;background-color: #1E90FF;"    src="images/back.png"/>\n' +
+       html+='<div style=" width: 200px">\n' +
+           '                <div onclick="setTab(\''+(i+1)+'\')"  style="float: top; cursor: pointer;z-index: 99; width: 200px;">\n' +
+           '                    <input id="model'+(i+1)+'"  style="background-color: #1E90FF; cursor: pointer; font-size: large; width:70%; height:40px;margin-left:30px; border:0px; color:#fff"  value="'+str.classLists[i].name+'"/>\n' +
+           '                    <img id="pic'+(i+1)+'" style=" width:10%;  float: left; margin-top:10px;"    src="images/back.png"/>\n' +
            '                    <!--                    <a target="_self" href="#" rel="external nofollow" rel="external nofollow" rel="external nofollow" onclick="setTab(\'one\',2,3)" id="one2">锅炉类</a>-->\n' +
-           '                    <div style="width: 200px; height:10px ;border:0px;background-color: #1E90FF; "></div>\n' +
+           '                    <div style="width: 200px; height:10px ;border:0px; "></div>\n' +
            '                </div>\n' +
            '                <center>\n' +
-           '                    <div   style="display: block; width: 200px;" id="m'+(i+1)+'"><div id="myPaletteDiv'+(i+1)+'" style="height:400px;width: 200px;  background-color: whitesmoke; border: solid 1px black"></div></div>\n' +
+           '                    <div   style="display: block; width: 200px;" id="m'+(i+1)+'"><div id="myPaletteDiv'+(i+1)+'" style="height:400px;width: 200px; border: solid 1px black"></div></div>\n' +
            '                </center>\n' +
            '            </div>';
     }
@@ -209,6 +209,7 @@ function init() {
                     font: "14px Lato, sans-serif",
                     textAlign: "center",
                     margin: 3,
+                    stroke:"white",
                     maxSize: new go.Size(100, NaN),
                     alignment: go.Spot.TopCenter,
                     alignmentFocus: go.Spot.BottomCenter

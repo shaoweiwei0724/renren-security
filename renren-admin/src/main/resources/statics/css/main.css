@@ -5,13 +5,16 @@ html { overflow-x:hidden; }
 }
 
 .content-header>.breadcrumb {
+    width: 30%;
     position: relative;
     top: 0;
     right: 0;
     float: none;
+    color: #fff;
     margin-top: 0px;
     padding-left: 10px;
-    background: #ecf0f5;
+    background:url(../images/modelbusiness/menub.png) no-repeat;
+    background-size: 100% 100%;
 }
 
 .main-footer {
@@ -41,7 +44,7 @@ html { overflow-x:hidden; }
 tbody > tr > th {font-weight: normal; }
 .panel .table { margin:0 0; }
 .panel .pagination { margin:0; }
-.panel-default>.panel-heading {background-color: #f5f5f5;}
+.panel-default>.panel-heading {background: url(../images/modelbusiness/bg_input.png) no-repeat;background-size: 100% 100%;text-align: center;width: 60%;height:50px;letter-spacing:10px;margin:0 auto;color: #fff}
 .row{
 	border-top: 1px solid #ddd;
 	margin:0;
