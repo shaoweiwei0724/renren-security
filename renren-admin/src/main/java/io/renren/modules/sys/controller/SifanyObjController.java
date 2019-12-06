@@ -164,20 +164,22 @@ public class SifanyObjController  extends AbstractController{
         sifanyObj.setUpdateTime(time);
         SifanyDataTextEntity sifanyDataTextEntity=new SifanyDataTextEntity();
 
-        if(sifanyObj.getIcons() != null)
-            sifanyDataTextEntity.setContent(URLDecoder.decode(sifanyObj.getIcons(),"utf-8"));
+        if(sifanyObj.getIcons().length() >= 20 && sifanyObj.getIcons() != null && sifanyObj.getIcons() != "") {
+            sifanyDataTextEntity.setContent(URLDecoder.decode(sifanyObj.getIcons(), "utf-8"));
 
-        sifanyDataTextEntity.setCreateTime(new Date().getTime());
-        sifanyDataTextEntity.setUpdateTime(sifanyDataTextEntity.getCreateTime());
-        sifanyDataTextService.save(sifanyDataTextEntity);
-        sifanyObj.setIcons(sifanyDataTextEntity.getId().toString());
+            sifanyDataTextEntity.setCreateTime(new Date().getTime());
+            sifanyDataTextEntity.setUpdateTime(sifanyDataTextEntity.getCreateTime());
+            sifanyDataTextService.save(sifanyDataTextEntity);
+            sifanyObj.setIcons(sifanyDataTextEntity.getId().toString());
+        }
         SifanyDataTextEntity sifanyDataText=new SifanyDataTextEntity();
-        if(sifanyObj.getModelId() != null) {
+        if(sifanyObj.getModelId().length()>= 20 && sifanyObj.getModelId() != null && sifanyObj.getModelId() != "") {
             sifanyDataText.setContent(URLDecoder.decode(sifanyObj.getModelId(), "utf-8"));
             sifanyDataText.setCreateTime(new Date().getTime());
             sifanyDataText.setUpdateTime(sifanyDataText.getCreateTime());
             sifanyDataTextService.save(sifanyDataText);
             sifanyObj.setModelId(sifanyDataText.getId().toString());
+//            sifanyObjService.toObj(sifanyObj);
         }
         sifanyObjService.updateById(sifanyObj);
 

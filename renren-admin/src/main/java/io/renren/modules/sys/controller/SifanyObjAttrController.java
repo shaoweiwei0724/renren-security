@@ -37,8 +37,8 @@ public class SifanyObjAttrController extends AbstractController{
     @RequestMapping("/list")
     @RequiresPermissions("sys:sifanyobjattr:list")
     public R list(@RequestParam Map<String, Object> params){
-        System.out.println("++++++++++++++++++++++++++=");
-        System.out.println(params);
+//        System.out.println("++++++++++++++++++++++++++=");
+//        System.out.println(params);
         PageUtils page = sifanyObjAttrService.queryPage(params);
         return R.ok().put("page", page);
     }

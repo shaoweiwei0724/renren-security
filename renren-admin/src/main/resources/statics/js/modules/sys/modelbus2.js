@@ -887,7 +887,7 @@ var vm = new Vue({
             var nodes = ztreeMain.getSelectedNodes();
 
             var values =$("#config-swan-svg").contents().find("#swan-res").val();
-            console.log($("#config-swan-svg").contents());
+            // console.log($("#config-swan-svg").contents());
 
             console.log("+++++++++++====="+values);
             if(values != null && values != ""){

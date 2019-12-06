@@ -543,6 +543,7 @@ function reloadTree(){
         // var a = JSON.stringify(r.classLists);?type=base
         // alert(a);
         ztreeMain = $.fn.zTree.init($("#classTreeMain"), setting, r.classLists);
+
         var node = ztreeMain.getNodeByParam("id",18);
         ztreeMain.selectNode(node);
 

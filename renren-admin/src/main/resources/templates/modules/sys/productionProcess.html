@@ -26,10 +26,20 @@
 <div id="sample">
 
     <div style="width: 100%; display: flex; justify-content: space-between">
-        <div id="bu" style="background-color:#4682B4;  overflow: auto; z-index:10;height:590px;width: 200px; margin-right: 2px;position: fixed">
-        </div>
+        <table>
+            <tr>
+                <td>
+                    <div id="bu" style="background-color:#4682B4;  overflow: auto; z-index:10;height:590px;width: 200px; margin-right: 2px;">
+                    </div>
+                </td>
+                <td>
+                    <div id="myDiagramDiv" style="flex-grow: 1; height: 620px; border: solid 1px black"></div>
+
+                </td>
+            </tr>
+        </table>
+
         <!--<div id="myPaletteDiv" style="margin-top:100px;z-index:99;height:400px;width: 200px; margin-right: 2px; background-color: whitesmoke; border: solid 1px black;position: fixed"></div>-->
-        <div id="myDiagramDiv" style="flex-grow: 1; height: 620px; border: solid 1px black"></div>
 
     </div>
     <input onclick="save()" value="保存"/>

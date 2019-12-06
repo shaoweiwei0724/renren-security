@@ -22,14 +22,14 @@
                     <#if shiro.hasPermission("sys:sifanyobjattr:save")>
                     <a class="btn btn-primary" @click="configmenu"><i class="fa fa-plus"></i>&nbsp;编辑</a>
                     </#if>
-        <a class="btn btn-primary" @click="copyurl"><i class="fa fa-plus"></i>&nbsp;copy url</a>
+        <a class="btn btn-primary" @click="copyurl"><i class="fa fa-plus"></i>&nbsp;分享组态</a>
                     <div  style="display: none">
                         <input type="text"  v-model="sifanyObj.id"  placeholder="id"/>
                         <input type="text"  v-model="sifanyObj.modelId"  placeholder="图标"/>
                     </div>
                     <div>
                         <iframe src="${request.contextPath}/statics/gojs/samples/model_show.html"
-                                width="900px" id="config-swan-svg0" height="400px"></iframe>
+                                width="1100px" id="config-swan-svg0" height="500px"></iframe>
                     </div>
 
         </td>
@@ -52,6 +52,5 @@
 <link rel="stylesheet" href="${request.contextPath}/statics/css/modelbusiness.css">
 <link rel="stylesheet" href="${request.contextPath}/statics/css/bootstrap_new.min.css">
 <link rel="stylesheet" href="${request.contextPath}/statics/plugins/ztree/css/metroStyle/metroStyle_new.css">
-
 </body>
 </html>

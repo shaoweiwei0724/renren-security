@@ -982,7 +982,7 @@ var vm = new Vue({
         },
 
         copyurl:function () {
-            var clipBoardContent="http://localhost:8080/swan-admin/statics/gojs/samples/model_show.html"
+            var clipBoardContent="http://localhost:8080/swan-admin/statics/gojs/samples/showres.html"
             alert(clipBoardContent);
             var oInput = document.createElement('input');
             oInput.value = clipBoardContent;
