@@ -70,10 +70,10 @@ function init() {
     myDiagram = $(go.Diagram, "myDiagramDiv",  // create a Diagram for the DIV HTML element
         {
             grid: $(go.Panel, "Grid",
-                $(go.Shape, "LineH", { stroke: "lightgray", strokeWidth: 0.5 }),
-                $(go.Shape, "LineH", { stroke: "gray", strokeWidth: 0.5, interval: 10 }),
-                $(go.Shape, "LineV", { stroke: "lightgray", strokeWidth: 0.5 }),
-                $(go.Shape, "LineV", { stroke: "gray", strokeWidth: 0.5, interval: 10 })
+                $(go.Shape, "LineH", { stroke: "rgb(0,0,0,0)" , strokeWidth: 0.5 }),
+                $(go.Shape, "LineH", { stroke: "rgb(0,0,0,0)", strokeWidth: 0.5, interval: 10 }),
+                $(go.Shape, "LineV", { stroke: "rgb(0,0,0,0)", strokeWidth: 0.5 }),
+                $(go.Shape, "LineV", { stroke: "rgb(0,0,0,0)", strokeWidth: 0.5, interval: 10 })
             ),
             // "draggingTool.dragsLink": true,
             "draggingTool.isGridSnapEnabled": true,
