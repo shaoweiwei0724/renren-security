@@ -61,7 +61,7 @@ public class SifanyObjController  extends AbstractController{
      * select
      */
     @RequestMapping("/select/{id}")
-      public R select(@PathVariable("id") Long id){
+    public R select(@PathVariable("id") Long id){
         List<SifanyObjEntity> objEntityList = getChilds(id);
 
         return R.ok().put("objEntityList", objEntityList);
@@ -80,7 +80,7 @@ public class SifanyObjController  extends AbstractController{
         sifanyObjEntity.setName("场景实例");
         sifanyObjEntity.setId(-1l);
         objEntityLists.add(sifanyObjEntity);
-        System.out.println(objEntityLists);
+//        System.out.println(objEntityLists);
         for(SifanyObjEntity obj : objEntityLists){
             if(obj.getParentId() == null)
                 obj.setParentId(sifanyObjEntity.getId());
@@ -162,30 +162,52 @@ public class SifanyObjController  extends AbstractController{
         ValidatorUtils.validateEntity(sifanyObj);
         Long time = System.currentTimeMillis();
         sifanyObj.setUpdateTime(time);
-        SifanyDataTextEntity sifanyDataTextEntity=new SifanyDataTextEntity();
+
+        SifanyObjEntity sifanyObjEntity = sifanyObjService.getById(sifanyObj.getId());
 
         if(sifanyObj.getIcons().length() >= 20 && sifanyObj.getIcons() != null && sifanyObj.getIcons() != "") {
-            sifanyDataTextEntity.setContent(URLDecoder.decode(sifanyObj.getIcons(), "utf-8"));
+            SifanyDataTextEntity sifanyDataTextEntity=new SifanyDataTextEntity();
+            SifanyDataTextEntity sifanyDataTextEntityIcons = sifanyDataTextService.getById(sifanyObjEntity.getIcons());
+            if(sifanyDataTextEntityIcons == null) {
+                sifanyDataTextEntity.setContent(URLDecoder.decode(sifanyObj.getIcons(), "utf-8"));
 
-            sifanyDataTextEntity.setCreateTime(new Date().getTime());
-            sifanyDataTextEntity.setUpdateTime(sifanyDataTextEntity.getCreateTime());
-            sifanyDataTextService.save(sifanyDataTextEntity);
-            sifanyObj.setIcons(sifanyDataTextEntity.getId().toString());
+                sifanyDataTextEntity.setCreateTime(new Date().getTime());
+                sifanyDataTextEntity.setUpdateTime(sifanyDataTextEntity.getCreateTime());
+                sifanyDataTextService.save(sifanyDataTextEntity);
+                sifanyObj.setIcons(sifanyDataTextEntity.getId().toString());
+            }else{
+                sifanyDataTextEntityIcons.setContent(URLDecoder.decode(sifanyObj.getIcons(), "utf-8"));
+                sifanyDataTextEntityIcons.setUpdateTime(new Date().getTime());
+                sifanyDataTextService.updateById(sifanyDataTextEntityIcons);
+                sifanyObj.setIcons(sifanyDataTextEntityIcons.getId().toString());
+            }
         }
-        SifanyDataTextEntity sifanyDataText=new SifanyDataTextEntity();
+
         if(sifanyObj.getModelId().length()>= 20 && sifanyObj.getModelId() != null && sifanyObj.getModelId() != "") {
-            sifanyDataText.setContent(URLDecoder.decode(sifanyObj.getModelId(), "utf-8"));
-            sifanyDataText.setCreateTime(new Date().getTime());
-            sifanyDataText.setUpdateTime(sifanyDataText.getCreateTime());
-            sifanyDataTextService.save(sifanyDataText);
-            sifanyObj.setModelId(sifanyDataText.getId().toString());
+
+            SifanyDataTextEntity sifanyDataTextEntityModel = sifanyDataTextService.getById(sifanyObjEntity.getModelId());
+            if(sifanyDataTextEntityModel == null) {
+                SifanyDataTextEntity sifanyDataText=new SifanyDataTextEntity();
+                sifanyDataText.setContent(URLDecoder.decode(sifanyObj.getModelId(), "utf-8"));
+                sifanyDataText.setCreateTime(new Date().getTime());
+                sifanyDataText.setUpdateTime(sifanyDataText.getCreateTime());
+                sifanyDataTextService.save(sifanyDataText);
+                sifanyObj.setModelId(sifanyDataText.getId().toString());
+            }else{
+                sifanyDataTextEntityModel.setContent(URLDecoder.decode(sifanyObj.getModelId(), "utf-8"));
+                sifanyDataTextEntityModel.setUpdateTime(new Date().getTime());
+                sifanyDataTextService.updateById(sifanyDataTextEntityModel);
+                sifanyObj.setModelId(sifanyDataTextEntityModel.getId().toString());
+            }
+
+            sifanyObjService.toObj(sifanyObj);
 //            sifanyObjService.toObj(sifanyObj);
         }
         sifanyObjService.updateById(sifanyObj);
 
-        if(sifanyObj.getModelId() != null){
-            sifanyObjService.toObj(sifanyObj);
-        }
+//        if(sifanyObj.getModelId() != null){
+//            sifanyObjService.toObj(sifanyObj);
+//        }
 
         return R.ok();
 

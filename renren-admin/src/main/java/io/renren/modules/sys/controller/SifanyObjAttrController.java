@@ -60,8 +60,8 @@ public class SifanyObjAttrController extends AbstractController{
     @RequiresPermissions("sys:sifanyobjattr:info")
     public R info(@PathVariable("id") Long id){
         SifanyObjAttrEntity sifanyObjAttr = sifanyObjAttrService.getById(id);
-        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&7");
-        System.out.println(sifanyObjAttr);
+//        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&7");
+//        System.out.println(sifanyObjAttr);
 
         return R.ok().put("sifanyObjAttr", sifanyObjAttr);
     }
@@ -77,8 +77,8 @@ public class SifanyObjAttrController extends AbstractController{
         sifanyObjAttr.setUpdateTime(time);
         sifanyObjAttr.setUserId(getUserId());
         sifanyObjAttrService.save(sifanyObjAttr);
-        System.out.println("attr_save_=====================================");
-        System.out.println(sifanyObjAttr);
+//        System.out.println("attr_save_=====================================");
+//        System.out.println(sifanyObjAttr);
 
         return R.ok();
     }
@@ -94,8 +94,8 @@ public class SifanyObjAttrController extends AbstractController{
         ValidatorUtils.validateEntity(sifanyObjAttr);
         sifanyObjAttrService.updateById(sifanyObjAttr);
 
-        System.out.println("attr_update_=====================================");
-        System.out.println(sifanyObjAttr);
+//        System.out.println("attr_update_=====================================");
+//        System.out.println(sifanyObjAttr);
 
         return R.ok();
     }

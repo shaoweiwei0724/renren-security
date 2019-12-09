@@ -562,13 +562,13 @@ function refreshNodeTree(nodes,id){
         // alert(a);
         ztreeMain = $.fn.zTree.init($("#classTreeMain"), setting, r.classLists);
        var node = ztreeMain.getNodeByParam("id",id);
-
         ztreeMain.selectNode(node);
 
         if(node){
             //触发默认数据的click事件
             $("#"+node.tId+"_a").dblclick();//触发ztree点击事件
-            console.log(node);
+            // console.log("node================================");
+            // console.log(node);
             vm.sifanyClass = {id:node.id,name:node.name,code:node.code,icons:node.icons,remark:node.remark,irconurl:node.irconurl,modelId:node.modelId };
         }
         // vm.sifanyClass.parentName = node.name;
@@ -880,6 +880,7 @@ var vm = new Vue({
                         if(r.code === 0){
                             layer.msg("操作成功", {icon: 1});
                             vm.reload();
+
                            // $(document).ready(reloadTree);
                             refreshNodeTree(nodes,nodes[0].id);
                         }else{

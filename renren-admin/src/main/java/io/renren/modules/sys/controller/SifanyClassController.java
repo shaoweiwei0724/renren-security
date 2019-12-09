@@ -16,6 +16,7 @@ import io.renren.modules.sys.service.SifanyDataImageService;
 import io.renren.modules.sys.service.SifanyDataTextService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.web.bind.annotation.*;
 
 import io.renren.modules.sys.service.SifanyClassService;
@@ -161,23 +162,41 @@ public class SifanyClassController extends AbstractController{
         ValidatorUtils.validateEntity(sifanyClass);
         Long time = System.currentTimeMillis();
         sifanyClass.setUpdateTime(time);
-
+        SifanyClassEntity sifanyClassEntity =  sifanyClassService.getById(sifanyClass.getId());
+        //图标不为空且不是数字，则更新图标
         if(sifanyClass.getIcons().length() >= 20 && sifanyClass.getIcons() != null && sifanyClass.getIcons() != ""){
-            SifanyDataTextEntity sifanyDataTextEntity=new SifanyDataTextEntity();
-            sifanyDataTextEntity.setContent(URLDecoder.decode(sifanyClass.getIcons(),"utf-8"));
-            sifanyDataTextEntity.setCreateTime(new Date().getTime());
-            sifanyDataTextEntity.setUpdateTime(sifanyDataTextEntity.getCreateTime());
-            sifanyDataTextService.save(sifanyDataTextEntity);
-            sifanyClass.setIcons(sifanyDataTextEntity.getId().toString());
+            SifanyDataTextEntity sifanyDataText = sifanyDataTextService.getById(sifanyClassEntity.getIcons());
+            if(sifanyDataText == null) {//之前不存在图标，创建
+                SifanyDataTextEntity sifanyDataTextEntity = new SifanyDataTextEntity();
+                sifanyDataTextEntity.setContent(URLDecoder.decode(sifanyClass.getIcons(), "utf-8"));
+                sifanyDataTextEntity.setCreateTime(new Date().getTime());
+                sifanyDataTextEntity.setUpdateTime(sifanyDataTextEntity.getCreateTime());
+                sifanyDataTextService.save(sifanyDataTextEntity);
+                sifanyClass.setIcons(sifanyDataTextEntity.getId().toString());
+            }else{//之前有图标，更新
+                sifanyDataText.setContent(URLDecoder.decode(sifanyClass.getIcons(), "utf-8"));
+                sifanyDataText.setUpdateTime(new Date().getTime());
+                sifanyDataTextService.updateById(sifanyDataText);
+                sifanyClass.setIcons(sifanyDataText.getId().toString());
+            }
         }
 
-        if(sifanyClass.getModelId() != null) {
-            SifanyDataTextEntity sifanyDataText=new SifanyDataTextEntity();
-            sifanyDataText.setContent(URLDecoder.decode(sifanyClass.getModelId(), "utf-8"));
-            sifanyDataText.setCreateTime(new Date().getTime());
-            sifanyDataText.setUpdateTime(sifanyDataText.getCreateTime());
-            sifanyDataTextService.save(sifanyDataText);
-            sifanyClass.setModelId(sifanyDataText.getId().toString());
+
+        if(sifanyClass.getModelId() != null) { //更新组态
+            SifanyDataTextEntity sifanyDataTextModel = sifanyDataTextService.getById(sifanyClassEntity.getModelId());
+            if(sifanyDataTextModel == null) {
+                SifanyDataTextEntity sifanyDataText = new SifanyDataTextEntity();
+                sifanyDataText.setContent(URLDecoder.decode(sifanyClass.getModelId(), "utf-8"));
+                sifanyDataText.setCreateTime(new Date().getTime());
+                sifanyDataText.setUpdateTime(sifanyDataText.getCreateTime());
+                sifanyDataTextService.save(sifanyDataText);
+                sifanyClass.setModelId(sifanyDataText.getId().toString());
+            }else{
+                sifanyDataTextModel.setContent(URLDecoder.decode(sifanyClass.getModelId(), "utf-8"));
+                sifanyDataTextModel.setUpdateTime(new Date().getTime());
+                sifanyDataTextService.updateById(sifanyDataTextModel);
+                sifanyClass.setModelId(sifanyDataTextModel.getId().toString());
+            }
         }
 
         sifanyClassService.updateById(sifanyClass);
