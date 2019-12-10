@@ -120,8 +120,6 @@ a:hover{
     height: 100%;
 }
 input{
-    /*width: 150px;*/
-    /*height: 50px;*/
     text-align: center;
     vertical-align: middle;
     border-style: none;
@@ -142,9 +140,6 @@ select{
 }
 option{
     color: #000;
-    background-color: transparent;
-    /*background: url(../images/modelbusiness/bg_input.png) no-repeat;*/
-    background-size: 100% 100%;
 }
 .input_data{
     height: 40px;
@@ -155,26 +150,7 @@ option{
     border-spacing: 30px 30px;
     font-size: 16px;
 }
-#btnSaveOrUpdate,#cancel{
-    width: 70px;
-    text-align: center;
-    vertical-align: middle;
-    border-style: none;
-    background-color: transparent;
-    background: url(../images/modelbusiness/menu_top.png) no-repeat;
-    background-size: 100% 100%;
 
-}
-#btnSaveOrUpdate:hover,#cancel:hover{
-    width: 70px;
-    text-align: center;
-    vertical-align: middle;
-    border-style: none;
-    background-color: transparent;
-    background: url(../images/modelbusiness/bg2.png) no-repeat;
-    background-size: 100% 100%;
-
-}
 .form-control{
     width:180px;
     height:40px;

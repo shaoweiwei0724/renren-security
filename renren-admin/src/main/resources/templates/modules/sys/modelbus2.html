@@ -233,93 +233,63 @@
 </table>
 </div>
 
-<div v-show="!showList" class="panel panel-default" style="width: 500px; text-align: center">
+<div v-show="!showList" class="panel panel-default" >
 
-    <div class="panel-heading"  style="font-size: 20px">{{title}}</div>
-    <form class="form-horizontal" style="text-align: center">
-        <table style="width: 90%">
-            <tr>
-                <td>
-                    <div class="form-group">
-                        <div class="col-sm-2 control-label">设备</div>
-                        <div class="col-sm-10" style="width: 60%">
-                            <input type="text" class="input_data"  class="form-control"  style="cursor:pointer;" v-model="sifanyObjAttr.objId" @click="classTree" readonly="readonly" placeholder="所属实例"/>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="form-group">
-                        <div class="col-sm-2 control-label">属性名</div>
-                        <div class="col-sm-10" style="width: 60%">
-                            <input type="text" class="input_data"  class="form-control" v-model="sifanyObjAttr.name" placeholder="属性名"/>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="form-group" style="display:none">
-                        <div class="col-sm-2 control-label">类型id</div>
-                        <div class="col-sm-10" style="width: 60%">
-                            <input type="text" class="input_data"  class="form-control" style="cursor:pointer;" v-model="sifanyObjAttr.typeId" @click="typeTree" readonly="readonly" placeholder="属性类型"/>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="form-group">
-                        <div class="col-sm-2 control-label">数据类型</div>
-                        <div class="col-sm-10" style="width: 60%">
-                            <select class="form-control" style="margin:  0 auto; height: 40px;width: 60%; background: transparent; background: url(../../statics/images/modelbusiness/bg_input.png) no-repeat;background-size: 100% 100%; border: none;" v-model="sifanyObjAttr.dataType">
-                                <option value="">&#45;&#45;请选择&#45;&#45;</option>
-                                <option value="1">int</option>
-                                <option value="2">double</option>
-                            </select>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="form-group">
-                        <div class="col-sm-2 control-label">单位</div>
-                        <div class="col-sm-10" style="width: 60%">
-                            <select class="form-control" style="margin:  0 auto; height: 40px;width: 60%; background: transparent; background: url(../../statics/images/modelbusiness/bg_input.png) no-repeat;background-size: 100% 100%; border: none;"  v-model="sifanyObjAttr.unitId">
-                                <option value="0">Kg</option>
-                                <option value="1">N</option>
-                                <option value="2">Pa</option>
-                            </select>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="form-group">
-                        <div class="col-sm-2 control-label">指标种类</div>
-                        <div class="col-sm-10"   style="width: 60%; ">
-                            <select class="form-control"  style="margin:  0 auto; height: 40px;width: 60%; background: transparent; background: url(../../statics/images/modelbusiness/bg_input.png) no-repeat;background-size: 100% 100%; border: none;"   v-model="sifanyObjAttr.attrstypeId">
-                                <option value="0">输入类</option>
-                                <option value="1">采集类</option>
-                                <option value="2">计算类</option>
-                            </select>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="form-group">
-                        <div class="col-sm-2 control-label"></div>
-                        <input type="button" class="btn btn-primary" id="btnSaveOrUpdate" data-loading-text="保存中..." @click="saveOrUpdate" value="确定"/>
-                        &nbsp;&nbsp;<input type="button" class="btn btn-warning" id="cancel" @click="reload" value="返回"/>
-                    </div>
-                </td>
-            </tr>
-        </table>
+    <div class="panel-heading">{{title}}</div>
+    <form class="form-horizontal" >
+        <div class="form-group">
+            <div class="col-sm-2 control-label">设备</div>
+            <div class="col-sm-10">
+                <input type="text" class="form-control"  style="cursor:pointer;" v-model="sifanyObjAttr.objId" @click="classTree" readonly="readonly" placeholder="所属实例"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">属性名</div>
+            <div class="col-sm-10" >
+                <input type="text"   class="form-control" v-model="sifanyObjAttr.name" placeholder="属性名"/>
+            </div>
+        </div>
+        <div class="form-group" style="display:none">
+            <div class="col-sm-2 control-label">类型id</div>
+            <div class="col-sm-10">
+                <input type="text"   class="form-control" style="cursor:pointer;" v-model="sifanyObjAttr.typeId" @click="typeTree" readonly="readonly" placeholder="属性类型"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">数据类型</div>
+            <div class="col-sm-10">
+                <select class="form-control" v-model="sifanyObjAttr.dataType">
+                    <option value="">&#45;&#45;请选择&#45;&#45;</option>
+                    <option value="1">int</option>
+                    <option value="2">double</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">单位</div>
+            <div class="col-sm-10" >
+                <select class="form-control"   v-model="sifanyObjAttr.unitId">
+                    <option value="0">Kg</option>
+                    <option value="1">N</option>
+                    <option value="2">Pa</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">指标种类</div>
+            <div class="col-sm-10"  >
+                <select class="form-control"    v-model="sifanyObjAttr.attrstypeId">
+                    <option value="0">输入类</option>
+                    <option value="1">采集类</option>
+                    <option value="2">计算类</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label"></div>
+            <input type="button" class="btn btn-primary" id="btnSaveOrUpdate" data-loading-text="保存中..." @click="saveOrUpdate" value="确定"/>
+            &nbsp;&nbsp;<input type="button" class="btn btn-warning" id="cancel" @click="reload" value="返回"/>
+        </div>
     </form>
 
 </div>
@@ -369,8 +339,6 @@
 <script src="${request.contextPath}/statics/plugins/layui/lay/dest/layui.all.js"></script>
 <link rel="stylesheet" href="${request.contextPath}/statics/plugins/layui/css/layui.css">
 <link rel="stylesheet" href="${request.contextPath}/statics/css/modelbusiness.css">
-<link rel="stylesheet" href="${request.contextPath}/statics/css/bootstrap_new.min.css">
-<link rel="stylesheet" href="${request.contextPath}/statics/plugins/ztree/css/metroStyle/metroStyle_new.css">
 
 </body>
 </html>

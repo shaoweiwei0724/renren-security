@@ -10,17 +10,18 @@
 
 
 </head>
-<body>
+<body style="background: transparent;color: #fff">
 
 
 <div id="rrapp" v-cloak>
     <div v-show="showList">
         <div class="grid-btn">
             <div class="form-group col-sm-2">
-                <input type="text" class="form-control" v-model="q.key" @keyup.enter="query" placeholder="脚本ID">
+                <input  id="search"  class="input_data" type="text" class="form-control" v-model="q.key" @keyup.enter="query" placeholder="脚本ID">
+                <a class="btn btn-primary" @click="query">查询</a>
             </div>
 
-            <a class="btn btn-primary" @click="query">查询</a>
+
 
 
         <#if shiro.hasPermission("sys:swanrunentity:update")>
@@ -35,7 +36,7 @@
 
 <div v-show="!showList" class="panel panel-default">
     <div class="panel-heading">{{title}}</div>
-    <form class="form-horizontal">
+    <form class="form-horizontal" >
         <div class="form-group">
             <div class="col-sm-2 control-label">操作人</div>
             <div class="col-sm-10">
@@ -86,7 +87,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-2 control-label">脚本输出</div>
-            <div class="col-sm-10">
+            <div class="col-sm-10" >
                 <input type="text" class="form-control" v-model="swanRunEntity.pyOutput" placeholder="脚本输出" @click="menuTree"/>
             </div>
         </div>
@@ -192,7 +193,7 @@
 
 
 
-
+<link rel="stylesheet" href="${request.contextPath}/statics/css/user.css">
 <script src="${request.contextPath}/statics/js/modules/sys/swanrunentity.js?_${.now?long}"></script>
 </body>
 </html>

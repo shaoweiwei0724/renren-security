@@ -45,7 +45,7 @@ html { overflow-x:hidden; }
 tbody > tr > th {font-weight: normal; }
 .panel .table { margin:0 0; }
 .panel .pagination { margin:0; }
-.panel-default>.panel-heading {background: url(../images/modelbusiness/bg_input.png) no-repeat;background-size: 100% 100%;text-align: center;width: 60%;height:50px;letter-spacing:10px;margin:0 auto;color: #fff}
+.panel-default>.panel-heading {font-size:20px;background: url(../images/modelbusiness/bg_input.png) no-repeat;background-size: 100% 100%;text-align: center;width: 60%;height:50px;letter-spacing:10px;margin:0 auto;color: #fff}
 .row{
 	border-top: 1px solid #ddd;
 	margin:0;

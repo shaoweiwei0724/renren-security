@@ -1,0 +1,18 @@
+body{
+    background: transparent;
+    color: #fff;
+}
+.input_data{
+    width: 35%;
+    border-style: none;
+    background: url(../images/modelbusiness/bg_input.png) no-repeat;
+    background-size: 100% 100%;
+    text-align: center;
+    vertical-align: middle;
+}
+#search{
+    height: 40px;
+}
+option{
+    color: #000;
+}
