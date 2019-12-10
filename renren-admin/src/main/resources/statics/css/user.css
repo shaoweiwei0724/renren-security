@@ -16,3 +16,7 @@ body{
 option{
     color: #000;
 }
+#menu{
+    background:url(../images/modelbusiness/menub.png) no-repeat;
+    background-size: 100% 100%;
+}
