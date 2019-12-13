@@ -8,15 +8,15 @@
 <div id="rrapp" v-cloak>
     <div v-show="showList">
 
-        <table>
+        <table style="width: 100%;">
             <tr>
-                <td id="menu" width="200px" style="vertical-align:top" ><!-- 选择父类-->
+                <td id="menu" width="20%" style="vertical-align:top" ><!-- 选择父类-->
 
                     <div id="classLayerMain" style="padding:10px;">
                         <ul id="classTreeMain" class="ztree"></ul>
                     </div>
                 </td>
-                <td width="1000px"  >
+                <td width="80%"  >
 
                     <div  class="layui-tab layui-tab-card">
                         <ul class="layui-tab-title">
@@ -89,7 +89,7 @@
     <div id="swan-svg-div">
 
         <iframe src="${request.contextPath}/statics/gojs/samples/productionProcess.html"
-                width="900px" id="config-swan-svg" height="400px"></iframe>
+                width="100%"  id="config-swan-svg" height="400px"></iframe>
     </div>
 
 </div>
@@ -323,18 +323,18 @@
 <div id="menuLayer" style="display: none;padding:10px;">
 
     <iframe src="${request.contextPath}/statics/svgedit-5.0.0/editor/svg-editor.html?extensions="
-            width="1000px" id="swan-svg" height="1000px"></iframe>
+            width="100%" id="swan-svg" height="1000px"></iframe>
 </div>
 <div id="menumapLayer" style="display: none;padding:10px;">
 
     <iframe src="${request.contextPath}/statics/gojs/samples/productionProcess.html"
-            width="1000px" id="config-swan-svg" height="800px"></iframe>
+            width="100%" id="config-swan-svg" height="800px"></iframe>
 </div>
 
 <div id="editProject" style="display: none;padding:10px;">
 
     <iframe src="http://172.72.101.162:8089/home/project_iframe"
-            width="1000px" id="editProject-info" height="800px"></iframe>
+            width="100%" id="editProject-info" height="800px"></iframe>
 </div>
 <script src="${request.contextPath}/statics/js/modules/sys/modelbus2.js?_${.now?long}"></script>
 <script src="${request.contextPath}/statics/plugins/layui/lay/dest/layui.all.js"></script>

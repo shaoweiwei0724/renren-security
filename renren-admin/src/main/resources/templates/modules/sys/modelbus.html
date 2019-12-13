@@ -5,7 +5,7 @@
     <#include "/header.html">
 </head>
 <body style="background: transparent">
-<div id="rrapp" v-cloak style="width: 100%">
+<div id="rrapp" v-cloak>
     <div v-show="showList">
 
 <table style="width: 100%;">
@@ -17,7 +17,7 @@
             </div>
         </td>
 
-        <td>
+        <td style="width: 80%">
 
                     <#if shiro.hasPermission("sys:sifanyobjattr:save")>
                     <a class="btn btn-primary" @click="configmenu"><i class="fa fa-plus"></i>&nbsp;编辑</a>
@@ -29,7 +29,7 @@
                     </div>
                     <div>
                         <iframe src="${request.contextPath}/statics/gojs/samples/show.html"
-                                width="1100px" id="config-swan-svg0" height="500px"></iframe>
+                                width="100%" id="config-swan-svg0" height="500px"></iframe>
                     </div>
 
         </td>
