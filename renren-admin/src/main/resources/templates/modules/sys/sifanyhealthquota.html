@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>健康指标</title>
+		<#include "/header.html">
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+			<#if shiro.hasPermission("sys:sifanyhealthquota:save")>
+            <a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+			</#if>
+			<#if shiro.hasPermission("sys:sifanyhealthquota:update")>
+            <a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+			</#if>
+			<#if shiro.hasPermission("sys:sifanyhealthquota:delete")>
+            <a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+			</#if>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <form class="form-horizontal">
+														                    <div class="form-group">
+                        <div class="col-sm-2 control-label">设备类</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="sifanyHealthQuota.classId" placeholder="设备类"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">编码</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="sifanyHealthQuota.code" placeholder="编码"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">名称</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="sifanyHealthQuota.name" placeholder="名称"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">监控周期</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="sifanyHealthQuota.cycle" placeholder="监控周期"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">优先级</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="sifanyHealthQuota.priority" placeholder="优先级"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">监控类型</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="sifanyHealthQuota.type" placeholder="监控类型"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">备注</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="sifanyHealthQuota.mark" placeholder="备注"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">公式</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="sifanyHealthQuota.formula" placeholder="公式"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">创建时间</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="sifanyHealthQuota.createTime" placeholder="创建时间"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">更新时间</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="sifanyHealthQuota.updateTime" placeholder="更新时间"/>
+                        </div>
+                    </div>
+							            <div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <input type="button" class="btn btn-primary" id="btnSaveOrUpdate" data-loading-text="保存中..." @click="saveOrUpdate" value="确定"/>
+                &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="${request.contextPath}/statics/js/modules/sys/sifanyhealthquota.js?_${.now?long}"></script>
+</body>
+</html>

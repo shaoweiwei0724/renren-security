@@ -7,15 +7,15 @@
 <body style="background: transparent">
 <div id="rrapp" v-cloak>
     <div v-show="showList">
-<table>
+<table style="width: 100%;">
     <tr>
-        <td id="menu"  width="200px" style="vertical-align:top" ><!-- 选择父类-->
+        <td id="menu"  width="20%" style="vertical-align:top" ><!-- 选择父类-->
 
             <div id="classLayerMain" style="padding:10px;">
                 <ul id="classTreeMain" class="ztree"></ul>
             </div>
         </td>
-        <td width="1000px"  >
+        <td width="80%"  >
 
             <div  class="layui-tab layui-tab-card">
                 <ul class="layui-tab-title">
@@ -79,7 +79,7 @@
                         <div>
 
                             <iframe src="${request.contextPath}/statics/gojs/samples/productionProcess.html"
-                                    width="900px" id="config-swan-svg" height="400px"></iframe>
+                                    style="width: 100%;" id="config-swan-svg" height="400px"></iframe>
                         </div>
 
                     <div  style="display: none">

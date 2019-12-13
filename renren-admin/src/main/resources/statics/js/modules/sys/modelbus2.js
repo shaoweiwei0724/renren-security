@@ -957,6 +957,7 @@ var vm = new Vue({
                 algorithmName = vm.sifanyObjAttr.name + vm.sifanyObjAttr.id + vm.sifanyObjAttr.objId;
                 vm.sifanyObjAttr.algorithmName = algorithmName;
             }
+            $("#editProject-info").show();
 
             var iframe = document.getElementById('editProject-info');
             iframe.onload = function(){

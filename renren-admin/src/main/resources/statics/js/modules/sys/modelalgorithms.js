@@ -897,6 +897,7 @@ var vm = new Vue({
             iframe.onload = function(){
                 iframe.contentWindow.postMessage('耗电量计算','*');
             }
+            $("#editProject-info").show();
             layer.open({
                 type: 1,
                 offset: '0',
