@@ -57,4 +57,6 @@ public class SifanyHealthOmenEntity implements Serializable {
 	 */
 	private Long updateTime;
 
+	private Long attrId;
+
 }
