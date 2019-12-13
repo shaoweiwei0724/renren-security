@@ -94,7 +94,7 @@ function init() {
             initialAutoScale: go.Diagram.Uniform,  // scale to show all of the contents
             "ChangedSelection": onSelectionChanged, // view additional information
             scale:0.7,
-            minScale:0.1,
+            minScale:0.6,
             maxScale:1.5,
         });
 
