@@ -93,7 +93,7 @@ function init() {
             "toolManager.hoverDelay": 10,  // how quickly tooltips are shown
             initialAutoScale: go.Diagram.Uniform,  // scale to show all of the contents
             "ChangedSelection": onSelectionChanged, // view additional information
-            scale:0.1,
+            scale:0.7,
             minScale:0.1,
             maxScale:1.5,
         });
