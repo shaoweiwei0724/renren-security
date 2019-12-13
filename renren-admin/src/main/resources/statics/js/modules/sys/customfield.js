@@ -6,6 +6,7 @@ $(function () {
 			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
 			{ label: '名称', name: 'name', index: 'name', width: 80 },
 			{ label: '排序', name: 'sort', index: 'sort', width: 80 },
+            { label: '表单id', name: 'fieldId', index: 'field_id', width: 80 },
         ],
 		viewrecords: true,
         height: 385,
