@@ -51,6 +51,19 @@ public class SysPageController {
 	}
 
 
+
+	@RequestMapping(value = {"/", "sifanycharts.html"})
+	public String sifanycharts(){
+		return "sifanycharts";
+	}
+
+
+	@RequestMapping(value = {"/", "sifanyhistory.html"})
+	public String sifanyhistory(){
+		return "sifanyhistory";
+	}
+
+
 	@RequestMapping("index1.html")
 	public String index1(){
 		return "index1";
