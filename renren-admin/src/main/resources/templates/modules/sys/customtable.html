@@ -90,14 +90,10 @@
                 <div class="col-sm-2 control-label">排序</div>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" v-model="customfield.sort" placeholder="排序"/>
+                    <input type="hidden" class="form-control" v-model="customfield.fieldId" placeholder="表单id"/>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">表单id</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="customfield.fieldId" placeholder="表单id"/>
-                </div>
-            </div>
+
             <div class="form-group">
                 <div class="col-sm-2 control-label"></div>
                 <input type="button" class="btn btn-primary" id="btnSaveOrUpdatefield" data-loading-text="保存中..." @click="saveOrUpdatefield" value="确定"/>

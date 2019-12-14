@@ -7,19 +7,32 @@
 <body>
 <div id="rrapp" v-cloak>
     <div v-show="showList">
-        <div class="grid-btn">
-			<#if shiro.hasPermission("sys:customtablebase:save")>
-            <a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
-			</#if>
-			<#if shiro.hasPermission("sys:customtablebase:update")>
-            <a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
-			</#if>
-			<#if shiro.hasPermission("sys:customtablebase:delete")>
-            <a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
-			</#if>
-        </div>
-        <table id="jqGrid"></table>
-        <div id="jqGridPager"></div>
+        <table style="width: 100%;">
+            <tr>
+                <td id="menu" width="20%" style="vertical-align:top" ><!-- 选择父类-->
+
+                    <div id="classLayerMain" style="padding:10px;">
+                        <ul id="classTreeMain" class="ztree"></ul>
+                    </div>
+                </td>
+                <td width="80%"  >
+                    <div class="grid-btn">
+                        <#if shiro.hasPermission("sys:customtablebase:save")>
+                        <a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+                        </#if>
+                        <#if shiro.hasPermission("sys:customtablebase:update")>
+                        <a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+                        </#if>
+                        <#if shiro.hasPermission("sys:customtablebase:delete")>
+                        <a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+                        </#if>
+                    </div>
+                        <table id="jqGrid"></table>
+                        <div id="jqGridPager"></div>
+                 </td>
+            </div>
+        </table>
+
     </div>
 
     <div v-show="!showList" class="panel panel-default">

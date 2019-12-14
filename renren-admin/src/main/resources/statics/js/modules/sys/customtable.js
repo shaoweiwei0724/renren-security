@@ -1,48 +1,4 @@
 $(function () {
-    $("#jqGrid").jqGrid({
-        url: baseURL + 'sys/customtable/list',
-        datatype: "json",
-        colModel: [			
-			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
-			{ label: '', name: 'code', index: 'code', width: 80 }, 			
-			{ label: '', name: 'name', index: 'name', width: 80 }			
-        ],
-		viewrecords: true,
-        height: 385,
-        rowNum: 10,
-		rowList : [10,30,50],
-        rownumbers: true, 
-        rownumWidth: 25, 
-        autowidth:true,
-        multiselect: true,
-        pager: "#jqGridPager",
-        jsonReader : {
-            root: "page.list",
-            page: "page.currPage",
-            total: "page.totalPage",
-            records: "page.totalCount"
-        },
-        prmNames : {
-            page:"page", 
-            rows:"limit", 
-            order: "order"
-        },
-        gridComplete:function(){
-        	//隐藏grid底部滚动条
-        	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" }); 
-        },
-        onSelectRow: function (row) {
-
-            var rowData = $("#jqGrid").getRowData(row);
-            var selected_id=rowData.id;
-            console.log(selected_id);
-            var page = $("#jqGrid1").jqGrid('getGridParam','page');
-            $("#jqGrid1").jqGrid('setGridParam',{
-                page:page,
-                postData:{'selected_id':selected_id},
-            },true).trigger("reloadGrid");
-        }
-    });
     $("#jqGrid1").jqGrid({
         url: baseURL + 'sys/customfield/list',
         datatype: "json",
@@ -77,6 +33,61 @@ $(function () {
             $("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
         }
     });
+    $("#jqGrid").jqGrid({
+        url: baseURL + 'sys/customtable/list',
+        datatype: "json",
+        colModel: [			
+			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
+			{ label: '', name: 'code', index: 'code', width: 80 }, 			
+			{ label: '', name: 'name', index: 'name', width: 80 }			
+        ],
+		viewrecords: true,
+        height: 385,
+        rowNum: 10,
+		rowList : [10,30,50],
+        rownumbers: true, 
+        rownumWidth: 25, 
+        autowidth:true,
+        multiselect: true,
+        pager: "#jqGridPager",
+        jsonReader : {
+            root: "page.list",
+            page: "page.currPage",
+            total: "page.totalPage",
+            records: "page.totalCount"
+        },
+        prmNames : {
+            page:"page", 
+            rows:"limit", 
+            order: "order"
+        },
+        beforeSelectRow: function(rowid, e){
+            $("#jqGrid").jqGrid('resetSelection');
+            return(true);
+        },
+        gridComplete:function(){
+        	//隐藏grid底部滚动条
+        	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+
+            var rowIds = jQuery("#jqGrid").jqGrid('getDataIDs');
+
+            $("#jqGrid").jqGrid('setSelection', rowIds[0]);
+
+
+        },
+        onSelectRow: function (row) {
+
+            var rowData = $("#jqGrid").getRowData(row);
+            var selected_id=rowData.id;
+            console.log(selected_id);
+            var page = $("#jqGrid1").jqGrid('getGridParam','page');
+            $("#jqGrid1").jqGrid('setGridParam',{
+                page:page,
+                postData:{'selected_id':selected_id},
+            },true).trigger("reloadGrid");
+        }
+    });
+
 });
 
 var vm = new Vue({
@@ -180,6 +191,11 @@ var vm = new Vue({
             }).trigger("reloadGrid");
 		},
         addfield: function(){
+            var id = getSelectedRow();
+            if(id == null){
+                layer.alert("左侧表单请选择一条记录。");
+            }
+
             vm.showList = false;
             vm.subshowList = false;
             vm.title = "新增";

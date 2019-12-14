@@ -1,4 +1,5 @@
 $(function () {
+    reloadTree();
     var colNamesset=[];
     colNamesset.push("id");
     colNamesset.push("用户id");
@@ -77,7 +78,47 @@ $(function () {
     });
 
 });
+function reloadTree(){
+    $.get(baseURL + "sys/sifanyobj/select", function(r){
+        // var a = JSON.stringify(r.classLists);?type=base
+        // alert(a);
+        ztreeMain = $.fn.zTree.init($("#classTreeMain"), setting, r.objEntityLists);
 
+
+
+            var node = ztreeMain.getNodeByParam("id","-1");
+
+
+        console.log("node1:", node)
+        ztreeMain.selectNode(node);
+     //   var nodes = treeObj.transformToArray(treeObj.getNodes());
+        //展开第一级树
+        ztreeMain.expandNode(node, true);
+
+
+    })
+}
+var setting = {
+    data: {
+        simpleData: {
+            enable: true,
+            idKey: "id",
+            pIdKey: "parentId",
+            rootPId: -1
+        },
+        key: {
+            url:"nourl"
+        }
+    },
+
+    callback: {
+        // onClick: tree_click_swan,
+        // onRightClick: onRightClick
+
+
+
+    }
+};
 var vm = new Vue({
 	el:'#rrapp',
 	data:{
