@@ -13,10 +13,10 @@
                         <p class="main_title">系统管理</p>
                     </td>
                     <td class="name">
-                        <p class="main_title">计算服务</p>
+                        <p class="main_title">数据服务</p>
                     </td>
                     <td class="name">
-                        <p class="main_title">数据服务</p>
+                        <p class="main_title">计算服务</p>
                     </td>
                 </tr>
 
@@ -26,30 +26,72 @@
                             <tr>
                                 <td class="menuchild">
                                     <a href="${request.contextPath}/index.html#modules/sys/user.html">
-                                        <img class="icon"  id="icon-06" src="../../statics/images/home/icon-06.png" />
+                                        <img class="icon" src="../../statics/images/home/icon-06.png" />
                                         <p class="title">管理员管理</p>
                                     </a>
                                 </td>
                                 <td class="menuchild">
-                                    <a href="${request.contextPath}/index.html#modules/sys/dept.html">
-                                        <img class="icon"  id="icon-09" src="../../statics/images/home/icon-09.png" />
-                                        <p class="title">部门管理</p>
+                                    <a href="${request.contextPath}/index.html#modules/sys/menu.html">
+                                        <img class="icon"   src="../../statics/images/home/icon-06.png" />
+                                        <p class="title">菜单</p>
                                     </a>
                                 </td>
-
+                                <td class="menuchild">
+                                    <a href="${request.contextPath}/index.html#modules/sys/dept.html">
+                                        <img class="icon"  src="../../statics/images/home/icon-09.png" />
+                                        <p class="title">部门</p>
+                                    </a>
+                                </td>
                             </tr>
                             <tr>
                                 <td class="menuchild">
                                     <a href="${request.contextPath}/index.html#modules/sys/role.html">
-                                        <img  class="icon"  id="icon-10" src="../../statics/images/home/icon-10.png" />
-                                        <p class="title">角色管理</p>
+                                        <img  class="icon"  src="../../statics/images/home/icon-10.png" />
+                                        <p class="title">角色</p>
                                     </a>
                                 </td>
                                 <td class="menuchild">
-                                    <a href="${request.contextPath}/index.html#modules/sys/log.html">
-                                        <img class="icon"  id="icon-08" src="../../statics/images/home/icon-08.png" />
-                                        <p class="title">系统日志</p>
+                                <a href="${request.contextPath}/index.html#modules/sys/log.html">
+                                    <img class="icon"  src="../../statics/images/home/icon-08.png" />
+                                    <p class="title">系统日志</p>
+                                </a>
+                            </td>
+                                <td class="menuchild"></td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td class="name">
+                        <table class="menu">
+                            <tr>
+                                <td class="menuchild">
+                                    <a href="http://10.0.0.9:10137/databaseview/list/">
+                                        <img  class="icon"  src="../../statics/images/home/icon-12.png" />
+                                        <p class="title">数据存储</p>
                                     </a>
+                                </td>
+                                <td class="menuchild">
+                                    <a href="http://10.0.0.9:10137/superset/sqllab">
+                                        <img  class="icon"  src="../../statics/images/home/icon-12.png" />
+                                        <p class="title">数据查询</p>
+                                    </a>
+                                </td>
+                                <td class="menuchild">
+                                    <a href="http://10.0.0.9:10137/dashboard/list/">
+                                        <img class="icon" src="../../statics/images/home/icon-07.png" />
+                                        <p class="title">数据可视化</p>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="menuchild">
+                                    <a href="http://172.72.101.162:8089/home/datasource">
+                                        <img class="icon" src="../../statics/images/home/icon-07.png" />
+                                        <p class="title">数据源</p>
+                                    </a>
+                                </td>
+                                <td class="menuchild">
+                                </td>
+                                <td class="menuchild">
                                 </td>
                             </tr>
                         </table>
@@ -59,29 +101,78 @@
                             <tr>
                                 <td class="menuchild">
                                     <a href="http://172.72.101.162:8089/home/components">
-                                        <img class="icon"  id="icon-05" src="../../statics/images/home/icon-05.png" />
+                                        <img class="icon"  src="../../statics/images/home/icon-05.png" />
                                         <p class="title">算法库</p>
                                     </a>
                                 </td>
                                 <td class="menuchild">
-                                    <a href="${request.contextPath}/index.html#modules/job/schedule.html">
-                                        <img  class="icon"  id="icon-12" src="../../statics/images/home/icon-12.png" />
-                                        <p class="title">定时任务</p>
+                                    <a href="http://172.72.101.162:8089/home/project">
+                                        <img class="icon"  src="../../statics/images/home/icon-01.png" />
+                                        <p class="title">算法工程</p>
+                                    </a>
+                                </td>
+                                <td class="menuchild">
+                                    <a href="#">
+                                        <img class="icon"  src="../../statics/images/home/icon-11.png" />
+                                        <p class="title">数据处理</p>
                                     </a>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="menuchild">
-                                <a href="http://172.72.101.162:8089/home/project">
-                                    <img class="icon" id="icon-01" src="../../statics/images/home/icon-01.png" />
-                                    <p class="title">算法工程</p>
-                                </a>
+                                    <a href="#">
+                                        <img class="icon" src="../../statics/images/home/icon-02.png" />
+                                        <p class="title">维度切片</p>
+                                    </a>
                                 </td>
                                 <td class="menuchild">
-                                    <a href="http://172.72.101.162:8089/home/datasource">
-                                        <img class="icon"  id="icon-07" src="../../statics/images/home/icon-07.png" />
-                                        <p class="title">数据源</p>
+                                    <a href="#">
+                                        <img class="icon"  src="../../statics/images/home/icon-11.png" />
+                                        <p class="title">统计分析</p>
                                     </a>
+                                </td>
+                                <td class="menuchild">
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="name">
+                        <p class="main_title">业务管理</p>
+                    </td>
+                    <td class="name">
+                        <p class="main_title">健康管理</p>
+                    </td>
+                    <td class="name">
+                        <p class="main_title">工程管理</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="name">
+                        <table class="menu">
+                            <tr>
+                                <td class="menuchild">
+                                    <a href="${request.contextPath}/index.html#modules/sys/modelalgorithms.html">
+                                        <img class="icon"  src="../../statics/images/home/icon-03.png" />
+                                        <p class="title">设备建模</p>
+                                    </a>
+                                </td>
+                                <td class="menuchild">
+                                    <a href="${request.contextPath}/index.html#modules/sys/modelbus.html">
+                                        <img class="icon" src="../../statics/images/home/icon-04.png" />
+                                        <p class="title">业务建模</p>
+                                    </a>
+                                </td>
+                                <td class="menuchild">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="menuchild">
+                                </td>
+                                <td class="menuchild">
+                                </td>
+                                <td class="menuchild">
                                 </td>
                             </tr>
                         </table>
@@ -90,30 +181,74 @@
                         <table class="menu">
                             <tr>
                                 <td class="menuchild">
-                                    <a href="${request.contextPath}/index.html#modules/sys/modelalgorithms.html">
-                                        <img class="icon" id="icon-03" src="../../statics/images/home/icon-03.png" />
-                                        <p class="title">采集建模</p>
+                                    <a href="#">
+                                        <img class="icon"  src="../../statics/images/home/icon-05.png" />
+                                        <p class="title">设备诊断</p>
                                     </a>
                                 </td>
                                 <td class="menuchild">
-                                    <a href="${request.contextPath}/index.html#modules/sys/modelbus.html">
-                                        <img class="icon" id="icon-04" src="../../statics/images/home/icon-04.png" />
-                                        <p class="title">业务建模</p>
+                                    <a href="#">
+                                        <img  class="icon" src="../../statics/images/home/icon-12.png" />
+                                        <p class="title">健康总览</p>
+                                    </a>
+                                </td>
+                                <td class="menuchild">
+                                    <a href="#">
+                                        <img class="icon" src="../../statics/images/home/icon-01.png" />
+                                        <p class="title">系统诊断</p>
                                     </a>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="menuchild">
-                                    <a href="${request.contextPath}/index.html#modules/sys/modelalgorithms.html">
-                                        <img class="icon"  id="icon-11" src="../../statics/images/home/icon-11.png" />
-                                        <p class="title">装备建模</p>
+                                    <a href="#">
+                                        <img class="icon"  src="../../statics/images/home/icon-07.png" />
+                                        <p class="title">综合分析</p>
                                     </a>
                                 </td>
                                 <td class="menuchild">
-                                    <a href="${request.contextPath}/index.html#druid/sql.html">
-                                        <img class="icon" id="icon-02" src="../../statics/images/home/icon-02.png" />
-                                        <p class="title">SQL监控</p>
+                                    <a href="#">
+                                        <img class="icon" src="../../statics/images/home/icon-01.png" />
+                                        <p class="title">任务剖面</p>
                                     </a>
+                                </td>
+                                <td class="menuchild">
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td class="name">
+                        <table class="menu">
+                            <tr>
+                                <td class="menuchild">
+                                    <a href="#">
+                                        <img class="icon" src="../../statics/images/home/icon-03.png" />
+                                        <p class="title">企业管理</p>
+                                    </a>
+                                </td>
+                                <td class="menuchild">
+                                    <a href="#">
+                                        <img class="icon" src="../../statics/images/home/icon-04.png" />
+                                        <p class="title">项目管理</p>
+                                    </a>
+                                </td>
+                                <td class="menuchild">
+                                    <a href="#">
+                                        <img class="icon" src="../../statics/images/home/icon-11.png" />
+                                        <p class="title">维修管理</p>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="menuchild">
+                                    <a href="#">
+                                        <img class="icon" src="../../statics/images/home/icon-02.png" />
+                                        <p class="title">使用管理</p>
+                                    </a>
+                                </td>
+                                <td class="menuchild">
+                                </td>
+                                <td class="menuchild">
                                 </td>
                             </tr>
                         </table>

@@ -33,12 +33,11 @@ html,body{
     padding: 0;
 }
 .main{
-    width: 80%;
+    width: 100%;
     margin-top: 10%;
     border-collapse: separate;
-    border-spacing: 70px 10px;
+    border-spacing: 20px 20px;
     text-align: center;
-
 }
 a{
     text-decoration: none;
@@ -49,7 +48,7 @@ a{
     vertical-align: middle;
 }
 .icon{
-    height: 70px;
+    height: 40px;
 }
 .icon:hover{
     opacity:0.6;
@@ -63,19 +62,23 @@ a{
     line-height:10px;
 }
 .menu{
-    width:100%;
+    margin: 0 auto;
+    width:80%;
+    height: 200px;
     border-collapse: separate;
-    border-spacing: 40px 30px;
+    border-spacing: 10px 10px;
     text-align: center;
-    background:url(../images/home/menub.png) no-repeat;
+    /*background:url(../images/home/menub.png) no-repeat;*/
     /*position: fixed;*/
+    background-color: rgba(16,162,252,0.1);
     background-size: 100% 100%;
+
 }
 .menuchild{
-    width: 50%;
+    width: 33.3%;
 }
 .main_title{
-    width: 60%;
+    width: 40%;
     margin: 0 auto;
     vertical-align: middle;
     text-align: center;
