@@ -200,6 +200,7 @@ var vm = new Vue({
             vm.subshowList = false;
             vm.title = "新增";
             vm.customfield = {};
+            vm.customfield.fieldId=id;
             vm.showListfield=true;
         },
         updatefield: function (event) {
