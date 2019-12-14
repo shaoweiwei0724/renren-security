@@ -7,6 +7,7 @@ import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.Query;
 import io.renren.modules.sys.dao.CustomFieldDao;
 import io.renren.modules.sys.entity.CustomFieldEntity;
+import io.renren.modules.sys.entity.SifanyClassAttrEntity;
 import io.renren.modules.sys.service.CustomFieldService;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +19,20 @@ public class CustomFieldServiceImpl extends ServiceImpl<CustomFieldDao, CustomFi
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
-        IPage<CustomFieldEntity> page = this.page(
-                new Query<CustomFieldEntity>().getPage(params),
-                new QueryWrapper<CustomFieldEntity>()
-        );
+        IPage<CustomFieldEntity> page;
+        if(params.get("selected_id")!= null) {
+            page = this.page(
+                    new Query<CustomFieldEntity>().getPage(params),
+                    new QueryWrapper<CustomFieldEntity>().eq("field_id", params.get("selected_id"))
+
+            );
+        }else{
+             page = this.page(
+                    new Query<CustomFieldEntity>().getPage(params),
+                    new QueryWrapper<CustomFieldEntity>()
+            );
+        }
+
 
         return new PageUtils(page);
     }

@@ -62,7 +62,23 @@ function getSelectedRow() {
     
     return selectedIDs[0];
 }
+//选择一条记录
+function getSelectedRowfield() {
+    var grid = $("#jqGrid1");
+    var rowKey = grid.getGridParam("selrow");
+    if(!rowKey){
+        alert("请选择一条记录");
+        return ;
+    }
 
+    var selectedIDs = grid.getGridParam("selarrrow");
+    if(selectedIDs.length > 1){
+        alert("只能选择一条记录");
+        return ;
+    }
+
+    return selectedIDs[0];
+}
 //选择多条记录
 function getSelectedRows() {
     var grid = $("#jqGrid");
@@ -75,6 +91,17 @@ function getSelectedRows() {
     return grid.getGridParam("selarrrow");
 }
 
+//选择多条记录
+function getSelectedRowsfield() {
+    var grid = $("#jqGrid1");
+    var rowKey = grid.getGridParam("selrow");
+    if(!rowKey){
+        alert("请选择一条记录");
+        return ;
+    }
+
+    return grid.getGridParam("selarrrow");
+}
 //判断是否为空
 function isBlank(value) {
     return !value || !/\S/.test(value)
