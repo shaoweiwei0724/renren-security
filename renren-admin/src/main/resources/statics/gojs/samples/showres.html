@@ -7,6 +7,7 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="js/alert.js"></script>
     <script src="show.js"></script>
+
 </head>
 <body onload="init()" style=" background-size: 100% 100%;background-image: url(../../images/home/bg3.png)">
 <div style="color:white;font-size: 40px;width: 100%;text-align: center" id="showName">设备组态</div>
@@ -14,5 +15,15 @@
     <div id="myDiagramDiv" style="border: solid 1px black; margin: 10px; height: 590px"></div>
 </div>
 </body>
+
+<script>
+
+    var query = location.search;  // ?id=310&name=xia&phone=13800138000
+
+    var searchParams = new URLSearchParams(query);
+
+    var showName = searchParams.get("name");
+    document.getElementById("showName").innerHTML = showName + "设备组态";
+</script>
 <!--<link rel="stylesheet" href="../../css/bootstrap_new.min.css">-->
 </html>

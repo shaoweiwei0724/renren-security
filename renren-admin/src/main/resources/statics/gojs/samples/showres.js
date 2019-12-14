@@ -10,9 +10,7 @@ var query = location.search;  // ?id=310&name=xia&phone=13800138000
 var searchParams = new URLSearchParams(query);
 
 var id = searchParams.get("id");
-var showName = searchParams.get("name");
 
-document.getElementById('showName').innerHTML = showName + "设备组态";
 // var nodeDataArray = [
 //     {"icon":23, "title":"涡轮增压发动机","iconWidth":30, "iconHeight":60, "text":"涡轮增压发动机", "source":{"id":23, "name":"涡轮增压发动机", "parentId":19, "createTime":1572600610625, "updateTime":null, "status":1, "userId":1, "icons":"26", "childs":null}, "key":-1, "pos":"-360 -100"},
 //     {"icon":24, "title":"涡轮增压发动机","iconWidth":30, "iconHeight":60, "text":"自然吸气发动机", "source":{"id":24, "name":"自然吸气发动机", "parentId":19, "createTime":1572600708465, "updateTime":null, "status":1, "userId":1, "icons":"27", "childs":null}, "key":-2, "pos":"0 30"},
