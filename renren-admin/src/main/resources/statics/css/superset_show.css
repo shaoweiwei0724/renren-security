@@ -1,0 +1,52 @@
+html,body{
+    margin: 0;
+    padding: 0;
+    color: #fff;
+
+}
+body{
+    background:url(../images/home/bg3.png) no-repeat;
+    background-size: 100% 100%;
+}
+#bg{
+    width: 100%;
+    padding: 0;
+    opacity:1;
+    margin-top: 0;
+    margin-left: 0;
+}
+
+.main{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+.main_table{
+    width: 90%;
+    margin: 0 auto;
+    text-align: center;
+    border-collapse: separate;
+    border-spacing: 0px 3px;
+}
+.title{
+    background: rgba(14,232,222,0.2);
+    height: 80px;
+    vertical-align: middle;
+}
+.child_table{
+    width: 80%;
+    margin: 0 auto;
+    /*border-collapse: separate;*/
+    /*border-spacing: 10px 10px;*/
+    /*border:2px solid #7fc4e2;*/
+}
+.child_table>tbody>tr>td{
+    border:2px solid #7fc4e2;
+}
+span{
+    font-size: 25pt;
+}
+.content{
+    height: 300px;
+    background: rgba(75, 209, 239, 0.3);
+}
