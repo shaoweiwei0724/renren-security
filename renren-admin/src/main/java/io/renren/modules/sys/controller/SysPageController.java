@@ -45,13 +45,16 @@ public class SysPageController {
 	public String sifanyhealth(){
 		return "sifanyhealth";
 	}
+	@RequestMapping(value = {"/", "sifanydatashow.html"})
+	public String sifanydatashow(){
+		return "sifanydatashow";
+	}
+
+
 	@RequestMapping(value = {"/", "sifanyproject.html"})
 	public String sifanyproject(){
 		return "sifanyproject";
 	}
-
-
-
 	@RequestMapping(value = {"/", "sifanycharts.html"})
 	public String sifanycharts(){
 		return "sifanycharts";

@@ -78,13 +78,13 @@ a{
     width: 33.3%;
 }
 .main_title{
-    width: 40%;
+    width: 80%;
     margin: 0 auto;
     vertical-align: middle;
     text-align: center;
     color:#CDE1ED;
     font-size: 20px;
-    background:url(../images/home/menu_top.png) no-repeat;
+    /*background:url(../images/home/menu_top.png) no-repeat;*/
     /*position: fixed;*/
     background-size: 100% 100%;
 }
