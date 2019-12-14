@@ -29,6 +29,27 @@ public class SysPageController {
 	public String index(){
 		return "index";
 	}
+	@RequestMapping(value = {"/", "manager.html"})
+	public String manager(){
+		return "manager";
+	}
+	@RequestMapping(value = {"/", "sifanyclass.html"})
+	public String sifanyclass(){
+		return "sifanyclass";
+	}
+	@RequestMapping(value = {"/", "sifanyobj.html"})
+	public String sifanyobj(){
+		return "sifanyobj";
+	}
+	@RequestMapping(value = {"/", "sifanyhealth.html"})
+	public String sifanyhealth(){
+		return "sifanyhealth";
+	}
+	@RequestMapping(value = {"/", "sifanyproject.html"})
+	public String sifanyproject(){
+		return "sifanyproject";
+	}
+
 
 	@RequestMapping("index1.html")
 	public String index1(){
