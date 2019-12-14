@@ -9,5 +9,5 @@ from gevent import pywsgi
 
 
 
-server = pywsgi.WSGIServer(('127.0.0.1', 5005), gx_pyservice_base.app)
+server = pywsgi.WSGIServer(('172.17.0.2', 5005), gx_pyservice_base.app)
 server.serve_forever()
