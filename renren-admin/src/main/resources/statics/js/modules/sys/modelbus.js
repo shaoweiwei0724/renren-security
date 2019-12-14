@@ -982,16 +982,21 @@ var vm = new Vue({
         },
 
         copyurl:function () {
-            var clipBoardContent="http://localhost:8080/swan-admin/statics/gojs/samples/showres.html"
-            alert(clipBoardContent);
-            var oInput = document.createElement('input');
-            oInput.value = clipBoardContent;
-            document.body.appendChild(oInput);
-            oInput.select(); // 选择对象
-            document.execCommand("Copy"); // 执行浏览器复制命令
-            oInput.className = 'oInput';
-            oInput.style.display='none';
-            alert('复制成功');
+            var nodes = ztreeMain.getSelectedNodes();
+            if(nodes == null) {
+                alert('请先选择场景');
+            }else{
+                var clipBoardContent="http://localhost:8080/swan-admin/statics/gojs/samples/showres.html?id=" + nodes[0].id + "&name="+nodes[0].name;
+                alert(clipBoardContent);
+                var oInput = document.createElement('input');
+                oInput.value = clipBoardContent;
+                document.body.appendChild(oInput);
+                oInput.select(); // 选择对象
+                document.execCommand("Copy"); // 执行浏览器复制命令
+                oInput.className = 'oInput';
+                oInput.style.display='none';
+                alert('复制成功');
+            }
 
         },
         configmenu:function () {
