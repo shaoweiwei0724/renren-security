@@ -1,5 +1,5 @@
 $(function () {
-    reloadTree();
+
     var colNamesset=[];
     colNamesset.push("id");
     colNamesset.push("用户id");
@@ -20,7 +20,7 @@ $(function () {
         type: "POST",
         url: baseURL + url,
         contentType: "application/json",
-        data: JSON.stringify(querys),
+         data: JSON.stringify(querys),
         success: function (r) {
             if (r.code === 0) {
                 console.log(r.list);
@@ -81,41 +81,8 @@ $(function () {
 
 
 });
-function reloadTree(){
-    $.get(baseURL + "sys/sifanyobj/select", function(r){
-        // var a = JSON.stringify(r.classLists);?type=base
-        // alert(a);
-        ztreeMain = $.fn.zTree.init($("#classTreeMain"), setting, r.objEntityLists);
 
 
-
-            var node = ztreeMain.getNodeByParam("id","-1");
-
-
-        console.log("node1:", node)
-        ztreeMain.selectNode(node);
-     //   var nodes = treeObj.transformToArray(treeObj.getNodes());
-        //展开第一级树
-        ztreeMain.expandNode(node, true);
-
-
-    })
-}
-var selected_id=0;
-var ztreeMain;
-function tree_click_swan(e,treeId, treeNode) {
-    var node = ztreeMain.getSelectedNodes();
-    selected_id=node[0].id;
-    // localStorage.iconsId = selected_id;
-
-    var page = $("#jqGrid").jqGrid('getGridParam','page');
-    $("#jqGrid").jqGrid('setGridParam',{
-        page:page,
-        postData:{'selected_id':selected_id},
-    },true).trigger("reloadGrid");
-
-
-}
 var setting = {
     data: {
         simpleData: {
@@ -130,7 +97,7 @@ var setting = {
     },
 
     callback: {
-        onClick: tree_click_swan,
+       // onClick: tree_click_swan,
         // onRightClick: onRightClick
 
 

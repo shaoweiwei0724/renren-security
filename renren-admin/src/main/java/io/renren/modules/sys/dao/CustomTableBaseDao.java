@@ -20,5 +20,6 @@ import java.util.Map;
 @Mapper
 public interface CustomTableBaseDao extends BaseMapper<CustomTableBaseEntity> {
 
-    IPage<List<Map<String, Object>>> selectCustomFieldPage(IPage<CustomTableBaseEntity> page, @Param("extendFields") List<CustomFieldEntity> listext);
+
+    IPage<List<Map<String, Object>>> selectCustomFieldPage(IPage<CustomTableBaseEntity> page, @Param("objId") Long objId, @Param("extendFields") List<CustomFieldEntity> listext);
 }

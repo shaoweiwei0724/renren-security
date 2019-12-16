@@ -7,6 +7,7 @@
     <resultMap type="io.renren.modules.sys.entity.CustomTableBaseEntity" id="customTableBaseMap">
         <result property="id" column="id"/>
         <result property="userId" column="user_id"/>
+        <result property="objId" column="obj_id"/>
     </resultMap>
     <select id="selectCustomFieldPage" resultType="Map" parameterType="java.util.List" >
         select
@@ -21,6 +22,10 @@
         from
         custom_extend
         group by defense_id) extend on (defense.id = extend.defense_id)
+      where 1=1
+        <if test="objId != null and objId != '' ">
+            and defense.obj_id=#{objId}
+        </if>
 
         order by  defense.id asc
     </select>

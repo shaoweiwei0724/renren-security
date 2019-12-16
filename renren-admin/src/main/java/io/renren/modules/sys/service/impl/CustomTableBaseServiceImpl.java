@@ -29,15 +29,14 @@ public class CustomTableBaseServiceImpl extends ServiceImpl<CustomTableBaseDao, 
                 new Query<CustomTableBaseEntity>().getPage(params),
                 new QueryWrapper<CustomTableBaseEntity>()
         );*/
+
         List<CustomFieldEntity> listext = extendFields();
-        IPage<List<Map<String, Object>>> page =  this.baseMapper.selectCustomFieldPage(new Query<CustomTableBaseEntity>().getPage(params), listext);
-        System.out.println("ssssssssssss"+page);
+        IPage<List<Map<String, Object>>> page =  this.baseMapper.selectCustomFieldPage(new Query<CustomTableBaseEntity>().getPage(params),Long.valueOf(params.get("selected_id").toString()), listext);
         return new PageUtils(page);
     }
 
     private List<CustomFieldEntity> extendFields() {
         List<CustomFieldEntity> list =    customFieldService.list(new QueryWrapper<CustomFieldEntity>());
-        System.out.println("======================================++++++++++"+list);
         return list;
     }
 
