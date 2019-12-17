@@ -110,7 +110,7 @@
                     },  // always have link label nodes in front of Links
                     $("Shape", "Ellipse",
                         {
-                            width: 2, height: 2, stroke:"#0000ff",
+                            width: 2, height: 2, stroke:"#CD0000",
                             portId: "", fromLinkable: true, toLinkable: true, cursor: "pointer"
                         })
                 ));
@@ -124,7 +124,7 @@
                     $(go.Shape,
                         { // horizontal line stretched to an initial width of 200
                             name: "SHAPE", geometryString: "M0 0 L100 0",
-                            fill: "transparent", stroke: "#0000ff", width: 100
+                            fill: "transparent", stroke: "#CD0000", width: 100
                         },
                         new go.Binding("desiredSize", "size", go.Size.parse).makeTwoWay(go.Size.stringify))
                 ));
@@ -237,7 +237,7 @@
                     new go.Binding("toSpot", "toSpot", function(d) { return spotConverter(d); }),
                     new go.Binding("points").makeTwoWay(),
                     // mark each Shape to get the link geometry with isPanelMain: true
-                    $(go.Shape, { isPanelMain: true, stroke: "#0000ff"/* blue*/, strokeWidth: 2 },
+                    $(go.Shape, { isPanelMain: true, stroke: "#CD0000"/* blue*/, strokeWidth: 2 },
                         new go.Binding("stroke", "color")),
                 );
 
@@ -419,7 +419,7 @@
 <body onload="init()">
 <div id="sample">
     <div style="width: 100%; display: flex; justify-content: space-between">
-        <div id="myPaletteDiv" style="width: 205px; margin-right: 2px; background-color: whitesmoke; border: solid 1px black"></div>
+        <div id="myPaletteDiv" style="width: 205px; margin-right: 2px; border: solid 1px black"></div>
         <div id="myDiagramDiv" style="flex-grow: 1; height: 620px; border: solid 1px black"></div>
     </div>
     <div>
@@ -433,7 +433,6 @@
 
  ]}
     </textarea>
-        <button  onclick="save()" style="margin-left: 500px; width: 100px;height: 30px;">保存</button>
     </div>
 </div>
 </body>
