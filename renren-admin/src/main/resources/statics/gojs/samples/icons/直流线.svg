@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<svg width="480" height="480" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
+ <g class="layer">
+  <title>Layer 1</title>
+  <path d="m-6.714896,274.564708l53.282383,-74.073255l53.282383,74.073255l-106.564766,0z" fill="#000000" fill-opacity="0" id="svg_19" stroke="#CD0000" stroke-dasharray="null" stroke-linecap="null" stroke-linejoin="null" stroke-width="10" transform="rotate(90.5861 46.5675 237.528)"/>
+  <path d="m381.490594,274.26369l53.282383,-74.073255l53.282383,74.073255l-106.564766,0z" fill="#000000" fill-opacity="0" id="svg_20" stroke="#CD0000" stroke-dasharray="null" stroke-linecap="null" stroke-linejoin="null" stroke-width="10" transform="rotate(-90.1207 434.773 237.227)"/>
+  <rect fill="#CD0000" height="108.000005" id="svg_21" stroke="#CD0000" stroke-dasharray="null" stroke-linecap="null" stroke-linejoin="null" stroke-width="0" width="11" x="83.5" y="183.148726"/>
+  <rect fill="#000000" fill-opacity="0" height="10" id="svg_22" stroke="#CD0000" stroke-dasharray="null" stroke-linecap="null" stroke-linejoin="null" stroke-width="10" width="0" x="99.5" y="232.148735"/>
+  <rect fill="#CD0000" height="108.000005" id="svg_23" stroke="#CD0000" stroke-dasharray="null" stroke-linecap="null" stroke-linejoin="null" stroke-width="0" width="11" x="387" y="183.148738"/>
+  <rect fill="#CD0000" height="13" id="svg_24" stroke="#CD0000" stroke-dasharray="null" stroke-linecap="null" stroke-linejoin="null" stroke-width="0" width="458.000013" x="14.499987" y="230.648735"/>
+ </g>
+</svg>
