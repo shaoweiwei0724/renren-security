@@ -20,3 +20,53 @@ option{
     background:url(../images/modelbusiness/menub.png) no-repeat;
     background-size: 100% 100%;
 }
+
+
+.ui-jqgrid {
+    background-color: rgba(85, 144, 242, 0.14);
+    padding: 8px;
+    border: 1px solid rgba(85, 144, 242, 0.14);
+}
+.table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
+    border:1px solid #435d80;
+}
+table>thead >tr>th,treegrid-thead>tr>th {
+    background: #294c95;
+    transition: background .3s;
+    color: #fff;
+    font-weight: 500;
+
+    text-align: center;
+    border: none;
+    border-right: 1px solid #435d80;
+    border-bottom: 1px solid #435d80;
+}
+
+table>thead >tr:hover {
+    background: rgba(85,144,242,.14);
+}
+
+
+table>tbody>tr>td ,.treegrid-tbody td{
+    border: none;
+    border-right: 1px solid #435d80;
+    border-bottom: 1px solid #435d80;
+}
+.table {
+
+    border: 1px solid #435d80;
+}
+.table-responsive{
+    border: 1px solid #435d80;
+}
+.main-footer{
+    border-top:1px solid #435d80;
+}
+.ui-jqgrid .ui-jqgrid-pager, .ui-jqgrid .ui-jqgrid-toppager {
+
+    border-top:none;
+
+}
+.panel{
+    background: none;
+}

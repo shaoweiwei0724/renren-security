@@ -20,6 +20,18 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 </head>
+<style>
+    .sidebar-menu >li>a{
+
+        width: 100px;
+    }
+    .navbar-static-top{
+        background-color: rgba(85, 144, 242, 0.14);
+    }
+    .sidebar-menu>li>a>.glyphicon, .sidebar-menu>li>a>.ion {
+        width: 50px;
+    }
+</style>
 <!-- ADD THE CLASS layout-boxed TO GET A BOXED LAYOUT -->
 <body class="hold-transition skin-blue sidebar-mini sidebar-collapse">
 <!-- Site wrapper -->
@@ -53,7 +65,11 @@
   <!-- =============================================== -->
 
   <!-- Left side column. contains the sidebar -->
-  <aside class="main-sidebar">
+  <aside class="main-sidebar" style="background: rgba(85, 144, 242, 0.14);
+    border-radius: 5px;
+    border: 1px solid transparent;
+    width:100px;
+    color: #fff;">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
       <!-- /.search form -->
