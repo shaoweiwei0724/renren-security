@@ -21,8 +21,8 @@
                 <ul class="layui-tab-title">
                     <li class="layui-this"><span>指标</span></li>
                     <li ><span>组态</span></li>
-                    <li ><span>采集</span></li>
-                    <li ><span>算法</span></li>
+                    <li ><span>采集配置</span></li>
+                    <li ><span>计算配置</span></li>
 
                 </ul>
                 <div class="layui-tab-content" style="height: 500px;">
@@ -124,6 +124,8 @@
                                                     <option value="1">N</option>
                                                     <option value="2">Pa</option>
                                                     <option value="3">KW</option>
+                                                    <option value="3">M</option>
+                                                    <option value="3">Min</option>
                                                 </select>
                                             </div>
                                         </td>
@@ -132,9 +134,9 @@
                                             <div  class="div-inline">
 
                                                 <select  v-model="sifanyClassAttrGather.attrstypeId" readonly="readonly" style="width:110px;height:26px;">
-                                                    <option value="0">输入类</option>
-                                                    <option value="1">采集类</option>
-                                                    <option value="2">计算类</option>
+                                                    <option value="0">人为输入指标</option>
+                                                    <option value="1">自动采集指标</option>
+                                                    <option value="2">自动计算指标</option>
                                                 </select>
                                             </div>
                                         </td>
