@@ -36,7 +36,7 @@ html,body{
     width: 100%;
     margin-top: 10%;
     border-collapse: separate;
-    border-spacing: 20px 20px;
+    border-spacing: 100px 20px;
     text-align: center;
 }
 a{
@@ -48,14 +48,14 @@ a{
     vertical-align: middle;
 }
 .icon{
-    height: 40px;
+    height: 80px;
 }
 .icon:hover{
     opacity:0.6;
 }
 
 .title{
-    font-size:10px;
+    font-size:20px;
     font-family:Source Han Sans CN;
     font-weight:400;
     color:#fff;
