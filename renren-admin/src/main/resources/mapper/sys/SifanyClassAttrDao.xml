@@ -18,6 +18,9 @@
         <result property="unitId" column="unit_id"/>
         <result property="remark" column="remark"/>
         <result property="algorithmName" column="algorithm_name"/>
+        <result property="onlineMonitor" column="online_monitor"/>
+        <result property="onlineSim" column="online_sim"/>
+        <result property="offlineSim" column="offline_sim"/>
     </resultMap>
 
     <select id="queryList" resultType="io.renren.modules.sys.entity.SifanyClassEntity">

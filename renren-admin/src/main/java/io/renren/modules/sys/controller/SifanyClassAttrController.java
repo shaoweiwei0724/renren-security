@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.renren.common.validator.ValidatorUtils;
+import io.renren.modules.sys.entity.CustomFieldEntity;
 import io.renren.modules.sys.entity.SifanyClassEntity;
 import io.renren.modules.sys.service.SifanyClassService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -47,7 +49,16 @@ public class SifanyClassAttrController extends AbstractController{
 
         return R.ok().put("page", page);
     }
+    /**
+     * 列表
+     */
+    @RequestMapping("/attrListInfo")
+    @RequiresPermissions("sys:sifanyclassattr:list")
+    public R listInfo(@RequestBody Long id){
+        List<SifanyClassAttrEntity> list  = sifanyClassAttrService.list(new QueryWrapper<SifanyClassAttrEntity>().eq("class_id",id));
 
+        return R.ok().put("classAttrList", list);
+    }
     /**
      * 选择父类(添加、修改菜单)
      */
@@ -83,7 +94,19 @@ public class SifanyClassAttrController extends AbstractController{
 
         return R.ok();
     }
+    @RequestMapping("/saveClassAttr")
+    @RequiresPermissions("sys:sifanyclassattr:save")
+    public R saveClassAttr(@RequestBody List<SifanyClassAttrEntity> classAttrList){
 
+        for (SifanyClassAttrEntity str : classAttrList) {
+            Long time = System.currentTimeMillis();
+            str.setUpdateTime(time);
+            sifanyClassAttrService.updateById(str);
+
+        }
+
+        return R.ok();
+    }
     /**
      * 修改
      */
