@@ -1,0 +1,14 @@
+<svg width="480" height="480" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - https://github.com/SVG-Edit/svgedit-->
+ <defs>
+  <linearGradient id="svg_7">
+   <stop stop-opacity="0.99609" stop-color="#56ffff" offset="0"/>
+   <stop stop-opacity="0.99609" stop-color="#aaffff" offset="1"/>
+  </linearGradient>
+ </defs>
+ <g class="layer">
+  <title>Layer 1</title>
+  <circle stroke="#CD0000" stroke-width="30" stroke-linejoin="null" stroke-linecap="null" stroke-dasharray="null" r="218.94173" id="svg_3" fill="url(#svg_7)" cy="240" cx="237.33334"/>
+  <text y="211.73011" xml:space="preserve" x="318.81974" transform="matrix(15.602192138473919,0,0,8.259429946341097,-4736.342431832851,-1442.9432536999993) " text-anchor="middle" stroke-width="0" stroke-linejoin="null" stroke-linecap="null" stroke-dasharray="null" stroke="#00bf00" id="svg_6" font-weight="bold" font-size="24" font-family="serif" fill="#0000ff">M</text>
+ </g>
+</svg>
