@@ -59,11 +59,11 @@ public class SysLoginController {
 	@ResponseBody
 	@RequestMapping(value = "/sys/login", method = RequestMethod.POST)
 	public R login(String username, String password, String captcha) {
-		String kaptcha = ShiroUtils.getKaptcha(Constants.KAPTCHA_SESSION_KEY);
-		if(!captcha.equalsIgnoreCase(kaptcha)){
-			return R.error("验证码不正确");
-		}
-		
+//		String kaptcha = ShiroUtils.getKaptcha(Constants.KAPTCHA_SESSION_KEY);
+//		if(!captcha.equalsIgnoreCase(kaptcha)){
+//			return R.error("验证码不正确");
+//		}
+//
 		try{
 			Subject subject = ShiroUtils.getSubject();
 			UsernamePasswordToken token = new UsernamePasswordToken(username, password);

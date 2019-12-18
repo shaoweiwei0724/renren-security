@@ -117,3 +117,20 @@ table>tbody>tr>td ,.treegrid-tbody td{
 .panel{
     background: none;
 }
+.sidebar-menu >li>a{
+
+    width: 250px;
+}
+.navbar-static-top{
+    background-color: rgba(85, 144, 242, 0.14);
+}
+.sidebar-menu>li>a>.glyphicon, .sidebar-menu>li>a>.ion {
+    width: 250px;
+}
+.main-sidebar{
+    background: rgba(85, 144, 242, 0.14);
+    border-radius: 5px;
+    border: 1px solid transparent;
+    width:100px;
+    color: #fff;
+}
