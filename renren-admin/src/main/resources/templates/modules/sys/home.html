@@ -3,9 +3,35 @@
 <head>
     <title>首页</title>
 </head>
-<body style="width: 100%;height:100%">
+<body style="width: 100%;height:100%" class="hold-transition skin-blue sidebar-mini sidebar-collapse">
+<style>
+
+    .swan-menu-app{
+        display: none;
+    }
+</style>
+
+
+<!--<div class="wrapper" id="rrapp" v-cloak>-->
+    <!--<header class="main-header">-->
+
+    <!--</header>-->
+<!--</div>-->
+
+
 <div id="bg">
     <div id="top">
+        <nav class="navbar navbar-static-top" role="navigation" style="position: fixed;right: 20px;top:20px;">
+
+
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <!--<li><a href="modules/sys/home.html"><i class="fa fa-home"></i> &nbsp;返回首页</a></li>-->
+                    <li><a href="javascript:;" @click="updatePassword"><i class="fa fa-lock"></i> &nbsp;修改密码</a></li>
+                    <li><a href="${request.contextPath}/logout"><i class="fa fa-sign-out"></i> &nbsp;退出系统</a></li>
+                </ul>
+            </div>
+        </nav>
         <div id="content">
             <!--<div style="height: 50px;"></div>-->
 
@@ -22,20 +48,20 @@
 <!--                            <p class="title">任务剖面</p>-->
 <!--                        </a>-->
 <!--                    </td>-->
-                    <td class="">
+                    <td class="swan-menu-app swan-menu-app-216">
                         <a href="${request.contextPath}/sifanyclass.html#modules/sys/modelalgorithms.html" target="_blank">
                             <img class="icon"  src="../../statics/images/home/zbjm.png" />
                             <p class="title">设备管理</p>
                         </a>
                     </td>
-                    <td class="">
+                    <td  class="swan-menu-app swan-menu-app-217">
                         <a href="${request.contextPath}/sifanyclass.html#modules/sys/modelbus.html" target="_blank">
                             <img class="icon" src="../../statics/images/home/ywjm.png" />
                             <p class="title">组态设置</p>
                         </a>
 
                     </td>
-                    <td >
+                    <td  class="swan-menu-app swan-menu-app-215">
                         <a href="http://10.0.0.9:10137/superset/dashboard/1/" target="_blank">
                             <img class="icon" src="../../statics/images/home/sjksh.png" />
                             <p class="title">能源安全驾驶舱</p>
@@ -79,9 +105,7 @@
 <!--                    </td>-->
                 </tr>
 
-                <tr style="height: 30px">
 
-                </tr>
 <!--                <tr>-->
 <!--                    <td class="name" style="width: 200px">-->
 <!--                        <p class="main_title">系统管理</p>-->
@@ -90,25 +114,25 @@
                 <tr>
 
 
-                    <td>
+                    <td  class="swan-menu-app swan-menu-app-1">
                         <a href="${request.contextPath}/manager.html#modules/sys/user.html" target="_blank">
                             <img class="icon" src="../../statics/images/home/jsgl.png" />
                             <p class="title">系统管理</p>
                         </a>
                     </td>
-                    <td>
+                    <td  class="swan-menu-app swan-menu-app-218">
                         <a href="${request.contextPath}/manager.html#modules/sys/user.html" target="_blank">
                             <img class="icon" src="../../statics/images/home/jsgl.png" />
                             <p class="title">个人中心</p>
                         </a>
                     </td>
-                    <td>
+                    <td  class="swan-menu-app swan-menu-app-219">
                         <a href="http://10.0.0.9:10137/databaseview/list/" target="_blank">
                             <img  class="icon"  src="../../statics/images/home/sjcx.png" />
                             <p class="title">数据服务</p>
                         </a>
                     </td>
-                    <td class="">
+                    <td   class="swan-menu-app swan-menu-app-220">
                         <a href="http://172.72.101.162:18189/#/home/components" target="_blank">
                             <img class="icon"  src="../../statics/images/home/sfk.png" />
                             <p class="title">计算服务</p>
@@ -237,6 +261,17 @@
         </div>
     </div>
 </div>
+<link rel="stylesheet" href="${request.contextPath}/statics/css/AdminLTE.min.css">
 <link rel="stylesheet" href="${request.contextPath}/statics/css/home.css">
+<script src="${request.contextPath}/statics/libs/jquery.min.js"></script>
+<script>
+    $.getJSON("${request.contextPath}/sys/menu/nav?_"+$.now(), function(r){
+        for(var i=0;i<r.menuList.length;i++){
+            $('.swan-menu-app-'+r.menuList[i].menuId).show();
+            console.log( 'swan-menu-app-'+r.menuList[i].menuId);
+        }
+
+    });
+</script>
 </body>
 </html>
