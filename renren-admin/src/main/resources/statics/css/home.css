@@ -133,3 +133,6 @@ a{
     display: block;
     border-radius: 50%;
 }
+p{
+    padding-top: 10px;
+}
