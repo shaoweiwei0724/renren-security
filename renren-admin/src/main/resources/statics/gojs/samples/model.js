@@ -10,13 +10,8 @@ function init() {
         xmlHttp1.onreadystatechange = function () {
             if (xmlHttp1.readyState === 4 && xmlHttp1.status === 200) {
                 strs = JSON.parse(xmlHttp1.responseText);
-
                 var map = strs.icons.content.toString();
-                console.log("+++++++++"+strs.icons);
-                // var map = JSON.parse(strs.icons.content);
                 document.getElementById("mySavedModel").value = map;
-                // alert(document.getElementById("mySavedModel").value);
-                // console.log(strs);
             }
         }
     }
@@ -27,13 +22,12 @@ function init() {
     var str={};
     var xmlHttp = new XMLHttpRequest();
 
-    xmlHttp.open("GET", "../../../sys/sifanyclass/select/115", true);
+    xmlHttp.open("GET", "../../../sys/sifanyclass/select/159", true);
     xmlHttp.send();
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState === 4 && xmlHttp.status ===200){
             str=JSON.parse(xmlHttp.responseText);
-            console.log(str);
-    console.log(str.classLists);
+            console.log("str:",str);
     var html="";
     for(var i=0;i< str.classLists.length;i++){
        html+='<div style=" width: 200px">\n' +
@@ -57,14 +51,34 @@ function init() {
         for(var i in swan_obj_list_i['childs']){
             var child_i=swan_obj_list_i['childs'][i];
             icon[child_i.id]=child_i.icons;
-            swan_obj_i.push({"icon":child_i.id, "iconWidth":30, "iconHeight":60,  "text":child_i.name, "source":child_i});
-        }
+            if(child_i.name=="母线"){
+                swan_obj_i.push({"icon":child_i.id, "iconWidth":30, "iconHeight":60, "category":"Exclusive1", "text":child_i.name, "source":child_i});
+            }
+            else {
+                swan_obj_i.push({"icon":child_i.id, "iconWidth":30, "iconHeight":60,  "text":child_i.name, "source":child_i});
+            }
+                    }
         swan_objs.push(swan_obj_i)
     }
 
 
     var $ = go.GraphObject.make;  // for conciseness in defining templates
-    myDiagram = $(go.Diagram, "myDiagramDiv",  // create a Diagram for the DIV HTML element
+    var resizeAdornment =
+                $(go.Adornment, go.Panel.Spot,
+                    $(go.Placeholder),
+                    $(go.Shape,  // left resize handle
+                        {
+                            alignment: go.Spot.Left, cursor: "col-resize",
+                            desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "dodgerblue"
+                        }),
+                    $(go.Shape,  // right resize handle
+                        {
+                            alignment: go.Spot.Right, cursor: "col-resize",
+                            desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "dodgerblue"
+                        })
+                );
+
+            myDiagram = $(go.Diagram, "myDiagramDiv",  // create a Diagram for the DIV HTML element
         {
             grid: $(go.Panel, "Grid",
                 $(go.Shape, "LineH", { stroke: "rgb(0,0,0,0)" , strokeWidth: 0.5 }),
@@ -113,11 +127,6 @@ function init() {
     // A data binding conversion function. Given an name, return the Geometry.
     // If there is only a string, replace it with a Geometry object, which can be shared by multiple Shapes.
     function geoFunc(geoname) {
-        // var geo = icon[geoname];
-        // if (typeof geo === "string") {
-        //     geo = icon[geoname] = go.Geometry.parse(geo, true);
-        // }
-        // return geo;
         var geo=icon[geoname];
         return "../../../sys/sifanydataimage/image/"+geo+".svg";
     }
@@ -144,34 +153,19 @@ function init() {
         });
     }
 
-    myDiagram.nodeTemplate =
-        $(go.Node, "Spot",
-            {
-                locationObjectName: 'main',
-                locationSpot: go.Spot.Center,
-            },
-            new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify),
-            // The main element of the Spot panel is a vertical panel housing an optional icon,
-            // plus a rectangle that acts as the port
-            $(go.Panel, "Vertical",
-                // $(go.Shape, {
-                //         name: 'icon',
-                //         width: 1, height: 1,
-                //         stroke: null, strokeWidth: 0,
-                //         fill: "#41BFEC"/* blue*/
-                //     },
-                //     new go.Binding("fill", "color"),
-                //     new go.Binding("width", "iconWidth"),
-                //     new go.Binding("height", "iconHeight"),
-                //     new go.Binding("geometry", "icon", geoFunc)),
-                $(go.Picture,
-                    {
-                        desiredSize: new go.Size(100,100),
-                        // fill: "#41BFEC"/* blue*/
+            myDiagram.nodeTemplateMap.add("Exclusive1",
+                $(go.Node, commonNodeStyle(),
+                    { // special resizing: just at the ends
+                        resizable: true, resizeObjectName: "SHAPE", resizeAdornmentTemplate: resizeAdornment,
+                        rotatable:true,
+                        fromLinkable: true, toLinkable: true
                     },
-                    new go.Binding("source", "icon",geoFunc ))
-            ),
-
+                    $(go.Shape,
+                        { // horizontal line stretched to an initial width of 200
+                            name: "SHAPE", geometryString: "M0 0 L100 0",
+                            fill: "transparent", stroke: "#1296db", width: 100
+                        },
+                        new go.Binding("desiredSize", "size", go.Size.parse).makeTwoWay(go.Size.stringify)),
             $(go.TextBlock, {
                     font: "14px Lato, sans-serif",
                     textAlign: "center",
@@ -182,7 +176,40 @@ function init() {
                     alignmentFocus: go.Spot.BottomCenter
                 },
 
-                new go.Binding("text")),
+                new go.Binding("text"))
+                ));
+    myDiagram.nodeTemplate =
+        $(go.Node, "Spot",
+            {
+                locationObjectName: 'main',
+                locationSpot: go.Spot.Center,
+                rotatable:true,
+            },
+            new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify),
+            // The main element of the Spot panel is a vertical panel housing an optional icon,
+            // plus a rectangle that acts as the port
+            $(go.Panel, "Vertical",
+
+                $(go.Picture,
+                    {
+                        desiredSize: new go.Size(100,100),
+                    },
+                    new go.Binding("source", "icon",geoFunc )),
+                $(go.TextBlock, {
+                        font: "14px Lato, sans-serif",
+                        textAlign: "center",
+                        margin: 3,
+                        stroke:"white",
+                        maxSize: new go.Size(100, NaN),
+                        alignment: go.Spot.TopCenter,
+                        alignmentFocus: go.Spot.BottomCenter
+                    },
+
+                    new go.Binding("text"))
+
+            ),
+
+
 
             // four small named ports, one on each side:
             makePort("T", go.Spot.Top, true, true),
@@ -244,25 +271,27 @@ function init() {
     }
 
     myDiagram.linkTemplate =
-        $(go.Link, {
-                toShortLength: -2,
-                fromShortLength: -2,
-                layerName: "Background",
+        $(BarLink, {
                 routing: go.Link.Orthogonal,
-                corner: 15,
-
-                // fromSpot: go.Spot.RightSide,
-                // toSpot: go.Spot.LeftSide
+                selectionAdorned: true,
+                curve: go.Link.JumpOver,
+                corner: 0, toShortLength: 4,
+                relinkableFrom: true,
+                relinkableTo: true,
+                reshapable: true,
+                resegmentable: true,
+                // mouse-overs subtly highlight links:
+                mouseEnter: function(e, link) { link.findObject("HIGHLIGHT").stroke = "rgba(30,144,255,0.2)"; },
+                mouseLeave: function(e, link) { link.findObject("HIGHLIGHT").stroke = "transparent"; },
+                selectionAdorned: true
             },
             // make sure links come in from the proper direction and go out appropriately
             new go.Binding("fromSpot", "fromSpot", function(d) { return spotConverter(d); }),
             new go.Binding("toSpot", "toSpot", function(d) { return spotConverter(d); }),
-
             new go.Binding("points").makeTwoWay(),
             // mark each Shape to get the link geometry with isPanelMain: true
-            $(go.Shape, { isPanelMain: true, stroke: "#41BFEC"/* blue*/, strokeWidth: 10 },
-                new go.Binding("stroke", "color")),
-            $(go.Shape, { isPanelMain: true, stroke: "white", strokeWidth: 3, name: "PIPE", strokeDashArray: [20, 40] })
+            $(go.Shape, { isPanelMain: true, stroke: "#CD0000"/* blue*/, strokeWidth: 2 },
+                new go.Binding("stroke", "color"))
         );
 
     var myPalettes=[];
@@ -304,42 +333,98 @@ function init() {
         myPalettes.push(myPalette)
     }
 
-    myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
-    loop();  // animate some flow through the pipes
+    myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);// animate some flow through the pipes
         }
     };
 }
-
-var opacity = 1;
-var down = true;
-function loop() {
-    var diagram = myDiagram;
-    setTimeout(function() {
-        document.getElementById('swan-res').value=(myDiagram.model.toJson());
-        var oldskips = diagram.skipsUndoManager;
-        diagram.skipsUndoManager = true;
-        diagram.links.each(function(link) {
-            var shape = link.findObject("PIPE");
-
-            try{
-                shape.strokeDashOffset
-            }catch(e){
-                return
-            }
-            var off = shape.strokeDashOffset - 3;
-            // animate (move) the stroke dash
-            shape.strokeDashOffset = (off <= 0) ? 60 : off;
-            // animte (strobe) the opacity:
-            if (down) opacity = opacity - 0.01;
-            else opacity = opacity + 0.003;
-            if (opacity <= 0) { down = !down; opacity = 0; }
-            if (opacity > 1) { down = !down; opacity = 1; }
-            shape.opacity = opacity;
-        });
-        diagram.skipsUndoManager = oldskips;
-        loop();
-    }, 60);
+function BarLink() {
+    go.Link.call(this);
 }
+go.Diagram.inherit(BarLink, go.Link);
+
+BarLink.prototype.getLinkPoint = function(node, port, spot, from, ortho, othernode, otherport) {
+    // var r = new go.Rect(port.getDocumentPoint(go.Spot.TopLeft),
+    //     port.getDocumentPoint(go.Spot.BottomRight));
+    var r = new go.Rect(port.getDocumentPoint(go.Spot.TopLeft),
+        port.getDocumentPoint(go.Spot.BottomRight));
+    var op = otherport.getDocumentPoint(go.Spot.Center);
+    console.log("op:",op);
+    console.log("r:",r);
+    var below = op.y > r.centerY;
+    var below_x=op.x>r.centerX;
+    var y = below ? r.bottom : r.top;
+    var x= below_x ? r.left:r.right;
+    if (node.category === "Exclusive1") {
+        if(r.right-r.left<2){
+            if(op.y<r.top+30) return new  go.Point(x, r.top+30);
+            if(op.y>r.bottom-30) return new  go.Point(x, r.bottom-30);
+            return new go.Point(x, op.y);
+        }
+        else if(r.top-r.bottom<2){
+            if (op.x < r.left+30) return new go.Point(r.left+30, y);
+            if (op.x > r.right-30) return new go.Point(r.right-30, y);
+            return new go.Point(op.x, y);
+        }
+        else {
+            return new go.Point(op.x, op.y);
+        }
+    }
+    else {
+        var lr = op.x - r.centerX;
+        var hl = op.y - r.centerY;
+
+        if (Math.abs(lr) > Math.abs(hl)) {
+            if(op.x > r.centerX) return new go.Point(r.right, r.centerY);
+            else return new go.Point(r.left, r.centerY);;
+        }else{
+            if(op.y > r.centerY) y = r.bottom;
+            else y = r.top;
+        }
+        return new go.Point(r.centerX, y);
+    }
+};
+//连接线与节点连接的角度
+BarLink.prototype.getLinkDirection = function(node, port, linkpoint, spot, from, ortho, othernode, otherport) {
+    var p = port.getDocumentPoint(go.Spot.Center);
+    var r = new go.Rect(port.getDocumentPoint(go.Spot.TopLeft),
+        port.getDocumentPoint(go.Spot.BottomRight));
+    var op = otherport.getDocumentPoint(go.Spot.Center);
+    var below = op.y > r.centerY;
+    var below_x=op.x>r.centerX;
+    var res=0;
+    if (node.category === "Exclusive1") {
+        if(r.right-r.left<2){
+            if(below_x) res=0;
+            else res=180;
+        }
+        else if(r.top-r.bottom<2){
+            if(below) res=90;
+            else res=270;
+        }
+        else {
+            res=0;
+        }
+    }
+    else {
+        var lr = op.x - r.centerX;
+        var hl = op.y - r.centerY;
+
+        if (Math.abs(lr) > Math.abs(hl)) {
+            if(op.x > r.centerX) res=0;
+            else res=180;
+        }else{
+            if(op.y > r.centerY) res=90;
+            else res=270;
+        }
+    }
+
+    // return below ? 90 : 270;
+    return res
+};
+
+// end BarLink class
+
+
 function onSelectionChanged(e) {}
 //tab切换效果
 function setTab(tab_id) {
@@ -427,5 +512,14 @@ function sure() {
          alert("成功保存！");
      }
 
+}
+
+function commonNodeStyle() {
+    return [
+        {
+            locationSpot: go.Spot.Center,
+        },
+        new go.Binding("location", "location", go.Point.parse).makeTwoWay(go.Point.stringify),
+    ];
 }
 
