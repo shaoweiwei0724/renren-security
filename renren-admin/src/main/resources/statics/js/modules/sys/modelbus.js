@@ -980,7 +980,9 @@ var vm = new Vue({
                 }
             });
         },
-
+        rule:function(){
+          alert("建设中……")
+        },
         copyurl:function () {
             var nodes = ztreeMain.getSelectedNodes();
             if(nodes == null) {
