@@ -118,4 +118,12 @@ public class SifanyObjDataEntity implements Serializable {
 	public void setOfflineSim(Integer offlineSim) {
 		this.offlineSim = offlineSim;
 	}
+
+	public Long getDataId() {
+		return dataId;
+	}
+
+	public void setDataId(Long dataId) {
+		this.dataId = dataId;
+	}
 }
