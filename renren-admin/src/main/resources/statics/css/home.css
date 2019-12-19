@@ -22,8 +22,9 @@ html,body{
     opacity:1;
     margin: 0;
     position: fixed;
-    background:url(../images/home/home_header.png) no-repeat;
+    /*background:url(../images/home/header-nav-bg.png) no-repeat;*/
     background-size: 100%;
+    z-index:88;
 }
 
 #content{
@@ -89,3 +90,46 @@ a{
     background-size: 100% 100%;
 }
 
+.sifany-logo{
+    width: 294px;
+    height: 80px;
+    background: url(../images/home/header-logo-bg.png) no-repeat fixed;
+    padding-left: 25px;
+    font-size: 20px;
+    align-items: baseline;
+    padding-top: 24px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index:99;
+    color:white;
+}
+.sifany-header-top{
+    /*position: absolute;*/
+    height: 33px;
+    background: url(../images/home/header-nav-bg.png) 294px 0 no-repeat;
+    background-size: calc(100vw - 294px) 46px;
+    padding-left: 0;
+    box-shadow: none;
+}
+.sifany-user-logo{
+    -webkit-tap-highlight-color: transparent;
+    direction: ltr;
+    cursor: pointer;
+    font-family: "Chinese Quote",-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    font-size: 14px;
+    font-variant: tabular-nums;
+    list-style: none;
+    text-align: center;
+    color: #fff;
+    white-space: nowrap;
+    box-sizing: border-box;
+    border: 0;
+    vertical-align: middle;
+    border-style: none;
+    line-height: 24px;
+    /*width: 100%;*/
+    height: 24px;
+    display: block;
+    border-radius: 50%;
+}
