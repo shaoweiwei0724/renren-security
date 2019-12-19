@@ -154,7 +154,7 @@ function init() {
     }
 
             myDiagram.nodeTemplateMap.add("Exclusive1",
-                $(go.Node, commonNodeStyle(),
+                $(go.Node,"Horizontal", commonNodeStyle(),
                     { // special resizing: just at the ends
                         resizable: true, resizeObjectName: "SHAPE", resizeAdornmentTemplate: resizeAdornment,
                         rotatable:true,
