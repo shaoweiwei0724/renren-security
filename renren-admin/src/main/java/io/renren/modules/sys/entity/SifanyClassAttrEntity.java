@@ -57,8 +57,9 @@ public class SifanyClassAttrEntity implements Serializable {
 	private Integer attrstypeId;
 	private String remark;
 	private String algorithmName;
-
-
+	private Boolean onlineMonitor;
+	private Boolean onlineSim;
+	private Boolean offlineSim;
 	public static long getSerialVersionUID() {
 		return serialVersionUID;
 	}
@@ -165,5 +166,29 @@ public class SifanyClassAttrEntity implements Serializable {
 
 	public void setAlgorithmName(String algorithmName) {
 		this.algorithmName = algorithmName;
+	}
+
+	public Boolean getOnlineMonitor() {
+		return onlineMonitor;
+	}
+
+	public void setOnlineMonitor(Boolean onlineMonitor) {
+		this.onlineMonitor = onlineMonitor;
+	}
+
+	public Boolean getOnlineSim() {
+		return onlineSim;
+	}
+
+	public void setOnlineSim(Boolean onlineSim) {
+		this.onlineSim = onlineSim;
+	}
+
+	public Boolean getOfflineSim() {
+		return offlineSim;
+	}
+
+	public void setOfflineSim(Boolean offlineSim) {
+		this.offlineSim = offlineSim;
 	}
 }

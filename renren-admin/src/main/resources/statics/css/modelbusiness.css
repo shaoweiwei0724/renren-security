@@ -163,3 +163,9 @@ option{
     text-align-last: center;
 }
 
+.sag{
+    border:1px solid #FFFFFF;
+    width:600px;
+    height:150px;
+    margin-left: 10px;
+}

@@ -12,7 +12,20 @@ $(function () {
        var element= layui.element;
        // element.render();
     });
+    var url = "sys/sifanyclassattr/attrListInfo";
+    var querys='18';
+    $.ajax({
+        type: "POST",
+        url: baseURL + url,
+        contentType: "application/json",
+        data: JSON.stringify(querys),
+        success: function (r) {
+            if (r.code === 0) {
 
+                vm.classAttrList = r.classAttrList;
+            }
+        }
+    });
     reloadTree();
     getGridDom();
     getGridGatherDom();
@@ -161,6 +174,21 @@ console.log(vm.sifanyClass);
         page:page,
         postData:{'selected_id':selected_id,'attrstypeId':1},
     },true).trigger("reloadGrid");
+    var url = "sys/sifanyclassattr/attrListInfo";
+
+    $.ajax({
+        type: "POST",
+        url: baseURL + url,
+        contentType: "application/json",
+        data: JSON.stringify(selected_id),
+        success: function (r) {
+            if (r.code === 0) {
+                console.log("11111111111111111111wwwwwwww"+r.classAttrList);
+
+                vm.classAttrList = r.classAttrList;
+            }
+        }
+    });
 
 }
 
@@ -620,6 +648,7 @@ var vm = new Vue({
         showList: true,
         //devList:true,
         title: null,
+        classAttrList:[],
         sifanyClassAttr: {
             className:null,
             classId:0,
@@ -878,6 +907,25 @@ var vm = new Vue({
                     data: JSON.stringify(vm.sifanyClass),
                     success: function(r){
                         if(r.code === 0){
+                            var url1="sys/sifanyclassattr/saveClassAttr";
+                            $.ajax({
+                                type: "POST",
+                                url: baseURL + url1,
+                                contentType: "application/json",
+                                data: JSON.stringify(vm.classAttrList),
+                                success: function(r){
+                                    if(r.code === 0){
+                                        layer.msg("操作成功", {icon: 1});
+                                        vm.reload();
+
+                                        // $(document).ready(reloadTree);
+                                        //   refreshNodeTree(nodes,nodes[0].id);
+                                    }else{
+                                        layer.alert(r.msg);
+
+                                    }
+                                }
+                            });
                             layer.msg("操作成功", {icon: 1});
                             vm.reload();
 
@@ -889,6 +937,7 @@ var vm = new Vue({
                         }
                     }
                 });
+
 
         },
         editProject: function(){
@@ -1031,6 +1080,41 @@ var vm = new Vue({
                     }
                 });
 
+        },
+        clickMonitor:function (index) {
+            // console.log('dfdfd:'+id);
+            var that=vm.classAttrList[index];
+            if(that.onlineMonitor){
+
+                that.onlineMonitor=false;
+            }else{
+
+                that.onlineMonitor=true;
+            }
+        },
+        clickOnlineSim:function (index) {
+           var that=vm.classAttrList[index];
+            if(that.onlineSim){
+
+                that.onlineSim=false;
+            }else{
+
+                that.onlineSim=true;
+            }
+
+        },
+        clickOfflineSim:function (index) {
+
+            var that=vm.classAttrList[index];
+            if(that.offlineSim){
+
+                that.offlineSim=false;
+            }else{
+
+                that.offlineSim=true;
+            }
+
         }
+
     }
 });
