@@ -7,10 +7,10 @@ import java.util.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.renren.common.utils.RedisUtils;
 import io.renren.common.validator.ValidatorUtils;
-import io.renren.modules.sys.entity.SifanyClassAttrEntity;
-import io.renren.modules.sys.entity.SifanyDataTextEntity;
+import io.renren.modules.sys.entity.*;
 import io.renren.modules.sys.service.SifanyObjAttrService;
 import io.renren.modules.sys.service.SifanyDataTextService;
+import io.renren.modules.sys.service.SifanyObjDataService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.renren.modules.sys.entity.SifanyObjEntity;
-import io.renren.modules.sys.entity.SifanyObjAttrEntity;
 import io.renren.modules.sys.service.SifanyObjService;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
@@ -45,7 +43,8 @@ public class SifanyObjController  extends AbstractController{
     private RedisUtils redisUtils;
     @Autowired
     private SifanyObjAttrService sifanyObjAttrService;
-
+    @Autowired
+    private SifanyObjDataService sifanyObjDataService;
     /**
      * 列表
      */
@@ -271,4 +270,32 @@ public class SifanyObjController  extends AbstractController{
         return "sucess";
     }
 
+
+    /**
+     * 修改在线监测标签
+     */
+    @RequestMapping("/updateonm")
+    public R updateOnm(@RequestBody SifanyObjDataEntity sifanyObjData) throws UnsupportedEncodingException {
+        sifanyObjDataService.updateById(sifanyObjData);
+        System.out.println("data:"+sifanyObjData);
+        return R.ok();
+    }
+    /**
+     * 修改在线监测标签
+     */
+    @RequestMapping("/updateons")
+    public R updateOns(@RequestBody SifanyObjDataEntity sifanyObjData) throws UnsupportedEncodingException {
+        sifanyObjDataService.updateById(sifanyObjData);
+        System.out.println("data:"+sifanyObjData);
+        return R.ok();
+    }
+    /**
+     * 修改在线监测标签
+     */
+    @RequestMapping("/updateofs")
+    public R updateOfs(@RequestBody SifanyObjDataEntity sifanyObjData) throws UnsupportedEncodingException {
+        sifanyObjDataService.updateById(sifanyObjData);
+        System.out.println("data:"+sifanyObjData);
+        return R.ok();
+    }
 }

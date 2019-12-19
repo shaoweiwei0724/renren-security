@@ -189,15 +189,15 @@ function init() {
                         if (attrs.length > 0) {
                             var para = {};//参数名称
                             var attrs_id={}//参数ID
-                            var onm = {};//参数显示标志
+                            var ofs = {};//参数显示标志
                             for (var j in attrs) {
                                 para[attrs[j]["objName"]] = attrs[j]["id"].toString();
-                                onm[attrs[j]["objName"]] = attrs[j]["onlineMonitor"];
+                                ofs[attrs[j]["objName"]] = attrs[j]["offlineSim"];
                                 attrs_id[attrs[j]["objName"]] = attrs[j]["id"];
                             }
                             for (var i in para) {
-                                 console.log("i:",onm[i]);
-                                 if (onm[i] == "0") {
+                                 console.log("i:",ofs[i]);
+                                 if (ofs[i] == "0") {
                                      html += '<tr><td><input type="checkbox" name="'+goKey+'" onclick="changeParaOmn(this)"  id="'+attrs_id[i]+'">' + i+'</td></tr>';
                                      console.log("html",html);
                                  } else {
@@ -590,10 +590,10 @@ function init() {
             if (attrs.length > 0) {
                 var goKey = swan_objs_res[i].goKey;
                 var para = {};
-                var onm = {};
+                var ofs = {};
                 for (var j in attrs) {
                     para[attrs[j]["objName"]] = swan_redis_data[attrs[j]["id"].toString()];
-                    onm[attrs[j]["objName"]] = attrs[j]["onlineMonitor"];
+                    ofs[attrs[j]["objName"]] = attrs[j]["offlineSim"];
                 }
                 //添加参数panel
                 var para_node = {}
@@ -605,7 +605,7 @@ function init() {
                 myDiagram.model.addNodeData(para_node);
                 //添加各参数
                 for (var i in para) {
-                    if (onm[i] != 0) {
+                    if (ofs[i] != 0) {
                         var node = {}
                         node["key"] = goKey + "_para" + j;
                         node["text"] = i;
@@ -655,19 +655,18 @@ function changeParaOmn(checkbox){
     }
         if(checkbox.checked==false)
         {
-            data.onlineMonitor=0;
+            data.offlineSim=0;
         }
         else {
-            data.onlineMonitor=1;
+            data.offlineSim=1;
         }
         //修改数据库的值
-    var xmlHttpOmn = new XMLHttpRequest();
-    xmlHttpOmn.open("POST", "../../../sys/sifanyobj/updateonm", true);
-    xmlHttpOmn.setRequestHeader('Content-Type', 'application/json');
-    xmlHttpOmn.send(JSON.stringify(data));
-    xmlHttpOmn.onreadystatechange = function () {
-        if (xmlHttpOmn.readyState === 4 && xmlHttpOmn.status === 200) {
-            init();
+    var xmlHttpOfs = new XMLHttpRequest();
+    xmlHttpOfs.open("POST", "../../../sys/sifanyobj/updateons", true);
+    xmlHttpOfs.setRequestHeader('Content-Type', 'application/json');
+    xmlHttpOfs.send(JSON.stringify(data));
+    xmlHttpOfs.onreadystatechange = function () {
+        if (xmlHttpOfs.readyState === 4 && xmlHttpOfs.status === 200) {
         }
     }
 }

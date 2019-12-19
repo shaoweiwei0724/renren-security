@@ -9,6 +9,10 @@
         <result property="objId" column="obj_id"/>
         <result property="dataType" column="data_type"/>
         <result property="dataId" column="data_id"/>
+        <result property="onlineMonitor" column="online_monitor"/>
+        <result property="onlineSim" column="online_sim"/>
+        <result property="offlineSim" column="offline_sim"/>
+
     </resultMap>
 
 
