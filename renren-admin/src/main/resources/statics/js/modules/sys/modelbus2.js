@@ -148,7 +148,7 @@ function tree_click_swan(e,treeId, treeNode) {
     // localStorage.iconsId = selected_id;
     vm.sifanyObj = {id:node[0].id,name:node[0].name,code:node[0].code,icons:node[0].icons,remark:node[0].remark,irconurl:node[0].irconurl,modelId:node[0].modelId };
     localStorage.iconsId = vm.sifanyObj.modelId;
-    $('#config-swan-svg').attr('src',$('#config-swan-svg').attr('src')).trigger("reloadGrid");
+    $('#config-swan-svg2').attr('src',$('#config-swan-svg2').attr('src')).trigger("reloadGrid");
     console.log("1",vm.sifanyObj);
     var page = $("#jqGrid").jqGrid('getGridParam','page');
     $("#jqGrid").jqGrid('setGridParam',{
