@@ -22,7 +22,9 @@ function init() {
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
             str = JSON.parse(xmlHttp.responseText);
             map = JSON.parse(str.mapJson);
+            // console.log(str);
             swan_objs_res = str.objs;
+            console.log("swan_objs_res:", swan_objs_res);
             for (var i in swan_objs_res) {
                 var attrs = swan_objs_res[i].attrs;
                 if (attrs.length > 0) {
@@ -33,11 +35,15 @@ function init() {
             }
             for (var i = 0; i < map.nodeDataArray.length; i++) {
                 icon[map.nodeDataArray[i].icon] = map.nodeDataArray[i].source.icons;
+                // console.log(map.nodeDataArray[i]);
+                map.nodeDataArray[i].isGroup = true;
+                map.nodeDataArray[i].category = "OfGroups";
                 nodeDataArray.push(map.nodeDataArray[i]);
             }
             for (var j = 0; j < map.linkDataArray.length; j++) {
                 linkDataArray.push(map.linkDataArray[j]);
             }
+
             var $ = go.GraphObject.make;  // for conciseness in defining templates
             var resizeAdornment =
                 $(go.Adornment, go.Panel.Spot,
@@ -162,15 +168,15 @@ function init() {
                     {
                         locationSpot: go.Spot.Center,
                     },
-                    new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify),
+                    new go.Binding("location", "location", go.Point.parse).makeTwoWay(go.Point.stringify),
                 ];
             }
 
             //鼠标双击弹出属性选择界面
-            function nodeClick(e, node) {
+            function nodeDoubleClick(e, node) {
 
                 // alert(node.part.data["group"]);
-                showContextMenu(node.part.data["key"], e.event.clientX - 10, e.event.clientY - 10);
+                showContextMenu(node.part.data["group"], e.event.clientX - 10, e.event.clientY - 10);
 
             }
 
@@ -189,7 +195,6 @@ function init() {
                                 onm[attrs[j]["objName"]] = attrs[j]["onlineMonitor"];
                                 attrs_id[attrs[j]["objName"]] = attrs[j]["id"];
                             }
-                            console.log("onm:",onm);
                             for (var i in para) {
                                  console.log("i:",onm[i]);
                                  if (onm[i] == "0") {
@@ -214,6 +219,19 @@ function init() {
                     }
             }
 
+
+                myDiagram.nodeTemplateMap.add("LinkLabel",
+                    $("Node",
+                        {
+                            selectable: true, avoidable: false,
+                            layerName: "Foreground"
+                        },  // always have link label nodes in front of Links
+                        $("Shape", "Ellipse",
+                            {
+                                width: 2, height: 2, stroke: "#CD0000",
+                                portId: "", fromLinkable: true, toLinkable: true, cursor: "pointer"
+                            })
+                    ));
                 myDiagram.nodeTemplateMap.add("Exclusive1",
                     $(go.Node, commonNodeStyle(),
                         { // special resizing: just at the ends
@@ -228,7 +246,25 @@ function init() {
                             },
                             new go.Binding("desiredSize", "size", go.Size.parse).makeTwoWay(go.Size.stringify))
                     ));
-
+                myDiagram.nodeTemplateMap.add("parallel",
+                    $(go.Node, "Spot",
+                        {
+                            // locationSpot: go.Spot.Center,
+                            reshapable: true,
+                            resizable: true,
+                        },
+                        new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+                        $(go.Shape, "Rectangle", portStyle(true),
+                            {
+                                stroke: "#12a0ff",
+                                fromSpot: go.Spot.None,
+                                toSpot: go.Spot.None,
+                                // fromSpot:go.Spot.AllSides,
+                                geometryString: "M0 0L100 0",
+                                portId: "",
+                            })
+                    )
+                );
                 myDiagram.groupTemplateMap.add("OfGroups",
                     $(go.Group, "Auto",
                         {
@@ -283,6 +319,7 @@ function init() {
                 myDiagram.groupTemplateMap.add("OfNodes",
 
                     $(go.Group, "Auto",
+                        {doubleClick: nodeDoubleClick},
                         {
                             isShadowed: true,//阴影
                             movable: true,//允许拖动
@@ -319,19 +356,18 @@ function init() {
                         }).ofObject(),
 
                         $(go.Shape, "Rectangle",
-                            {fill: "rgba(67,93,128,0.3)", stroke: null, strokeWidth: 2}),
+                            {fill: null, stroke: "#435d80", strokeWidth: 2}),
                         $(go.Panel, "Vertical",  // title above Placeholder
-                            // $(go.Panel, "Horizontal",  // button next to TextBlock
-                            //     {stretch: go.GraphObject.Horizontal, background: "transparent"},
-                            //     $("SubGraphExpanderButton",
-                            //         {alignment: go.Spot.Right, margin: 5})
-                            // ),  // end Horizontal Panel
+                            $(go.Panel, "Horizontal",  // button next to TextBlock
+                                {stretch: go.GraphObject.Horizontal, background: "transparent"},
+                                $("SubGraphExpanderButton",
+                                    {alignment: go.Spot.Right, margin: 5})
+                            ),  // end Horizontal Panel
                             $(go.Placeholder,
                                 {padding: 5, alignment: go.Spot.TopLeft})
-                        ),  // end Vertical Panel
-            new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify)
+                        )  // end Vertical Panel
 
-        ));  // end Group and call to add to template Map
+                    ));  // end Group and call to add to template Map
 
                 // replace the default Node template in the nodeTemplateMap
                 myDiagram.nodeTemplateMap.add("TextNode",
@@ -342,7 +378,7 @@ function init() {
                             }
                         },
                         $(go.Shape, "Rectangle",
-                            {fill: "rgba(67,93,128,0.3)", stroke: null},
+                            {fill: "transparent", stroke: null},
                             new go.Binding("fill", "color")),
                         $(go.Panel, "Table",
                             {
@@ -355,7 +391,7 @@ function init() {
                             $(go.TextBlock, // the name
                                 {
                                     row: 0, column: 0,
-                                    font: "8pt Segoe UI,sans-serif",
+                                    font: "12pt Segoe UI,sans-serif",
                                     stroke: "#fff",
                                     editable: true, isMultiline: false,
                                 },
@@ -363,7 +399,6 @@ function init() {
                             $(go.TextBlock,
                                 {
                                     row: 0, column: 1,
-                                    font: "8pt Segoe UI,sans-serif",
                                     editable: true, isMultiline: false,
                                     stroke: "#fff",
                                     margin: new go.Margin(0, 0, 0, 3)
@@ -386,8 +421,7 @@ function init() {
                     ));
 
                 myDiagram.nodeTemplate =
-                    $(go.Node, "Spot",
-                        {click:nodeClick},
+                    $(go.Node, "Auto",
                         {
                             locationObjectName: 'main',
                             locationSpot: go.Spot.Center,
@@ -403,17 +437,7 @@ function init() {
                                 {
                                     desiredSize: new go.Size(100, 100)
                                 },
-                                new go.Binding("source", "icon", convertKeyImage)),
-                            $(go.TextBlock,
-                                {
-                                    font: "8pt Lato, sans-serif",
-                                    textAlign: "center",
-                                    stroke:"white",
-                                    maxSize: new go.Size(100, NaN),isMultiline: false,
-                                    alignment: go.Spot.TopCenter,
-                                    alignmentFocus: go.Spot.BottomCenter
-                                },
-                                new go.Binding("text"))
+                                new go.Binding("source", "icon", convertKeyImage))
                         ),
                         // four small named ports, one on each side:
                         makePort("T", go.Spot.Top, true, true),
@@ -456,15 +480,6 @@ function init() {
                     if (dir === "rightsingle") return go.Spot.Right;
                 }
 
-            myDiagram.model.addLinkData({"category":"PicPara"});
-            myDiagram.linkTemplateMap.add("PicPara",
-                $(go.Link,
-                    { routing: go.Link.AvoidsNodes, curve: go.Link.JumpGap, corner: 10, reshapable: true, toShortLength: 7,deletable:false},
-                    new go.Binding("points").makeTwoWay(),
-
-                    $(go.Shape, {stroke: "#cd0000", strokeWidth:3 })
-                )
-            );
                 myDiagram.linkTemplate =
                     $(BarLink, {
                             routing: go.Link.Orthogonal,
@@ -493,7 +508,7 @@ function init() {
                             new go.Binding("stroke", "color"))
                     );
                 myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
-                // getPic(nodeDataArray);
+                getPic(nodeDataArray);
                 getParaPanel();//获取参数列表
                 listenRedis();//监听redis添加参数
 
@@ -580,27 +595,14 @@ function init() {
                     para[attrs[j]["objName"]] = swan_redis_data[attrs[j]["id"].toString()];
                     onm[attrs[j]["objName"]] = attrs[j]["onlineMonitor"];
                 }
-                //获取父元素的坐标
-                var group = myDiagram.model.findNodeDataForKey(goKey);
-                var pos=group["pos"].trim().split(" ")
-                var x=new Number(pos[0])-75;
-                var y=new Number(pos[1])-100;
-                var loc=(x).toString()+" "+(y).toString();
-                console.log("loc:",loc);
                 //添加参数panel
                 var para_node = {}
                 para_node["key"] = goKey + "_para";
                 para_node["text"] = "参数";
                 para_node["isGroup"] = true;
                 para_node["category"] = "OfNodes";
-                para_node["pos"]=loc;
-                para_node["pic_node"]=goKey;
+                para_node["group"] = goKey;
                 myDiagram.model.addNodeData(para_node);
-                // var link_para={};
-                // link_para["from"]=goKey;
-                // link_para["to"]=goKey + "_para"
-                // link_para["category"]="PicPara";
-                // myDiagram.model.addLinkData(link_para);
                 //添加各参数
                 for (var i in para) {
                     if (onm[i] != 0) {
@@ -617,34 +619,18 @@ function init() {
         }
     }
 
-    //计算属性节点的坐标
-function FindPos(node){
-
-}
-    for (var i in swan_objs_res) {
-        var attrs = swan_objs_res[i].attrs;
-        if (attrs.length > 0) {
-            var goKey = swan_objs_res[i].goKey;
-            var para = {};
-            var onm = {};
-            for (var j in attrs) {
-                para[attrs[j]["objName"]] = swan_redis_data[attrs[j]["id"].toString()];
-                onm[attrs[j]["objName"]] = attrs[j]["onlineMonitor"];
-            }
-        }
-}
-
 //获取图片
-//     function getPic(node) {
-//         console.log(node);
-//         for (var i in node) {
-//             var pic = {};
-//             pic["key"] = node[i].key + "_pic";
-//             pic["icon"] = node[i].icon;
-//             pic["category"] = "PicNode";
-//             myDiagram.model.addNodeData(pic);
-//         }
-//     }
+    function getPic(node) {
+        console.log(node);
+        for (var i in node) {
+            var pic = {};
+            pic["key"] = node[i].key + "_pic";
+            pic["icon"] = node[i].icon;
+            pic["group"] = node[i].key;
+            pic["category"] = "PicNode";
+            myDiagram.model.addNodeData(pic);
+        }
+    }
 
     function onSelectionChanged(e) {
     }
@@ -685,6 +671,78 @@ function changeParaOmn(checkbox){
         }
     }
 }
+// //删除节点
+// function deletePara(key) {
+//         console.log("nodeData:",nodeDataArray);
+//         for(var i in nodeDataArray){
+//             console.log("i:",nodeDataArray[i].group);
+//             if(nodeDataArray[i].group==key + "_para"){
+//                 var nodedata=myDiagram.model.findNodeDataForKey(nodeDataArray[i].key);
+//                 myDiagram.model.removeNodeData(nodedata);
+//             }
+//         }
+// }
+// //重新加载节点
+// function reloadPara(key) {
+//     nodeDataArray = [];
+//     linkDataArray = [];
+//     var xmlHttpReload = new XMLHttpRequest();
+//     xmlHttpReload.open("GET", baseIP + "sys/sifanyclass/scenes/" + selectSceneId, true);
+//     xmlHttpReload.send();
+//     xmlHttpReload.onreadystatechange = function () {
+//         if (xmlHttpReload.readyState === 4 &&xmlHttpReload.status === 200) {
+//             str = JSON.parse(xmlHttpReload.responseText);
+//             map = JSON.parse(str.mapJson);
+//             // console.log(str);
+//             swan_objs_res = str.objs;
+//             for (var i in swan_objs_res) {
+//                 var attrs = swan_objs_res[i].attrs;
+//                 if (attrs.length > 0) {
+//                     for (var j in attrs) {
+//                         swan_redis_data[attrs[j]["id"].toString()] = 0
+//                     }
+//                 }
+//             }
+//             for (var i = 0; i < map.nodeDataArray.length; i++) {
+//                 icon[map.nodeDataArray[i].icon] = map.nodeDataArray[i].source.icons;
+//                 // console.log(map.nodeDataArray[i]);
+//                 map.nodeDataArray[i].isGroup = true;
+//                 map.nodeDataArray[i].category = "OfGroups";
+//                 nodeDataArray.push(map.nodeDataArray[i]);
+//             }
+//             for (var j = 0; j < map.linkDataArray.length; j++) {
+//                 linkDataArray.push(map.linkDataArray[j]);
+//             }
+//         }
+//     }
+//
+//     for (var i in swan_objs_res) {
+//         var attrs = swan_objs_res[i].attrs;
+//         if (attrs.length > 0) {
+//             var goKey = swan_objs_res[i].goKey;
+//             var para = {};
+//             var onm = {};
+//             for (var j in attrs) {
+//                 para[attrs[j]["objName"]] = swan_redis_data[attrs[j]["id"].toString()];
+//                 onm[attrs[j]["objName"]] = attrs[j]["onlineMonitor"];
+//             }
+//             if(goKey.toString()==key)
+//             //添加各参数
+//             for (var i in para) {
+//                 if (onm[i] != 0) {
+//                     var node = {}
+//                     node["key"] = goKey + "_para" + j;
+//                     node["text"] = i;
+//                     node["value"] = 0;
+//                     node["group"] = goKey + "_para";
+//                     node["category"] = "TextNode";
+//                     myDiagram.model.addNodeData(node);
+//                 }
+//             }
+//         }
+//     }
+// }
+
     /**
      * 连线的样式
      */
