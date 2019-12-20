@@ -73,7 +73,7 @@ public class SifanyObjController  extends AbstractController{
         if(getUser().getUsername().equals("admin"))
             objEntityLists = sifanyObjService.swanList(new QueryWrapper());
         else
-            objEntityLists = sifanyObjService.swanList(new QueryWrapper<SifanyObjEntity>().eq("user_id",uerId).or().eq("parent_id",-1l));
+            objEntityLists = sifanyObjService.swanList(new QueryWrapper<SifanyObjEntity>().eq("user_id",uerId).or().eq("id",-1l));
 
         SifanyObjEntity sifanyObjEntity = new SifanyObjEntity();
         sifanyObjEntity.setName("场景实例");

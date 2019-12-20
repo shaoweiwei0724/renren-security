@@ -41,19 +41,9 @@ public class SifanyObjDataEntity implements Serializable {
 
 	@TableField(exist=false)
 	private String objName;
-
-	/**
-	 * 在线监测
-	 */
-	private Integer onlineMonitor;
-	/**
-	 * 在线仿真
-	 */
-	private  Integer onlineSim;
-	/**
-	 * 离线仿真
-	 */
-	private  Integer offlineSim;
+	private Boolean onlineMonitor;
+	private Boolean onlineSim;
+	private Boolean offlineSim;
 
 	public Long getAttrId() {
 		return attrId;
@@ -95,27 +85,27 @@ public class SifanyObjDataEntity implements Serializable {
 		this.dataType = dataType;
 	}
 
-	public Integer getOnlineMonitor() {
+	public Boolean getOnlineMonitor() {
 		return onlineMonitor;
 	}
 
-	public void setOnlineMonitor(Integer onlineMonitor) {
+	public void setOnlineMonitor(Boolean onlineMonitor) {
 		this.onlineMonitor = onlineMonitor;
 	}
 
-	public Integer getOnlineSim() {
+	public Boolean getOnlineSim() {
 		return onlineSim;
 	}
 
-	public void setOnlineSim(Integer onlineSim) {
+	public void setOnlineSim(Boolean onlineSim) {
 		this.onlineSim = onlineSim;
 	}
 
-	public Integer getOfflineSim() {
+	public Boolean getOfflineSim() {
 		return offlineSim;
 	}
 
-	public void setOfflineSim(Integer offlineSim) {
+	public void setOfflineSim(Boolean offlineSim) {
 		this.offlineSim = offlineSim;
 	}
 

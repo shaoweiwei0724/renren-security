@@ -22,7 +22,11 @@ function init() {
     var str={};
     var xmlHttp = new XMLHttpRequest();
 
-    xmlHttp.open("GET", "../../../sys/sifanyclass/select/168", true);
+    if("编辑组态" == localStorage.edit_change){
+        xmlHttp.open("GET", "../../../sys/sifanyclass/select/115", true);
+    }else{
+        xmlHttp.open("GET", "../../../sys/sifanyclass/select/168", true);
+    }
     xmlHttp.send();
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState === 4 && xmlHttp.status ===200){
@@ -292,7 +296,7 @@ function init() {
             new go.Binding("toSpot", "toSpot", function(d) { return spotConverter(d); }),
             new go.Binding("points").makeTwoWay(),
             // mark each Shape to get the link geometry with isPanelMain: true
-            $(go.Shape, { isPanelMain: true, stroke: "#CD0000"/* blue*/, strokeWidth: 2 },
+            $(go.Shape, { isPanelMain: true, stroke: "#13e28e"/* blue*/, strokeWidth: 2 },
                 new go.Binding("stroke", "color"))
         );
 
@@ -556,7 +560,7 @@ function commonNodeStyle() {
         {
             locationSpot: go.Spot.Center,
         },
-        new go.Binding("location", "location", go.Point.parse).makeTwoWay(go.Point.stringify),
+        new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify),
     ];
 }
 
