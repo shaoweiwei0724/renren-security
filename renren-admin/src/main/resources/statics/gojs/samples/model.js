@@ -22,7 +22,11 @@ function init() {
     var str={};
     var xmlHttp = new XMLHttpRequest();
 
-    xmlHttp.open("GET", "../../../sys/sifanyclass/select/168", true);
+    if("编辑组态" == localStorage.edit_change){
+        xmlHttp.open("GET", "../../../sys/sifanyclass/select/115", true);
+    }else{
+        xmlHttp.open("GET", "../../../sys/sifanyclass/select/168", true);
+    }
     xmlHttp.send();
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState === 4 && xmlHttp.status ===200){

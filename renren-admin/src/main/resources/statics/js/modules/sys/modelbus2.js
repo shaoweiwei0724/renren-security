@@ -134,6 +134,15 @@ $(function () {
              console.log(rowData);
          }*/
     });
+
+    if(localStorage.edit_change == document.getElementById("edit_change").innerText){
+
+        if("编辑组态" == document.getElementById("edit_change").innerText){
+            document.getElementById("edit_change").innerText = "编辑接线图";
+        }else{
+            document.getElementById("edit_change").innerText = "编辑组态";
+        }
+    }
 });
 
 
@@ -720,6 +729,18 @@ var vm = new Vue({
                 // var a = JSON.stringify(r.typeLists);
                 // alert(a);
             })
+        },
+
+        edit_change: function(){
+            if("编辑组态" == document.getElementById("edit_change").innerText){
+                document.getElementById("edit_change").innerText = "编辑接线图";
+                localStorage.edit_change = "编辑组态";
+            }else{
+                document.getElementById("edit_change").innerText = "编辑组态";
+                localStorage.edit_change = "编辑接线图"
+            }
+            $('#config-swan-svg2').attr('src',$('#config-swan-svg2').attr('src')).trigger("reloadGrid");
+
         },
 
         add: function(){

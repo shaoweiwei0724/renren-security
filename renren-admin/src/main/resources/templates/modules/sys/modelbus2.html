@@ -4,6 +4,7 @@
     <title>模型类属性</title>
     <#include "/header.html">
 </head>
+
 <body   style="background: transparent">
 <div id="rrapp" v-cloak>
     <div v-show="showList">
@@ -24,7 +25,7 @@
                             <li id="svg-show-id" class="layui-this"><span>组态</span></li>
                             <li ><span>采集</span></li>
                             <li ><span>算法</span></li>
-
+                            <li @click="edit_change" id="edit_change">编辑组态</li>
                         </ul>
                         <div class="layui-tab-content" style="height: 500px;">
                             <div class="layui-tab-item">
@@ -336,6 +337,7 @@
     <iframe src="http://172.72.101.162:18189/#/home/project_iframe"
             width="100%" id="editProject-info" height="800px"></iframe>
 </div>
+
 <script src="${request.contextPath}/statics/js/modules/sys/modelbus2.js?_${.now?long}"></script>
 <script src="${request.contextPath}/statics/plugins/layui/lay/dest/layui.all.js"></script>
 <link rel="stylesheet" href="${request.contextPath}/statics/plugins/layui/css/layui.css">
