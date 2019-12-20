@@ -165,7 +165,18 @@ option{
 
 .sag{
     border:1px solid #FFFFFF;
-    width:600px;
-    height:150px;
+    width:700px;
+    height:120px;
     margin-left: 10px;
+}
+
+.s-config {
+    position: absolute;padding: 0px;margin: 0px;font-size: 1px;text-align: left;overflow: hidden;z-index: 2;cursor: w-resize;left: 300px;height: 479px;width: 6px;top: 0px;
+}
+.sin-config{
+    position: absolute; display: block; padding: 0px; margin: 0px; overflow: hidden; text-align: center; font-size: 1px; cursor: pointer; z-index: 1; visibility: visible; height: 50px; width: 6px; top: 214px; left: 0px;
+}
+.ui-layout-toggler {
+    background: rgba(85, 144, 242, 0.14) !important;
+    border: 0;
 }

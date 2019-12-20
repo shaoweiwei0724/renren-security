@@ -12,7 +12,11 @@ $(function () {
        var element= layui.element;
        // element.render();
     });
-
+    var btn = $('#btn');
+    var spread = $('#menu');
+    btn.click(function () {
+        spread.slideToggle()
+    });
     var url = "sys/sifanyclassattr/attrListInfo";
     var querys='18';
     $.ajax({
@@ -908,25 +912,7 @@ var vm = new Vue({
                     data: JSON.stringify(vm.sifanyClass),
                     success: function(r){
                         if(r.code === 0){
-                            var url1="sys/sifanyclassattr/saveClassAttr";
-                            $.ajax({
-                                type: "POST",
-                                url: baseURL + url1,
-                                contentType: "application/json",
-                                data: JSON.stringify(vm.classAttrList),
-                                success: function(r){
-                                    if(r.code === 0){
-                                        layer.msg("操作成功", {icon: 1});
-                                        vm.reload();
 
-                                        // $(document).ready(reloadTree);
-                                        //   refreshNodeTree(nodes,nodes[0].id);
-                                    }else{
-                                        layer.alert(r.msg);
-
-                                    }
-                                }
-                            });
                             layer.msg("操作成功", {icon: 1});
                             vm.reload();
 
@@ -1115,7 +1101,29 @@ var vm = new Vue({
                 that.offlineSim=true;
             }
 
+        },
+        addclassAttr:function (){
+            var url1="sys/sifanyclassattr/saveClassAttr";
+            $.ajax({
+                type: "POST",
+                url: baseURL + url1,
+                contentType: "application/json",
+                data: JSON.stringify(vm.classAttrList),
+                success: function(r){
+                    if(r.code === 0){
+                        layer.msg("操作成功", {icon: 1});
+                        vm.reload();
+
+                        // $(document).ready(reloadTree);
+                        //   refreshNodeTree(nodes,nodes[0].id);
+                    }else{
+                        layer.alert(r.msg);
+
+                    }
+                }
+            });
         }
+
 
     }
 });
