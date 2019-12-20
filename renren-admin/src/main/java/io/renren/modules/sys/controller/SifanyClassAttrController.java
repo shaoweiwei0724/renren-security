@@ -90,6 +90,9 @@ public class SifanyClassAttrController extends AbstractController{
         sifanyClassAttr.setCreateTime(time);
         sifanyClassAttr.setUpdateTime(time);
         sifanyClassAttr.setUserId(getUserId());
+        sifanyClassAttr.setOfflineSim(true);
+        sifanyClassAttr.setOnlineMonitor(true);
+        sifanyClassAttr.setOnlineSim(true);
         sifanyClassAttrService.save(sifanyClassAttr);
 
         return R.ok();
