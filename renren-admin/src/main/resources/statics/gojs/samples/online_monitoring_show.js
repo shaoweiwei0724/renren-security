@@ -216,6 +216,7 @@ function init() {
 
                 myDiagram.nodeTemplateMap.add("Exclusive1",
                     $(go.Node, commonNodeStyle(),
+                        {doubleClick:nodeClick},
                         { // special resizing: just at the ends
                             resizable: true, resizeObjectName: "SHAPE", resizeAdornmentTemplate: resizeAdornment,
                             rotatable: true,
@@ -387,7 +388,7 @@ function init() {
 
                 myDiagram.nodeTemplate =
                     $(go.Node, "Spot",
-                        {click:nodeClick},
+                        {doubleClick:nodeClick},
                         {
                             locationObjectName: 'main',
                             locationSpot: go.Spot.Center,
