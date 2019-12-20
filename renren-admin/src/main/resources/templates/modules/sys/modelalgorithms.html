@@ -155,71 +155,81 @@
                         </div>
                     </div>
                     <div class="layui-tab-item">
-                        <div style="float:left ;width:500px;">
-                            <table id="jqGridget"></table>
-                            <div id="jqGridPagerget"></div>
-                        </div>
-                        <div style="margin-left:60%;">
-                            <form  >
-                                <table class="param_update">
-                                    <tr>
-                                        <td>
-                                            <div class="div-inline">名称</div>
-                                            <div class="div-inline">
-                                                <input type="hidden"  v-model="sifanyClassAttr.id"  readonly="readonly" />
-                                                <input type="text"  v-model="sifanyClassAttr.name"  style="width:110px;height:26px;" readonly="readonly" placeholder="名称"/>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="div-inline">编码</div>
-                                            <div class="div-inline">
-                                                <input type="text"  v-model="sifanyClassAttr.code" style="width:110px;height:26px;" readonly="readonly" placeholder="编码"/>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="div-inline">单位</div>
-                                            <div class="div-inline" >
+                        <table>
+                            <tr>
+                                <td>
+                                    <table id="jqGridget"></table>
+                                    <div id="jqGridPagerget"></div>
+                                </td>
+                                <td>
+                                    <form  >
+                                        <table class="param_update">
+                                            <tr>
+                                                <td>
+                                                    <div class="div-inline">名称</div>
+                                                    <div class="div-inline">
+                                                        <input type="hidden"  v-model="sifanyClassAttr.id"  readonly="readonly" />
+                                                        <input type="text"  v-model="sifanyClassAttr.name"  style="width:110px;height:26px;" readonly="readonly" placeholder="名称"/>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="div-inline">编码</div>
+                                                    <div class="div-inline">
+                                                        <input type="text"  v-model="sifanyClassAttr.code" style="width:110px;height:26px;" readonly="readonly" placeholder="编码"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="div-inline">单位</div>
+                                                    <div class="div-inline" >
 
-                                                <select  v-model="sifanyClassAttr.unitId" readonly="readonly" style="width:110px;height:26px;">
-                                                    <option value="0">Kg</option>
-                                                    <option value="1">N</option>
-                                                    <option value="2">Pa</option>
-                                                    <option value="3">KW</option>
-                                                </select>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="div-inline">类型</div>
-                                            <div  class="div-inline">
+                                                        <select  v-model="sifanyClassAttr.unitId" readonly="readonly" style="width:110px;height:26px;">
+                                                            <option value="0">Kg</option>
+                                                            <option value="1">N</option>
+                                                            <option value="2">Pa</option>
+                                                            <option value="3">KW</option>
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="div-inline">类型</div>
+                                                    <div  class="div-inline">
 
-                                                <select  v-model="sifanyClassAttr.attrstypeId" readonly="readonly" style="width:110px;height:26px;">
-                                                    <option value="0">输入类</option>
-                                                    <option value="1">采集类</option>
-                                                    <option value="2">计算类</option>
-                                                </select>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">
-                                            <div class="div-inline">备注</div>
-                                            <div class="div-inline">
-                                                <input type="text"  v-model="sifanyClassAttr.remark" readonly="readonly" placeholder="备注" style="width:160px;height:26px;"/>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">
-                                                <img style="height:250px;margin: 0 auto;" @click="editProject" src="../../statics/1234.png">
-                                        </td>
-                                    </tr>
-                                </table>
+                                                        <select  v-model="sifanyClassAttr.attrstypeId" readonly="readonly" style="width:110px;height:26px;">
+                                                            <option value="0">输入类</option>
+                                                            <option value="1">采集类</option>
+                                                            <option value="2">计算类</option>
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <div class="div-inline">备注</div>
+                                                    <div class="div-inline">
+                                                        <input type="text"  v-model="sifanyClassAttr.remark" readonly="readonly" placeholder="备注" style="width:160px;height:26px;"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <img style="height:250px;margin: 0 auto;" @click="editProject" src="../../statics/1234.png">
+                                                </td>
+                                            </tr>
+                                        </table>
 
-                            </form>
+                                    </form>
 
-                        </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <!--<div style="float:left ;width:500px;">-->
+
+                        <!--</div>-->
+                        <!--<div style="margin-left:60%;">-->
+
+                        <!--</div>-->
                     </div>
                 </div>
             </div>

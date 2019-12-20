@@ -79,7 +79,7 @@ tbody > tr > th {font-weight: normal; }
 }
 table>thead >tr>th,treegrid-thead>tr>th {
     background: #294c95;
-    transition: background .3s;
+    /*transition: background .3s;*/
     color: #fff;
     font-weight: 500;
 
