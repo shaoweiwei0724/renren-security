@@ -886,10 +886,9 @@ var vm = new Vue({
         addclass:function(){
             var nodes = ztreeMain.getSelectedNodes();
 
-            var values =$("#config-swan-svg").contents().find("#swan-res").val();
+            var values =$("#config-swan-svg2").contents().find("#swan-res").val();
             // console.log($("#config-swan-svg").contents());
 
-            console.log("+++++++++++====="+values);
             if(values != null && values != ""){
                 vm.sifanyObj.modelId=encodeURI(values);
             }
@@ -1014,8 +1013,8 @@ var vm = new Vue({
                 btn: ['确定', '取消'],
                 btn1: function (index) {
 
-                    var values =$("#config-swan-svg").contents().find("#swan-res").val();
-                    console.log($("#config-swan-svg").contents());
+                    var values =$("#config-swan-svg2").contents().find("#swan-res").val();
+                    console.log($("#config-swan-svg2").contents());
 
                     console.log("+++++++++++====="+values);
                     vm.sifanyObj.modelId=encodeURI(values);

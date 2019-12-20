@@ -57,7 +57,9 @@ function init() {
             else {
                 swan_obj_i.push({"icon":child_i.id, "iconWidth":30, "iconHeight":60,  "text":child_i.name, "source":child_i});
             }
+
                     }
+                    console.log(swan_obj_i);
         swan_objs.push(swan_obj_i)
     }
 
@@ -162,8 +164,8 @@ function init() {
                     },
                     $(go.Shape,
                         { // horizontal line stretched to an initial width of 200
-                            name: "SHAPE", geometryString: "M0 0 L100 0",
-                            fill: "transparent", stroke: "#1296db", width: 100
+                            name: "SHAPE", geometryString: "M0 0 L100 0 H1",
+                            fill: "transparent", stroke: "#2875ff", width: 100
                         },
                         new go.Binding("desiredSize", "size", go.Size.parse).makeTwoWay(go.Size.stringify)),
             $(go.TextBlock, {
@@ -334,9 +336,12 @@ function init() {
     }
 
     myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);// animate some flow through the pipes
+        loop();
         }
     };
 }
+
+
 function BarLink() {
     go.Link.call(this);
 }
@@ -423,6 +428,38 @@ BarLink.prototype.getLinkDirection = function(node, port, linkpoint, spot, from,
 };
 
 // end BarLink class
+
+
+var opacity = 1;
+var down = true;
+function loop() {
+    var diagram = myDiagram;
+    setTimeout(function() {
+        document.getElementById('swan-res').value=(myDiagram.model.toJson());
+        var oldskips = diagram.skipsUndoManager;
+        diagram.skipsUndoManager = true;
+        diagram.links.each(function(link) {
+            var shape = link.findObject("PIPE");
+
+            try{
+                shape.strokeDashOffset
+            }catch(e){
+                return
+            }
+            var off = shape.strokeDashOffset - 3;
+            // animate (move) the stroke dash
+            shape.strokeDashOffset = (off <= 0) ? 60 : off;
+            // animte (strobe) the opacity:
+            if (down) opacity = opacity - 0.01;
+            else opacity = opacity + 0.003;
+            if (opacity <= 0) { down = !down; opacity = 0; }
+            if (opacity > 1) { down = !down; opacity = 1; }
+            shape.opacity = opacity;
+        });
+        diagram.skipsUndoManager = oldskips;
+        loop();
+    }, 60);
+}
 
 
 function onSelectionChanged(e) {}
