@@ -66,6 +66,10 @@ public class SysPageController {
 		return "sifanyhistory";
 	}
 
+	@RequestMapping(value = {"/", "sifanycockpit.html"})
+	public String sifanycockpit(){
+		return "sifanycockpit";
+	}
 
 	@RequestMapping("index1.html")
 	public String index1(){
