@@ -20,7 +20,6 @@
             <div  class="layui-tab layui-tab-card">
                 <ul class="layui-tab-title">
                     <li class="layui-this"><span>指标</span></li>
-                    <li ><span>显示配置</span></li>
                     <li ><span>组态</span></li>
                     <li ><span>采集配置</span></li>
                     <li ><span>计算配置</span></li>
@@ -72,29 +71,6 @@
                         <div id="jqGridPager"></div>
 
 
-                    </div>
-                    <div class="layui-tab-item">
-                        <span>在线监测默认显示指标</span>
-                    <div class="sag">
-                        <span v-for="(item,index) in classAttrList" :key="item.id">
-                             <input type="checkbox"   :checked="item.onlineMonitor" @click="clickMonitor(index)"> {{item.name}}
-                        </span>
-
-                    </div>
-                        <span>在线仿真默认显示指标</span>
-                        <div class="sag">
-                            <span v-for="(item,index) in classAttrList" :key="item.id">
-                             <input type="checkbox"  :checked="item.onlineSim" @click="clickOnlineSim(index)"> {{item.name}}
-                        </span>
-
-                        </div>
-                        <span>离线仿真默认显示指标</span>
-                        <div class="sag">
-                            <span v-for="(item,index) in classAttrList" :key="item.id">
-                             <input type="checkbox" name="" id="" :checked="item.offlineSim" @click="clickOfflineSim(index)"> {{item.name}}
-                        </span>
-
-                        </div>
                     </div>
                     <div class="layui-tab-item">
                     <!--<#if shiro.hasPermission("sys:sifanyclassattr:save")>-->
