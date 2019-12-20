@@ -51,6 +51,15 @@ public class SysPageController {
 	}
 
 
+	@RequestMapping(value = {"/", "authority.html"})
+	public String authority(){
+		return "authority";
+	}
+
+	@RequestMapping(value = {"/", "uphold.html"})
+	public String uphold(){
+		return "uphold";
+	}
 	@RequestMapping(value = {"/", "sifanyproject.html"})
 	public String sifanyproject(){
 		return "sifanyproject";
