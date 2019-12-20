@@ -164,7 +164,7 @@ public class SifanyObjController  extends AbstractController{
 
         SifanyObjEntity sifanyObjEntity = sifanyObjService.getById(sifanyObj.getId());
 
-        if(sifanyObj.getIcons().length() >= 20 && sifanyObj.getIcons() != null && sifanyObj.getIcons() != "") {
+        if(sifanyObj.getIcons() != null && sifanyObj.getIcons() != "" && sifanyObj.getIcons().length() >= 20) {
             SifanyDataTextEntity sifanyDataTextEntity=new SifanyDataTextEntity();
             SifanyDataTextEntity sifanyDataTextEntityIcons = sifanyDataTextService.getById(sifanyObjEntity.getIcons());
             if(sifanyDataTextEntityIcons == null) {
@@ -182,7 +182,7 @@ public class SifanyObjController  extends AbstractController{
             }
         }
 
-        if(sifanyObj.getModelId().length()>= 20 && sifanyObj.getModelId() != null && sifanyObj.getModelId() != "") {
+        if(sifanyObj.getModelId() != null && sifanyObj.getModelId() != "" && sifanyObj.getModelId().length()>= 20) {
 
             SifanyDataTextEntity sifanyDataTextEntityModel = sifanyDataTextService.getById(sifanyObjEntity.getModelId());
             if(sifanyDataTextEntityModel == null) {

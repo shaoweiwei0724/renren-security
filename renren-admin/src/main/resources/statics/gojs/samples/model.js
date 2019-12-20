@@ -22,7 +22,7 @@ function init() {
     var str={};
     var xmlHttp = new XMLHttpRequest();
 
-    xmlHttp.open("GET", "../../../sys/sifanyclass/select/159", true);
+    xmlHttp.open("GET", "../../../sys/sifanyclass/select/168", true);
     xmlHttp.send();
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState === 4 && xmlHttp.status ===200){

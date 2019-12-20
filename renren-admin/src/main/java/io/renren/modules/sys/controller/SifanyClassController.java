@@ -164,7 +164,7 @@ public class SifanyClassController extends AbstractController{
         sifanyClass.setUpdateTime(time);
         SifanyClassEntity sifanyClassEntity =  sifanyClassService.getById(sifanyClass.getId());
         //图标不为空且不是数字，则更新图标
-        if(sifanyClass.getIcons().length() >= 20 && sifanyClass.getIcons() != null && sifanyClass.getIcons() != ""){
+        if(sifanyClass.getIcons() != null && sifanyClass.getIcons() != "" && sifanyClass.getIcons().length() >= 20){
             SifanyDataTextEntity sifanyDataText = sifanyDataTextService.getById(sifanyClassEntity.getIcons());
             if(sifanyDataText == null) {//之前不存在图标，创建
                 SifanyDataTextEntity sifanyDataTextEntity = new SifanyDataTextEntity();
