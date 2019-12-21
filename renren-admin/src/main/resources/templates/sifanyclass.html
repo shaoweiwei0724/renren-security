@@ -44,6 +44,17 @@
         $('.swan-home').click(function(){
             location.href=$(this).attr('href')
         })
+
+            var a = document.getElementById("swan-main");//获取div块对象
+            var Height=document.documentElement.clientHeight-90;//取得浏览器页面可视区域的宽度
+            var Width=document.documentElement.clientWidth;//取得浏览器页面可视区域的宽度
+            // var gao1 = a.offsetHeight;//获取div块的高度值
+            // var gao2 = a.offsetWidth;//获取div块的宽度值
+            // var Sgao1= 2*(Height - gao1)/5;
+            // var Sgao2= (Width - gao2)/2+"px";
+            a.style.height=Height+"px";
+            // a.style.left=Sgao2;
+
     })
 </script>
 <!-- ADD THE CLASS layout-boxed TO GET A BOXED LAYOUT -->
@@ -51,7 +62,7 @@
 <!-- Site wrapper -->
 
 <div class="wrapper" id="rrapp" v-cloak>
-    <div class="sifany-header-top">
+    <div class="sifany-header-top" id="sifany-head-top">
         <table style="width:150px;position: fixed;right: 20px;top:2px;font-size: 20px;color:white;z-index:999;" class=" swan-table">
             <tr>
                 <td style="width: 40px;padding-top: 4px;">
@@ -156,7 +167,7 @@
 
         <!-- Main content -->
         <section class="content">
-            <iframe scrolling="yes" frameborder="0" style="width:100%;min-height:450px;overflow:visible;" :src="main"></iframe>
+            <iframe scrolling="yes" frameborder="0" style="width:100%;overflow:visible;" :src="main" id="swan-main"></iframe>
         </section>
         <!-- /.content -->
     </div>
@@ -253,6 +264,10 @@
         position: relative;
         display: block;
         padding: 10px 15px;
+    }
+    .main-sidebar,.left-side{
+        min-height: 85%;
+        height: 95%;
     }
 </style>
 </body>

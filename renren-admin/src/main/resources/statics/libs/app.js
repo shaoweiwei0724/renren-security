@@ -258,7 +258,7 @@ function _init() {
       $(".layout-boxed > .wrapper").css('overflow', 'hidden');
       //Get window height and the wrapper height
       var footer_height = $('.main-footer').outerHeight() || 0;
-      var neg = $('.main-header').outerHeight() + footer_height;
+      var neg = $('#sifany-head-top').outerHeight()+3;
       var window_height = $(window).height();
       var sidebar_height = $(".sidebar").height() || 0;
       //Set the min-height of the content and sidebar based on the

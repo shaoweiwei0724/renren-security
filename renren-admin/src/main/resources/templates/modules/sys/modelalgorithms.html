@@ -5,9 +5,23 @@
     <#include "/header.html">
 </head>
 <body style="background: transparent">
+<script>
+    // $(document).ready(function () {
+    //
+    // })
+    // window.onload=function(){
+    //     var a = document.getElementById("sifany-main");//获取div块对象
+    //     // var a = document.getElementById("swan-main");//获取div块对象
+    //     var Height=document.documentElement.clientHeight-150;//取得浏览器页面可视区域的宽度
+    //     var Width=document.documentElement.clientWidth;//取得浏览器页面可视区域的宽度
+    //     a.style.height=Height+"px";
+    //     // a.style.left=Sgao2;
+    // }
+</script>
+
 <div id="rrapp" v-cloak>
-    <div v-show="showList">
-<table style="width: 100%;">
+    <div v-show="showList" class="sifany-pm">
+<table style="width: 100%;" class="sifany-pm">
     <tr>
         <td id="menu"  width="20%" style="vertical-align:top" ><!-- 选择父类-->
 
@@ -15,9 +29,9 @@
                 <ul id="classTreeMain" class="ztree"></ul>
             </div>
         </td>
-        <td width="80%"  >
+        <td width="80%"   class="sifany-pm">
 
-            <div  class="layui-tab layui-tab-card">
+            <div  class="layui-tab layui-tab-card" class="sifany-pm">
                 <ul class="layui-tab-title">
                     <li class="layui-this"><span>指标</span></li>
                     <li ><span>组态</span></li>
@@ -25,8 +39,8 @@
                     <li ><span>计算配置</span></li>
 
                 </ul>
-                <div class="layui-tab-content" style="height: 500px;">
-                    <div class="layui-tab-item layui-show">
+                <div class="layui-tab-content sifany-pm" id="sifany-main">
+                    <div class="layui-tab-item layui-show" class="sifany-pm">
                         <form >
 
                             <div class="div-inline">名称</div>
@@ -354,5 +368,12 @@
 <script src="${request.contextPath}/statics/plugins/layui/lay/dest/layui.all.js"></script>
 <link rel="stylesheet" href="${request.contextPath}/statics/plugins/layui/css/layui.css">
 <link rel="stylesheet" href="${request.contextPath}/statics/css/modelbusiness.css">
+<style>
+    html,body{height:100%;}
+    #rrapp{height:99%; }
+    .sifany-pm{
+        height:100%;
+    }
+</style>
 </body>
 </html>

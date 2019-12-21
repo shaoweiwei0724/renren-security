@@ -249,7 +249,7 @@ function _init() {
     },
     fix: function () {
       //Get window height and the wrapper height
-      var neg = $('.main-header').outerHeight() + $('.main-footer').outerHeight();
+      var neg = $('.sifany-head-top').outerHeight()-10;
       var window_height = $(window).height();
       var sidebar_height = $(".sidebar").height();
       //Set the min-height of the content and sidebar based on the
@@ -267,11 +267,11 @@ function _init() {
         }
 
         //Fix for the control sidebar height
-        var controlSidebar = $($.AdminLTE.options.controlSidebarOptions.selector);
-        if (typeof controlSidebar !== "undefined") {
-          if (controlSidebar.height() > postSetWidth)
-            $(".content-wrapper, .right-side").css('min-height', controlSidebar.height());
-        }
+        // var controlSidebar = $($.AdminLTE.options.controlSidebarOptions.selector);
+        // if (typeof controlSidebar !== "undefined") {
+        //   if (controlSidebar.height() > postSetWidth)
+        //     $(".content-wrapper, .right-side").css('min-height', controlSidebar.height());
+        // }
 
       }
     },
