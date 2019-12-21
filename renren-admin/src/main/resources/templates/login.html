@@ -30,55 +30,79 @@
             background: url(${request.contextPath}/statics/images/home/bg_login.jpg) no-repeat fixed;
             background-size: 100% 100%;
         }
+        .login-box-body,.login-box-msg{
+            background-color: white;
+            color:#00c1de;
+        }
     </style>
 
 </head>
 <body class="hold-transition login-page">
-<div class="login-box" id="rrapp" v-cloak>
-  <div class="login-logo" style="background: url(statics/images/modelbusiness/logo.png) no-repeat;background-size: 100% 100%;width:400px;margin-left:0px;">
+<script>
+    // $(document).ready(function () {
+    //
+    // })
+    window.onload=function(){
+        var a = document.getElementById("sifany-login");//获取div块对象
+        var Height=document.documentElement.clientHeight;//取得浏览器页面可视区域的宽度
+        var Width=document.documentElement.clientWidth;//取得浏览器页面可视区域的宽度
+        var gao1 = a.offsetHeight;//获取div块的高度值
+        var gao2 = a.offsetWidth;//获取div块的宽度值
+        var Sgao1= 2*(Height - gao1)/5+"px";
+        var Sgao2= (Width - gao2)/2+"px";
+        a.style.top=Sgao1;
+        a.style.left=Sgao2;
+    }
+</script>
+<div class="login-box" id="rrapp" v-cloak >
 
-  </div>
-  <!-- /.login-logo -->
-    <div style="height: 30px;"></div>
-  <div class="login-box-body">
-      <p class="login-box-msg">登录</p>
-      <div v-if="error" class="alert alert-danger alert-dismissible">
-        <h4 style="margin-bottom: 0px;"><i class="fa fa-exclamation-triangle"></i> {{errorMsg}}</h4>
-      </div>
-      <div class="form-group has-feedback">
-        <input type="text" class="form-control" style="width:100%;height: 35px " v-model="username" placeholder="账号">
-        <span class="glyphicon glyphicon-user form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input type="password" class="form-control"  style="width:100%;height: 35px"  v-model="password" placeholder="密码">
-        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-      </div>
-<!--      <div class="form-group has-feedback" >-->
-<!--        <input type="text" class="form-control"  style="width:100%;height: 55px;"  v-model="captcha" @keyup.enter="login" placeholder="验证码">-->
-<!--        <span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>-->
-<!--      </div>-->
-<!--      <div class="form-group has-feedback">-->
-<!--        <img alt="如果看不清楚，请单击图片刷新！" class="pointer" :src="src" @click="refreshCode">-->
-<!--        &nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" @click="refreshCode">点击刷新</a>-->
-<!--      </div>-->
-      
-      
-      <div class="row">
-<!--        <div class="col-xs-8">-->
-<!--          <div class="checkbox icheck">-->
-<!--          </div>-->
-<!--        </div>-->
-        <!-- /.col -->
-        <div class="col-xs-12">
-          <button type="button" class="btn btn-primary btn-block btn-flat" @click="login" style="
+    <div id="sifany-login" style="position: fixed;">
+        <div class="login-logo" style="background: url(statics/images/modelbusiness/logo.png) no-repeat;background-size: 100% 100%;width:400px;margin-left:0px;">
+
+        </div>
+        <!-- /.login-logo -->
+        <div style="height: 30px;"></div>
+        <div class="login-box-body"  >
+            <p class="login-box-msg">登录</p>
+            <div v-if="error" class="alert alert-danger alert-dismissible">
+                <h4 style="margin-bottom: 0px;"><i class="fa fa-exclamation-triangle"></i> {{errorMsg}}</h4>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="text" class="form-control" style="width:100%;height: 35px " v-model="username" placeholder="账号">
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="password" class="form-control"  style="width:100%;height: 35px"  v-model="password" placeholder="密码">
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            <!--      <div class="form-group has-feedback" >-->
+            <!--        <input type="text" class="form-control"  style="width:100%;height: 55px;"  v-model="captcha" @keyup.enter="login" placeholder="验证码">-->
+            <!--        <span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>-->
+            <!--      </div>-->
+            <!--      <div class="form-group has-feedback">-->
+            <!--        <img alt="如果看不清楚，请单击图片刷新！" class="pointer" :src="src" @click="refreshCode">-->
+            <!--        &nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" @click="refreshCode">点击刷新</a>-->
+            <!--      </div>-->
+
+
+            <div class="row">
+                <!--        <div class="col-xs-8">-->
+                <!--          <div class="checkbox icheck">-->
+                <!--          </div>-->
+                <!--        </div>-->
+                <!-- /.col -->
+                <div class="col-xs-12">
+                    <button type="button" class="btn btn-primary btn-block btn-flat" @click="login" style="
            background: #5590f2;font-size: 16px;border-radius: 4px;
     height: 40px;width: 100%;">登录</button>
-        </div>
-        <!-- /.col -->
-      </div>
-    <!-- /.social-auth-links -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.social-auth-links -->
 
-  </div>
+        </div>
+    </div>
+
   <!-- /.login-box-body -->
 </div>
 <!-- /.login-box -->

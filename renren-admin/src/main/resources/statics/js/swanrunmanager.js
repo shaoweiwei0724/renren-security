@@ -53,7 +53,12 @@ var vm = new Vue({
 		getMenuList: function (event) {
 			$.getJSON("sys/menu/nav?_"+$.now(), function(r){
 
-				vm.menuList = r.menuList[16].list;
+				var menuObj={}
+				for(var menuindex in r.menuList){
+					menuObj[r.menuList[menuindex]['menuId']]=r.menuList[menuindex];
+				}
+				console.log(menuObj)
+				vm.menuList = menuObj[229].list;
 			});
 		},
 		getUser: function(){
