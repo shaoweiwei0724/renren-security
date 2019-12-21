@@ -37,7 +37,6 @@ public class SifanyDataTextController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("sys:sifanydatatext:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = sifanyDataTextService.queryPage(params);
 
@@ -49,7 +48,6 @@ public class SifanyDataTextController {
      * 信息
      */
     @RequestMapping(value="/info/{id}")
-    @RequiresPermissions("sys:sifanydatatext:info")
     public R info(@PathVariable("id") Long id){
         SifanyDataTextEntity sifanyDataText = sifanyDataTextService.getById(id);
 
@@ -60,7 +58,6 @@ public class SifanyDataTextController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("sys:sifanydatatext:save")
     public R save(@RequestBody SifanyDataTextEntity sifanyDataText){
         sifanyDataTextService.save(sifanyDataText);
 
@@ -71,7 +68,6 @@ public class SifanyDataTextController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("sys:sifanydatatext:update")
     public R update(@RequestBody SifanyDataTextEntity sifanyDataText){
         ValidatorUtils.validateEntity(sifanyDataText);
         sifanyDataTextService.updateById(sifanyDataText);
@@ -83,7 +79,6 @@ public class SifanyDataTextController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("sys:sifanydatatext:delete")
     public R delete(@RequestBody Long[] ids){
         sifanyDataTextService.removeByIds(Arrays.asList(ids));
 
