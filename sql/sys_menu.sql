@@ -200,7 +200,7 @@ INSERT INTO `sys_menu` VALUES ('208', '0', '履历记录', null, null, '0', 'fa 
 INSERT INTO `sys_menu` VALUES ('209', '174', '系统健康管理', 'modules/sys/modelhealthsys.html', '', '1', 'fa fa-file-code-o', '0');
 INSERT INTO `sys_menu` VALUES ('210', '0', '智能诊断', null, null, '0', 'fa fa-th-list', '0');
 INSERT INTO `sys_menu` VALUES ('211', '210', '综合分析', 'http://10.0.0.9:10137/superset/dashboard/1/', null, '1', 'fa fa-file-code-o', '0');
-INSERT INTO `sys_menu` VALUES ('212', '210', '组态面板', 'http://localhost:18080/swan-admin/statics/gojs/samples/showres.html?id=775&amp;name=市场部', null, '1', null, '0');
+INSERT INTO `sys_menu` VALUES ('212', '210', '组态面板', 'http://localhost:8080/swan-admin/statics/gojs/samples/showres.html?id=775&amp;name=市场部', null, '1', null, '0');
 INSERT INTO `sys_menu` VALUES ('213', '210', '主页报表', 'http://10.0.0.9:10137/superset/dashboard/1/', '', '1', null, '0');
 INSERT INTO `sys_menu` VALUES ('214', '210', '健康报告', 'http://10.0.0.9:10137/superset/dashboard/1/', null, '1', null, '0');
 INSERT INTO `sys_menu` VALUES ('215', '0', '能源安全驾驶舱', null, null, '0', 'fa fa-th-list', '0');
