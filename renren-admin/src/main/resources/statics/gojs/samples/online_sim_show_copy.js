@@ -22,7 +22,9 @@ function init() {
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
             str = JSON.parse(xmlHttp.responseText);
             map = JSON.parse(str.mapJson);
+            // console.log(str);
             swan_objs_res = str.objs;
+            console.log("swan_objs_res:", swan_objs_res);
             for (var i in swan_objs_res) {
                 var attrs = swan_objs_res[i].attrs;
                 if (attrs.length > 0) {
@@ -31,29 +33,17 @@ function init() {
                     }
                 }
             }
-            console.log("str:",str);
             for (var i = 0; i < map.nodeDataArray.length; i++) {
-
-                if(map.nodeDataArray[i].category=="TextNode"||map.nodeDataArray[i].category=="OfNodes"){
-                }
-                else {
-                    icon[map.nodeDataArray[i].icon] = map.nodeDataArray[i].source.icons;
-                }
-                if(map.nodeDataArray[i].category=="TextNode")
-                {
-                    if(map.nodeDataArray[i].onm==true)
-                    {
-                        nodeDataArray.push(map.nodeDataArray[i]);
-                    }
-                }
-                else {
-                    nodeDataArray.push(map.nodeDataArray[i]);
-                }
-
+                icon[map.nodeDataArray[i].icon] = map.nodeDataArray[i].source.icons;
+                // console.log(map.nodeDataArray[i]);
+                map.nodeDataArray[i].isGroup = true;
+                map.nodeDataArray[i].category = "OfGroups";
+                nodeDataArray.push(map.nodeDataArray[i]);
             }
             for (var j = 0; j < map.linkDataArray.length; j++) {
                 linkDataArray.push(map.linkDataArray[j]);
             }
+
             var $ = go.GraphObject.make;  // for conciseness in defining templates
             var resizeAdornment =
                 $(go.Adornment, go.Panel.Spot,
@@ -178,10 +168,70 @@ function init() {
                     {
                         locationSpot: go.Spot.Center,
                     },
-                    new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify),
+                    new go.Binding("location", "location", go.Point.parse).makeTwoWay(go.Point.stringify),
                 ];
             }
 
+            //鼠标双击弹出属性选择界面
+            function nodeDoubleClick(e, node) {
+
+                // alert(node.part.data["group"]);
+                showContextMenu(node.part.data["group"], e.event.clientX - 10, e.event.clientY - 10);
+
+            }
+
+            function showContextMenu(key, x, y) {
+                var html="";
+                for (var i in swan_objs_res) {
+                    var goKey = swan_objs_res[i].goKey;
+                    if (key == goKey) {
+                        var attrs = swan_objs_res[i].attrs;
+                        if (attrs.length > 0) {
+                            var para = {};//参数名称
+                            var attrs_id={}//参数ID
+                            var ons = {};//参数显示标志
+                            for (var j in attrs) {
+                                para[attrs[j]["objName"]] = attrs[j]["id"].toString();
+                                ons[attrs[j]["objName"]] = attrs[j]["onlineSim"];
+                                attrs_id[attrs[j]["objName"]] = attrs[j]["id"];
+                            }
+                            for (var i in para) {
+                                 console.log("i:",ons[i]);
+                                 if (ons[i] == "0") {
+                                     html += '<tr><td><input type="checkbox" name="'+goKey+'" onclick="changeParaOmn(this)"  id="'+attrs_id[i]+'">' + i+'</td></tr>';
+                                     console.log("html",html);
+                                 } else {
+                                     html += '<tr><td><input type="checkbox" name="'+goKey+'" onclick="changeParaOmn(this)" checked="true" id="'+attrs_id[i]+'">' + i+'</td></tr>';
+                                     console.log("html",html);
+                                 }
+                            }
+                            console.log(html);
+                            var div=document.getElementById("layer");
+                            var check=document.getElementById("check");
+                            div.style.left = x + 'px';  // 指定创建的DIV在文档中距离左侧的位置
+                            div.style.top = y + 'px';  // 指定创建的DIV在文档中距离顶部的位置
+                            div.style.display="block";
+                            check.innerHTML = html;
+                            //
+                            // document.body.appendChild(oDiv);
+                        }
+                    }
+                    }
+            }
+
+
+                myDiagram.nodeTemplateMap.add("LinkLabel",
+                    $("Node",
+                        {
+                            selectable: true, avoidable: false,
+                            layerName: "Foreground"
+                        },  // always have link label nodes in front of Links
+                        $("Shape", "Ellipse",
+                            {
+                                width: 2, height: 2, stroke: "#CD0000",
+                                portId: "", fromLinkable: true, toLinkable: true, cursor: "pointer"
+                            })
+                    ));
                 myDiagram.nodeTemplateMap.add("Exclusive1",
                     $(go.Node, commonNodeStyle(),
                         { // special resizing: just at the ends
@@ -196,7 +246,25 @@ function init() {
                             },
                             new go.Binding("desiredSize", "size", go.Size.parse).makeTwoWay(go.Size.stringify))
                     ));
-
+                myDiagram.nodeTemplateMap.add("parallel",
+                    $(go.Node, "Spot",
+                        {
+                            // locationSpot: go.Spot.Center,
+                            reshapable: true,
+                            resizable: true,
+                        },
+                        new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+                        $(go.Shape, "Rectangle", portStyle(true),
+                            {
+                                stroke: "#12a0ff",
+                                fromSpot: go.Spot.None,
+                                toSpot: go.Spot.None,
+                                // fromSpot:go.Spot.AllSides,
+                                geometryString: "M0 0L100 0",
+                                portId: "",
+                            })
+                    )
+                );
                 myDiagram.groupTemplateMap.add("OfGroups",
                     $(go.Group, "Auto",
                         {
@@ -251,6 +319,7 @@ function init() {
                 myDiagram.groupTemplateMap.add("OfNodes",
 
                     $(go.Group, "Auto",
+                        {doubleClick: nodeDoubleClick},
                         {
                             isShadowed: true,//阴影
                             movable: true,//允许拖动
@@ -287,19 +356,18 @@ function init() {
                         }).ofObject(),
 
                         $(go.Shape, "Rectangle",
-                            {fill: "rgba(67,93,128,0.3)", stroke: null, strokeWidth: 2}),
+                            {fill: null, stroke: "#435d80", strokeWidth: 2}),
                         $(go.Panel, "Vertical",  // title above Placeholder
-                            // $(go.Panel, "Horizontal",  // button next to TextBlock
-                            //     {stretch: go.GraphObject.Horizontal, background: "transparent"},
-                            //     $("SubGraphExpanderButton",
-                            //         {alignment: go.Spot.Right, margin: 5})
-                            // ),  // end Horizontal Panel
+                            $(go.Panel, "Horizontal",  // button next to TextBlock
+                                {stretch: go.GraphObject.Horizontal, background: "transparent"},
+                                $("SubGraphExpanderButton",
+                                    {alignment: go.Spot.Right, margin: 5})
+                            ),  // end Horizontal Panel
                             $(go.Placeholder,
                                 {padding: 5, alignment: go.Spot.TopLeft})
-                        ),  // end Vertical Panel
-            new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify)
+                        )  // end Vertical Panel
 
-        ));  // end Group and call to add to template Map
+                    ));  // end Group and call to add to template Map
 
                 // replace the default Node template in the nodeTemplateMap
                 myDiagram.nodeTemplateMap.add("TextNode",
@@ -310,7 +378,7 @@ function init() {
                             }
                         },
                         $(go.Shape, "Rectangle",
-                            {fill: "rgba(67,93,128,0.3)", stroke: null},
+                            {fill: "transparent", stroke: null},
                             new go.Binding("fill", "color")),
                         $(go.Panel, "Table",
                             {
@@ -323,7 +391,7 @@ function init() {
                             $(go.TextBlock, // the name
                                 {
                                     row: 0, column: 0,
-                                    font: "8pt Segoe UI,sans-serif",
+                                    font: "12pt Segoe UI,sans-serif",
                                     stroke: "#fff",
                                     editable: true, isMultiline: false,
                                 },
@@ -331,7 +399,6 @@ function init() {
                             $(go.TextBlock,
                                 {
                                     row: 0, column: 1,
-                                    font: "8pt Segoe UI,sans-serif",
                                     editable: true, isMultiline: false,
                                     stroke: "#fff",
                                     margin: new go.Margin(0, 0, 0, 3)
@@ -354,7 +421,7 @@ function init() {
                     ));
 
                 myDiagram.nodeTemplate =
-                    $(go.Node, "Spot",
+                    $(go.Node, "Auto",
                         {
                             locationObjectName: 'main',
                             locationSpot: go.Spot.Center,
@@ -370,17 +437,7 @@ function init() {
                                 {
                                     desiredSize: new go.Size(100, 100)
                                 },
-                                new go.Binding("source", "icon", convertKeyImage)),
-                            $(go.TextBlock,
-                                {
-                                    font: "8pt Lato, sans-serif",
-                                    textAlign: "center",
-                                    stroke:"white",
-                                    maxSize: new go.Size(100, NaN),isMultiline: false,
-                                    alignment: go.Spot.TopCenter,
-                                    alignmentFocus: go.Spot.BottomCenter
-                                },
-                                new go.Binding("text"))
+                                new go.Binding("source", "icon", convertKeyImage))
                         ),
                         // four small named ports, one on each side:
                         makePort("T", go.Spot.Top, true, true),
@@ -423,15 +480,6 @@ function init() {
                     if (dir === "rightsingle") return go.Spot.Right;
                 }
 
-            myDiagram.model.addLinkData({"category":"PicPara"});
-            myDiagram.linkTemplateMap.add("PicPara",
-                $(go.Link,
-                    { routing: go.Link.AvoidsNodes, curve: go.Link.JumpGap, corner: 10, reshapable: true, toShortLength: 7,deletable:false},
-                    new go.Binding("points").makeTwoWay(),
-
-                    $(go.Shape, {stroke: "#cd0000", strokeWidth:3 })
-                )
-            );
                 myDiagram.linkTemplate =
                     $(BarLink, {
                             routing: go.Link.Orthogonal,
@@ -460,7 +508,8 @@ function init() {
                             new go.Binding("stroke", "color"))
                     );
                 myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
-                // getPic(nodeDataArray);
+                getPic(nodeDataArray);
+                getParaPanel();//获取参数列表
                 listenRedis();//监听redis添加参数
 
 
@@ -534,10 +583,164 @@ function init() {
 //end改变参数
 
 
+//获取参数列表
+    function getParaPanel() {
+        for (var i in swan_objs_res) {
+            var attrs = swan_objs_res[i].attrs;
+            if (attrs.length > 0) {
+                var goKey = swan_objs_res[i].goKey;
+                var para = {};
+                var ons = {};
+                for (var j in attrs) {
+                    para[attrs[j]["objName"]] = swan_redis_data[attrs[j]["id"].toString()];
+                    ons[attrs[j]["objName"]] = attrs[j]["onlineSim"];
+                }
+                //添加参数panel
+                var para_node = {}
+                para_node["key"] = goKey + "_para";
+                para_node["text"] = "参数";
+                para_node["isGroup"] = true;
+                para_node["category"] = "OfNodes";
+                para_node["group"] = goKey;
+                myDiagram.model.addNodeData(para_node);
+                //添加各参数
+                for (var i in para) {
+                    if (ons[i] != 0) {
+                        var node = {}
+                        node["key"] = goKey + "_para" + j;
+                        node["text"] = i;
+                        node["value"] = 0;
+                        node["group"] = goKey + "_para";
+                        node["category"] = "TextNode";
+                        myDiagram.model.addNodeData(node);
+                    }
+                }
+            }
+        }
+    }
 
+//获取图片
+    function getPic(node) {
+        console.log(node);
+        for (var i in node) {
+            var pic = {};
+            pic["key"] = node[i].key + "_pic";
+            pic["icon"] = node[i].icon;
+            pic["group"] = node[i].key;
+            pic["category"] = "PicNode";
+            myDiagram.model.addNodeData(pic);
+        }
+    }
 
     function onSelectionChanged(e) {
     }
+//更改显示状态
+
+function changeParaOmn(checkbox){
+    var data={};
+   //获取参数
+    for (var i in swan_objs_res) {
+        var goKey = swan_objs_res[i].goKey;
+        if (checkbox.name == goKey.toString()) {
+            var attrs = swan_objs_res[i].attrs;
+            for(var j in attrs){
+                console.log("attrs:",attrs[j]);
+                if(attrs[j].id.toString()==checkbox.id)
+                {
+                    console.log("attrs:",attrs);
+                    data=attrs[j];
+                }
+            }
+        }
+    }
+        if(checkbox.checked==false)
+        {
+            data.onlineSim=0;
+        }
+        else {
+            data.onlineSim=1;
+        }
+        //修改数据库的值
+    var xmlHttpOns = new XMLHttpRequest();
+    xmlHttpOns.open("POST", "../../../sys/sifanyobj/updateons", true);
+    xmlHttpOns.setRequestHeader('Content-Type', 'application/json');
+    xmlHttpOns.send(JSON.stringify(data));
+    xmlHttpOns.onreadystatechange = function () {
+        if (xmlHttpOns.readyState === 4 && xmlHttpOns.status === 200) {
+        }
+    }
+}
+// //删除节点
+// function deletePara(key) {
+//         console.log("nodeData:",nodeDataArray);
+//         for(var i in nodeDataArray){
+//             console.log("i:",nodeDataArray[i].group);
+//             if(nodeDataArray[i].group==key + "_para"){
+//                 var nodedata=myDiagram.model.findNodeDataForKey(nodeDataArray[i].key);
+//                 myDiagram.model.removeNodeData(nodedata);
+//             }
+//         }
+// }
+// //重新加载节点
+// function reloadPara(key) {
+//     nodeDataArray = [];
+//     linkDataArray = [];
+//     var xmlHttpReload = new XMLHttpRequest();
+//     xmlHttpReload.open("GET", baseIP + "sys/sifanyclass/scenes/" + selectSceneId, true);
+//     xmlHttpReload.send();
+//     xmlHttpReload.onreadystatechange = function () {
+//         if (xmlHttpReload.readyState === 4 &&xmlHttpReload.status === 200) {
+//             str = JSON.parse(xmlHttpReload.responseText);
+//             map = JSON.parse(str.mapJson);
+//             // console.log(str);
+//             swan_objs_res = str.objs;
+//             for (var i in swan_objs_res) {
+//                 var attrs = swan_objs_res[i].attrs;
+//                 if (attrs.length > 0) {
+//                     for (var j in attrs) {
+//                         swan_redis_data[attrs[j]["id"].toString()] = 0
+//                     }
+//                 }
+//             }
+//             for (var i = 0; i < map.nodeDataArray.length; i++) {
+//                 icon[map.nodeDataArray[i].icon] = map.nodeDataArray[i].source.icons;
+//                 // console.log(map.nodeDataArray[i]);
+//                 map.nodeDataArray[i].isGroup = true;
+//                 map.nodeDataArray[i].category = "OfGroups";
+//                 nodeDataArray.push(map.nodeDataArray[i]);
+//             }
+//             for (var j = 0; j < map.linkDataArray.length; j++) {
+//                 linkDataArray.push(map.linkDataArray[j]);
+//             }
+//         }
+//     }
+//
+//     for (var i in swan_objs_res) {
+//         var attrs = swan_objs_res[i].attrs;
+//         if (attrs.length > 0) {
+//             var goKey = swan_objs_res[i].goKey;
+//             var para = {};
+//             var onm = {};
+//             for (var j in attrs) {
+//                 para[attrs[j]["objName"]] = swan_redis_data[attrs[j]["id"].toString()];
+//                 onm[attrs[j]["objName"]] = attrs[j]["onlineMonitor"];
+//             }
+//             if(goKey.toString()==key)
+//             //添加各参数
+//             for (var i in para) {
+//                 if (onm[i] != 0) {
+//                     var node = {}
+//                     node["key"] = goKey + "_para" + j;
+//                     node["text"] = i;
+//                     node["value"] = 0;
+//                     node["group"] = goKey + "_para";
+//                     node["category"] = "TextNode";
+//                     myDiagram.model.addNodeData(node);
+//                 }
+//             }
+//         }
+//     }
+// }
 
     /**
      * 连线的样式
@@ -623,3 +826,6 @@ function init() {
         return res
     }
 
+    function ok() {
+        window.location.reload();
+    }
