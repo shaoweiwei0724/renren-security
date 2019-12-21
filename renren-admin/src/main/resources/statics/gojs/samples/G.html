@@ -144,8 +144,8 @@
                             // fromSpot:go.Spot.AllSides,
                             geometryString: "M0 0L100 0",
                             portId: "",
-                        }),
-                ),
+                        })
+                )
 
             );
             myDiagram.nodeTemplate =
@@ -201,22 +201,6 @@
                 if (dir === "rightsingle") return go.Spot.Right;
             }
 
-
-            // myDiagram.linkTemplate =
-            // $(go.Link, {
-            //         routing: go.Link.Orthogonal,
-            //         selectionAdorned: true,
-            //         curve: go.Link.JumpOver,
-            //         corner: 0, toShortLength: 4,
-            //         relinkableFrom: true,
-            //         relinkableTo: true,
-            //         reshapable: true,
-            //         resegmentable: true,
-            //         // mouse-overs subtly highlight links:
-            //         mouseEnter: function(e, link) { link.findObject("HIGHLIGHT").stroke = "rgba(30,144,255,0.2)"; },
-            //         mouseLeave: function(e, link) { link.findObject("HIGHLIGHT").stroke = "transparent"; },
-            //         selectionAdorned: true
-            // },
             myDiagram.linkTemplate =
                 $(BarLink, {
                         routing: go.Link.Orthogonal,
@@ -295,7 +279,7 @@
                                 // { "icon":"标签","key":"标签",  "category":"LinkLabel", "text":"标签"},
 
 
-                            ],
+                            ]
 
                         )
                     });

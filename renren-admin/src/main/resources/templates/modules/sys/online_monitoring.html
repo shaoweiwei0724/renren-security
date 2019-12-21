@@ -20,18 +20,17 @@
 
                 <td style="width: 80%">
 
-<!--                    <#if shiro.hasPermission("sys:sifanyobjattr:save")>-->
-<!--                    <a class="btn btn-primary" @click="configmenu"><i class="fa fa-plus"></i>&nbsp;编辑</a>-->
-<!--                </#if>-->
-                <a class="btn btn-primary" @click="copyurl"><i class="fa fa-plus"></i>&nbsp;分享组态</a>
-                <div  style="display: none">
-                    <input type="text"  v-model="sifanyObj.id"  placeholder="id"/>
-                    <input type="text"  v-model="sifanyObj.modelId"  placeholder="图标"/>
-                </div>
-                <div>
-                    <iframe src="${request.contextPath}/statics/gojs/samples/online_monitoring_show.html"
-                            width="100%" id="config-swan-svg0" height="600px"></iframe>
-                </div>
+                    <!--                    <#if shiro.hasPermission("sys:sifanyobjattr:save")>-->
+                    <!--                    <a class="btn btn-primary" @click="configmenu"><i class="fa fa-plus"></i>&nbsp;编辑</a>-->
+                    <!--                </#if>-->
+                    <div  style="display: none">
+                        <input type="text"  v-model="sifanyObj.id"  placeholder="id"/>
+                        <input type="text"  v-model="sifanyObj.modelId"  placeholder="图标"/>
+                    </div>
+                    <div>
+                        <iframe src="${request.contextPath}/statics/gojs/samples/online_monitoring_show.html"
+                                width="100%" id="config-swan-svg0" height="600px"></iframe>
+                    </div>
 
                 </td>
 

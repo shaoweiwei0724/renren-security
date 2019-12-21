@@ -209,8 +209,31 @@ public class SifanyObjController  extends AbstractController{
         }
 
         String  basestring  = "{ \"class\": \"GraphLinksModel\",  \"nodeDataArray\": [],  \"linkDataArray\": []}";
-        if(sifanyObj.getModelId() != null && sifanyObj.getModelId() != "" && URLDecoder.decode(sifanyObj.getModelId(), "utf-8").length()> basestring.length() + 10) {
+//        if(sifanyObj.getModelId() != null && sifanyObj.getModelId() != "" && URLDecoder.decode(sifanyObj.getModelId(), "utf-8").length()> basestring.length() + 10) {
+//            SifanyDataTextEntity sifanyDataTextEntityModel = sifanyDataTextService.getById(sifanyObjEntity.getModelId());
+//            if(sifanyDataTextEntityModel == null) {
+//                SifanyDataTextEntity sifanyDataText=new SifanyDataTextEntity();
+//                sifanyDataText.setContent(URLDecoder.decode(sifanyObj.getModelId(), "utf-8"));
+//                sifanyDataText.setCreateTime(new Date().getTime());
+//                sifanyDataText.setUpdateTime(sifanyDataText.getCreateTime());
+//                sifanyDataTextService.save(sifanyDataText);
+//                sifanyObj.setModelId(sifanyDataText.getId().toString());
+//            }else{
+//                sifanyDataTextEntityModel.setContent(URLDecoder.decode(sifanyObj.getModelId(), "utf-8"));
+//                sifanyDataTextEntityModel.setUpdateTime(new Date().getTime());
+//                sifanyDataTextService.updateById(sifanyDataTextEntityModel);
+//                sifanyObj.setModelId(sifanyDataTextEntityModel.getId().toString());
+//            }
+//
+//            sifanyObjService.toObj(sifanyObj);
+////            sifanyObjService.toObj(sifanyObj);
+//        }else{
+//            sifanyObj.setModelId(sifanyObjEntity.getModelId());
+//        }
+        if( URLDecoder.decode(sifanyObj.getModelId(), "utf-8").length()> basestring.length() + 10) {
             SifanyDataTextEntity sifanyDataTextEntityModel = sifanyDataTextService.getById(sifanyObjEntity.getModelId());
+            SifanyDataTextEntity sifanyDataTextEntityZXFZ=sifanyDataTextService.getById(sifanyObjEntity.getOnlineSimModelId());
+            SifanyDataTextEntity sifanyDataTextEntityLXFZ=sifanyDataTextService.getById(sifanyObjEntity.getOnlineSimModelId());
             if(sifanyDataTextEntityModel == null) {
                 SifanyDataTextEntity sifanyDataText=new SifanyDataTextEntity();
                 sifanyDataText.setContent(URLDecoder.decode(sifanyObj.getModelId(), "utf-8"));
@@ -218,11 +241,31 @@ public class SifanyObjController  extends AbstractController{
                 sifanyDataText.setUpdateTime(sifanyDataText.getCreateTime());
                 sifanyDataTextService.save(sifanyDataText);
                 sifanyObj.setModelId(sifanyDataText.getId().toString());
+
+
+                sifanyDataText.setId(null);
+                sifanyDataTextService.save(sifanyDataText);
+                sifanyObj.setOnlineSimModelId(sifanyDataText.getId().toString());
+                sifanyDataText.setId(null);
+                sifanyDataTextService.save(sifanyDataText);
+                sifanyObj.setOfflineSimModelId(sifanyDataText.getId().toString());
+
+
             }else{
                 sifanyDataTextEntityModel.setContent(URLDecoder.decode(sifanyObj.getModelId(), "utf-8"));
                 sifanyDataTextEntityModel.setUpdateTime(new Date().getTime());
                 sifanyDataTextService.updateById(sifanyDataTextEntityModel);
                 sifanyObj.setModelId(sifanyDataTextEntityModel.getId().toString());
+
+                sifanyDataTextEntityZXFZ.setContent(URLDecoder.decode(sifanyObj.getModelId(), "utf-8"));
+                sifanyDataTextEntityZXFZ.setUpdateTime(new Date().getTime());
+                sifanyDataTextService.updateById(sifanyDataTextEntityZXFZ);
+                sifanyObj.setOnlineSimModelId(sifanyDataTextEntityZXFZ.getId().toString());
+
+                sifanyDataTextEntityLXFZ.setContent(URLDecoder.decode(sifanyObj.getModelId(), "utf-8"));
+                sifanyDataTextEntityLXFZ.setUpdateTime(new Date().getTime());
+                sifanyDataTextService.updateById(sifanyDataTextEntityLXFZ);
+                sifanyObj.setOfflineSimModelId(sifanyDataTextEntityLXFZ.getId().toString());
             }
 
             sifanyObjService.toObj(sifanyObj);

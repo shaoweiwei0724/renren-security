@@ -57,6 +57,8 @@ public class SifanyObjEntity implements Serializable {
 
 
 	private String modelId;
+	private String onlineSimModelId;
+	private String offlineSimModelId;
 
 	private String type;
 	private String code;
@@ -202,5 +204,21 @@ public class SifanyObjEntity implements Serializable {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public String getOnlineSimModelId() {
+		return onlineSimModelId;
+	}
+
+	public void setOnlineSimModelId(String onlineSimModelId) {
+		this.onlineSimModelId = onlineSimModelId;
+	}
+
+	public String getOfflineSimModelId() {
+		return offlineSimModelId;
+	}
+
+	public void setOfflineSimModelId(String offlineSimModelId) {
+		this.offlineSimModelId = offlineSimModelId;
 	}
 }

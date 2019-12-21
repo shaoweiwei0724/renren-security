@@ -151,7 +151,8 @@ public class SifanyClassServiceImpl extends ServiceImpl<SifanyClassDao, SifanyCl
         String mapJson=sifanyDataTextService.getById(sifanyObjEntity.getModelId()).getContent();
         Map res=new HashMap();
         res.put("mapJson",mapJson);
-
+        res.put("mapJsonZxfz",sifanyDataTextService.getById(sifanyObjEntity.getOnlineSimModelId()).getContent());
+        res.put("mapJsonLxfz",sifanyDataTextService.getById(sifanyObjEntity.getOfflineSimModelId()).getContent());
         List<SifanyObjEntity> objs=sifanyObjService.list(new QueryWrapper<SifanyObjEntity>().eq("parent_id",id));
         for(SifanyObjEntity obj:objs){
             List<SifanyObjDataEntity> sifanyObjDataEntities=sifanyObjDataService.list(new QueryWrapper<SifanyObjDataEntity>().eq("obj_id",obj.getId()));
