@@ -146,6 +146,8 @@ function tree_click_swan(e,treeId, treeNode) {
     selected_id=node[0].id;
 
     localStorage.selectSceneId=selected_id;
+    console.log(node[0].modelId);
+    localStorage.modelId=node[0].modelId;
     vm.sifanyObj = {id:node[0].id,name:node[0].name,code:node[0].code,icons:node[0].icons,remark:node[0].remark,irconurl:node[0].irconurl,modelId:node[0].modelId };
     localStorage.iconsId = vm.sifanyObj.modelId;
     $('#config-swan-svg0').attr('src',$('#config-swan-svg0').attr('src'));
@@ -553,7 +555,10 @@ function reloadTree(){
         }else{
             var node = ztreeMain.getNodeByParam("id","-1");
         }
-        console.log("node1:", node)
+        console.log("node1:", node.modelId)
+
+        localStorage.modelId=node.modelId;
+        console.log(localStorage.modelId);
         ztreeMain.selectNode(node);
 
         if(node){
