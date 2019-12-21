@@ -12,7 +12,20 @@ function init() {
             if (xmlHttp1.readyState === 4 && xmlHttp1.status === 200) {
                 strs = JSON.parse(xmlHttp1.responseText);
                 var map = strs.icons.content.toString();
-                document.getElementById("mySavedModel").value = map;
+                var mapJson=JSON.parse(map);
+                console.log("map:",mapJson.nodeDataArray);
+                for(var i = 0; i < mapJson.nodeDataArray.length; i++)
+                {
+                    console.log(mapJson.nodeDataArray[i].category);
+                    if(mapJson.nodeDataArray[i].category=="OfNodes"){
+                        delete mapJson.nodeDataArray[i];
+                 }
+                    if(mapJson.nodeDataArray[i].category=="TextNode"){
+                        delete mapJson.nodeDataArray[i];
+                    }
+                }
+                var modelJson=JSON.stringify(mapJson);
+                document.getElementById("mySavedModel").value =modelJson;
 
             }
         }
@@ -326,8 +339,6 @@ BarLink.prototype.getLinkPoint = function(node, port, spot, from, ortho, otherno
     var r = new go.Rect(port.getDocumentPoint(go.Spot.TopLeft),
         port.getDocumentPoint(go.Spot.BottomRight));
     var op = otherport.getDocumentPoint(go.Spot.Center);
-    console.log("op:",op);
-    console.log("r:",r);
     var below = op.y > r.centerY;
     var below_x=op.x>r.centerX;
     var y = below ? r.bottom : r.top;

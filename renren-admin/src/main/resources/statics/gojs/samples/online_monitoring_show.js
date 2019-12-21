@@ -31,9 +31,25 @@ function init() {
                     }
                 }
             }
+            console.log("str:",str);
             for (var i = 0; i < map.nodeDataArray.length; i++) {
-                icon[map.nodeDataArray[i].icon] = map.nodeDataArray[i].source.icons;
-                nodeDataArray.push(map.nodeDataArray[i]);
+
+                if(map.nodeDataArray[i].category=="TextNode"||map.nodeDataArray[i].category=="OfNodes"){
+                }
+                else {
+                    icon[map.nodeDataArray[i].icon] = map.nodeDataArray[i].source.icons;
+                }
+                if(map.nodeDataArray[i].category=="TextNode")
+                {
+                    if(map.nodeDataArray[i].onm==true)
+                    {
+                        nodeDataArray.push(map.nodeDataArray[i]);
+                    }
+                }
+                else {
+                    nodeDataArray.push(map.nodeDataArray[i]);
+                }
+
             }
             for (var j = 0; j < map.linkDataArray.length; j++) {
                 linkDataArray.push(map.linkDataArray[j]);
@@ -166,57 +182,8 @@ function init() {
                 ];
             }
 
-            //鼠标双击弹出属性选择界面
-            function nodeClick(e, node) {
-
-                // alert(node.part.data["group"]);
-                showContextMenu(node.part.data["key"], e.event.clientX - 10, e.event.clientY - 10);
-
-            }
-
-            function showContextMenu(key, x, y) {
-                var html="";
-                for (var i in swan_objs_res) {
-                    var goKey = swan_objs_res[i].goKey;
-                    if (key == goKey) {
-                        var attrs = swan_objs_res[i].attrs;
-                        if (attrs.length > 0) {
-                            var para = {};//参数名称
-                            var attrs_id={}//参数ID
-                            var onm = {};//参数显示标志
-                            for (var j in attrs) {
-                                para[attrs[j]["objName"]] = attrs[j]["id"].toString();
-                                onm[attrs[j]["objName"]] = attrs[j]["onlineMonitor"];
-                                attrs_id[attrs[j]["objName"]] = attrs[j]["id"];
-                            }
-                            console.log("onm:",onm);
-                            for (var i in para) {
-                                 console.log("i:",onm[i]);
-                                 if (onm[i] == "0") {
-                                     html += '<tr><td><input type="checkbox" name="'+goKey+'" onclick="changeParaOmn(this)"  id="'+attrs_id[i]+'">' + i+'</td></tr>';
-                                     console.log("html",html);
-                                 } else {
-                                     html += '<tr><td><input type="checkbox" name="'+goKey+'" onclick="changeParaOmn(this)" checked="true" id="'+attrs_id[i]+'">' + i+'</td></tr>';
-                                     console.log("html",html);
-                                 }
-                            }
-                            console.log(html);
-                            var div=document.getElementById("layer");
-                            var check=document.getElementById("check");
-                            div.style.left = x + 'px';  // 指定创建的DIV在文档中距离左侧的位置
-                            div.style.top = y + 'px';  // 指定创建的DIV在文档中距离顶部的位置
-                            div.style.display="block";
-                            check.innerHTML = html;
-                            //
-                            // document.body.appendChild(oDiv);
-                        }
-                    }
-                    }
-            }
-
                 myDiagram.nodeTemplateMap.add("Exclusive1",
                     $(go.Node, commonNodeStyle(),
-                        {doubleClick:nodeClick},
                         { // special resizing: just at the ends
                             resizable: true, resizeObjectName: "SHAPE", resizeAdornmentTemplate: resizeAdornment,
                             rotatable: true,
@@ -388,7 +355,6 @@ function init() {
 
                 myDiagram.nodeTemplate =
                     $(go.Node, "Spot",
-                        {doubleClick:nodeClick},
                         {
                             locationObjectName: 'main',
                             locationSpot: go.Spot.Center,
@@ -495,7 +461,6 @@ function init() {
                     );
                 myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
                 // getPic(nodeDataArray);
-                getParaPanel();//获取参数列表
                 listenRedis();//监听redis添加参数
 
 
@@ -569,123 +534,11 @@ function init() {
 //end改变参数
 
 
-//获取参数列表
-    function getParaPanel() {
-        for (var i in swan_objs_res) {
-            var attrs = swan_objs_res[i].attrs;
-            if (attrs.length > 0) {
-                var goKey = swan_objs_res[i].goKey;
-                var para = {};
-                var onm = {};
-                for (var j in attrs) {
-                    para[attrs[j]["objName"]] = swan_redis_data[attrs[j]["id"].toString()];
-                    onm[attrs[j]["objName"]] = attrs[j]["onlineMonitor"];
-                }
-                //获取父元素的坐标
-                var group = myDiagram.model.findNodeDataForKey(goKey);
-                var pos=group["pos"].trim().split(" ")
-                var x=new Number(pos[0])-75;
-                var y=new Number(pos[1])-100;
-                var loc=(x).toString()+" "+(y).toString();
-                console.log("loc:",loc);
-                //添加参数panel
-                var para_node = {}
-                para_node["key"] = goKey + "_para";
-                para_node["text"] = "参数";
-                para_node["isGroup"] = true;
-                para_node["category"] = "OfNodes";
-                para_node["pos"]=loc;
-                para_node["pic_node"]=goKey;
-                myDiagram.model.addNodeData(para_node);
-                // var link_para={};
-                // link_para["from"]=goKey;
-                // link_para["to"]=goKey + "_para"
-                // link_para["category"]="PicPara";
-                // myDiagram.model.addLinkData(link_para);
-                //添加各参数
-                for (var i in para) {
-                    if (onm[i] != 0) {
-                        var node = {}
-                        node["key"] = goKey + "_para" + j;
-                        node["text"] = i;
-                        node["value"] = 0;
-                        node["group"] = goKey + "_para";
-                        node["category"] = "TextNode";
-                        myDiagram.model.addNodeData(node);
-                    }
-                }
-            }
-        }
-    }
 
-    //计算属性节点的坐标
-function FindPos(node){
-
-}
-    for (var i in swan_objs_res) {
-        var attrs = swan_objs_res[i].attrs;
-        if (attrs.length > 0) {
-            var goKey = swan_objs_res[i].goKey;
-            var para = {};
-            var onm = {};
-            for (var j in attrs) {
-                para[attrs[j]["objName"]] = swan_redis_data[attrs[j]["id"].toString()];
-                onm[attrs[j]["objName"]] = attrs[j]["onlineMonitor"];
-            }
-        }
-}
-
-//获取图片
-//     function getPic(node) {
-//         console.log(node);
-//         for (var i in node) {
-//             var pic = {};
-//             pic["key"] = node[i].key + "_pic";
-//             pic["icon"] = node[i].icon;
-//             pic["category"] = "PicNode";
-//             myDiagram.model.addNodeData(pic);
-//         }
-//     }
 
     function onSelectionChanged(e) {
     }
-//更改显示状态
 
-function changeParaOmn(checkbox){
-    var data={};
-   //获取参数
-    for (var i in swan_objs_res) {
-        var goKey = swan_objs_res[i].goKey;
-        if (checkbox.name == goKey.toString()) {
-            var attrs = swan_objs_res[i].attrs;
-            for(var j in attrs){
-                console.log("attrs:",attrs[j]);
-                if(attrs[j].id.toString()==checkbox.id)
-                {
-                    console.log("attrs:",attrs);
-                    data=attrs[j];
-                }
-            }
-        }
-    }
-        if(checkbox.checked==false)
-        {
-            data.onlineMonitor=0;
-        }
-        else {
-            data.onlineMonitor=1;
-        }
-        //修改数据库的值
-    var xmlHttpOmn = new XMLHttpRequest();
-    xmlHttpOmn.open("POST", "../../../sys/sifanyobj/updateonm", true);
-    xmlHttpOmn.setRequestHeader('Content-Type', 'application/json');
-    xmlHttpOmn.send(JSON.stringify(data));
-    xmlHttpOmn.onreadystatechange = function () {
-        if (xmlHttpOmn.readyState === 4 && xmlHttpOmn.status === 200) {
-            init();
-        }
-    }
-}
     /**
      * 连线的样式
      */
@@ -770,6 +623,3 @@ function changeParaOmn(checkbox){
         return res
     }
 
-    function ok() {
-        window.location.reload();
-    }
