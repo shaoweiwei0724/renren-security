@@ -200,3 +200,6 @@ table>tbody>tr>td ,.treegrid-tbody td{
 element.style {
      min-height: 520px;
 }
+.main-sidebar{
+    font-size:18px;
+}

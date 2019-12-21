@@ -4,25 +4,29 @@ var menuItem = Vue.extend({
     props:{item:{}},
     template:[
         '<li>',
-        '	<a v-if="item.type === 0" href="javascript:;">',
+        '	<a v-if="item.type === 0" :href="\'#\'+item.url">',
         '		<i v-if="item.icon != null" :class="item.icon"></i>',
         '		<span>{{item.name}}</span>',
         '		<i class="fa fa-angle-left pull-right"></i>',
         '	</a>',
-        '	<ul v-if="item.type === 0" class="treeview-menu">',
+        '	<ul v-if="item.type === 1" class="treeview-menu">',
         '		<menu-item :item="item" v-for="item in item.list"></menu-item>',
         '	</ul>',
 
-        '	<a v-if="item.type === 1 && item.parentId === 0" :href="\'#\'+item.url">',
-        '		<i v-if="item.icon != null" :class="item.icon"></i>',
-        '		<span>{{item.name}}</span>',
-        '	</a>',
+        // '	<a v-if="item.type === 1 && item.parentId === 0" :href="\'#\'+item.url">',
+        // '		<i v-if="item.icon != null" :class="item.icon"></i>',
+        // '		<span>{{item.name}}</span>',
+        // '	</a>',
 
-        '	<a v-if="item.type === 1 && item.parentId != 0" :href="\'#\'+item.url"><i v-if="item.icon != null" :class="item.icon"></i><i v-else class="fa fa-circle-o"></i> {{item.name}}</a>',
+        '	<a v-if="item.type === 1 && item.parentId != 0" :href="\'#\'+item.url"><i v-if="item.icon != null" :class="item.icon"></i><i v-else class="fa fa-circle-o"></i> <span style="display: none">{{item.name}}</span></a>',
+		// '	<a v-if="item.type === 1 && item.parentId != 0" :href="\'#\'+item.url"><i v-if="item.icon != null" :class="item.icon"></i><i v-else class="fa fa-circle-o"></i> {{item.name}' +
+		// '} </a>',
         '</li>'
     ].join('')
 });
-
+$('.sidebar-menu>li').click(function () {
+	alert($(this).attr('href'))
+})
 //iframe自适应
 $(window).on('resize', function() {
 	var $content = $('.content');
@@ -49,7 +53,7 @@ var vm = new Vue({
 		getMenuList: function (event) {
 			$.getJSON("sys/menu/nav?_"+$.now(), function(r){
 
-				vm.menuList = [r.menuList[0]];
+				vm.menuList = r.menuList[0].list;
 			});
 		},
 		getUser: function(){
@@ -123,7 +127,7 @@ function routerList(router, menuList){
 				
 				//替换iframe的url
 			    vm.main = url.replace('#', '');
-			    
+				$(".sidebar-menu>li").removeClass("active");
 			    //导航菜单展开
 			    $(".treeview-menu li").removeClass("active");
 			    $("a[href='"+url+"']").parents("li").addClass("active");
