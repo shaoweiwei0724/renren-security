@@ -988,7 +988,7 @@ var vm = new Vue({
             if(nodes == null) {
                 alert('请先选择场景');
             }else{
-                var clipBoardContent="http://172.72.101.162:18080/swan-admin/statics/gojs/samples/showres.html?id=" + nodes[0].id + "&name="+nodes[0].name;
+                var clipBoardContent="http://localhost:8080/swan-admin/statics/gojs/samples/showres.html?id=" + nodes[0].id + "&name="+nodes[0].name;
                 alert(clipBoardContent);
                 var oInput = document.createElement('input');
                 oInput.value = clipBoardContent;

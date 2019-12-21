@@ -21,7 +21,9 @@ function init() {
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
             str = JSON.parse(xmlHttp.responseText);
+            console.log("str:",str);
             map = JSON.parse(str.mapJson);
+
             swan_objs_res = str.objs;
             for (var i in swan_objs_res) {
                 var attrs = swan_objs_res[i].attrs;
@@ -32,9 +34,17 @@ function init() {
                     }
                 }
             }
+
             for (var i = 0; i < map.nodeDataArray.length; i++) {
-                icon[map.nodeDataArray[i].icon] = map.nodeDataArray[i].source.icons;
-                nodeDataArray.push(map.nodeDataArray[i]);
+
+                if(map.nodeDataArray[i].category=="OfNodes"){}
+                else if(map.nodeDataArray[i].category=="TextNode"){}
+                else {
+                    icon[map.nodeDataArray[i].icon] = map.nodeDataArray[i].source.icons;
+                    nodeDataArray.push(map.nodeDataArray[i]);
+                }
+                //
+
             }
             for (var j = 0; j < map.linkDataArray.length; j++) {
                 linkDataArray.push(map.linkDataArray[j]);
@@ -303,7 +313,6 @@ function init() {
                     {
                         isShadowed: true,//阴影
                         movable: true,//允许拖动
-                        deletable: false,//禁止删除
                         shadowOffset: new go.Point(4, 4),//阴影的位置偏移
                         locationSpot: new go.Spot(0.5, 1, 0, -21), locationObjectName: "SHAPE",
                         selectionObjectName: "SHAPE", rotatable: true,
@@ -511,7 +520,7 @@ function init() {
                 );
             myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
             // getPic(nodeDataArray);
-            getParaPanel();//获取参数列表
+            // getParaPanel();//获取参数列表
             listenRedis();//监听redis添加参数
 
 
@@ -609,15 +618,21 @@ function getParaPanel() {
             var y=new Number(pos[1])-100;
             var loc=(x).toString()+" "+(y).toString();
             console.log("loc:",loc);
+
             //添加参数panel
-            var para_node = {}
-            para_node["key"] = goKey + "_para";
-            para_node["text"] = "参数";
-            para_node["isGroup"] = true;
-            para_node["category"] = "OfNodes";
-            para_node["pos"]=loc;
-            para_node["pic_node"]=goKey;
-            myDiagram.model.addNodeData(para_node);
+            //添加参数panel
+            var para_key=goKey + "_para";
+            var para_panel=myDiagram.model.findNodeDataForKey(para_key);
+            if(para_panel==null) {
+                var para_node = {}
+                para_node["key"] = goKey + "_para";
+                para_node["text"] = "参数";
+                para_node["isGroup"] = true;
+                para_node["category"] = "OfNodes";
+                para_node["pos"] = loc;
+                para_node["pic_node"] = goKey;
+                myDiagram.model.addNodeData(para_node);
+            }
             // var link_para={};
             // link_para["from"]=goKey;
             // link_para["to"]=goKey + "_para"
@@ -625,16 +640,18 @@ function getParaPanel() {
             // myDiagram.model.addLinkData(link_para);
             //添加各参数
             for (var i in para) {
-                var attr_key=ids[i];
-                if (onm[i] !=false ) {
-                    var node = {}
-                    node["key"] = attr_key;
-                    node["text"] = i;
-                    node["value"] = 0;
-                    node["group"] = goKey + "_para";
-                    node["category"] = "TextNode";
-                    myDiagram.model.addNodeData(node);
-                }
+                var attr_key = ids[i];
+                var attr = myDiagram.model.findNodeDataForKey(attr_key)
+                var attr_key = ids[i];
+                if (attr == null){
+                        var node = {}
+                        node["key"] = attr_key;
+                        node["text"] = i;
+                        node["value"] = 0;
+                        node["group"] = goKey + "_para";
+                        node["category"] = "TextNode";
+                        myDiagram.model.addNodeData(node);
+            }
             }
         }
     }
