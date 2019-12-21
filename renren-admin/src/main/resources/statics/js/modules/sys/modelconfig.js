@@ -12,7 +12,7 @@ $(function () {
        var element= layui.element;
        // element.render();
     });
-    var btn = $('#srg');
+    var btn = $('#btn');
     var spread = $('#menu');
     btn.click(function () {
         spread.slideToggle()
