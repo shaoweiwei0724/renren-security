@@ -51,9 +51,28 @@ public class SysPageController {
 	}
 
 
+
+	@RequestMapping(value = {"/", "swanauthority.html"})
+	public String swanauthority(){
+		return "swanauthority";
+	}
+	@RequestMapping(value = {"/", "swanrunmanager.html"})
+	public String swanrunmanager(){
+		return "swanrunmanager";
+	}
+	@RequestMapping(value = {"/", "swansystemsetting.html"})
+	public String swansystemsetting(){
+		return "swansystemsetting";
+	}
+
+
+
+
+
+
 	@RequestMapping(value = {"/", "authority.html"})
 	public String authority(){
-		return "authority";
+		return "swanauthority";
 	}
 
 	@RequestMapping(value = {"/", "uphold.html"})
