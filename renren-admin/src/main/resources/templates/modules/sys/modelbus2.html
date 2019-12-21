@@ -22,13 +22,13 @@
                     <div  class="layui-tab layui-tab-card">
                         <ul class="layui-tab-title">
                             <li ><span>指标</span></li>
-                            <li id="svg-show-id" class="layui-this" ><span>组态</span></li>
-                            <li ><span>采集</span></li>
+                           <!-- <li id="svg-show-id" ><span>组态</span></li>
+                            <li ><span>采集</span></li>-->
                             <li ><span>算法</span></li>
-                            <li @click="edit_change" id="edit_change" class="layui-this">编辑组态</li>
+                           <li  id="edit_change" class="layui-this">编辑组态</li>
                         </ul>
                         <div class="layui-tab-content" style="height: 500px;">
-                            <div class="layui-tab-item">
+                            <div class="layui-tab-item  layui-show">
 
                                 <form >
 
@@ -76,26 +76,8 @@
 
 
 </div>
-<div class="layui-tab-item layui-show" >
-    <!--<#if shiro.hasPermission("sys:sifanyobjattr:save")>-->
-    <!--<a class="btn btn-primary" @click="configmenu"><i class="fa fa-plus"></i>&nbsp;编辑</a>-->
-    <!--</#if>-->
-    <div  style="display: none">
-        <input type="text"  v-model="sifanyObj.id"  placeholder="id"/>
-        <input type="text"  v-model="sifanyObj.modelId"  placeholder="图标"/>
-    </div>
-    <!--<div>-->
-    <!--<iframe src="${request.contextPath}/statics/gojs/samples/show.html"-->
-    <!--width="900px" id="config-swan-svg0" height="400px"></iframe>-->
-    <!--</div>-->
-    <div id="swan-svg-div">
 
-        <iframe src="${request.contextPath}/statics/gojs/samples/productionProcess.html"
-                width="100%"  id="config-swan-svg2" height="500"></iframe>
-    </div>
-
-</div>
-<div class="layui-tab-item">
+<!--<div class="layui-tab-item">
     <div style="float:left ;width:500px;">
         <table id="jqGridgather"></table>
         <div id="jqGridPagergather"></div>
@@ -154,7 +136,7 @@
             </table>
         </form>
     </div>
-</div>
+</div>-->
 <div class="layui-tab-item">
     <div style="float:left ;width:500px;">
         <table id="jqGridget"></table>
@@ -219,6 +201,25 @@
         </form>
 
     </div>
+</div>
+<div class="layui-tab-item" >
+    <!--<#if shiro.hasPermission("sys:sifanyobjattr:save")>-->
+    <!--<a class="btn btn-primary" @click="configmenu"><i class="fa fa-plus"></i>&nbsp;编辑</a>-->
+    <!--</#if>-->
+    <div  style="display: none">
+        <input type="text"  v-model="sifanyObj.id"  placeholder="id"/>
+        <input type="text"  v-model="sifanyObj.modelId"  placeholder="图标"/>
+    </div>
+    <!--<div>-->
+    <!--<iframe src="${request.contextPath}/statics/gojs/samples/show.html"-->
+    <!--width="900px" id="config-swan-svg0" height="400px"></iframe>-->
+    <!--</div>-->
+    <div id="swan-svg-div">
+
+        <iframe src="${request.contextPath}/statics/gojs/samples/productionProcess.html"
+                width="100%"  id="config-swan-svg2" height="500"></iframe>
+    </div>
+
 </div>
 </div>
 </div>
