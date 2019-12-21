@@ -27,6 +27,7 @@
                         <input type="text"  v-model="sifanyObj.id"  placeholder="id"/>
                         <input type="text"  v-model="sifanyObj.modelId"  placeholder="图标"/>
                     </div>
+                    <a class="btn btn-primary" @click="copyurl"><i class="fa fa-plus"></i>&nbsp;分享组态</a>
                     <div>
                         <iframe src="${request.contextPath}/statics/gojs/samples/online_monitoring_show.html"
                                 width="100%" id="config-swan-svg0" height="600px"></iframe>

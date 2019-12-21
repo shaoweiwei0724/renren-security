@@ -5,83 +5,93 @@ var icon={};
 var swan_redis_data={}
 var baseIP="../../../";
 var selectSceneId=localStorage.selectSceneId;
+var nodeDataArray = [];
+var linkDataArray = [];
+var str = {};
+
 var query = location.search;  // ?id=310&name=xia&phone=13800138000
 
 var searchParams = new URLSearchParams(query);
 
 var id = searchParams.get("id");
 
-// var nodeDataArray = [
-//     {"icon":23, "title":"涡轮增压发动机","iconWidth":30, "iconHeight":60, "text":"涡轮增压发动机", "source":{"id":23, "name":"涡轮增压发动机", "parentId":19, "createTime":1572600610625, "updateTime":null, "status":1, "userId":1, "icons":"26", "childs":null}, "key":-1, "pos":"-360 -100"},
-//     {"icon":24, "title":"涡轮增压发动机","iconWidth":30, "iconHeight":60, "text":"自然吸气发动机", "source":{"id":24, "name":"自然吸气发动机", "parentId":19, "createTime":1572600708465, "updateTime":null, "status":1, "userId":1, "icons":"27", "childs":null}, "key":-2, "pos":"0 30"},
-//     {"icon":25, "title":"涡轮增压发动机","iconWidth":30, "iconHeight":60, "text":"双离合", "source":{"id":25, "name":"双离合", "parentId":22, "createTime":1572607538299, "updateTime":null, "status":1, "userId":1, "icons":"28", "childs":null}, "key":-3, "pos":"-370 140"}            ];
-// var linkDataArray = [
-//     {"from":-1, "to":-2, "points":[-310,-99.99999999999999,-300,-99.99999999999999,-180,-99.99999999999999,-180,30.000000000000014,-60,30.000000000000014,-50,30.000000000000014]},
-//     {"from":-3, "to":-2, "points":[-320,140,-310,140,-185,140,-185,30.000000000000014,-60,30.000000000000014,-50,30.000000000000014]}
-// ];
-
-
 
 function init() {
     if (window.goSamples) goSamples();  // init for these samples -- you don't need to call this
 
-    // Icons derived from SVG paths designed by freepik: http://www.freepik.com/
-    // var str={"msg":"success","code":0,"classLists":[{"id":14,"name":"锅炉","parentId":0,"createTime":1571723750240,"updateTime":null,"status":1,"userId":1,"icon":null},{"id":15,"name":"燃气锅炉","parentId":14,"createTime":1571723764897,"updateTime":null,"status":1,"userId":1,"icon":"m237.06845,147.66667l-66.84232,92.00056l-108.15315,-35.14109l0,-113.71895l108.15315,-35.14109l66.84232,92.00056z m72.33333,115.66667c0,-12.1547 15.21547,-22 34,-22c18.78453,0 34,9.8453 34,22c0,12.1547 -15.21547,22 -34,22c-18.78453,0 -34,-9.8453 -34,-22z m100.33333,175.66667c0,-13.25967 17.00552,-24 38,-24c20.99448,0 38,10.74033 38,24c0,13.25967 -17.00552,24 -38,24c-20.99448,0 -38,-10.74033 -38,-24z"},{"id":16,"name":"燃煤锅炉","parentId":14,"createTime":1571723783721,"updateTime":null,"status":1,"userId":1,"icon":null}]}
-    //
-    // var list=str.classLists;
 
-    var str={};
-    var nodeDataArray=[];
-    var linkDataArray=[];
+
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", baseIP+"sys/sifanyclass/scenes/"+id, true);
+    xmlHttp.open("GET", baseIP + "sys/sifanyclass/scenes/" + id, true);
     xmlHttp.send();
     xmlHttp.onreadystatechange = function () {
-        if (xmlHttp.readyState === 4 && xmlHttp.status ===200){
-            str=JSON.parse(xmlHttp.responseText);
-            map=JSON.parse(str.mapJson);
-            console.log(str);
-            swan_objs_res=str.objs;
-            for(var i in swan_objs_res){
-                var attrs=swan_objs_res[i].attrs;
-                if(attrs.length>0){
-
-                    for(var j in attrs){
-                        swan_redis_data[attrs[j]["id"].toString()]=0
+        if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+            str = JSON.parse(xmlHttp.responseText);
+            map = JSON.parse(str.mapJson);
+            swan_objs_res = str.objs;
+            for (var i in swan_objs_res) {
+                var attrs = swan_objs_res[i].attrs;
+                console.log("attrs:",attrs);
+                if (attrs.length > 0) {
+                    for (var j in attrs) {
+                        swan_redis_data[attrs[j]["id"].toString()] = 0
                     }
-
                 }
             }
-            for(var i=0; i<map.nodeDataArray.length;i++){
-                icon[map.nodeDataArray[i].icon]=map.nodeDataArray[i].source.icons;
+            for (var i = 0; i < map.nodeDataArray.length; i++) {
+                icon[map.nodeDataArray[i].icon] = map.nodeDataArray[i].source.icons;
                 nodeDataArray.push(map.nodeDataArray[i]);
             }
-            for(var j=0;j<map.linkDataArray.length;j++){
+            for (var j = 0; j < map.linkDataArray.length; j++) {
                 linkDataArray.push(map.linkDataArray[j]);
             }
-            console.log(nodeDataArray);
-            console.log(map);
-
-            //
-            // for(var i in swan_obj_list){
-            //     var swan_obj_list_i=swan_obj_list[i]
-            //     var swan_obj_i=[];
-            //     for(var i in swan_obj_list_i['childs']){
-            //         var child_i=swan_obj_list_i['childs'][i];
-            //         icon[child_i.id]=child_i.icons;
-            //         swan_obj_i.push({"icon":child_i.id, "iconWidth":30, "iconHeight":60,  "text":child_i.name, "source":child_i});
-            //     }
-            //     swan_objs.push(swan_obj_i)
-            // }
-
             var $ = go.GraphObject.make;  // for conciseness in defining templates
+            var resizeAdornment =
+                $(go.Adornment, go.Panel.Spot,
+                    $(go.Placeholder),
+                    $(go.Shape,  // left resize handle
+                        {
+                            alignment: go.Spot.Left, cursor: "col-resize",
+                            desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "dodgerblue"
+                        }),
+                    $(go.Shape,  // right resize handle
+                        {
+                            alignment: go.Spot.Right, cursor: "col-resize",
+                            desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "dodgerblue"
+                        })
+                );
+
+            function highlightGroup(e, grp, show) {
+                if (!grp) return;
+                e.handled = true;
+                if (show) {
+                    // cannot depend on the grp.diagram.selection in the case of external drag-and-drops;
+                    // instead depend on the DraggingTool.draggedParts or .copiedParts
+                    var tool = grp.diagram.toolManager.draggingTool;
+                    var map = tool.draggedParts || tool.copiedParts;  // this is a Map
+                    // now we can check to see if the Group will accept membership of the dragged Parts
+                    if (grp.canAddMembers(map.toKeySet())) {
+                        grp.isHighlighted = true;
+                    }
+                }
+                grp.isHighlighted = false;
+            }
+
+            function finishDrop(e, grp) {
+                var ok = (grp !== null
+                    ? grp.addMembers(grp.diagram.selection, true)
+                    : e.diagram.commandHandler.addTopLevelParts(e.diagram.selection, true));
+                if (!ok) e.diagram.currentTool.doCancel();
+            }
+
             myDiagram = $(go.Diagram, "myDiagramDiv",  // create a Diagram for the DIV HTML element
                 {
+                    // "LinkDrawn":test,     // these two DiagramEvents call a
                     grid: $(go.Panel, "Grid",
-                        $(go.Shape, "LineH", { stroke: "rgb(0,0,0,0)", strokeWidth: 0.5 }),
-                        $(go.Shape, "LineH", { stroke: "rgb(0,0,0,0)", strokeWidth: 0.5, interval: 10 }),
-                        $(go.Shape, "LineV", { stroke: "rgb(0,0,0,0)", strokeWidth: 0.5 }),
-                        $(go.Shape, "LineV", { stroke: "rgb(0,0,0,0)", strokeWidth: 0.5, interval: 10 })
+                        $(go.Shape, "LineH", {stroke: "rgba(0,0,0,0)", strokeWidth: 0.5}),
+                        $(go.Shape, "LineH", {stroke: "rgba(0,0,0,0)", strokeWidth: 0.5, interval: 10}),
+                        $(go.Shape, "LineV", {stroke: "rgba(0,0,0,0)", strokeWidth: 0.5}),
+                        $(go.Shape, "LineV", {stroke: "rgba(0,0,0,0)", strokeWidth: 0.5, interval: 10})
                     ),
                     // "draggingTool.dragsLink": true,
                     "draggingTool.isGridSnapEnabled": true,
@@ -90,11 +100,27 @@ function init() {
                     "relinkingTool.isUnconnectedLinkValid": true,
                     "relinkingTool.portGravity": 20,
                     "relinkingTool.fromHandleArchetype":
-                        $(go.Shape, "Diamond", { segmentIndex: 0, cursor: "pointer", desiredSize: new go.Size(12, 12), fill: "tomato", stroke: "darkred" }),
+                        $(go.Shape, "Diamond", {
+                            segmentIndex: 0,
+                            cursor: "pointer",
+                            desiredSize: new go.Size(12, 12),
+                            fill: "tomato",
+                            stroke: "darkred"
+                        }),
                     "relinkingTool.toHandleArchetype":
-                        $(go.Shape, "Diamond", { segmentIndex: -1, cursor: "pointer", desiredSize: new go.Size(12,12), fill: "darkred", stroke: "tomato" }),
+                        $(go.Shape, "Diamond", {
+                            segmentIndex: -1,
+                            cursor: "pointer",
+                            desiredSize: new go.Size(12, 12),
+                            fill: "darkred",
+                            stroke: "tomato"
+                        }),
                     "linkReshapingTool.handleArchetype":
-                        $(go.Shape, "Diamond", { desiredSize: new go.Size(15, 15), fill: "lightblue", stroke: "deepskyblue" }),
+                        $(go.Shape, "Diamond", {
+                            desiredSize: new go.Size(15, 15),
+                            fill: "lightblue",
+                            stroke: "deepskyblue"
+                        }),
                     "rotatingTool.handleAngle": 270,
                     "rotatingTool.handleDistance": 30,
                     "rotatingTool.snapAngleMultiple": 15,
@@ -104,30 +130,16 @@ function init() {
                     "toolManager.hoverDelay": 10,  // how quickly tooltips are shown
                     initialAutoScale: go.Diagram.Uniform,  // scale to show all of the contents
                     "ChangedSelection": onSelectionChanged, // view additional information
+                    "commandHandler.archetypeGroupData": {isGroup: true, category: "OfNodes"},
+                    mouseDrop: function (e) {
+                        finishDrop(e, null);
+                    },
                 });
 
-            function infoString(obj) {
-                var part = obj.part;
-                if (part instanceof go.Adornment) part = part.adornedPart;
-                var msg = "";
-                if (part instanceof go.Link) {
-                    msg = "";
-                } else if (part instanceof go.Node) {
-                    msg = part.data.text + ":\n\n" + part.data.description;
-                }
-                return msg;
-            }
 
             // A data binding conversion function. Given an name, return the Geometry.
             // If there is only a string, replace it with a Geometry object, which can be shared by multiple Shapes.
-            function geoFunc(geoname) {
-                var geo=icon[geoname];
-                console.log(geo);
-                return baseIP+"sys/sifanydataimage/image/"+geo+".svg";
-            }
-            function textStyle() {
-                return { font: "9pt  Segoe UI,sans-serif", stroke: "#fff" };
-            }
+
             function makePort(name, spot, output, input) {
                 // the port is basically just a small transparent square
                 return $(go.Shape, "Circle",
@@ -143,103 +155,323 @@ function init() {
                         cursor: "pointer"  // show a different cursor to indicate potential link point
                     });
             }
+
             function showSmallPorts(node, show) {
-                node.ports.each(function(port) {
+                node.ports.each(function (port) {
                     if (port.portId !== "") {  // don't change the default port, which is the big shape
                         port.fill = show ? "rgba(0,0,0,.3)" : null;
                     }
                 });
             }
 
-            myDiagram.nodeTemplate =
+            function commonNodeStyle() {
+                return [
+                    {
+                        locationSpot: go.Spot.Center,
+                    },
+                    new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify),
+                ];
+            }
+
+            //鼠标双击弹出属性选择界面
+            function nodeClick(e, node) {
+
+                // alert(node.part.data["group"]);
+                showContextMenu(node.part.data["key"], e.event.clientX - 10, e.event.clientY - 10);
+
+            }
+
+            function showContextMenu(key, x, y) {
+                var html="";
+                var title="";
+                for (var i in swan_objs_res) {
+                    var goKey = swan_objs_res[i].goKey;
+                    if (key == goKey) {
+                        console.log("1",swan_objs_res[i]);
+                        title="<p>"+swan_objs_res[i].name+"显示属性配置</p>"
+                        var attrs = swan_objs_res[i].attrs;
+                        if (attrs.length > 0) {
+                            var para = {};//参数名称
+                            var attrs_id={}//参数ID
+                            var onm = {};//参数显示标志
+                            for (var j in attrs) {
+                                para[attrs[j]["objName"]] = attrs[j]["id"].toString();
+                                onm[attrs[j]["objName"]] = attrs[j]["onlineMonitor"];
+                                attrs_id[attrs[j]["objName"]] = attrs[j]["id"];
+                            }
+                            console.log("onm:",onm);
+                            for (var i in para) {
+                                console.log("i:",onm[i]);
+                                if (onm[i]==false) {
+                                    html += '<tr><td><input type="checkbox" name="'+goKey+'" onclick="changeParaOmn(this)"  id="'+attrs_id[i]+'">' + i+'</td></tr>';
+                                    console.log("html",html);
+                                } else {
+                                    html += '<tr><td><input type="checkbox" name="'+goKey+'" onclick="changeParaOmn(this)" checked="true" id="'+attrs_id[i]+'">' + i+'</td></tr>';
+                                    console.log("html",html);
+                                }
+                            }
+                            console.log(html);
+                            var div=document.getElementById("layer");
+                            var check=document.getElementById("check");
+                            var title_div=document.getElementById("title");
+
+                            div.style.left = x + 'px';  // 指定创建的DIV在文档中距离左侧的位置
+                            div.style.top = y + 'px';  // 指定创建的DIV在文档中距离顶部的位置
+                            div.style.display="block";
+                            check.innerHTML = html;
+                            //
+                            // document.body.appendChild(oDiv);
+                        }
+                    }
+                }
+            }
+
+            myDiagram.nodeTemplateMap.add("Exclusive1",
+                $(go.Node, commonNodeStyle(),
+                    {doubleClick:nodeClick},
+                    { // special resizing: just at the ends
+                        resizable: true, resizeObjectName: "SHAPE", resizeAdornmentTemplate: resizeAdornment,
+                        rotatable:true,
+                        fromLinkable: true, toLinkable: true
+                    },
+                    $(go.Shape,
+                        { // horizontal line stretched to an initial width of 200
+                            name: "SHAPE", geometryString: "M0 0 L100 0 H1",
+                            fill: "transparent", stroke: "#2875ff", width: 100
+                        },
+                        new go.Binding("desiredSize", "size", go.Size.parse).makeTwoWay(go.Size.stringify)),
+                    $(go.TextBlock, {
+                            font: "14px Lato, sans-serif",
+                            textAlign: "center",
+                            margin: 3,
+                            stroke:"white",
+                            maxSize: new go.Size(100, NaN),
+                            alignment: go.Spot.TopCenter,
+                            alignmentFocus: go.Spot.BottomCenter
+                        },
+
+                        new go.Binding("text"))
+                ));
+            myDiagram.groupTemplateMap.add("OfGroups",
+                $(go.Group, "Auto",
+                    {
+                        background: "transparent",
+                        // highlight when dragging into the Group
+                        mouseDragEnter: function (e, grp, prev) {
+                            highlightGroup(e, grp, true);
+                        },
+                        mouseDragLeave: function (e, grp, next) {
+                            highlightGroup(e, grp, false);
+                        },
+                        computesBoundsAfterDrag: true,
+                        // when the selection is dropped into a Group, add the selected Parts into that Group;
+                        // if it fails, cancel the tool, rolling back any changes
+                        mouseDrop: finishDrop,
+                        handlesDragDropForMembers: true,  // don't need to define handlers on member Nodes and Links
+                        // Groups containing Groups lay out their members horizontally
+                        layout:
+                            $(go.GridLayout,
+                                {
+                                    wrappingWidth: Infinity, alignment: go.GridLayout.Position,
+                                    cellSize: new go.Size(1, 1), spacing: new go.Size(4, 4)
+                                })
+                    },
+                    new go.Binding("background", "isHighlighted", function (h) {
+                        return h ? "rgba(255,0,0,0.2)" : "transparent";
+                    }).ofObject(),
+                    new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify),
+                    $(go.Shape, "Rectangle",
+                        {fill: null, stroke: "#435d80", strokeWidth: 2}),
+                    $(go.Panel, "Vertical",  // title above Placeholder
+                        $(go.Panel, "Horizontal",  // button next to TextBlock
+                            {stretch: go.GraphObject.Horizontal, background: "transparent"},
+                            $("SubGraphExpanderButton",
+                                {alignment: go.Spot.Right, margin: 5}),
+                            $(go.TextBlock,
+                                {
+                                    alignment: go.Spot.Left,
+                                    editable: true,
+                                    margin: 5,
+                                    font: "bold 18px sans-serif",
+                                    opacity: 0.75,
+                                    stroke: "#fff"
+                                },
+                                new go.Binding("text", "text").makeTwoWay())
+                        ),  // end Horizontal Panel
+                        $(go.Placeholder,
+                            {padding: 5, alignment: go.Spot.TopLeft})
+                    )  // end Vertical Panel
+                ));  // end Group and call to add to template Map
+
+            myDiagram.groupTemplateMap.add("OfNodes",
+
+                $(go.Group, "Auto",
+                    {
+                        isShadowed: true,//阴影
+                        movable: true,//允许拖动
+                        deletable: false,//禁止删除
+                        shadowOffset: new go.Point(4, 4),//阴影的位置偏移
+                        locationSpot: new go.Spot(0.5, 1, 0, -21), locationObjectName: "SHAPE",
+                        selectionObjectName: "SHAPE", rotatable: true,
+                        background: "transparent",
+                        ungroupable: true,
+                        // highlight when dragging into the Group
+                        mouseDragEnter: function (e, grp, prev) {
+                            console.log(grp);
+                            highlightGroup(e, grp, true);
+                        },
+                        mouseDragLeave: function (e, grp, next) {
+                            console.log(grp);
+                            highlightGroup(e, grp, false);
+                        },
+                        computesBoundsAfterDrag: true,
+                        // when the selection is dropped into a Group, add the selected Parts into that Group;
+                        // if it fails, cancel the tool, rolling back any changes
+                        mouseDrop: finishDrop,
+                        handlesDragDropForMembers: true,  // don't need to define handlers on member Nodes and Links
+                        // Groups containing Nodes lay out their members vertically
+                        layout:
+                            $(go.GridLayout,
+                                {
+                                    wrappingColumn: 1, alignment: go.GridLayout.Position,
+                                    cellSize: new go.Size(1, 1), spacing: new go.Size(4, 4)
+                                })
+                    },
+                    new go.Binding("background", "isHighlighted", function (h) {
+                        return h ? "rgba(255,0,0,0.2)" : "transparent";
+                    }).ofObject(),
+
+                    $(go.Shape, "Rectangle",
+                        {fill: "rgba(67,93,128,0.3)", stroke: null, strokeWidth: 2}),
+                    $(go.Panel, "Vertical",  // title above Placeholder
+                        // $(go.Panel, "Horizontal",  // button next to TextBlock
+                        //     {stretch: go.GraphObject.Horizontal, background: "transparent"},
+                        //     $("SubGraphExpanderButton",
+                        //         {alignment: go.Spot.Right, margin: 5})
+                        // ),  // end Horizontal Panel
+                        $(go.Placeholder,
+                            {padding: 5, alignment: go.Spot.TopLeft})
+                    ),  // end Vertical Panel
+                    new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify)
+
+                ));  // end Group and call to add to template Map
+
+            // replace the default Node template in the nodeTemplateMap
+            myDiagram.nodeTemplateMap.add("TextNode",
                 $(go.Node, "Auto",
+                    { // dropping on a Node is the same as dropping on its containing Group, even if it's top-level
+                        mouseDrop: function (e, nod) {
+                            finishDrop(e, nod.containingGroup);
+                        }
+                    },
+                    $(go.Shape, "Rectangle",
+                        {fill: "rgba(67,93,128,0.3)", stroke: null},
+                        new go.Binding("fill", "color")),
+                    $(go.Panel, "Table",
+                        {
+                            minSize: new go.Size(130, NaN),
+                            maxSize: new go.Size(150, NaN),
+                            margin: new go.Margin(6, 10, 0, 6),
+                            defaultAlignment: go.Spot.Left
+                        },
+                        $(go.RowColumnDefinition, {column: 2, width: 1}),
+                        $(go.TextBlock, // the name
+                            {
+                                row: 0, column: 0,
+                                font: "8pt Segoe UI,sans-serif",
+                                stroke: "#fff",
+                                editable: true, isMultiline: false,
+                            },
+                            new go.Binding("text", "text").makeTwoWay()),
+                        $(go.TextBlock,
+                            {
+                                row: 0, column: 1,
+                                font: "8pt Segoe UI,sans-serif",
+                                editable: true, isMultiline: false,
+                                stroke: "#fff",
+                                margin: new go.Margin(0, 0, 0, 3)
+                            },
+                            new go.Binding("text", "value").makeTwoWay())
+                    ), // end Table Panel
+                    new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify)
+                )
+            );
+            myDiagram.nodeTemplateMap.add("PicNode",
+                $(go.Node, "Spot",
+                    { // dropping on a Node is the same as dropping on its containing Group, even if it's top-level
+                    },
+                    $(go.Picture,  // the icon showing the logo
+                        // You should set the desiredSize (or width and height)
+                        // whenever you know what size the Picture should be.
+                        {desiredSize: new go.Size(150, 100)},
+                        new go.Binding("source", "icon", convertKeyImage)),
+                    new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify)
+                ));
+
+            myDiagram.nodeTemplate =
+                $(go.Node, "Spot",
+                    {doubleClick:nodeClick},
                     {
                         locationObjectName: 'main',
                         locationSpot: go.Spot.Center,
-                    },
-                    // for sorting, have the Node.text be the data.name
-                    new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify),
-                    // new go.Binding("text", "text"),
+                        rotatable: true,
+                        // resizable: true,
 
-                    // define the node's outer shape
-                    $(go.Shape, "Rectangle",
-                        {
-                            name: "SHAPE", fill:"transparent",stroke: null,
-                            // set the port properties:
-                            portId: "", fromLinkable: true, toLinkable: true, cursor: "pointer"
-                        }),
+                    },
+                    new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify),
+                    // The main element of the Spot panel is a vertical panel housing an optional icon,
+                    // plus a rectangle that acts as the port
                     $(go.Panel, "Vertical",
                         $(go.Picture,
                             {
-                                name: "Picture",
-                                desiredSize: new go.Size(50, 50),
-                                margin: new go.Margin(6, 8, 6, 10),
+                                desiredSize: new go.Size(100, 100)
                             },
-                            new go.Binding("source", "icon", geoFunc)),
-                        // define the panel where the text will appear
-                        $(go.Panel, "Table",
+                            new go.Binding("source", "icon", convertKeyImage)),
+                        $(go.TextBlock,
                             {
-                                maxSize: new go.Size(150, 999),
-                                margin: new go.Margin(6, 10, 0, 3),
-                                defaultAlignment: go.Spot.Left
+                                font: "8pt Lato, sans-serif",
+                                textAlign: "center",
+                                stroke:"white",
+                                maxSize: new go.Size(100, NaN),isMultiline: false,
+                                alignment: go.Spot.TopCenter,
+                                alignmentFocus: go.Spot.BottomCenter
                             },
-                            $(go.RowColumnDefinition, { column: 2, width: 4 }),
-                            $(go.TextBlock, textStyle(),  // the name
-                                {
-                                    row: 0, column: 0, columnSpan: 5,
-                                    font: "12pt Segoe UI,sans-serif",
-                                    editable: true, isMultiline: false,
-                                    minSize: new go.Size(10, 16)
-                                },
-                                new go.Binding("text", "text").makeTwoWay()),
-                            $(go.TextBlock, textStyle(),  // the name
-                                {
-                                    row: 1, column: 0,
-                                },
-                                new go.Binding("text", "parameters").makeTwoWay())
-                        )  // end Table Panel
-                    ) // end Horizontal Panel
-                );  // end Node
-
-
-
-            myDiagram.nodeTemplate.contextMenu =
-                $("ContextMenu",
-                    $("ContextMenuButton",
-                        $(go.TextBlock, "删除"),
-                        {
-                            click: function(e, obj) {
-                                var node = obj.part.adornedPart;
-                                var removeLinks=[];
-
-                                node.findLinksConnected().each(function(link) {
-                                    removeLinks.push(link.data);
-                                });
-                                myDiagram.model.removeLinkDataCollection(removeLinks);
-                                myDiagram.model.removeNodeData(node.data)
-
-                            }
-                        }
+                            new go.Binding("text"))
                     ),
-                    $("ContextMenuButton",
-                        $(go.TextBlock, "Remove Role"),
-                        {
-                            click: function(e, obj) {
-
-                            }
+                    // four small named ports, one on each side:
+                    makePort("T", go.Spot.Top, true, true),
+                    makePort("L", go.Spot.Left, true, true),
+                    makePort("R", go.Spot.Right, true, true),
+                    makePort("B", go.Spot.Bottom, true, true),
+                    { // handle mouse enter/leave events to show/hide the ports
+                        mouseEnter: function (e, node) {
+                            showSmallPorts(node, true);
+                        },
+                        mouseLeave: function (e, node) {
+                            showSmallPorts(node, false);
                         }
-                    ),
-                    $("ContextMenuButton",
-                        $(go.TextBlock, "Remove Department"),
-                        {
-                            click: function(e, obj) {
-                            }
-                        }
-                    )
+                    }
                 );
+
+            function portStyle(input) {
+                return {
+                    // fromSpot: go.Spot.Right,
+                    fromLinkable: input,
+                    // toSpot: go.Spot.Left,
+                    toLinkable: input,
+                    toMaxLinks: 100,
+                    cursor: "pointer"
+                };
+            }
+
             // Some links need a custom to or from spot
+            function convertKeyImage(geoname) {
+                var geo = icon[geoname];
+                // console.log("geo:",geo);
+                return baseIP + "sys/sifanydataimage/image/" + geo + ".svg";
+            }
+
             function spotConverter(dir) {
-                console.log(dir)
                 if (dir === "top") return go.Spot.TopSide;
                 if (dir === "left") return go.Spot.LeftSide;
                 if (dir === "right") return go.Spot.RightSide;
@@ -247,140 +479,327 @@ function init() {
                 if (dir === "rightsingle") return go.Spot.Right;
             }
 
-            myDiagram.linkTemplate =
-                $(go.Link, {
-                        toShortLength: -2,
-                        fromShortLength: -2,
-                        layerName: "Background",
-                        routing: go.Link.Orthogonal,
-                        corner: 15,
+            myDiagram.model.addLinkData({"category":"PicPara"});
+            myDiagram.linkTemplateMap.add("PicPara",
+                $(go.Link,
+                    { routing: go.Link.AvoidsNodes, curve: go.Link.JumpGap, corner: 10, reshapable: true, toShortLength: 7,deletable:false},
+                    new go.Binding("points").makeTwoWay(),
 
-                        // fromSpot: go.Spot.RightSide,
-                        // toSpot: go.Spot.LeftSide
+                    $(go.Shape, {stroke: "#cd0000", strokeWidth:3 })
+                )
+            );
+            myDiagram.linkTemplate =
+                $(BarLink, {
+                        routing: go.Link.Orthogonal,
+                        selectionAdorned: true,
+                        curve: go.Link.JumpOver,
+                        corner: 0, toShortLength: 4,
+                        relinkableFrom: true,
+                        relinkableTo: true,
+                        reshapable: true,
+                        resegmentable: true,
+                        // mouse-overs subtly highlight links:
+                        // mouseEnter: function(e, link) { link.findObject("HIGHLIGHT").stroke = "#fff"; },
+                        // mouseLeave: function(e, link) { link.findObject("HIGHLIGHT").stroke = "#fff";; },
+                        selectionAdorned: true
                     },
                     // make sure links come in from the proper direction and go out appropriately
-                    new go.Binding("fromSpot", "fromSpot", function(d) { return spotConverter(d); }),
-                    new go.Binding("toSpot", "toSpot", function(d) { return spotConverter(d); }),
-
+                    new go.Binding("fromSpot", "fromSpot", function (d) {
+                        return spotConverter(d);
+                    }),
+                    new go.Binding("toSpot", "toSpot", function (d) {
+                        return spotConverter(d);
+                    }),
                     new go.Binding("points").makeTwoWay(),
                     // mark each Shape to get the link geometry with isPanelMain: true
-                    $(go.Shape, { isPanelMain: true, stroke: "#41BFEC"/* blue*/, strokeWidth: 10 },
-                        new go.Binding("stroke", "color")),
-                    $(go.Shape, { isPanelMain: true, stroke: "white", strokeWidth: 3, name: "PIPE", strokeDashArray: [20, 40] })
+                    $(go.Shape, {isPanelMain: true, stroke: "#13e28e"/* blue*/, strokeWidth: 2},
+                        new go.Binding("stroke", "color"))
                 );
             myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
+            // getPic(nodeDataArray);
+            getParaPanel();//获取参数列表
             listenRedis();//监听redis添加参数
-            loop();  // animate some flow through the pipes
+
+
         }
-    };
+    }
 }
 
 
 function listenRedis() {
-    setInterval(function() {
+    setInterval(function () {
         changeAllPara();
     }, 1000);
 }
 
-// //根据id获取key
-// var key_i={};
-// for(var i=0;i<nodeDataArray.length;i++){
-//     var k=nodeDataArray[i].icon;
-//     var v=nodeDataArray[i].key;
-//     key_i[k]=v;
-// }
 
 //获取参数
-var para={"id":23, "name":"涡轮增压发动机", "额定电压":"220V", "额定电流":"12A", "创建时间":"2019-11-02"};
+var para = {"id": 23, "name": "涡轮增压发动机", "额定电压": "220V", "额定电流": "12A", "创建时间": "2019-11-02"};
 
 setInterval(function () {
-    var keys=[]
-    for(var key in swan_redis_data){
+    var keys = []
+    for (var key in swan_redis_data) {
         keys.push(key)
 
-
-
     }
-    keys=keys.join(",")
+    keys = keys.join(",")
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", "http://localhost:5005/getRedis?key="+keys, true);
+    xmlHttp.open("GET", "http://localhost:5005/getRedis?key=" + keys, true);
     xmlHttp.send();
     xmlHttp.onreadystatechange = function () {
-        if (xmlHttp.readyState === 4 && xmlHttp.status ===200){
-            var jsons=JSON.parse(xmlHttp.responseText);
-            for(var key in jsons){
-
-                swan_redis_data[key]=jsons[key]
-
-
-
+        if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+            var jsons = JSON.parse(xmlHttp.responseText);
+            for (var key in jsons) {
+                swan_redis_data[key] = jsons[key]
             }
-
-
-        };
+        }
+        ;
     }
-},1000)
+}, 1000)
 
 //改变参数
 function changeAllPara() {
-    for(var i in swan_objs_res){
-        var attrs=swan_objs_res[i].attrs;
-        if(attrs.length>0){
-            var goKey=swan_objs_res[i].goKey;
-            var para={}
-            for(var j in attrs){
-                para[attrs[j]["objName"]]=swan_redis_data[attrs[j]["id"].toString()]
+    console.log("res:",swan_objs_res);
+    for (var i in swan_objs_res) {
+        var attrs = swan_objs_res[i].attrs;
+        if (attrs.length > 0) {
+            var goKey = swan_objs_res[i].goKey;
+            var para = {}
+            var attr_ids={}
+            for (var j in attrs) {
+                para[attrs[j]["objName"]] = swan_redis_data[attrs[j]["id"].toString()]
+                attr_ids[attrs[j]["objName"]]=attrs[j]["id"];
             }
-            console.log(goKey)
-            console.log(para)
-            changePara(goKey,para)
+            console.log("key",goKey);
+            console.log("para:",para);
+            console.log("attrs:",attrs);
+            console.log("attr_ids:",attr_ids);
+            changePara(goKey, para,attr_ids);
         }
     }
 }
 
-function changePara(goKey,para){
-    var parameters='\n'
-    for(var i in para){
-        parameters+=i+":"+para[i]+'\n';
-        getPara(goKey,parameters);
+function changePara(goKey, para,attr_ids) {
+    for (var i in para) {
+        getPara(attr_ids[i], goKey, i, para[i]);
     }
 }
-function getPara(key,value) {
-    var node = myDiagram.model.findNodeDataForKey(key);//首先拿到这个节点的对象
-    myDiagram.model.setDataProperty(node,"parameters",value);//然后对这个对象的属性进行更改
-}
 
+function getPara(j, key, i, value) {
+
+    var para = myDiagram.model.findNodeDataForKey(j);//首先拿到这个节点的对象
+    myDiagram.model.setDataProperty(para, "value", value)
+}
 
 //end改变参数
-var opacity = 1;
-var down = true;
-function loop() {
-    var diagram = myDiagram;
-    setTimeout(function() {
-        var oldskips = diagram.skipsUndoManager;
-        diagram.skipsUndoManager = true;
-        diagram.links.each(function(link) {
-            var shape = link.findObject("PIPE");
 
-            try{
-                shape.strokeDashOffset
-            }catch(e){
-                return
+
+//获取参数列表
+function getParaPanel() {
+    for (var i in swan_objs_res) {
+        var attrs = swan_objs_res[i].attrs;
+        if (attrs.length > 0) {
+            var goKey = swan_objs_res[i].goKey;
+            var para = {};
+            var onm = {};
+            var ids={};
+            for (var j in attrs) {
+                para[attrs[j]["objName"]] = swan_redis_data[attrs[j]["id"].toString()];
+                onm[attrs[j]["objName"]] = attrs[j]["onlineMonitor"];
+                ids[attrs[j]["objName"]]=attrs[j]["id"]
             }
-            var off = shape.strokeDashOffset - 3;
-            // animate (move) the stroke dash
-            shape.strokeDashOffset = (off <= 0) ? 60 : off;
-            // animte (strobe) the opacity:
-            if (down) opacity = opacity - 0.01;
-            else opacity = opacity + 0.003;
-            if (opacity <= 0) { down = !down; opacity = 0; }
-            if (opacity > 1) { down = !down; opacity = 1; }
-            shape.opacity = opacity;
-        });
-        diagram.skipsUndoManager = oldskips;
-        loop();
-    }, 60);
+            //获取父元素的坐标
+            var group = myDiagram.model.findNodeDataForKey(goKey);
+            var pos=group["pos"].trim().split(" ")
+            var x=new Number(pos[0])-75;
+            var y=new Number(pos[1])-100;
+            var loc=(x).toString()+" "+(y).toString();
+            console.log("loc:",loc);
+            //添加参数panel
+            var para_node = {}
+            para_node["key"] = goKey + "_para";
+            para_node["text"] = "参数";
+            para_node["isGroup"] = true;
+            para_node["category"] = "OfNodes";
+            para_node["pos"]=loc;
+            para_node["pic_node"]=goKey;
+            myDiagram.model.addNodeData(para_node);
+            // var link_para={};
+            // link_para["from"]=goKey;
+            // link_para["to"]=goKey + "_para"
+            // link_para["category"]="PicPara";
+            // myDiagram.model.addLinkData(link_para);
+            //添加各参数
+            for (var i in para) {
+                var attr_key=ids[i];
+                if (onm[i] !=false ) {
+                    var node = {}
+                    node["key"] = attr_key;
+                    node["text"] = i;
+                    node["value"] = 0;
+                    node["group"] = goKey + "_para";
+                    node["category"] = "TextNode";
+                    myDiagram.model.addNodeData(node);
+                }
+            }
+        }
+    }
 }
 
+//计算属性节点的坐标
+function FindPos(node){
 
-function onSelectionChanged(e) {}
+}
+for (var i in swan_objs_res) {
+    var attrs = swan_objs_res[i].attrs;
+    if (attrs.length > 0) {
+        var goKey = swan_objs_res[i].goKey;
+        var para = {};
+        var onm = {};
+        for (var j in attrs) {
+            para[attrs[j]["objName"]] = swan_redis_data[attrs[j]["id"].toString()];
+            onm[attrs[j]["objName"]] = attrs[j]["onlineMonitor"];
+        }
+    }
+}
+
+//获取图片
+//     function getPic(node) {
+//         console.log(node);
+//         for (var i in node) {
+//             var pic = {};
+//             pic["key"] = node[i].key + "_pic";
+//             pic["icon"] = node[i].icon;
+//             pic["category"] = "PicNode";
+//             myDiagram.model.addNodeData(pic);
+//         }
+//     }
+
+function onSelectionChanged(e) {
+}
+//更改显示状态
+
+function changeParaOmn(checkbox){
+    var data={};
+    //获取参数
+    for (var i in swan_objs_res) {
+        var goKey = swan_objs_res[i].goKey;
+        console.log("key:",goKey);
+        if(goKey!=null) {
+            if (checkbox.name == goKey.toString()) {
+                var attrs = swan_objs_res[i].attrs;
+                for (var j in attrs) {
+                    if (attrs[j].id.toString() == checkbox.id) {
+                        console.log("attrs:", attrs[j]);
+                        data = attrs[j];
+                        console.log("data:", data);
+                    }
+                }
+            }
+        }
+    }
+    if(checkbox.checked==false)
+    {
+        data.onlineMonitor=0;
+    }
+    else {
+        data.onlineMonitor=1;
+    }
+    //修改数据库的值
+    var xmlHttpOmn = new XMLHttpRequest();
+    xmlHttpOmn.open("POST", "../../../sys/sifanyobj/updateonm", true);
+    xmlHttpOmn.setRequestHeader('Content-Type', 'application/json');
+    xmlHttpOmn.send(JSON.stringify(data));
+    xmlHttpOmn.onreadystatechange = function () {
+        if (xmlHttpOmn.readyState === 4 && xmlHttpOmn.status === 200) {
+            init();
+        }
+    }
+}
+/**
+ * 连线的样式
+ */
+function BarLink() {
+    go.Link.call(this);
+}
+
+go.Diagram.inherit(BarLink, go.Link);
+
+BarLink.prototype.getLinkPoint = function (node, port, spot, from, ortho, othernode, otherport) {
+    // var r = new go.Rect(port.getDocumentPoint(go.Spot.TopLeft),
+    //     port.getDocumentPoint(go.Spot.BottomRight));
+    var r = new go.Rect(port.getDocumentPoint(go.Spot.TopLeft),
+        port.getDocumentPoint(go.Spot.BottomRight));
+    var op = otherport.getDocumentPoint(go.Spot.Center);
+    // console.log("op:",op);
+    // console.log("r:",r);
+    var below = op.y > r.centerY;
+    var below_x = op.x > r.centerX;
+    var y = below ? r.bottom : r.top;
+    var x = below_x ? r.left : r.right;
+    if (node.category === "Exclusive1") {
+        if (r.right - r.left < 2) {
+            if (op.y < r.top + 30) return new go.Point(x, r.top + 30);
+            if (op.y > r.bottom - 30) return new go.Point(x, r.bottom - 30);
+            return new go.Point(x, op.y);
+        } else if (r.top - r.bottom < 2) {
+            if (op.x < r.left + 30) return new go.Point(r.left + 30, y);
+            if (op.x > r.right - 30) return new go.Point(r.right - 30, y);
+            return new go.Point(op.x, y);
+        } else {
+            return new go.Point(op.x, op.y);
+        }
+    } else {
+        var lr = op.x - r.centerX;
+        var hl = op.y - r.centerY;
+
+        if (Math.abs(lr) > Math.abs(hl)) {
+            if (op.x > r.centerX) return new go.Point(r.right, r.centerY);
+            else return new go.Point(r.left, r.centerY);
+            ;
+        } else {
+            if (op.y > r.centerY) y = r.bottom;
+            else y = r.top;
+        }
+        return new go.Point(r.centerX, y);
+    }
+};
+//连接线与节点连接的角度
+BarLink.prototype.getLinkDirection = function (node, port, linkpoint, spot, from, ortho, othernode, otherport) {
+    var p = port.getDocumentPoint(go.Spot.Center);
+    var r = new go.Rect(port.getDocumentPoint(go.Spot.TopLeft),
+        port.getDocumentPoint(go.Spot.BottomRight));
+    var op = otherport.getDocumentPoint(go.Spot.Center);
+    var below = op.y > r.centerY;
+    var below_x = op.x > r.centerX;
+    var res = 0;
+    if (node.category === "Exclusive1") {
+        if (r.right - r.left < 2) {
+            if (below_x) res = 0;
+            else res = 180;
+        } else if (r.top - r.bottom < 2) {
+            if (below) res = 90;
+            else res = 270;
+        } else {
+            res = 0;
+        }
+    } else {
+        var lr = op.x - r.centerX;
+        var hl = op.y - r.centerY;
+
+        if (Math.abs(lr) > Math.abs(hl)) {
+            if (op.x > r.centerX) res = 0;
+            else res = 180;
+        } else {
+            if (op.y > r.centerY) res = 90;
+            else res = 270;
+        }
+    }
+
+    // return below ? 90 : 270;
+    return res
+}
+
+function ok() {
+    window.location.reload();
+}
