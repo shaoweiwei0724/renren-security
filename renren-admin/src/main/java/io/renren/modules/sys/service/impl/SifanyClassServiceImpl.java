@@ -80,10 +80,10 @@ public class SifanyClassServiceImpl extends ServiceImpl<SifanyClassDao, SifanyCl
     }
     @Override
     public List<SifanyClassEntity> scadalist() {
-       if(getUser().getUsername().equals("admin"))
-           return this.addIronUrl(this.list(Wrappers.emptyWrapper()));
-       else
-           return this.addIronUrl(this.list(new QueryWrapper<SifanyClassEntity>().eq("user_id",getUser().getUserId())));
+//       if(getUser().getUsername().equals("admin"))
+        return this.addIronUrl(this.list(Wrappers.emptyWrapper()));
+//       else
+//           return this.addIronUrl(this.list(new QueryWrapper<SifanyClassEntity>().eq("user_id",getUser().getUserId())));
     }
     @Override
     public List<SifanyClassEntity> queryList(Map<String, Object> map) {

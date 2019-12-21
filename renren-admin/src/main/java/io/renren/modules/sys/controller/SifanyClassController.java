@@ -138,10 +138,10 @@ public class SifanyClassController extends AbstractController{
         if(type == null) {
             classLists = sifanyClassService.scadalist();
         }else {
-            if (getUser().getUsername().equals("admin"))
-                classLists = sifanyClassService.swanList(new QueryWrapper<SifanyClassEntity>().eq("type", type));
-            else
-                classLists = sifanyClassService.swanList(new QueryWrapper<SifanyClassEntity>().eq("type", type).eq("user_id",getUser().getUserId()));
+//            if (getUser().getUsername().equals("admin"))
+//                classLists = sifanyClassService.swanList(new QueryWrapper<SifanyClassEntity>().eq("type", type));
+//            else
+            classLists = sifanyClassService.swanList(new QueryWrapper<SifanyClassEntity>().eq("type", type));
         }
         return R.ok().put("classLists", classLists);
     }
