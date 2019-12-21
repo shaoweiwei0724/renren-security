@@ -74,6 +74,7 @@ public class SifanyObjController  extends AbstractController{
 
     @RequestMapping("/select")
     public R selects(){
+        SifanyObjEntity sifanyObjEntity = sifanyObjService.getById(-1l);
         List<SifanyObjEntity> objEntityLists = null;
         Long uerId = getUser().getUserId();
         if(getUser().getUsername().equals("admin"))
@@ -81,8 +82,9 @@ public class SifanyObjController  extends AbstractController{
         else {
             objEntityLists = sifanyObjService.swanList(new QueryWrapper<SifanyObjEntity>());
             objEntityLists = listDept(objEntityLists);
+            objEntityLists.add(sifanyObjEntity);
         }
-        SifanyObjEntity sifanyObjEntity = sifanyObjService.getById(-1l);
+
 //        sifanyObjEntity.setName("场景实例");
 //        sifanyObjEntity.setId(-1l);
 //        objEntityLists.add(sifanyObjEntity);
@@ -97,7 +99,7 @@ public class SifanyObjController  extends AbstractController{
 
     public List<SifanyObjEntity> listDept(List<SifanyObjEntity> objEntityLists){
 
-        List<SifanyObjEntity> sifanyObjEntities= new ArrayList<SifanyObjEntity>();
+        List<SifanyObjEntity> sifanyObjEntities= new ArrayList<>();
         for(SifanyObjEntity sifanyObjEntity : objEntityLists){
             Long usrId = sifanyObjEntity.getUserId();
             if(usrId != null) {
@@ -106,8 +108,9 @@ public class SifanyObjController  extends AbstractController{
                 if(sysUserEntity.getDeptId()!=null) {
                     SysDeptEntity deptEntity = sysDeptService.getById(sysUserEntity.getDeptId());
 
-                    if (deptEntity.getDeptId() == getUser().getDeptId()) { }
+                    if (deptEntity.getDeptId().equals(getUser().getDeptId())) {
                         sifanyObjEntities.add(sifanyObjEntity);
+                    }
                 }
             }
         }
