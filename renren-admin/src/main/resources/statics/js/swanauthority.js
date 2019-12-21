@@ -53,7 +53,7 @@ var vm = new Vue({
 		getMenuList: function (event) {
 			$.getJSON("sys/menu/nav?_"+$.now(), function(r){
 
-				vm.menuList = r.menuList[0].list;
+				vm.menuList = r.menuList[15].list;
 			});
 		},
 		getUser: function(){

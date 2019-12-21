@@ -49,6 +49,10 @@ public class SysPageController {
 	public String sifanydatashow(){
 		return "sifanydatashow";
 	}
+	@RequestMapping(value = {"/", "swansimsetting.html"})
+	public String swansimsetting(){
+		return "swansimsetting";
+	}
 
 
 
