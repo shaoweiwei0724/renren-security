@@ -24,9 +24,9 @@
                             </td>
                             <td style="font-size: 14px;padding-left: 5px;" class="float_tips_area_base">
                                 <div style="cursor: pointer;">系统管理员</div>
-                                <div class="float_tips_area" style="z-index: 999;width:100px;">
+                                <div class="float_tips_area" style="z-index: 999;width:110px;">
 
-                                    <ul >
+                                    <ul class="nav strg">
 
                                                             <li><a href="javascript:;" @click="updatePassword"><i class="fa fa-lock"></i> &nbsp;修改密码</a></li>
                                                             <li><a href="${request.contextPath}/logout"><i class="fa fa-sign-out"></i> &nbsp;退出系统</a></li>
@@ -490,6 +490,17 @@
         z-index: 1000;
         /*width:20%;
         height: 50%;*/
+    }
+    .strg>li>a {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        line-height: 8px;
+    }
+
+    .nav>li>a {
+        position: relative;
+        display: block;
+        padding: 10px 15px;
     }
 </style>
 
