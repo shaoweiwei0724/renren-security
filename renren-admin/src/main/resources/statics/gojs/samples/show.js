@@ -25,6 +25,7 @@ function init() {
             swan_objs_res = str.objs;
             for (var i in swan_objs_res) {
                 var attrs = swan_objs_res[i].attrs;
+                console.log("attrs:",attrs);
                 if (attrs.length > 0) {
                     for (var j in attrs) {
                         swan_redis_data[attrs[j]["id"].toString()] = 0
@@ -176,9 +177,12 @@ function init() {
 
             function showContextMenu(key, x, y) {
                 var html="";
+                var title="";
                 for (var i in swan_objs_res) {
                     var goKey = swan_objs_res[i].goKey;
                     if (key == goKey) {
+                        console.log("1",swan_objs_res[i]);
+                        title="<p>"+swan_objs_res[i].name+"显示属性配置</p>"
                         var attrs = swan_objs_res[i].attrs;
                         if (attrs.length > 0) {
                             var para = {};//参数名称
@@ -203,6 +207,8 @@ function init() {
                             console.log(html);
                             var div=document.getElementById("layer");
                             var check=document.getElementById("check");
+                            var title_div=document.getElementById("title");
+
                             div.style.left = x + 'px';  // 指定创建的DIV在文档中距离左侧的位置
                             div.style.top = y + 'px';  // 指定创建的DIV在文档中距离顶部的位置
                             div.style.display="block";

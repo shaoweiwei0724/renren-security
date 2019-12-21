@@ -1,5 +1,6 @@
 var swan_obj_list;
 var swan_objs=[];
+var swan_objs_res;
 var icon={};
 var iconsId=localStorage.iconsId ;
 function init() {
@@ -12,6 +13,7 @@ function init() {
                 strs = JSON.parse(xmlHttp1.responseText);
                 var map = strs.icons.content.toString();
                 document.getElementById("mySavedModel").value = map;
+
             }
         }
     }
@@ -48,6 +50,7 @@ function init() {
     var list=str.classLists[0].childs;
     swan_obj_list=str.classLists;
 
+    console.log("list:",swan_obj_list);
     for(var i in swan_obj_list){
         var swan_obj_list_i=swan_obj_list[i]
 
@@ -177,6 +180,7 @@ function init() {
                     textAlign: "center",
                     margin: 3,
                     stroke:"white",
+                    editable:true,
                     maxSize: new go.Size(100, NaN),
                     alignment: go.Spot.TopCenter,
                     alignmentFocus: go.Spot.BottomCenter
@@ -206,6 +210,7 @@ function init() {
                         textAlign: "center",
                         margin: 3,
                         stroke:"white",
+                        editable:true,
                         maxSize: new go.Size(100, NaN),
                         alignment: go.Spot.TopCenter,
                         alignmentFocus: go.Spot.BottomCenter
@@ -230,42 +235,6 @@ function init() {
 
 
 
-
-    myDiagram.nodeTemplate.contextMenu =
-        $("ContextMenu",
-            $("ContextMenuButton",
-                $(go.TextBlock, "删除"),
-                {
-                    click: function(e, obj) {
-                        var node = obj.part.adornedPart;
-                        var removeLinks=[];
-
-                        node.findLinksConnected().each(function(link) {
-                            removeLinks.push(link.data);
-                        });
-                        myDiagram.model.removeLinkDataCollection(removeLinks)
-                        myDiagram.model.removeNodeData(node.data)
-
-                    }
-                }
-            ),
-            $("ContextMenuButton",
-                $(go.TextBlock, "Remove Role"),
-                {
-                    click: function(e, obj) {
-
-                    }
-                }
-            ),
-            $("ContextMenuButton",
-                $(go.TextBlock, "Remove Department"),
-                {
-                    click: function(e, obj) {
-
-                    }
-                }
-            )
-        );
     // Some links need a custom to or from spot
     function spotConverter(dir) {
         console.log(dir)
