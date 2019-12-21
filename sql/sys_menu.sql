@@ -146,7 +146,7 @@ INSERT INTO `sys_menu` VALUES ('126', '123', '修改', null, 'sys:sifanyobjattr:
 INSERT INTO `sys_menu` VALUES ('127', '123', '删除', null, 'sys:sifanyobjattr:delete,sys:sifanyobj:delete', '2', null, '0');
 INSERT INTO `sys_menu` VALUES ('128', '0', '资源管理', '', null, '0', 'fa fa-th-list', '0');
 INSERT INTO `sys_menu` VALUES ('129', '128', '数据服务', 'http://10.0.0.9:10137/', null, '1', 'fa fa-file-code-o', '0');
-INSERT INTO `sys_menu` VALUES ('130', '128', '算法服务', 'http://172.72.101.162:18189', null, '1', 'fa fa-file-code-o', '0');
+INSERT INTO `sys_menu` VALUES ('130', '128', '算法服务', 'http://10.0.0.99:8089', null, '1', 'fa fa-file-code-o', '0');
 INSERT INTO `sys_menu` VALUES ('143', '141', '新增', null, 'sys:sifanyhealthomen:save', '2', null, '6');
 INSERT INTO `sys_menu` VALUES ('144', '141', '修改', null, 'sys:sifanyhealthomen:update', '2', null, '6');
 INSERT INTO `sys_menu` VALUES ('145', '141', '删除', null, 'sys:sifanyhealthomen:delete', '2', null, '6');
