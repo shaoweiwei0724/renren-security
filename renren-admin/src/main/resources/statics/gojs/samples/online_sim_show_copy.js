@@ -536,7 +536,7 @@ function init() {
         }
         keys = keys.join(",")
         var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", "http://172.72.101.162:5005/getRedis?key=" + keys, true);
+        xmlHttp.open("GET", "http://localhost:5005/getRedis?key=" + keys, true);
         xmlHttp.send();
         xmlHttp.onreadystatechange = function () {
             if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {

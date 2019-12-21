@@ -538,7 +538,7 @@ setInterval(function () {
     }
     keys = keys.join(",")
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", "http://172.72.101.162:5005/getRedis?key=" + keys, true);
+    xmlHttp.open("GET", "http://localhost:5005/getRedis?key=" + keys, true);
     xmlHttp.send();
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
@@ -553,32 +553,35 @@ setInterval(function () {
 
 //改变参数
 function changeAllPara() {
+    console.log("res:",swan_objs_res);
     for (var i in swan_objs_res) {
         var attrs = swan_objs_res[i].attrs;
         if (attrs.length > 0) {
             var goKey = swan_objs_res[i].goKey;
             var para = {}
+            var attr_ids={}
             for (var j in attrs) {
                 para[attrs[j]["objName"]] = swan_redis_data[attrs[j]["id"].toString()]
+                attr_ids[attrs[j]["objName"]]=attrs[j]["id"];
             }
-            // console.log(goKey)
-            // console.log(para)
-            changePara(goKey, para);
+            console.log("key",goKey);
+            console.log("para:",para);
+            console.log("attrs:",attrs);
+            console.log("attr_ids:",attr_ids);
+            changePara(goKey, para,attr_ids);
         }
     }
 }
 
-function changePara(goKey, para) {
-    var j = 0;
+function changePara(goKey, para,attr_ids) {
     for (var i in para) {
-        j += 1;
-        getPara(j, goKey, i, para[i]);
+        getPara(attr_ids[i], goKey, i, para[i]);
     }
 }
 
 function getPara(j, key, i, value) {
 
-    var para = myDiagram.model.findNodeDataForKey(key + "_para" + j);//首先拿到这个节点的对象
+    var para = myDiagram.model.findNodeDataForKey(j);//首先拿到这个节点的对象
     myDiagram.model.setDataProperty(para, "value", value)
 }
 
@@ -593,9 +596,11 @@ function getParaPanel() {
             var goKey = swan_objs_res[i].goKey;
             var para = {};
             var onm = {};
+            var ids={};
             for (var j in attrs) {
                 para[attrs[j]["objName"]] = swan_redis_data[attrs[j]["id"].toString()];
                 onm[attrs[j]["objName"]] = attrs[j]["onlineMonitor"];
+                ids[attrs[j]["objName"]]=attrs[j]["id"]
             }
             //获取父元素的坐标
             var group = myDiagram.model.findNodeDataForKey(goKey);
@@ -620,9 +625,10 @@ function getParaPanel() {
             // myDiagram.model.addLinkData(link_para);
             //添加各参数
             for (var i in para) {
+                var attr_key=ids[i];
                 if (onm[i] !=false ) {
                     var node = {}
-                    node["key"] = goKey + "_para" + j;
+                    node["key"] = attr_key;
                     node["text"] = i;
                     node["value"] = 0;
                     node["group"] = goKey + "_para";
