@@ -40,7 +40,16 @@ function init() {
                 else {
                     icon[map.nodeDataArray[i].icon] = map.nodeDataArray[i].source.icons;
                 }
-                nodeDataArray.push(map.nodeDataArray[i]);
+                if(map.nodeDataArray[i].category=="TextNode")
+                {
+                    if(map.nodeDataArray[i].ons==true)
+                    {
+                        nodeDataArray.push(map.nodeDataArray[i]);
+                    }
+                }
+                else {
+                    nodeDataArray.push(map.nodeDataArray[i]);
+                }
             }
             for (var j = 0; j < map.linkDataArray.length; j++) {
                 linkDataArray.push(map.linkDataArray[j]);
@@ -234,7 +243,7 @@ function init() {
 
             myDiagram.nodeTemplateMap.add("Exclusive1",
                 $(go.Node, commonNodeStyle(),
-                    {doubleClick:nodeClick},
+                    {doubleClick:OnsChange},
                     { // special resizing: just at the ends
                         resizable: true, resizeObjectName: "SHAPE", resizeAdornmentTemplate: resizeAdornment,
                         rotatable:true,
@@ -415,7 +424,7 @@ function init() {
 
             myDiagram.nodeTemplate =
                 $(go.Node, "Spot",
-                    {doubleClick:nodeClick},
+                    {doubleClick:OnsChange},
                     {
                         locationObjectName: 'main',
                         locationSpot: go.Spot.Center,
@@ -517,7 +526,7 @@ function init() {
                             console.log("onm:",ons);
                             for (var i in para) {
                                 console.log("i:",ons[i]);
-                                if (ons[i] == "0") {
+                                if (ons[i] == false) {
                                     html += '<tr><td><input type="checkbox" name="'+goKey+'" onclick="changeParaOns(this,'+attrs_id[i]+')"  id="'+attrs_id[i]+'">' + i+'</td></tr>';
                                     console.log("html",html);
                                     label=false;
@@ -775,19 +784,21 @@ function getParaPanel() {
                     var attr=myDiagram.model.findNodeDataForKey(attr_key)
                     if(attr==null)
                     {
-                        console.log("onm:",onm[i]);
-                        console.log("ons:",ons[i]);
-                        console.log("ofs:",ofs[i]);
-                        var node = {};
-                        node["key"] = attr_key;
-                        node["text"] = i;
-                        node["value"] = 0;
-                        node["group"] = goKey + "_para";
-                        node["category"] = "TextNode";
-                        node["onm"]=onm[i];
-                        node["ons"]=ons[i];
-                        node["ofs"]=ofs[i];
-                        myDiagram.model.addNodeData(node);
+                        if(ons[i]==true) {
+                            console.log("onm:", onm[i]);
+                            console.log("ons:", ons[i]);
+                            console.log("ofs:", ofs[i]);
+                            var node = {};
+                            node["key"] = attr_key;
+                            node["text"] = i;
+                            node["value"] = 0;
+                            node["group"] = goKey + "_para";
+                            node["category"] = "TextNode";
+                            node["onm"] = onm[i];
+                            node["ons"] = ons[i];
+                            node["ofs"] = ofs[i];
+                            myDiagram.model.addNodeData(node);
+                        }
                     }
             }
         }
@@ -822,16 +833,19 @@ function changeParaOns(checkbox,attr_id){
     }
     if(checkbox.checked==false)
     {
-        data.onlineSim=0;
+        data.onlineSim=false;
         label=false;
     }
     else {
-        data.onlineSim=1;
+        data.onlineSim=true;
         label=true;
     }
     //修改组态图节点属性
     var node_ons = myDiagram.model.findNodeDataForKey(attr_id);//首先拿到这个节点的对象
-    myDiagram.model.setDataProperty(node_ons, 'ons', label);
+    if(node_ons!=null){
+        myDiagram.model.setDataProperty(node_ons, 'ons', label);
+    }
+
     console.log("JSOn:",node_ons);
     //修改数据库的值
     var xmlHttpOns = new XMLHttpRequest();
@@ -865,16 +879,18 @@ function  changeParaOfs(checkbox,attr_id) {
     }
     if(checkbox.checked==false)
     {
-        data.offlineSim=0;
+        data.offlineSim=false;
         label=false;
     }
     else {
-        data.offlineSim=1;
+        data.offlineSim=true;
         label=true;
     }
     //修改组态图节点属性
     var node_ofs = myDiagram.model.findNodeDataForKey(attr_id);//首先拿到这个节点的对象
-    myDiagram.model.setDataProperty(node_ofs, 'ofs', label);
+    if(node_ofs!=null){
+        myDiagram.model.setDataProperty(node_ofs, 'ofs', label);
+    }
     //修改数据库的值
     var xmlHttpOfs = new XMLHttpRequest();
     xmlHttpOfs.open("POST", "../../../sys/sifanyobj/updateofs", true);
@@ -908,11 +924,11 @@ function changeParaOnm(checkbox,attr_id){
     }
     if(checkbox.checked==false)
     {
-        data.onlineMonitor=0;
+        data.onlineMonitor=false;
         label=false;
     }
     else {
-        data.onlineMonitor=1;
+        data.onlineMonitor=true;
         label=true;
     }
     //修改组态图节点属性

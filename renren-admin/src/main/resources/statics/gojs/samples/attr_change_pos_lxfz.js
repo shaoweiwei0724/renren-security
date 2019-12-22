@@ -41,7 +41,16 @@ function init() {
                 else {
                     icon[map.nodeDataArray[i].icon] = map.nodeDataArray[i].source.icons;
                 }
-                nodeDataArray.push(map.nodeDataArray[i]);
+                if(map.nodeDataArray[i].category=="TextNode")
+                {
+                    if(map.nodeDataArray[i].ofs==true)
+                    {
+                        nodeDataArray.push(map.nodeDataArray[i]);
+                    }
+                }
+                else {
+                    nodeDataArray.push(map.nodeDataArray[i]);
+                }
             }
             for (var j = 0; j < map.linkDataArray.length; j++) {
                 linkDataArray.push(map.linkDataArray[j]);
@@ -235,7 +244,7 @@ function init() {
 
             myDiagram.nodeTemplateMap.add("Exclusive1",
                 $(go.Node, commonNodeStyle(),
-                    {doubleClick:nodeClick},
+                    {doubleClick: OfsChange},
                     { // special resizing: just at the ends
                         resizable: true, resizeObjectName: "SHAPE", resizeAdornmentTemplate: resizeAdornment,
                         rotatable:true,
@@ -416,7 +425,7 @@ function init() {
 
             myDiagram.nodeTemplate =
                 $(go.Node, "Spot",
-                    {doubleClick:nodeClick},
+                    {doubleClick: OfsChange},
                     {
                         locationObjectName: 'main',
                         locationSpot: go.Spot.Center,
@@ -743,7 +752,7 @@ function getParaPanel() {
             var ids={};
             for (var j in attrs) {
                 para[attrs[j]["objName"]] = swan_redis_data[attrs[j]["id"].toString()];
-                onm[attrs[j]["objName"]] = attrs[j]["onlineMonitor"];
+               onm[attrs[j]["objName"]] = attrs[j]["onlineMonitor"];
                 ons[attrs[j]["objName"]] = attrs[j]["onlineSim"];
                 ofs[attrs[j]["objName"]] = attrs[j]["offlineSim"];
                 ids[attrs[j]["objName"]]=attrs[j]["id"]
@@ -776,19 +785,21 @@ function getParaPanel() {
                 var attr=myDiagram.model.findNodeDataForKey(attr_key)
                 if(attr==null)
                 {
-                    console.log("onm:",onm[i]);
-                    console.log("ons:",ons[i]);
-                    console.log("ofs:",ofs[i]);
-                    var node = {};
-                    node["key"] = attr_key;
-                    node["text"] = i;
-                    node["value"] = 0;
-                    node["group"] = goKey + "_para";
-                    node["category"] = "TextNode";
-                    node["onm"]=onm[i];
-                    node["ons"]=ons[i];
-                    node["ofs"]=ofs[i];
-                    myDiagram.model.addNodeData(node);
+                    if(ofs[i]==true) {
+                        console.log("onm:", onm[i]);
+                        console.log("ons:", ons[i]);
+                        console.log("ofs:", ofs[i]);
+                        var node = {};
+                        node["key"] = attr_key;
+                        node["text"] = i;
+                        node["value"] = 0;
+                        node["group"] = goKey + "_para";
+                        node["category"] = "TextNode";
+                        node["onm"] = onm[i];
+                        node["ons"] = ons[i];
+                        node["ofs"] = ofs[i];
+                        myDiagram.model.addNodeData(node);
+                    }
                 }
             }
         }
@@ -823,11 +834,11 @@ function changeParaOns(checkbox,attr_id){
     }
     if(checkbox.checked==false)
     {
-        data.onlineSim=0;
+        data.onlineSim=false;
         label=false;
     }
     else {
-        data.onlineSim=1;
+        data.onlineSim=true;
         label=true;
     }
     //修改组态图节点属性
@@ -866,16 +877,19 @@ function  changeParaOfs(checkbox,attr_id) {
     }
     if(checkbox.checked==false)
     {
-        data.offlineSim=0;
+        data.offlineSim=false;
         label=false;
     }
     else {
-        data.offlineSim=1;
+        data.offlineSim=true;
         label=true;
     }
+    console.log("data:",data);
     //修改组态图节点属性
     var node_ofs = myDiagram.model.findNodeDataForKey(attr_id);//首先拿到这个节点的对象
-    myDiagram.model.setDataProperty(node_ofs, 'ofs', label);
+    if(node_ofs!=null){
+        myDiagram.model.setDataProperty(node_ofs, 'ofs', label);
+    }
     //修改数据库的值
     var xmlHttpOfs = new XMLHttpRequest();
     xmlHttpOfs.open("POST", "../../../sys/sifanyobj/updateofs", true);
@@ -909,11 +923,11 @@ function changeParaOnm(checkbox,attr_id){
     }
     if(checkbox.checked==false)
     {
-        data.onlineMonitor=0;
+        data.onlineMonitor=false;
         label=false;
     }
     else {
-        data.onlineMonitor=1;
+        data.onlineMonitor=true;
         label=true;
     }
     //修改组态图节点属性

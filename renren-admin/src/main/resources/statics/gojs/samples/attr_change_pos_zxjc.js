@@ -40,7 +40,17 @@ function init() {
                 else {
                     icon[map.nodeDataArray[i].icon] = map.nodeDataArray[i].source.icons;
                 }
-                nodeDataArray.push(map.nodeDataArray[i]);
+                if(map.nodeDataArray[i].category=="TextNode")
+                {
+                    if(map.nodeDataArray[i].onm=="show")
+                    {
+                        console.log("map:",map.nodeDataArray[i]);
+                        nodeDataArray.push(map.nodeDataArray[i]);
+                    }
+                }
+                else {
+                    nodeDataArray.push(map.nodeDataArray[i]);
+                }
             }
             for (var j = 0; j < map.linkDataArray.length; j++) {
                 linkDataArray.push(map.linkDataArray[j]);
@@ -234,7 +244,7 @@ function init() {
 
             myDiagram.nodeTemplateMap.add("Exclusive1",
                 $(go.Node, commonNodeStyle(),
-                    {doubleClick:nodeClick},
+                    {doubleClick:OnmChange},
                     { // special resizing: just at the ends
                         resizable: true, resizeObjectName: "SHAPE", resizeAdornmentTemplate: resizeAdornment,
                         rotatable:true,
@@ -415,7 +425,7 @@ function init() {
 
             myDiagram.nodeTemplate =
                 $(go.Node, "Spot",
-                    {doubleClick:nodeClick},
+                    {doubleClick:OnmChange},
                     {
                         locationObjectName: 'main',
                         locationSpot: go.Spot.Center,
@@ -517,7 +527,7 @@ function init() {
                             console.log("onm:",ons);
                             for (var i in para) {
                                 console.log("i:",ons[i]);
-                                if (ons[i] == "0") {
+                                if (ons[i] == 0) {
                                     html += '<tr><td><input type="checkbox" name="'+goKey+'" onclick="changeParaOns(this,'+attrs_id[i]+')"  id="'+attrs_id[i]+'">' + i+'</td></tr>';
                                     console.log("html",html);
                                     label=false;
@@ -607,7 +617,7 @@ function init() {
                             console.log("onm:",onm);
                             for (var i in para) {
                                 console.log("i:",onm[i]);
-                                if (onm[i] == "0") {
+                                if (onm[i] == false) {
                                     html += '<tr><td><input type="checkbox" name="'+goKey+'" onclick="changeParaOnm(this,'+attrs_id[i]+')"  id="'+attrs_id[i]+'">' + i+'</td></tr>';
                                     console.log("html",html);
                                 } else {
@@ -742,9 +752,12 @@ function getParaPanel() {
             var ids={};
             for (var j in attrs) {
                 para[attrs[j]["objName"]] = swan_redis_data[attrs[j]["id"].toString()];
-                onm[attrs[j]["objName"]] = attrs[j]["onlineMonitor"];
-                ons[attrs[j]["objName"]] = attrs[j]["onlineSim"];
-                ofs[attrs[j]["objName"]] = attrs[j]["offlineSim"];
+                if(attrs[j]["onlineMonitor"]==true){onm[attrs[j]["objName"]] ="show"}else {onm[attrs[j]["objName"]] ="noshow"}
+                if(attrs[j]["onlineSim"]==true){ons[attrs[j]["objName"]] ="show"}else {ons[attrs[j]["objName"]] ="noshow"}
+                if(attrs[j]["offlineSim"]==true){ofs[attrs[j]["objName"]] ="show"}else {ofs[attrs[j]["objName"]] ="noshow"}
+                // onm[attrs[j]["objName"]] = attrs[j]["onlineMonitor"];
+                // ons[attrs[j]["objName"]] = attrs[j]["onlineSim"];
+                // ofs[attrs[j]["objName"]] = attrs[j]["offlineSim"];
                 ids[attrs[j]["objName"]]=attrs[j]["id"]
             }
 
@@ -775,6 +788,7 @@ function getParaPanel() {
                     var attr=myDiagram.model.findNodeDataForKey(attr_key)
                     if(attr==null)
                     {
+                        if(onm[i]=="show"){
                         console.log("onm:",onm[i]);
                         console.log("ons:",ons[i]);
                         console.log("ofs:",ofs[i]);
@@ -788,6 +802,7 @@ function getParaPanel() {
                         node["ons"]=ons[i];
                         node["ofs"]=ofs[i];
                         myDiagram.model.addNodeData(node);
+                        }
                     }
             }
         }
@@ -900,7 +915,6 @@ function changeParaOnm(checkbox,attr_id){
                     if (attrs[j].id.toString() == checkbox.id) {
                         console.log("attrs:", attrs[j]);
                         data = attrs[j];
-                        console.log("data:", data);
                     }
                 }
             }
@@ -908,26 +922,32 @@ function changeParaOnm(checkbox,attr_id){
     }
     if(checkbox.checked==false)
     {
-        data.onlineMonitor=0;
-        label=false;
+        data.onlineMonitor=false;
+        label="noshow";
+
     }
-    else {
-        data.onlineMonitor=1;
-        label=true;
+    if(checkbox.checked==true) {
+        data.onlineMonitor=true;
+        label="show";
     }
+
     //修改组态图节点属性
     var node_onm = myDiagram.model.findNodeDataForKey(attr_id);//首先拿到这个节点的对象
-    myDiagram.model.setDataProperty(node_onm, 'onm', label);
-
+    if(node_onm!=null){
+        myDiagram.model.setDataProperty(node_onm, 'onm',label);
+    }
     //修改数据库的值
     var xmlHttpOmn = new XMLHttpRequest();
     xmlHttpOmn.open("POST", "../../../sys/sifanyobj/updateonm", true);
     xmlHttpOmn.setRequestHeader('Content-Type', 'application/json');
+    console.log("2");
     xmlHttpOmn.send(JSON.stringify(data));
+    console.log("3");
     xmlHttpOmn.onreadystatechange = function () {
         if (xmlHttpOmn.readyState === 4 && xmlHttpOmn.status === 200) {
-            init();
+            console.log("message:",xmlHttpOmn.responseText);
         }
+        console.log("message:",xmlHttpOmn.responseText);
     }
 }
 /**
