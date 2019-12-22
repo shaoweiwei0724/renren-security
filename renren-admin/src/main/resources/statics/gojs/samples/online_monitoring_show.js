@@ -39,10 +39,12 @@ function init() {
                 else {
                     icon[map.nodeDataArray[i].icon] = map.nodeDataArray[i].source.icons;
                 }
+                console.log("node:",map.nodeDataArray[i]);
                 if(map.nodeDataArray[i].category=="TextNode")
                 {
                     if(map.nodeDataArray[i].onm==true)
                     {
+
                         nodeDataArray.push(map.nodeDataArray[i]);
                     }
                 }

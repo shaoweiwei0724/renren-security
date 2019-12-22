@@ -42,7 +42,7 @@ function init() {
                 }
                 if(map.nodeDataArray[i].category=="TextNode")
                 {
-                    if(map.nodeDataArray[i].onm=="show")
+                    if(map.nodeDataArray[i].onm==true)
                     {
                         console.log("map:",map.nodeDataArray[i]);
                         nodeDataArray.push(map.nodeDataArray[i]);
@@ -752,12 +752,12 @@ function getParaPanel() {
             var ids={};
             for (var j in attrs) {
                 para[attrs[j]["objName"]] = swan_redis_data[attrs[j]["id"].toString()];
-                if(attrs[j]["onlineMonitor"]==true){onm[attrs[j]["objName"]] ="show"}else {onm[attrs[j]["objName"]] ="noshow"}
-                if(attrs[j]["onlineSim"]==true){ons[attrs[j]["objName"]] ="show"}else {ons[attrs[j]["objName"]] ="noshow"}
-                if(attrs[j]["offlineSim"]==true){ofs[attrs[j]["objName"]] ="show"}else {ofs[attrs[j]["objName"]] ="noshow"}
-                // onm[attrs[j]["objName"]] = attrs[j]["onlineMonitor"];
-                // ons[attrs[j]["objName"]] = attrs[j]["onlineSim"];
-                // ofs[attrs[j]["objName"]] = attrs[j]["offlineSim"];
+                // if(attrs[j]["onlineMonitor"]==true){onm[attrs[j]["objName"]] ="show"}else {onm[attrs[j]["objName"]] ="noshow"}
+                // if(attrs[j]["onlineSim"]==true){ons[attrs[j]["objName"]] ="show"}else {ons[attrs[j]["objName"]] ="noshow"}
+                // if(attrs[j]["offlineSim"]==true){ofs[attrs[j]["objName"]] ="show"}else {ofs[attrs[j]["objName"]] ="noshow"}
+                onm[attrs[j]["objName"]] = attrs[j]["onlineMonitor"];
+                ons[attrs[j]["objName"]] = attrs[j]["onlineSim"];
+                ofs[attrs[j]["objName"]] = attrs[j]["offlineSim"];
                 ids[attrs[j]["objName"]]=attrs[j]["id"]
             }
 
@@ -788,7 +788,7 @@ function getParaPanel() {
                     var attr=myDiagram.model.findNodeDataForKey(attr_key)
                     if(attr==null)
                     {
-                        if(onm[i]=="show"){
+                        if(onm[i]==true){
                         console.log("onm:",onm[i]);
                         console.log("ons:",ons[i]);
                         console.log("ofs:",ofs[i]);
@@ -837,11 +837,11 @@ function changeParaOns(checkbox,attr_id){
     }
     if(checkbox.checked==false)
     {
-        data.onlineSim=0;
+        data.onlineSim=false;
         label=false;
     }
     else {
-        data.onlineSim=1;
+        data.onlineSim=true;
         label=true;
     }
     //修改组态图节点属性
@@ -923,12 +923,12 @@ function changeParaOnm(checkbox,attr_id){
     if(checkbox.checked==false)
     {
         data.onlineMonitor=false;
-        label="noshow";
+        label=false;
 
     }
     if(checkbox.checked==true) {
         data.onlineMonitor=true;
-        label="show";
+        label=true;
     }
 
     //修改组态图节点属性

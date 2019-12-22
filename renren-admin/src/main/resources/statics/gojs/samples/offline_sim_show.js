@@ -21,7 +21,7 @@ function init() {
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
             str = JSON.parse(xmlHttp.responseText);
-            map = JSON.parse(str.mapJson);
+            map = JSON.parse(str.mapJsonLxfz);
             swan_objs_res = str.objs;
             for (var i in swan_objs_res) {
                 var attrs = swan_objs_res[i].attrs;
