@@ -40,7 +40,7 @@ function init() {
             },
             new go.Binding("isShadowed", "isSelected").ofObject(),
             $(go.Shape,
-                { name: "SHAPE", strokeWidth: 2, stroke: "#fc91a6" }));
+                { name: "SHAPE", strokeWidth: 2, stroke: "#993333" }));
 
     // node template helpers
     var sharedToolTip =
@@ -103,11 +103,24 @@ function init() {
         };
     }
 
-    function portStyle(input) {
+    function portStyle1(input) {
         return {
             desiredSize: new go.Size(6, 6),
-            fill: "#f3b2f6",
-            stroke:"#c28098",
+            fill: "#FFFF99",
+            stroke:"#ffff77",
+            // fromSpot: go.Spot.Right,
+            fromLinkable: !input,
+            // toSpot: go.Spot.Left,
+            toLinkable: input,
+            toMaxLinks: 1,
+            cursor: "pointer",
+            desiredSize: new go.Size(5, 5),
+        };
+    }
+    function portStyle2(input) {
+        return {
+            fill: "#CCFFCC",
+            stroke:"#99CC99",
             // fromSpot: go.Spot.Right,
             fromLinkable: !input,
             // toSpot: go.Spot.Left,
@@ -129,7 +142,7 @@ function init() {
     var inputTemplate =
         $(go.Node, "Spot", nodeStyleR(),
             $(go.Shape, "Circle", innodeStyle()),
-            $(go.Shape, "Circle", portStyle(false),  // the only port
+            $(go.Shape, "Circle", portStyle1(false),  // the only port
                 { portId: "", alignment: new go.Spot(0.5, 0) }),
             $(go.TextBlock,TextStyle(), new go.Binding("text"))
             );
@@ -137,16 +150,16 @@ function init() {
     var outputTemplate =
         $(go.Node, "Spot", nodeStyleR(),
             $(go.Shape, "Rectangle", outnodeStyle()),  // override the default fill (from shapeStyle()) to be green
-            $(go.Shape, "Circle", portStyle(true),  // the only port
+            $(go.Shape, "Circle", portStyle1(true),  // the only port
                 { portId: "", alignment: new go.Spot(0.5, 1) }),
              $(go.TextBlock,TextStyle(), new go.Binding("text"))
         );
     var nodeTemplate =
         $(go.Node, "Spot", nodeStyleR(),
             $(go.Shape, "Rectangle", outnodeStyle()),  // override the default fill (from shapeStyle()) to be green
-            $(go.Shape, "Circle", portStyle(false),
+            $(go.Shape, "Circle", portStyle1(false),
                 { portId: "in", alignment: new go.Spot(0.5, 0) }),
-            $(go.Shape, "Circle", portStyle(true),
+            $(go.Shape, "Circle", portStyle1(true),
                 { portId: "out", alignment: new go.Spot(0.5, 1) }),
             $(go.TextBlock,TextStyle(), new go.Binding("text"))
         );
@@ -154,75 +167,75 @@ function init() {
     var andTemplate =
         $(go.Node, "Spot", nodeStyle(),
             $(go.Shape, "AndGate", shapeStyle()),
-            $(go.Shape, "Circle", portStyle(true),
+            $(go.Shape, "Circle", portStyle2(true),
                 { portId: "in1", alignment: new go.Spot(0, 0.3) }),
-            $(go.Shape, "Circle", portStyle(true),
+            $(go.Shape, "Circle", portStyle2(true),
                 { portId: "in2", alignment: new go.Spot(0, 0.7) }),
-            $(go.Shape, "Circle", portStyle(false),
+            $(go.Shape, "Circle", portStyle2(false),
                 { portId: "out", alignment: new go.Spot(1, 0.5) })
         );
 
     var orTemplate =
         $(go.Node, "Spot", nodeStyle(),
             $(go.Shape, "OrGate", shapeStyle()),
-            $(go.Shape, "Circle", portStyle(true),
+            $(go.Shape, "Circle", portStyle2(true),
                 { portId: "in1", alignment: new go.Spot(0.16, 0.3) }),
-            $(go.Shape,"Circle", portStyle(true),
+            $(go.Shape,"Circle", portStyle2(true),
                 { portId: "in2", alignment: new go.Spot(0.16, 0.7) }),
-            $(go.Shape, "Circle", portStyle(false),
+            $(go.Shape, "Circle", portStyle2(false),
                 { portId: "out", alignment: new go.Spot(1, 0.5) })
         );
 
     var xorTemplate =
         $(go.Node, "Spot", nodeStyle(),
             $(go.Shape, "XorGate", shapeStyle()),
-            $(go.Shape, "Circle", portStyle(true),
+            $(go.Shape, "Circle", portStyle2(true),
                 { portId: "in1", alignment: new go.Spot(0.26, 0.3) }),
-            $(go.Shape, "Circle", portStyle(true),
+            $(go.Shape, "Circle", portStyle2(true),
                 { portId: "in2", alignment: new go.Spot(0.26, 0.7) }),
-            $(go.Shape, "Circle", portStyle(false),
+            $(go.Shape, "Circle", portStyle2(false),
                 { portId: "out", alignment: new go.Spot(1, 0.5) })
         );
 
     var norTemplate =
         $(go.Node, "Spot", nodeStyle(),
             $(go.Shape, "NorGate", shapeStyle()),
-            $(go.Shape,"Circle", portStyle(true),
+            $(go.Shape,"Circle", portStyle2(true),
                 { portId: "in1", alignment: new go.Spot(0.16, 0.3) }),
-            $(go.Shape,"Circle", portStyle(true),
+            $(go.Shape,"Circle", portStyle2(true),
                 { portId: "in2", alignment: new go.Spot(0.16, 0.7) }),
-            $(go.Shape,"Circle", portStyle(false),
+            $(go.Shape,"Circle", portStyle2(false),
                 { portId: "out", alignment: new go.Spot(1, 0.5) })
         );
 
     var xnorTemplate =
         $(go.Node, "Spot", nodeStyle(),
             $(go.Shape, "XnorGate", shapeStyle()),
-            $(go.Shape, "Circle", portStyle(true),
+            $(go.Shape, "Circle", portStyle2(true),
                 { portId: "in1", alignment: new go.Spot(0.26, 0.3) }),
-            $(go.Shape, "Circle", portStyle(true),
+            $(go.Shape, "Circle", portStyle2(true),
                 { portId: "in2", alignment: new go.Spot(0.26, 0.7) }),
-            $(go.Shape,"Circle", portStyle(false),
+            $(go.Shape,"Circle", portStyle2(false),
                 { portId: "out", alignment: new go.Spot(1, 0.5) })
         );
 
     var nandTemplate =
         $(go.Node, "Spot", nodeStyle(),
             $(go.Shape, "NandGate", shapeStyle()),
-            $(go.Shape, "Circle", portStyle(true),
+            $(go.Shape, "Circle", portStyle2(true),
                 { portId: "in1", alignment: new go.Spot(0, 0.3) }),
-            $(go.Shape, "Circle", portStyle(true),
+            $(go.Shape, "Circle", portStyle2(true),
                 { portId: "in2", alignment: new go.Spot(0, 0.7) }),
-            $(go.Shape, "Circle", portStyle(false),
+            $(go.Shape, "Circle", portStyle2(false),
                 { portId: "out", alignment: new go.Spot(1, 0.5) })
         );
 
     var notTemplate =
         $(go.Node, "Spot", nodeStyle(),
             $(go.Shape, "Inverter", shapeStyle()),
-            $(go.Shape, "Circle", portStyle(true),
+            $(go.Shape, "Circle", portStyle2(true),
                 { portId: "in", alignment: new go.Spot(0, 0.5) }),
-            $(go.Shape, "Circle", portStyle(false),
+            $(go.Shape, "Circle", portStyle2(false),
                 { portId: "out", alignment: new go.Spot(1, 0.5) })
         );
 
