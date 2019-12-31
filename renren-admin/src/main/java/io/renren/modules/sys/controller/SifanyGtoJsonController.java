@@ -14,14 +14,19 @@ import io.renren.modules.sys.service.SifanyClassAttrService;
 import io.renren.modules.sys.service.SifanyClassService;
 import io.renren.modules.sys.service.SifanyDataTextService;
 import io.renren.modules.sys.service.SifanyObjAttrService;
+import jdk.internal.org.xml.sax.InputSource;
 import org.apache.commons.io.IOUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.jdom.input.SAXBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.StringReader;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,6 +37,8 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.xml.parsers.DocumentBuilder;
 
 @RestController
 @RequestMapping("sys/sifanygjson")
@@ -44,7 +51,6 @@ public class SifanyGtoJsonController extends AbstractController{
     private SifanyDataTextService sifanyDataTextService;
 
     @RequestMapping("/upload")
-
     public R upload(@RequestParam("file") MultipartFile file) throws Exception {
         if (file.isEmpty()) {
             throw new RRException("上传文件不能为空");
@@ -52,6 +58,7 @@ public class SifanyGtoJsonController extends AbstractController{
         String content=IOUtils.toString(file.getInputStream());
         SifanyDataTextEntity sifanyDataTextEntity=new SifanyDataTextEntity();
         sifanyDataTextEntity.setContent(content);
+        System.out.println(content);
         sifanyDataTextService.save(sifanyDataTextEntity);
         return R.ok().put("id",sifanyDataTextEntity.getId());
     }
@@ -60,10 +67,16 @@ public class SifanyGtoJsonController extends AbstractController{
 
     @ResponseBody              //将结果发送给浏览器
     @RequestMapping("/getGJson")  //接受hello请求
-    public JSONObject Hello() throws Exception{
+    public JSONObject Hello(int idd) throws Exception{
         SAXReader reader = new SAXReader();
         JSONObject object=new JSONObject();
-        Document document = reader.read(new File("D:\\swan-git\\doc-tuoguan\\SH.G"));
+
+
+        Document document = reader.read( new ByteArrayInputStream(sifanyDataTextService.getById(idd).getContent().getBytes()));
+
+
+
+
         Element root = document.getRootElement();
         Integer id=0;//元件属性的id
         //获取父节点

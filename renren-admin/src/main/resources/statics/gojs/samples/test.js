@@ -7,7 +7,7 @@ var attrs=[];
 function init() {
 
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", baseIP + "sys/sifanygjson/getGJson", true);
+    xmlHttp.open("GET", baseIP + "sys/sifanygjson/getGJson?idd="+localStorage.fileId, true);
     xmlHttp.send();
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
