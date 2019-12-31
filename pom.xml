@@ -7,7 +7,7 @@
     <packaging>pom</packaging>
 
     <name>renren-security</name>
-    <url>https://www.renren.io</url>
+    <url>http://www.gaoxiaoit.com/</url>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>

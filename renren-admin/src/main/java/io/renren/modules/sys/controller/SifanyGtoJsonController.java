@@ -3,14 +3,23 @@ package io.renren.modules.sys.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.renren.common.exception.RRException;
+import io.renren.common.utils.R;
+import io.renren.modules.oss.cloud.OSSFactory;
+import io.renren.modules.oss.entity.SysOssEntity;
 import io.renren.modules.sys.entity.SifanyClassAttrEntity;
 import io.renren.modules.sys.entity.SifanyClassEntity;
+import io.renren.modules.sys.entity.SifanyDataTextEntity;
 import io.renren.modules.sys.service.SifanyClassAttrService;
 import io.renren.modules.sys.service.SifanyClassService;
+import io.renren.modules.sys.service.SifanyDataTextService;
 import io.renren.modules.sys.service.SifanyObjAttrService;
+import org.apache.commons.io.IOUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import java.io.File;
 import java.util.*;
@@ -22,6 +31,7 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("sys/sifanygjson")
@@ -30,6 +40,22 @@ public class SifanyGtoJsonController extends AbstractController{
     private SifanyClassAttrService sifanyClassAttrService;
     @Autowired
     private SifanyClassService sifanyClassService;
+    @Autowired
+    private SifanyDataTextService sifanyDataTextService;
+
+    @RequestMapping("/upload")
+
+    public R upload(@RequestParam("file") MultipartFile file) throws Exception {
+        if (file.isEmpty()) {
+            throw new RRException("上传文件不能为空");
+        }
+        String content=IOUtils.toString(file.getInputStream());
+        SifanyDataTextEntity sifanyDataTextEntity=new SifanyDataTextEntity();
+        sifanyDataTextEntity.setContent(content);
+        sifanyDataTextService.save(sifanyDataTextEntity);
+        return R.ok().put("id",sifanyDataTextEntity.getId());
+    }
+
 
 
     @ResponseBody              //将结果发送给浏览器
@@ -37,7 +63,7 @@ public class SifanyGtoJsonController extends AbstractController{
     public JSONObject Hello() throws Exception{
         SAXReader reader = new SAXReader();
         JSONObject object=new JSONObject();
-        Document document = reader.read(new File("F:\\project\\gfile20191210\\大G文件\\A01.G"));
+        Document document = reader.read(new File("D:\\swan-git\\doc-tuoguan\\SH.G"));
         Element root = document.getRootElement();
         Integer id=0;//元件属性的id
         //获取父节点

@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2016-2019 SWAN开源 All rights reserved.
  *
- * https://www.renren.io
+ * http://www.gaoxiaoit.com/
  *
  * 版权所有，侵权必究！
  */

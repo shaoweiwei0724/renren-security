@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2016-2019 SWAN开源 All rights reserved.
  *
- * https://www.renren.io
+ * http://www.gaoxiaoit.com/
  *
  * 版权所有，侵权必究！
  */
@@ -45,7 +45,7 @@ public class SwaggerConfig{
         return new ApiInfoBuilder()
             .title("SWAN开源")
             .description("renren-admin文档")
-            .termsOfServiceUrl("https://www.renren.io")
+            .termsOfServiceUrl("http://www.gaoxiaoit.com/")
             .version("4.0.0")
             .build();
     }
