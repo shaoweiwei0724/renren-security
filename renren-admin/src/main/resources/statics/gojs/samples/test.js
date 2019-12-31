@@ -1032,7 +1032,7 @@ function init() {
                         corner: 0,
                         toShortLength: 1,
                     },
-                    new go.Binding("points","points").makeTwoWay(),
+                    new go.Binding("points").makeTwoWay(),
                     $(go.Shape,
                         new go.Binding("stroke", "stroke_color"),
                         new go.Binding("fill", "fill_color"),

@@ -1086,6 +1086,8 @@ function show_G() {
     var go=document.getElementById("config-swan-svg2");
     var btn_g=document.getElementById("GtoGo");
     var btn_go=document.getElementById("Go");
+    var btn_file=document.getElementById("file");
+    btn_file.style.display="block";
     btn_go.removeAttribute("disabled");
     btn_g.setAttribute("disabled", true);
     g.style.display="block";
@@ -1097,8 +1099,29 @@ function show_GO() {
     var go=document.getElementById("config-swan-svg2");
     var btn_g=document.getElementById("GtoGo");
     var btn_go=document.getElementById("Go");
+    var btn_file=document.getElementById("file");
+    btn_file.style.display="none";
     btn_g.removeAttribute("disabled");
     btn_go.setAttribute("disabled", true);
     g.style.display="none";
     go.style.display="block";
+}
+function upload(input) {
+    if (window.FileReader) {
+        var file = input.files[0];
+        filename = file.name.split(".")[1];
+        if(filename=="G")
+        {
+            var reader = new FileReader();
+            reader.onload = function() {
+                console.log(this.result)
+
+            }
+            reader.readAsText(file);
+        }
+        else {
+            alert("文件错误！请检查文件格式是否正确！")
+        }
+
+    }
 }
