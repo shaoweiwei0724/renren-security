@@ -10,10 +10,8 @@ import io.renren.modules.oss.entity.SysOssEntity;
 import io.renren.modules.sys.entity.SifanyClassAttrEntity;
 import io.renren.modules.sys.entity.SifanyClassEntity;
 import io.renren.modules.sys.entity.SifanyDataTextEntity;
-import io.renren.modules.sys.service.SifanyClassAttrService;
-import io.renren.modules.sys.service.SifanyClassService;
-import io.renren.modules.sys.service.SifanyDataTextService;
-import io.renren.modules.sys.service.SifanyObjAttrService;
+import io.renren.modules.sys.entity.SifanyObjEntity;
+import io.renren.modules.sys.service.*;
 import jdk.internal.org.xml.sax.InputSource;
 import org.apache.commons.io.IOUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -49,9 +47,11 @@ public class SifanyGtoJsonController extends AbstractController{
     private SifanyClassService sifanyClassService;
     @Autowired
     private SifanyDataTextService sifanyDataTextService;
+    @Autowired
+    private SifanyObjService sifanyObjService;
 
     @RequestMapping("/upload")
-    public R upload(@RequestParam("file") MultipartFile file) throws Exception {
+    public R upload(@RequestParam("file") MultipartFile file,@RequestParam(name = "obj_id") String obj_id) throws Exception {
         if (file.isEmpty()) {
             throw new RRException("上传文件不能为空");
         }
@@ -60,6 +60,17 @@ public class SifanyGtoJsonController extends AbstractController{
         sifanyDataTextEntity.setContent(content);
         System.out.println(content);
         sifanyDataTextService.save(sifanyDataTextEntity);
+
+
+        Long time = System.currentTimeMillis();
+        List<SifanyObjEntity> objEntities =  sifanyObjService.list(new QueryWrapper<SifanyObjEntity>().eq("id",obj_id));
+        for(SifanyObjEntity obj:objEntities){
+            obj.setCreateTime(time);
+            obj.setUpdateTime(time);
+            obj.setUserId(getUserId());
+            obj.setgId(sifanyDataTextEntity.getId());
+            sifanyObjService.save(obj);
+        }
         return R.ok().put("id",sifanyDataTextEntity.getId());
     }
 

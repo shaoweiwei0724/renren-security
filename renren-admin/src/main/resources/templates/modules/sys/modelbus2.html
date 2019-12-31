@@ -249,7 +249,7 @@
 <script>
     $(function(){
         new AjaxUpload('#upload', {
-            action: baseURL + "sys/sifanygjson/upload",
+            action: baseURL + "sys/sifanygjson/upload?obj_id="+localStorage.objId_g,
             name: 'file',
             autoSubmit:true,
             responseType:"json",
@@ -259,8 +259,6 @@
             onComplete : function(file, r){
                 if(r.code == 0){
                     localStorage.fileId=r.id;
-
-
                     $('#Gfile').attr('src',$('#Gfile').attr('src')).trigger("reloadGrid");
                     vm.reload();
                 }else{
