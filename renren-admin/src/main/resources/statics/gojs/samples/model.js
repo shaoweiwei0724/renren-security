@@ -201,8 +201,60 @@ function init() {
 
                 new go.Binding("text"))
                 ));
+
+    myDiagram.nodeTemplateMap.add("select",
+        $(go.Node, "Spot",
+            // {
+            //     selectionChanged: function(node) {
+            //         console.log("node:",node);
+            //         if(node.isSelected) {
+            //             node.category="";
+            //         } else {
+            //             node.category="select";
+            //         }
+            //     }
+            // },
+            {
+                locationObjectName: 'main',
+                locationSpot: go.Spot.Center,
+                rotatable:true,
+            },
+            new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify),
+            // The main element of the Spot panel is a vertical panel housing an optional icon,
+            // plus a rectangle that acts as the port
+            $(go.Panel, "Vertical",
+
+                $(go.Picture,
+                    {
+                        desiredSize: new go.Size(100,100),
+                    },
+                    new go.Binding("source", "icon",geoFunc ))
+            ),
+
+
+
+            // four small named ports, one on each side:
+            makePort("T", go.Spot.Top, true, true),
+            makePort("L", go.Spot.Left, true, true),
+            makePort("R", go.Spot.Right, true, true),
+            makePort("B", go.Spot.Bottom, true, true),
+            { // handle mouse enter/leave events to show/hide the ports
+                mouseEnter: function(e, node) { showSmallPorts(node, true); },
+                mouseLeave: function(e, node) { showSmallPorts(node, false); }
+            }
+        ),
     myDiagram.nodeTemplate =
         $(go.Node, "Spot",
+            // {
+            //     selectionChanged: function(node) {
+            //         console.log("node:",node);
+            //         if(node.isSelected) {
+            //             node.category="";
+            //         } else {
+            //             node.category="select";
+            //         }
+            //     }
+            // },
             {
                 locationObjectName: 'main',
                 locationSpot: go.Spot.Center,
@@ -244,7 +296,7 @@ function init() {
                 mouseEnter: function(e, node) { showSmallPorts(node, true); },
                 mouseLeave: function(e, node) { showSmallPorts(node, false); }
             }
-        );
+        ),
 
 
 
@@ -256,7 +308,7 @@ function init() {
         if (dir === "right") return go.Spot.RightSide;
         if (dir === "bottom") return go.Spot.BottomSide;
         if (dir === "rightsingle") return go.Spot.Right;
-    }
+    },
 
     myDiagram.linkTemplate =
         $(BarLink, {
@@ -280,7 +332,7 @@ function init() {
             // mark each Shape to get the link geometry with isPanelMain: true
             $(go.Shape, { isPanelMain: true, stroke: "#13e28e"/* blue*/, strokeWidth: 2 },
                 new go.Binding("stroke", "color"))
-        );
+        ))
 
     var myPalettes=[];
     for(var i=0;i<swan_obj_list.length;i++){
@@ -320,7 +372,16 @@ function init() {
                 });
         myPalettes.push(myPalette)
     }
-
+    myDiagram.addModelChangedListener(function(e){
+        if(e.modelChange=="nodeDataArray"){
+            if (e.change === go.ChangedEvent.Insert) {
+                console.log(e.propertyName + " added node with key: " + e.newValue.key);
+            }
+            // var node=e.newValue;
+            // console.log("e:",e);
+            // node.category="select";
+        }
+    })
     myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);// animate some flow through the pipes
         loop();
         }

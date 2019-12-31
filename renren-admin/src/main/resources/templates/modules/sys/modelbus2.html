@@ -172,6 +172,11 @@
                                         <option value="0">Kg</option>
                                         <option value="1">N</option>
                                         <option value="2">Pa</option>
+                                        <option value="3">KW</option>
+                                        <option value="4">KV</option>
+                                        <option value="5">V</option>
+                                        <option value="6">A</option>
+                                        <option value="7">KVA</option
                                     </select>
                                 </div>
                             </td>
@@ -220,9 +225,12 @@
     <!--width="900px" id="config-swan-svg0" height="400px"></iframe>-->
     <!--</div>-->
     <div id="swan-svg-div">
-
+        <input class="btnj" id="GtoGo" onclick="show_G()" type="button"  value="解析接线图" />&nbsp;
+        <input class="btnj" id="Go" onclick="show_GO()" type="button" value="组态模型" />
         <iframe src="${request.contextPath}/statics/gojs/samples/productionProcess.html"
                 width="100%"  id="config-swan-svg2" height="500"></iframe>
+        <iframe id="Gfile" style="display: none;" src="${request.contextPath}/statics/gojs/samples/test.html"
+                width="100%" height="800px"></iframe>
     </div>
 
 </div>
@@ -280,6 +288,11 @@
                     <option value="0">Kg</option>
                     <option value="1">N</option>
                     <option value="2">Pa</option>
+                    <option value="3">KW</option>
+                    <option value="4">KV</option>
+                    <option value="5">V</option>
+                    <option value="6">A</option>
+                    <option value="7">KVA</option>
                 </select>
             </div>
         </div>
@@ -334,8 +347,7 @@
             width="100%" id="swan-svg" height="1000px"></iframe>
 </div>
 <div id="menumapLayer" style="display: none;padding:10px;">
-
-    <iframe src="${request.contextPath}/statics/gojs/samples/productionProcess.html"
+        <iframe src="${request.contextPath}/statics/gojs/samples/productionProcess.html"
             width="100%" id="config-swan-svg" height="800px"></iframe>
 </div>
 
