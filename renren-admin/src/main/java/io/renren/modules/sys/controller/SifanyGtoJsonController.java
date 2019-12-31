@@ -69,7 +69,7 @@ public class SifanyGtoJsonController extends AbstractController{
             obj.setUpdateTime(time);
             obj.setUserId(getUserId());
             obj.setgId(sifanyDataTextEntity.getId());
-            sifanyObjService.save(obj);
+            sifanyObjService.updateById(obj);
         }
         return R.ok().put("id",sifanyDataTextEntity.getId());
     }

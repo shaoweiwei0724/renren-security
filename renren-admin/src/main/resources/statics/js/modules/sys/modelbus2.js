@@ -159,6 +159,7 @@ function tree_click_swan(e,treeId, treeNode) {
     localStorage.objId_g=node[0].id;
     localStorage.iconsId = vm.sifanyObj.modelId;
     $('#config-swan-svg2').attr('src',$('#config-swan-svg2').attr('src')).trigger("reloadGrid");
+    $('#Gfile').attr('src',$('#Gfile').attr('src')).trigger("reloadGrid");
     console.log("1",vm.sifanyObj);
     var page = $("#jqGrid").jqGrid('getGridParam','page');
     $("#jqGrid").jqGrid('setGridParam',{

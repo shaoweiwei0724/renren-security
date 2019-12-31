@@ -260,7 +260,6 @@
                 if(r.code == 0){
                     localStorage.fileId=r.id;
                     $('#Gfile').attr('src',$('#Gfile').attr('src')).trigger("reloadGrid");
-                    vm.reload();
                 }else{
                     alert(r.msg);
                 }
