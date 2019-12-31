@@ -180,3 +180,15 @@ option{
     background: rgba(85, 144, 242, 0.14) !important;
     border: 0;
 }
+.btnj{
+    z-index: 9999;
+    width: 80px;
+    height: 30px;
+    background: #0099CC;
+    border-style: none;
+    color: #fff;
+    border-radius: 5px;
+}
+.btnj:hover{
+    background: #66ccff;
+}

@@ -1080,3 +1080,25 @@ var vm = new Vue({
         }
     }
 });
+
+function show_G() {
+    var g=document.getElementById("Gfile");
+    var go=document.getElementById("config-swan-svg2");
+    var btn_g=document.getElementById("GtoGo");
+    var btn_go=document.getElementById("Go");
+    btn_go.removeAttribute("disabled");
+    btn_g.setAttribute("disabled", true);
+    g.style.display="block";
+    go.style.display="none";
+
+}
+function show_GO() {
+    var g=document.getElementById("Gfile");
+    var go=document.getElementById("config-swan-svg2");
+    var btn_g=document.getElementById("GtoGo");
+    var btn_go=document.getElementById("Go");
+    btn_g.removeAttribute("disabled");
+    btn_go.setAttribute("disabled", true);
+    g.style.display="none";
+    go.style.display="block";
+}

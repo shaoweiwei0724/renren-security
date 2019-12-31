@@ -1,0 +1,11 @@
+<svg width="12" height="36" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <g>
+  <title>Layer 1</title>
+<!--  <circle fill="rgba(255,255,255,0)" stroke="#ff0000" cx="6" cy="3" r="3" id="svg_2"/>-->
+<!--  <circle fill="rgba(255,255,255,0)" stroke="#ff0000" cx="6" cy="33" r="3" id="svg_3"/>-->
+  <line id="svg_4" y2="8" x2="6" y1="3" x1="6" stroke="#000000" fill="#000"/>
+  <line id="svg_5" y2="33" x2="6" y1="28" x1="6" stroke="#000000" fill="#000"/>
+  <line id="svg_6" y2="28" x2="12" y1="28" x1="0" stroke-width="2" stroke="#000000" fill="#000"/>
+  <line id="svg_7" y2="28" x2="12" y1="8" x1="6" stroke-width="2" stroke="#000000" fill="#000"/>
+ </g>
+</svg>
