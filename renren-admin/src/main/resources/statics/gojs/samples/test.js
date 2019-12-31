@@ -175,7 +175,7 @@ function init() {
                             margin: 1.5,
                         }),
                     $(go.Shape, "Circle", portStyle(true),
-                        { portId: "0", alignment: new go.Spot(0, 0.5) })
+                        { portId: "0", alignment: new go.Spot(0.5, 0) })
                 );
             var capacitor_s =
                 $(go.Node, "Spot", NodeStyle(),
@@ -1032,7 +1032,7 @@ function init() {
                         corner: 0,
                         toShortLength: 1,
                     },
-                    new go.Binding("points").makeTwoWay(),
+                    new go.Binding("points","points").makeTwoWay(),
                     $(go.Shape,
                         new go.Binding("stroke", "stroke_color"),
                         new go.Binding("fill", "fill_color"),
@@ -1063,7 +1063,7 @@ function init() {
                         corner: 0,
                         toShortLength: 1,
                     },
-                    new go.Binding("points").makeTwoWay(),
+                    new go.Binding("points","points").makeTwoWay(),
                     $(go.Shape,
                         new go.Binding("stroke", "stroke_color"),
                         new go.Binding("fill", "fill_color"),
@@ -1093,7 +1093,7 @@ function init() {
                         corner: 0,
                         toShortLength: 1
                     },
-                    new go.Binding("points").makeTwoWay(),
+                    new go.Binding("points","points").makeTwoWay(),
                     $(go.Shape,
                         new go.Binding("stroke", "stroke_color"),
                         new go.Binding("fill", "fill_color"),
