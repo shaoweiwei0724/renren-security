@@ -29,15 +29,15 @@ function init() {
                     }
                     attrs.push(node_attr);
                 }}
-                // else {
-                //     var msp=nodedata.msp;
-                //     var node_text=[];
-                //     if(text_node[msp]!=undefined){
-                //         node_text=text_node[msp];
-                //     }
-                //     node_text.push(nodedata.key);
-                //     text_node[msp]=node_text;
-                // }
+                else {
+                    var msp=nodedata.msp;
+                    var node_text=[];
+                    if(text_node[msp]!=undefined){
+                        node_text=text_node[msp];
+                    }
+                    node_text.push(nodedata.key);
+                    text_node[msp]=node_text;
+                }
             }
             //定义模型
             var model={};
@@ -122,8 +122,6 @@ function init() {
                 ]
             }
             function changeText(node) {
-                console.log("node:",node);
-                //     var Select_Port = e.subject.part.data.key;
                 var node_select=node.key;
                 var texts_select=myDiagram.findNodesByExample({"msp":node_select});
                 var attr_panel=myDiagram.findNodesByExample({"panel_objId":node_select});
@@ -1244,6 +1242,55 @@ function init() {
             //     }
             //
             // });
+            myDiagram.addModelChangedListener(function(evt) {
+                if (!evt.isTransactionFinished) return;
+                var txn = evt.object;  // a Transaction
+                if (txn === null) return;
+                // iterate over all of the actual ChangedEvents of the Transaction
+                txn.changes.each(function(e) {
+                    if(e.Dj=="location")
+                    {
+                        console.log(e);
+                        if(e.object!=null){
+                            var node_key=e.object.key;
+                            var attr_panel=myDiagram.findNodesByExample({"panel_objId":node_key});
+                            var attr_text=myDiagram.findNodesByExample({"attr_objId":node_key});
+                            var texts_select=myDiagram.findNodesByExample({"msp":node_key});
+                            var changeX=e.newValue.x-e.oldValue.x;
+                            var changeY=e.newValue.y-e.oldValue.y;
+
+                            attr_panel.each(function(panel_select) {
+                                var pos=panel_select.data["pos"].trim().split(" ")
+                                var x=new Number(pos[0])+changeX;
+                                var y=new Number(pos[1])+changeY;
+                                var loc=(x).toString()+" "+(y).toString();
+                                panel_select.data.pos=loc;
+                                console.log("panel_select",panel_select);
+                                myDiagram.model.updateTargetBindings(panel_select.data);
+                                });
+                            attr_text.each(function(attr_select) {
+                                var pos=attr_select.data["pos"].trim().split(" ")
+                                var x=new Number(pos[0])+changeX;
+                                var y=new Number(pos[1])+changeY;
+                                var loc=(x).toString()+" "+(y).toString();
+                                attr_select.data.pos=loc;
+                                console.log("attr_select",attr_select);
+                                myDiagram.model.updateTargetBindings(attr_select.data);
+                            });
+                            texts_select.each(function(text_select) {
+                                var pos=text_select.data["pos"].trim().split(" ")
+                                var x=new Number(pos[0])+changeX;
+                                var y=new Number(pos[1])+changeY;
+                                var loc=(x).toString()+" "+(y).toString();
+                                text_select.data.pos=loc;
+                                console.log("text_select",text_select);
+                                myDiagram.model.updateTargetBindings(text_select.data);
+                            });
+                        }
+                    }
+
+                })
+            })
             myDiagram.nodeTemplateMap.add("Capacitor_P_0", capacitor_p);
             myDiagram.nodeTemplateMap.add("Capacitor_P_1", capacitor_p);
             myDiagram.nodeTemplateMap.add("Capacitor_S_0", capacitor_s);
