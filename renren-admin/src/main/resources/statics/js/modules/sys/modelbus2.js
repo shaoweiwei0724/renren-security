@@ -157,6 +157,7 @@ function tree_click_swan(e,treeId, treeNode) {
     // localStorage.iconsId = selected_id;
     vm.sifanyObj = {id:node[0].id,name:node[0].name,code:node[0].code,icons:node[0].icons,remark:node[0].remark,irconurl:node[0].irconurl,modelId:node[0].modelId };
     localStorage.objId_g=node[0].id;
+    localStorage.fileId=node[0].gId;
     localStorage.iconsId = vm.sifanyObj.modelId;
     $('#config-swan-svg2').attr('src',$('#config-swan-svg2').attr('src')).trigger("reloadGrid");
     $('#Gfile').attr('src',$('#Gfile').attr('src')).trigger("reloadGrid");
