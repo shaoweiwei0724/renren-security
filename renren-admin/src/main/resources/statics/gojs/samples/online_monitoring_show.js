@@ -34,13 +34,12 @@ function init() {
             console.log("str:",str);
             for (var i = 0; i < map.nodeDataArray.length; i++) {
 
-                if(map.nodeDataArray[i].category=="TextNode"||map.nodeDataArray[i].category=="OfNodes"){
+                if(map.nodeDataArray[i].category=="TextNode"||map.nodeDataArray[i].category=="OfNodes"||map.nodeDataArray[i].category=="TextNode_selected"||map.nodeDataArray[i].category=="OfNodes_selected"){
                 }
                 else {
                     icon[map.nodeDataArray[i].icon] = map.nodeDataArray[i].source.icons;
                 }
-                console.log("node:",map.nodeDataArray[i]);
-                if(map.nodeDataArray[i].category=="TextNode")
+                if(map.nodeDataArray[i].category=="TextNode"||map.nodeDataArray[i].category=="TextNode_selected")
                 {
                     if(map.nodeDataArray[i].onm==true)
                     {
@@ -183,9 +182,39 @@ function init() {
                     new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify),
                 ];
             }
-
+            //点击图元参数高亮
+            function SelectNode() {
+                return[
+                    {
+                        selectionChanged: function(node) {
+                            changeText(node);
+                        }
+                    },
+                ]
+            }
+            function changeText(node) {
+                var node_select=node.key;
+                var attr_panel=myDiagram.findNodesByExample({"panel_objId":node_select});
+                var attr_text=myDiagram.findNodesByExample({"attr_objId":node_select});
+                if(node.isSelected){
+                    attr_panel.each(function(panel_select) {
+                        panel_select.category = "OfNodes_selected";
+                    });
+                    attr_text.each(function(attr_select) {
+                        attr_select.category = "TextNode_selected";
+                    })
+                }
+                else {
+                    attr_panel.each(function(panel_select) {
+                        panel_select.category= "OfNodes";
+                    });
+                    attr_text.each(function(attr_select) {
+                        attr_select.category = "TextNode";
+                    })
+                }
+            }
                 myDiagram.nodeTemplateMap.add("Exclusive1",
-                    $(go.Node, commonNodeStyle(),
+                    $(go.Node, commonNodeStyle(),SelectNode(),
                         { // special resizing: just at the ends
                             resizable: true, resizeObjectName: "SHAPE", resizeAdornmentTemplate: resizeAdornment,
                             rotatable: true,
@@ -198,57 +227,6 @@ function init() {
                             },
                             new go.Binding("desiredSize", "size", go.Size.parse).makeTwoWay(go.Size.stringify))
                     ));
-
-                myDiagram.groupTemplateMap.add("OfGroups",
-                    $(go.Group, "Auto",
-                        {
-                            background: "transparent",
-                            // highlight when dragging into the Group
-                            mouseDragEnter: function (e, grp, prev) {
-                                highlightGroup(e, grp, true);
-                            },
-                            mouseDragLeave: function (e, grp, next) {
-                                highlightGroup(e, grp, false);
-                            },
-                            computesBoundsAfterDrag: true,
-                            // when the selection is dropped into a Group, add the selected Parts into that Group;
-                            // if it fails, cancel the tool, rolling back any changes
-                            mouseDrop: finishDrop,
-                            handlesDragDropForMembers: true,  // don't need to define handlers on member Nodes and Links
-                            // Groups containing Groups lay out their members horizontally
-                            layout:
-                                $(go.GridLayout,
-                                    {
-                                        wrappingWidth: Infinity, alignment: go.GridLayout.Position,
-                                        cellSize: new go.Size(1, 1), spacing: new go.Size(4, 4)
-                                    })
-                        },
-                        new go.Binding("background", "isHighlighted", function (h) {
-                            return h ? "rgba(255,0,0,0.2)" : "transparent";
-                        }).ofObject(),
-                        new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify),
-                        $(go.Shape, "Rectangle",
-                            {fill: null, stroke: "#435d80", strokeWidth: 2}),
-                        $(go.Panel, "Vertical",  // title above Placeholder
-                            $(go.Panel, "Horizontal",  // button next to TextBlock
-                                {stretch: go.GraphObject.Horizontal, background: "transparent"},
-                                $("SubGraphExpanderButton",
-                                    {alignment: go.Spot.Right, margin: 5}),
-                                $(go.TextBlock,
-                                    {
-                                        alignment: go.Spot.Left,
-                                        editable: true,
-                                        margin: 5,
-                                        font: "bold 18px sans-serif",
-                                        opacity: 0.75,
-                                        stroke: "#fff"
-                                    },
-                                    new go.Binding("text", "text").makeTwoWay())
-                            ),  // end Horizontal Panel
-                            $(go.Placeholder,
-                                {padding: 5, alignment: go.Spot.TopLeft})
-                        )  // end Vertical Panel
-                    ));  // end Group and call to add to template Map
 
                 myDiagram.groupTemplateMap.add("OfNodes",
 
@@ -343,26 +321,106 @@ function init() {
                         new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify)
                     )
                 );
-                myDiagram.nodeTemplateMap.add("PicNode",
-                    $(go.Node, "Spot",
-                        { // dropping on a Node is the same as dropping on its containing Group, even if it's top-level
+            myDiagram.groupTemplateMap.add("OfNodes_selected",
+
+                $(go.Group, "Auto",
+                    {
+                        isShadowed: true,//阴影
+                        movable: true,//允许拖动
+                        shadowOffset: new go.Point(4, 4),//阴影的位置偏移
+                        locationSpot: new go.Spot(0.5, 1, 0, -21), locationObjectName: "SHAPE",
+                        selectionObjectName: "SHAPE", rotatable: true,
+                        background: "transparent",
+                        ungroupable: true,
+                        // highlight when dragging into the Group
+                        mouseDragEnter: function (e, grp, prev) {
+                            console.log(grp);
+                            highlightGroup(e, grp, true);
                         },
-                        $(go.Picture,  // the icon showing the logo
-                            // You should set the desiredSize (or width and height)
-                            // whenever you know what size the Picture should be.
-                            {desiredSize: new go.Size(150, 100)},
-                            new go.Binding("source", "icon", convertKeyImage)),
-                        new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify)
-                    ));
+                        mouseDragLeave: function (e, grp, next) {
+                            console.log(grp);
+                            highlightGroup(e, grp, false);
+                        },
+                        computesBoundsAfterDrag: true,
+                        // when the selection is dropped into a Group, add the selected Parts into that Group;
+                        // if it fails, cancel the tool, rolling back any changes
+                        mouseDrop: finishDrop,
+                        handlesDragDropForMembers: true,  // don't need to define handlers on member Nodes and Links
+                        // Groups containing Nodes lay out their members vertically
+                        layout:
+                            $(go.GridLayout,
+                                {
+                                    wrappingColumn: 1, alignment: go.GridLayout.Position,
+                                    cellSize: new go.Size(1, 1), spacing: new go.Size(4, 4)
+                                })
+                    },
+                    new go.Binding("background", "isHighlighted", function (h) {
+                        return h ? "rgba(255,0,0,0.2)" : "transparent";
+                    }).ofObject(),
+
+                    $(go.Shape, "Rectangle",
+                        {fill: "rgba(255,102,102,0.3)", stroke: null, strokeWidth: 2}),
+                    $(go.Panel, "Vertical",  // title above Placeholder
+                        // $(go.Panel, "Horizontal",  // button next to TextBlock
+                        //     {stretch: go.GraphObject.Horizontal, background: "transparent"},
+                        //     $("SubGraphExpanderButton",
+                        //         {alignment: go.Spot.Right, margin: 5})
+                        // ),  // end Horizontal Panel
+                        $(go.Placeholder,
+                            {padding: 5, alignment: go.Spot.TopLeft})
+                    ),  // end Vertical Panel
+                    new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify)
+
+                ));  // end Group and call to add to template Map
+
+            // replace the default Node template in the nodeTemplateMap
+            myDiagram.nodeTemplateMap.add("TextNode_selected",
+                $(go.Node, "Auto",
+                    { // dropping on a Node is the same as dropping on its containing Group, even if it's top-level
+                        mouseDrop: function (e, nod) {
+                            finishDrop(e, nod.containingGroup);
+                        }
+                    },
+                    $(go.Shape, "Rectangle",
+                        {fill: "rgba(255,102,102,0.3)", stroke: null},
+                        new go.Binding("fill", "color")),
+                    $(go.Panel, "Table",
+                        {
+                            minSize: new go.Size(130, NaN),
+                            maxSize: new go.Size(150, NaN),
+                            margin: new go.Margin(6, 10, 0, 6),
+                            defaultAlignment: go.Spot.Left
+                        },
+                        $(go.RowColumnDefinition, {column: 2, width: 1}),
+                        $(go.TextBlock, // the name
+                            {
+                                row: 0, column: 0,
+                                font: "8pt Segoe UI,sans-serif",
+                                stroke: "#fff",
+                                editable: true, isMultiline: false,
+                            },
+                            new go.Binding("text", "text").makeTwoWay()),
+                        $(go.TextBlock,
+                            {
+                                row: 0, column: 1,
+                                font: "8pt Segoe UI,sans-serif",
+                                editable: true, isMultiline: false,
+                                stroke: "#fff",
+                                margin: new go.Margin(0, 0, 0, 3)
+                            },
+                            new go.Binding("text", "value").makeTwoWay())
+                    ), // end Table Panel
+                    new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify)
+                )
+            );
 
                 myDiagram.nodeTemplate =
-                    $(go.Node, "Spot",
+                    $(go.Node, "Spot",SelectNode(),
                         {
                             locationObjectName: 'main',
                             locationSpot: go.Spot.Center,
                             rotatable: true,
                             // resizable: true,
-
                         },
                         new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify),
                         // The main element of the Spot panel is a vertical panel housing an optional icon,
@@ -425,15 +483,6 @@ function init() {
                     if (dir === "rightsingle") return go.Spot.Right;
                 }
 
-            myDiagram.model.addLinkData({"category":"PicPara"});
-            myDiagram.linkTemplateMap.add("PicPara",
-                $(go.Link,
-                    { routing: go.Link.AvoidsNodes, curve: go.Link.JumpGap, corner: 10, reshapable: true, toShortLength: 7,deletable:false},
-                    new go.Binding("points").makeTwoWay(),
-
-                    $(go.Shape, {stroke: "#cd0000", strokeWidth:3 })
-                )
-            );
                 myDiagram.linkTemplate =
                     $(BarLink, {
                             routing: go.Link.Orthogonal,
@@ -461,6 +510,44 @@ function init() {
                         $(go.Shape, {isPanelMain: true, stroke: "#13e28e"/* blue*/, strokeWidth: 2},
                             new go.Binding("stroke", "color"))
                     );
+            myDiagram.addModelChangedListener(function(evt) {
+                if (!evt.isTransactionFinished) return;
+                var txn = evt.object;  // a Transaction
+                if (txn === null) return;
+                // iterate over all of the actual ChangedEvents of the Transaction
+                txn.changes.each(function(e) {
+                    console.log(e);
+                    if(e.Dj=="location") {
+                        if(e.object!=null){
+                            var node_key=e.object.key;
+                            var attr_panel=myDiagram.findNodesByExample({"panel_objId":node_key});
+                            var attr_text=myDiagram.findNodesByExample({"attr_objId":node_key});
+                            var changeX=e.newValue.x-e.oldValue.x;
+                            var changeY=e.newValue.y-e.oldValue.y;
+
+                            attr_panel.each(function(panel_select) {
+                                var pos=panel_select.data["pos"].trim().split(" ")
+                                var x=new Number(pos[0])+changeX;
+                                var y=new Number(pos[1])+changeY;
+                                var loc=(x).toString()+" "+(y).toString();
+                                panel_select.data.pos=loc;
+                                console.log("panel_select",panel_select);
+                                myDiagram.model.updateTargetBindings(panel_select.data);
+                            });
+                            attr_text.each(function(attr_select) {
+                                var pos=attr_select.data["pos"].trim().split(" ")
+                                var x=new Number(pos[0])+changeX;
+                                var y=new Number(pos[1])+changeY;
+                                var loc=(x).toString()+" "+(y).toString();
+                                attr_select.data.pos=loc;
+                                console.log("attr_select",attr_select);
+                                myDiagram.model.updateTargetBindings(attr_select.data);
+                            });
+                        }
+                    }
+
+                })
+            })
                 myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
                 // getPic(nodeDataArray);
                 listenRedis();//监听redis添加参数
