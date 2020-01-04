@@ -16,19 +16,19 @@ function init() {
             linkDataArray=json.link;
             console.log("length:",nodeDataArray.length)
             for (var j = 0; j < nodeDataArray.length; j++) {
-               var nodedata=nodeDataArray[j]
+                var nodedata=nodeDataArray[j]
                 var node_attr=[];
                 if(nodedata.type!="Text"){
                     if(nodedata.attrs!=""){
-                    for(var i=0;i<nodedata.attrs.length;i++)
-                    {
-                        var attr={};
-                        attr=nodedata.attrs[i];
-                        attr.objId=nodeDataArray[j].key;
-                        node_attr.push(attr);
-                    }
-                    attrs.push(node_attr);
-                }}
+                        for(var i=0;i<nodedata.attrs.length;i++)
+                        {
+                            var attr={};
+                            attr=nodedata.attrs[i];
+                            attr.objId=nodeDataArray[j].key;
+                            node_attr.push(attr);
+                        }
+                        attrs.push(node_attr);
+                    }}
                 else {
                     var msp=nodedata.msp;
                     var node_text=[];
@@ -46,6 +46,157 @@ function init() {
             model.linkToPortIdProperty="toPort";
             model.nodeDataArray=nodeDataArray;
             model.linkDataArray=linkDataArray;
+
+            //定义图元
+            var icons = {};
+            icons.capacitor_p="M12.8,2.4v4 M0,6.4h25.6 M0,14.4h25.6 M12.8,14.4v12.8 M0,27.2h25.6 M3.2,32h19.2 M6.4,36.8h12.8";
+            icons.capacitor_s="M2.4,12.8h4 M6.4,0v25.6 M14.4,0v25.6 M14.4,12.8h4";
+            icons.cbreaker_1="M0,3h8v20H0V3z";
+            icons.cbreaker_2="M0,3h8v20H0V3z";
+            icons.disconnector_1="M6,3v5 M6,28v5 M0,28h12 M6,8v20";
+            icons.disconnector_2="M6,3v5 M6,28v5 M0,28h12 M6,8l6,20" ;
+            icons.disconnector_3="M6,0v36";
+            icons.energyconsumer_0="M16,0c8.8,0,16,7.2,16,16s-7.2,16-16,16S0,24.8,0,16S7.2,0,16,0z M8,24V8 M8,8l8,16 M16,24l8-16 M24,8v16";
+            icons.energyconsumer_1="M12,2v4 M0,6h24L12,24L0,6z";
+            icons.generalmeter="M13,40c7.2,0,13,5.8,13,13s-5.8,13-13,13S0,60.2,0,53S5.8,40,13,40z M13,0v40";
+            icons.generator="M16,0c8.8,0,16,7.2,16,16s-7.2,16-16,16S0,24.8,0,16S7.2,0,16,0z M15.7,16.1h0.8c0-4.3-3.2-7.8-7.2-7.8\n" +
+                "\tS2,11.8,2,16.1h0.8c0-3.9,2.9-7,6.4-7S15.7,12.2,15.7,16.1C15.7,16.1,15.7,16.1,15.7,16.1z M15.7,16.1h0.8c0-4.3-3.2-7.8-7.2-7.8\n" +
+                "\tS2,11.8,2,16.1h0.8c0-3.9,2.9-7,6.4-7S15.7,12.2,15.7,16.1C15.7,16.1,15.7,16.1,15.7,16.1z M16.5,15.5l-0.8,0\n" +
+                "\tc0.2,4.3,3.6,7.7,7.5,7.5c4-0.2,7.1-3.8,6.9-8.1l-0.8,0c0.2,3.9-2.6,7.1-6.1,7.2S16.7,19.3,16.5,15.5L16.5,15.5z M16.5,15.5l-0.8,0\n" +
+                "\tc0.2,4.3,3.6,7.7,7.5,7.5c4-0.2,7.1-3.8,6.9-8.1l-0.8,0c0.2,3.9-2.6,7.1-6.1,7.2S16.7,19.3,16.5,15.5L16.5,15.5z";
+            icons.grounddisconnector_1="M10.4,6.4l7.2,16 M10.4,2.4v4 M3.2,22.4h14.4 M10.4,22.4v19.2 M0,41.6h20.8 M3.2,46.4h14.4 M6.4,51.2h8";
+            icons.grounddisconnector_2="M10.4,2.4v4 M3.2,22.4h14.4 M10.4,22.4v19.2 M0,41.6h20.8 M3.2,46.4h14.4 M6.4,51.2h8 M10.4,6.4v16";
+            icons.reactor_p="M9.5,26.1l0,1.2c6.3,0.1,11.4-4.7,11.5-10.8c0.1-6-4.9-11-11.2-11.1l0,1.2c5.6,0.1,10,4.5,9.9,9.8\n" +
+                "\tC19.7,21.9,15.1,26.2,9.5,26.1C9.6,26.1,9.5,26.1,9.5,26.1z M9.5,26.1l0,1.2c6.3,0.1,11.4-4.7,11.5-10.8c0.1-6-4.9-11-11.2-11.1\n" +
+                "\tl0,1.2c5.6,0.1,10,4.5,9.9,9.8C19.7,21.9,15.1,26.2,9.5,26.1C9.6,26.1,9.5,26.1,9.5,26.1z M10.4,2.4v4 M0,16.8h10.4 M10.4,16.8V36\n" +
+                "\t M0,36h20.8 M3.2,40.8h14.4 M6.4,45.6h8 M0.7,16.1l-1.2,0C-0.6,22.1,4,27,9.9,27.2c5.9,0.2,10.8-4.6,10.9-10.5l-1.2,0\n" +
+                "\tc-0.1,5.3-4.5,9.5-9.7,9.4C4.7,25.9,0.6,21.4,0.7,16.1C0.7,16.1,0.7,16.1,0.7,16.1z M0.7,16.1l-1.2,0C-0.6,22.1,4,27,9.9,27.2\n" +
+                "\tc5.9,0.2,10.8-4.6,10.9-10.5l-1.2,0c-0.1,5.3-4.5,9.5-9.7,9.4C4.7,25.9,0.6,21.4,0.7,16.1C0.7,16.1,0.7,16.1,0.7,16.1z";
+            icons.reactor_s="M26.6,10.8l1.2,0c0.1-6.1-4.8-11-10.8-11.1S5.9,4.5,5.9,10.6l1.2,0c0.1-5.4,4.5-9.7,9.8-9.7S26.6,5.4,26.6,10.8\n" +
+                "\tL26.6,10.8z M26.6,10.8l1.2,0c0.1-6.1-4.8-11-10.8-11.1S5.9,4.5,5.9,10.6l1.2,0c0.1-5.4,4.5-9.7,9.8-9.7S26.6,5.4,26.6,10.8\n" +
+                "\tL26.6,10.8z M2.4,10.4h4 M16.8,20.8V10.4 M16.8,10.4h14.4 M16.5,19.6l0,1.2c6.2,0,11.2-4.6,11.3-10.5c0-5.8-4.9-10.6-11.1-10.6\n" +
+                "\tl0,1.2c5.5,0,9.9,4.3,9.9,9.4C26.5,15.5,22,19.7,16.5,19.6C16.5,19.6,16.5,19.6,16.5,19.6C16.5,19.6,16.5,19.6,16.5,19.6z\n" +
+                "\t M16.5,19.6l0,1.2c6.2,0,11.2-4.6,11.3-10.5c0-5.8-4.9-10.6-11.1-10.6l0,1.2c5.5,0,9.9,4.3,9.9,9.4C26.5,15.5,22,19.7,16.5,19.6\n" +
+                "\tC16.5,19.6,16.5,19.6,16.5,19.6C16.5,19.6,16.5,19.6,16.5,19.6z";
+            icons.station_1_1="M16,0c8.8,0,16,7.2,16,16s-7.2,16-16,16S0,24.8,0,16S7.2,0,16,0z";
+            icons.station_1_2="M16,0c8.8,0,16,7.2,16,16s-7.2,16-16,16S0,24.8,0,16S7.2,0,16,0z M16,5c6.1,0,11,4.9,11,11s-4.9,11-11,11\n" +
+                "\tS5,22.1,5,16S9.9,5,16,5z";
+            icons.station_1_3="M16,0c8.8,0,16,7.2,16,16s-7.2,16-16,16S0,24.8,0,16S7.2,0,16,0z M16,5c6.1,0,11,4.9,11,11s-4.9,11-11,11\n" +
+                "\tS5,22.1,5,16S9.9,5,16,5z M16,10c3.3,0,6,2.7,6,6s-2.7,6-6,6s-6-2.7-6-6S12.7,10,16,10z";
+            icons.station_2_1="M5,5h32v20H5V5z";
+            icons.station_2_2="M5,5h32v20H5V5z M21,9c3.3,0,6,2.7,6,6s-2.7,6-6,6s-6-2.7-6-6S17.7,9,21,9z";
+            icons.station_2_3="M5,5h32v20H5V5z M5,15h16v10";
+            icons.transformer2_0="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z"
+            icons.transformer2_1="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M8,9.6l8,4.8 M24,9.6l-8,4.8 M16,24v-9.6"
+            icons.transformer2_2="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M8,9.6l8,4.8 M24,9.6l-8,4.8 M16,24v-9.6 M8,49.6l8-4.8 M24,49.6l-8-4.8 M16,35.2\n" +
+                "\tv9.6"
+            icons.transformer2_3="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M8,9.6l8,4.8 M24,9.6l-8,4.8 M16,24v-9.6 M16,51.2L9.6,40 M9.6,40h12.8 M22.4,40\n" +
+                "\tL16,51.2";
+            icons.transformer2_4="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M16,8L9.6,19.2 M9.6,19.2h12.8 M22.4,19.2L16,8";
+            icons.transformer2_5="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M16,8L9.6,19.2 M9.6,19.2h12.8 M22.4,19.2L16,8 M8,49.6l8-4.8 M24,49.6l-8-4.8\n" +
+                "\t M16,35.2v9.6";
+            icons.transformer2_6="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M16,8L9.6,19.2 M9.6,19.2h12.8 M22.4,19.2L16,8 M16,51.2L9.6,40 M9.6,40h12.8\n" +
+                "\t M22.4,40L16,51.2";
+            icons.transformer2_7="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M8,49.6l8-4.8 M24,49.6l-8-4.8 M16,35.2v9.6";
+            icons.transformer2_8="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M16,51.2L9.6,40 M9.6,40h12.8 M22.4,40L16,51.2";
+            icons.transformer3_0="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z";
+            icons.transformer3_1="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z\n" +
+                "\t M8,9.6l8,4.8 M24,9.6l-8,4.8 M16,24v-9.6";
+            icons.transformer3_2="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z\n" +
+                "\t M8,9.6l8,4.8 M24,9.6l-8,4.8 M16,24v-9.6 M16,51.2L9.6,40 M9.6,40h12.8 M22.4,40L16,51.2";
+            icons.transformer3_3="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z\n" +
+                "\t M8,9.6l8,4.8 M24,9.6l-8,4.8 M16,24v-9.6 M44.8,29.6l-11.2-6.4 M33.6,23.2V36 M33.6,36l11.2-6.4";
+            icons.transformer3_4="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z\n" +
+                "\t M8,9.6l8,4.8 M24,9.6l-8,4.8 M16,24v-9.6 M8,49.6l8-4.8 M24,49.6l-8-4.8 M16,35.2v9.6";
+            icons.transformer3_5="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z\n" +
+                "\t M8,9.6l8,4.8 M24,9.6l-8,4.8 M16,24v-9.6 M44.8,21.6l-4.8,8 M44.8,37.6l-4.8-8 M30.4,29.6H40";
+            icons.transformer3_6="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z\n" +
+                "\t M8,9.6l8,4.8 M24,9.6l-8,4.8 M16,24v-9.6 M44.8,21.6l-4.8,8 M44.8,37.6l-4.8-8 M30.4,29.6H40 M16,51.2L9.6,40 M9.6,40h12.8\n" +
+                "\t M22.4,40L16,51.2";
+            icons.transformer3_7="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z\n" +
+                "\t M8,9.6l8,4.8 M24,9.6l-8,4.8 M16,24v-9.6 M8,49.6l8-4.8 M24,49.6l-8-4.8 M16,35.2v9.6 M44.8,29.6l-11.2-6.4 M33.6,23.2V36 M33.6,36\n" +
+                "\tl11.2-6.4";
+            icons.transformer3_8="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z\n" +
+                "\t M8,9.6l8,4.8 M24,9.6l-8,4.8 M16,24v-9.6 M16,51.2L9.6,40 M9.6,40h12.8 M22.4,40L16,51.2 M44.8,29.6l-11.2-6.4 M33.6,23.2V36\n" +
+                "\t M33.6,36l11.2-6.4";
+            icons.transformer3_9="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z\n" +
+                "\t M8,9.6l8,4.8 M24,9.6l-8,4.8 M16,24v-9.6 M8,49.6l8-4.8 M24,49.6l-8-4.8 M16,35.2v9.6 M44.8,21.6l-4.8,8 M44.8,37.6l-4.8-8\n" +
+                "\t M30.4,29.6H40";
+            icons.transformer3_10="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z M16,8\n" +
+                "\tL9.6,19.2 M9.6,19.2h12.8 M22.4,19.2L16,8";
+            icons.transformer3_11="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z M16,8\n" +
+                "\tL9.6,19.2 M9.6,19.2h12.8 M22.4,19.2L16,8 M16,51.2L9.6,40 M9.6,40h12.8 M22.4,40L16,51.2";
+            icons.transformer3_12="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z M16,8\n" +
+                "\tL9.6,19.2 M9.6,19.2h12.8 M22.4,19.2L16,8 M44.8,29.6l-11.2-6.4 M33.6,23.2V36 M33.6,36l11.2-6.4";
+            icons.transformer3_13="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z M16,8\n" +
+                "\tL9.6,19.2 M9.6,19.2h12.8 M22.4,19.2L16,8 M8,49.6l8-4.8 M24,49.6l-8-4.8 M16,35.2v9.6";
+            icons.transformer3_14="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z M16,8\n" +
+                "\tL9.6,19.2 M9.6,19.2h12.8 M22.4,19.2L16,8 M44.8,21.6l-4.8,8 M44.8,37.6l-4.8-8 M30.4,29.6H40";
+            icons.transformer3_15="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z M16,8\n" +
+                "\tL9.6,19.2 M9.6,19.2h12.8 M22.4,19.2L16,8 M8,49.6l8-4.8 M24,49.6l-8-4.8 M16,35.2v9.6 M44.8,29.6l-11.2-6.4 M33.6,23.2V36 M33.6,36\n" +
+                "\tl11.2-6.4";
+            icons.transformer3_16="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z M16,8\n" +
+                "\tL9.6,19.2 M9.6,19.2h12.8 M22.4,19.2L16,8 M16,51.2L9.6,40 M9.6,40h12.8 M22.4,40L16,51.2 M44.8,21.6l-4.8,8 M44.8,37.6l-4.8-8\n" +
+                "\t M30.4,29.6H40";
+            icons.transformer3_17="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z M16,8\n" +
+                "\tL9.6,19.2 M9.6,19.2h12.8 M22.4,19.2L16,8 M8,49.6l8-4.8 M24,49.6l-8-4.8 M16,35.2v9.6 M44.8,21.6l-4.8,8 M44.8,37.6l-4.8-8\n" +
+                "\t M30.4,29.6H40";
+            icons.transformer3_18="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z M16,8\n" +
+                "\tL9.6,19.2 M9.6,19.2h12.8 M22.4,19.2L16,8 M16,51.2L9.6,40 M9.6,40h12.8 M22.4,40L16,51.2 M44.8,29.6l-11.2-6.4 M33.6,23.2V36\n" +
+                "\t M33.6,36l11.2-6.4";
+            icons.transformer3_19="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z\n" +
+                "\t M44.8,29.6l-11.2-6.4 M33.6,23.2V36 M33.6,36l11.2-6.4";
+            icons.transformer3_20="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z\n" +
+                "\t M44.8,29.6l-11.2-6.4 M33.6,23.2V36 M33.6,36l11.2-6.4 M8,49.6l8-4.8 M24,49.6l-8-4.8 M16,35.2v9.6";
+            icons.transformer3_21="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z\n" +
+                "\t M44.8,29.6l-11.2-6.4 M33.6,23.2V36 M33.6,36l11.2-6.4 M16,51.2L9.6,40 M9.6,40h12.8 M22.4,40L16,51.2";
+            icons.transformer3_22="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z\n" +
+                "\t M44.8,21.6l-4.8,8 M44.8,37.6l-4.8-8 M30.4,29.6H40";
+            icons.transformer3_23="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z\n" +
+                "\t M44.8,21.6l-4.8,8 M44.8,37.6l-4.8-8 M30.4,29.6H40 M8,49.6l8-4.8 M24,49.6l-8-4.8 M16,35.2v9.6";
+            icons.transformer3_24="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z\n" +
+                "\t M44.8,21.6l-4.8,8 M44.8,37.6l-4.8-8 M30.4,29.6H40 M16,51.2L9.6,40 M9.6,40h12.8 M22.4,40L16,51.2";
+            icons.transformer3_25="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z\n" +
+                "\t M16,51.2L9.6,40 M9.6,40h12.8 M22.4,40L16,51.2";
+            icons.transformer3_26="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z\n" +
+                "\t M8,49.6l8-4.8 M24,49.6l-8-4.8 M16,35.2v9.6";
+
             var $ = go.GraphObject.make;  // for conciseness in defining templates
             var resizeAdornment =
                 $(go.Adornment, go.Panel.Spot,
@@ -103,9 +254,9 @@ function init() {
             function NodeStyle() {
                 return[
                     {
-                    locationObjectName: 'main',
-                    locationSpot: go.Spot.TopLeft,
-                },
+                        locationObjectName: 'main',
+                        locationSpot: go.Spot.TopLeft,
+                    },
                     new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify),
                     new go.Binding("angle", "angle"),
                     new go.Binding("scale", "scale")
@@ -136,8 +287,8 @@ function init() {
                     attr_text.each(function(attr_select) {
                         attr_select.category = "TextNode_selected";
                     })
-                    }
-                  else {
+                }
+                else {
                     texts_select.each(function(text_select){
                         text_select.category="Text_0";
                     } );
@@ -147,7 +298,7 @@ function init() {
                     attr_text.each(function(attr_select) {
                         attr_select.category = "TextNode";
                     })
-                        }
+                }
             }
             //定义母线节点
             for(var i=0;i<nodeDataArray.length;i++){
@@ -183,10 +334,11 @@ function init() {
                                 {
                                     name: "NODESHAPE",strokeWidth: 3
                                 },
-                                new go.Binding("desiredSize", "size", go.Size.parse).makeTwoWay(go.Size.stringify)
+                                new go.Binding("desiredSize", "size", go.Size.parse).makeTwoWay(go.Size.stringify),
+                                new go.Binding("stroke", "stroke_color"),
+                                new go.Binding("fill", "fill_color")
                             ),
-                            new go.Binding("stroke", "stroke_color"),
-                            new go.Binding("fill", "fill_color"),
+
                             Spots
                         )
                     )
@@ -214,21 +366,29 @@ function init() {
                 );
             var capacitor_p =
                 $(go.Node, "Spot",SelectNode(),  NodeStyle(),
-                    $(go.Picture,"images/capacitor_p.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            geometry:go.Geometry.parse(icons.capacitor_p, true)
+                        },
+                        new go.Binding("stroke", "stroke_color"),
+                        new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) })
                 );
             var capacitor_s =
                 $(go.Node, "Spot",SelectNode(),  NodeStyle(),
-                    $(go.Picture,"images/capacitor_s.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            geometry:go.Geometry.parse(icons.capacitor_s, true)
+                        },
+                        new go.Binding("stroke", "stroke_color"),
+                        new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0, 0.5) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -236,11 +396,16 @@ function init() {
                 );
             var cbreaker_1 =
                 $(go.Node, "Spot",SelectNode(), NodeStyle(),
-                    $(go.Picture,"images/cbreaker_1.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                        fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.cbreaker_1, true)
+                        },
+                        new go.Binding("stroke", "stroke_color"),
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -248,11 +413,15 @@ function init() {
                 );
             var cbreaker_2 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/cbreaker_2.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            geometry:go.Geometry.parse(icons.cbreaker_2, true)
+                        },
+                        new go.Binding("stroke", "stroke_color"),
+                        new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -260,11 +429,15 @@ function init() {
                 );
             var disconnector_1 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/disconnector_1.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            geometry:go.Geometry.parse(icons.disconnector_1, true)
+                        },
+                        new go.Binding("stroke", "stroke_color"),
+                        new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -272,11 +445,15 @@ function init() {
                 );
             var disconnector_2 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/disconnector_2.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            geometry:go.Geometry.parse(icons.disconnector_2, true)
+                        },
+                        new go.Binding("stroke", "stroke_color"),
+                        new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -284,11 +461,15 @@ function init() {
                 );
             var disconnector_3 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/disconnector_3.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            geometry:go.Geometry.parse(icons.disconnector_3, true)
+                        },
+                        new go.Binding("stroke", "stroke_color"),
+                        new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -296,79 +477,112 @@ function init() {
                 );
             var energyconsumer_0 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/energyconsumer_1.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            geometry:go.Geometry.parse(icons.energyconsumer_0, true)
+                        },
+                        new go.Binding("stroke", "stroke_color"),
+                        new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) })
                 );
             var energyconsumer_1 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/energyconsumer_0.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            geometry:go.Geometry.parse(icons.energyconsumer_1, true)
+                        },
+                        new go.Binding("stroke", "stroke_color"),
+                        new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0.5) })
                 );
             var generalmeter =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/generalmeter.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        })
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            geometry:go.Geometry.parse(icons.generalmeter, true)
+                        },
+                        new go.Binding("stroke", "stroke_color"),
+                        new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    )
                 );
             var generator =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/generator.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                        fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.generator, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0.5) })
                 );
             var grounddisconnector_1 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/grounddisconnector_1.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            geometry:go.Geometry.parse(icons.grounddisconnector_1, true)
+                        },
+                        new go.Binding("stroke", "stroke_color"),
+                        new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) })
                 );
             var grounddisconnector_2 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/grounddisconnector_2.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            geometry:go.Geometry.parse(icons.grounddisconnector_2, true)
+                        },
+                        new go.Binding("stroke", "stroke_color"),
+                        new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) })
                 );
             var reactor_p =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/reactor_p.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            geometry:go.Geometry.parse(icons.reactor_p, true)
+                        },
+                        new go.Binding("stroke", "stroke_color"),
+                        new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) })
                 );
             var reactor_s =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/reactor_s.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            geometry:go.Geometry.parse(icons.reactor_s, true)
+                        },
+                        new go.Binding("stroke", "stroke_color"),
+                        new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0, 0.5) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -376,71 +590,106 @@ function init() {
                 );
             var station_1_1 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/station_1_1.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.station_1_1, true)
+                        },
+                        new go.Binding("stroke", "stroke_color"),
+                        new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0.5) })
                 );
             var station_1_2 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/station_1_2.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.station_1_2, true)
+                        },
+                        new go.Binding("stroke", "stroke_color"),
+                        new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0.5) })
                 );
             var station_1_3 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/station_1_3.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.station_1_3, true)
+                        },
+                        new go.Binding("stroke", "stroke_color"),
+                        new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0.5) })
                 );
             var station_2_1 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/station_2_1.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.station_2_1, true)
+                        },
+                        new go.Binding("stroke", "stroke_color"),
+                        new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0.5) })
                 );
             var station_2_2 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/station_2_2.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.station_2_2, true)
+                        },
+                        new go.Binding("stroke", "stroke_color"),
+                        new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0.5) })
                 );
             var station_2_3 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/station_2_3.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.station_2_3, true)
+                        },
+                        new go.Binding("stroke", "stroke_color"),
+                        new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0.5) })
                 );
             var transformer2_0 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer2_0.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                        fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer2_0, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -448,11 +697,16 @@ function init() {
                 );
             var transformer2_1 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer2_1.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer2_1, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -460,11 +714,16 @@ function init() {
                 );
             var transformer2_2 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer2_2.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer2_2, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -472,11 +731,16 @@ function init() {
                 );
             var transformer2_3 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer2_3.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer2_3, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -484,11 +748,16 @@ function init() {
                 );
             var transformer2_4 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer2_4.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer2_4, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -496,11 +765,16 @@ function init() {
                 );
             var transformer2_5 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer2_5.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer2_5, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -508,11 +782,16 @@ function init() {
                 );
             var transformer2_6 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer2_6.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer2_6, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -520,11 +799,16 @@ function init() {
                 );
             var transformer2_7 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer2_7.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer2_7, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -532,11 +816,16 @@ function init() {
                 );
             var transformer2_8 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer2_8.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer2_8, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -544,11 +833,16 @@ function init() {
                 );
             var transformer3_0 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer3_0.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer3_0, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -558,11 +852,16 @@ function init() {
                 );
             var transformer3_1 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer3_1.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer3_1, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -572,11 +871,16 @@ function init() {
                 );
             var transformer3_2 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer3_2.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer3_2, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -586,11 +890,16 @@ function init() {
                 );
             var transformer3_3 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer3_3.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer3_3, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -600,11 +909,16 @@ function init() {
                 );
             var transformer3_4 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer3_4.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer3_4, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -614,11 +928,16 @@ function init() {
                 );
             var transformer3_5 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer3_5.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer3_5, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -628,11 +947,17 @@ function init() {
                 );
             var transformer3_6 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer3_6.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer3_6, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
+
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -642,11 +967,16 @@ function init() {
                 );
             var transformer3_7 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer3_7.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer3_7, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -656,11 +986,16 @@ function init() {
                 );
             var transformer3_8 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer3_8.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer3_8, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -670,11 +1005,16 @@ function init() {
                 );
             var transformer3_9 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer3_9.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer3_9, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -682,13 +1022,18 @@ function init() {
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "2", alignment: new go.Spot(1, 0.5) })
                 );
-                var transformer3_10 =
+            var transformer3_10 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer3_10.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer3_10, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -696,13 +1041,18 @@ function init() {
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "2", alignment: new go.Spot(1, 0.5) })
                 );
-                var transformer3_11 =
+            var transformer3_11 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer3_11.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer3_11, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -710,13 +1060,18 @@ function init() {
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "2", alignment: new go.Spot(1, 0.5) })
                 );
-                var transformer3_12 =
+            var transformer3_12 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer3_12.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer3_12, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -724,13 +1079,18 @@ function init() {
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "2", alignment: new go.Spot(1, 0.5) })
                 );
-                var transformer3_13 =
+            var transformer3_13 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer3_13.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer3_13, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -738,13 +1098,18 @@ function init() {
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "2", alignment: new go.Spot(1, 0.5) })
                 );
-                var transformer3_14 =
+            var transformer3_14 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer3_14.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer3_14, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -752,13 +1117,18 @@ function init() {
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "2", alignment: new go.Spot(1, 0.5) })
                 );
-                var transformer3_15 =
+            var transformer3_15 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer3_15.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer3_15, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -766,13 +1136,18 @@ function init() {
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "2", alignment: new go.Spot(1, 0.5) })
                 );
-                var transformer3_16 =
+            var transformer3_16 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer3_16.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer3_16, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -780,13 +1155,18 @@ function init() {
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "2", alignment: new go.Spot(1, 0.5) })
                 );
-                var transformer3_17 =
+            var transformer3_17 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer3_17.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer3_17, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -794,13 +1174,18 @@ function init() {
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "2", alignment: new go.Spot(1, 0.5) })
                 );
-                var transformer3_18 =
+            var transformer3_18 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer3_18.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer3_18, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -808,13 +1193,18 @@ function init() {
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "2", alignment: new go.Spot(1, 0.5) })
                 );
-                var transformer3_19 =
+            var transformer3_19 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer3_19.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer3_19, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -822,13 +1212,18 @@ function init() {
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "2", alignment: new go.Spot(1, 0.5) })
                 );
-                var transformer3_20 =
+            var transformer3_20 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer3_20.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer3_20, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -836,13 +1231,18 @@ function init() {
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "2", alignment: new go.Spot(1, 0.5) })
                 );
-                var transformer3_21 =
+            var transformer3_21 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer3_21.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer3_21, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -850,13 +1250,18 @@ function init() {
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "2", alignment: new go.Spot(1, 0.5) })
                 );
-                var transformer3_22 =
+            var transformer3_22 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer3_22.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer3_22, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -864,13 +1269,18 @@ function init() {
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "2", alignment: new go.Spot(1, 0.5) })
                 );
-                var transformer3_23 =
+            var transformer3_23 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer3_23.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer3_23, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -878,13 +1288,18 @@ function init() {
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "2", alignment: new go.Spot(1, 0.5) })
                 );
-                var transformer3_24 =
+            var transformer3_24 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer3_24.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer3_24, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -892,13 +1307,18 @@ function init() {
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "2", alignment: new go.Spot(1, 0.5) })
                 );
-                var transformer3_25 =
+            var transformer3_25 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer3_25.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer3_25, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -908,11 +1328,16 @@ function init() {
                 );
             var transformer3_26 =
                 $(go.Node, "Spot",SelectNode(),NodeStyle(),
-                    $(go.Picture,"images/transformer3_26.svg",
-                        {
-                            name: "Picture",
-                            margin: 1.5,
-                        }),
+                    $(go.Shape, {
+                            name: 'icon',
+                            strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
+                            geometry:go.Geometry.parse(icons.transformer3_26, true)
+                        },
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
+                        // new go.Binding("strokeWidth", "lw")
+                    ),
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "0", alignment: new go.Spot(0.5, 0) }),
                     $(go.Shape, "Circle", portStyle(true),
@@ -920,7 +1345,6 @@ function init() {
                     $(go.Shape, "Circle", portStyle(true),
                         { portId: "2", alignment: new go.Spot(1, 0.5) })
                 );
-
             var text =
                 $(go.Node, "Auto",
                     {
@@ -1205,11 +1629,11 @@ function init() {
                         new go.Binding("stroke", "stroke_color"),
                         new go.Binding("fill", "fill_color")
                     ),
-            $(go.Shape,  // the "to" arrowhead
-                { toArrow:"LineFork",scale: 2,},
-                new go.Binding("stroke", "stroke_color"),
-                new go.Binding("fill", "fill_color")
-            )
+                    $(go.Shape,  // the "to" arrowhead
+                        { toArrow:"LineFork",scale: 2,},
+                        new go.Binding("stroke", "stroke_color"),
+                        new go.Binding("fill", "fill_color")
+                    )
                 ));
             //普通连线
             myDiagram.linkTemplate =
@@ -1230,27 +1654,15 @@ function init() {
                         new go.Binding("angle", "angle"),
                         new go.Binding("scale", "scale")
                     ));
-            // myDiagram.addDiagramListener("ObjectSingleClicked", function(e) {
-            //     var Select_Port = e.subject.part.data.key;
-            //     for(var i in text_node[Select_Port]){
-            //
-            //         var node_select= myDiagram.model.findNodeDataForKey(text_node[Select_Port][i]);
-            //         console.log("node_select",node_select);
-            //         node_select.stroke_color="#ffff00";
-            //         node_select.fill_color="#ffff00";
-            //         myDiagram.model.updateTargetBindings(node_select);
-            //     }
-            //
-            // });
+            //监听元件拖动事件
             myDiagram.addModelChangedListener(function(evt) {
                 if (!evt.isTransactionFinished) return;
                 var txn = evt.object;  // a Transaction
                 if (txn === null) return;
                 // iterate over all of the actual ChangedEvents of the Transaction
                 txn.changes.each(function(e) {
-                    if(e.Dj=="location")
-                    {
-                        console.log(e);
+                    console.log(e);
+                    if(e.Dj=="location") {
                         if(e.object!=null){
                             var node_key=e.object.key;
                             var attr_panel=myDiagram.findNodesByExample({"panel_objId":node_key});
@@ -1267,7 +1679,7 @@ function init() {
                                 panel_select.data.pos=loc;
                                 console.log("panel_select",panel_select);
                                 myDiagram.model.updateTargetBindings(panel_select.data);
-                                });
+                            });
                             attr_text.each(function(attr_select) {
                                 var pos=attr_select.data["pos"].trim().split(" ")
                                 var x=new Number(pos[0])+changeX;
@@ -1417,14 +1829,14 @@ function getParaPanel() {
                 var attr=myDiagram.model.findNodeDataForKey(attr_key)
                 if(attr==null)
                 {
-                        var node = {};
-                        node["key"] = attr_key;
-                        node["text"] = i;
-                        node["value"] = 0;
-                        node["group"] = goKey + "_para";
-                        node["attr_objId"]=goKey;
-                        node["category"] = "TextNode";
-                        myDiagram.model.addNodeData(node);
+                    var node = {};
+                    node["key"] = attr_key;
+                    node["text"] = i;
+                    node["value"] = 0;
+                    node["group"] = goKey + "_para";
+                    node["attr_objId"]=goKey;
+                    node["category"] = "TextNode";
+                    myDiagram.model.addNodeData(node);
                 }
             }
         }
