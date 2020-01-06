@@ -1359,7 +1359,7 @@ function init() {
                         $(go.TextBlock, // the name
                             {
                                 margin: 5,
-                                editable: true,
+                                editable: false,
                                 opacity: 0.75,
                             },
                             new go.Binding("text", "ts").makeTwoWay(),
@@ -1384,7 +1384,7 @@ function init() {
                         $(go.TextBlock, // the name
                             {
                                 margin: 5,
-                                editable: true,
+                                editable: false,
                                 opacity: 0.75,
                                 stroke: "#f00",
                             },
@@ -1402,7 +1402,7 @@ function init() {
                         isShadowed: true,//阴影
                         movable: true,//允许拖动
                         locationSpot: go.Spot.RightCenter, locationObjectName: "SHAPE",
-                        selectionObjectName: "SHAPE", 
+                        selectionObjectName: "SHAPE",
                         background: "transparent",
                         ungroupable: true,
                         computesBoundsAfterDrag: true,
@@ -1581,7 +1581,7 @@ function init() {
                 $(go.Link,
                     { relinkableFrom: true, relinkableTo: true, reshapable: true },
                     {
-                        routing: go.Link.Orthogonal,
+                        routing: go.Link.Normal,
                         curve: go.Link.JumpOver,
                         corner: 0,
                         toShortLength: 1,
@@ -1612,7 +1612,7 @@ function init() {
                 $(go.Link,
                     { relinkableFrom: true, relinkableTo: true, reshapable: true },
                     {
-                        routing: go.Link.Orthogonal,
+                        routing: go.Link.Normal,
                         curve: go.Link.JumpOver,
                         corner: 0,
                         toShortLength: 1,
@@ -1642,7 +1642,7 @@ function init() {
                 $(go.Link,
                     { relinkableFrom: true, relinkableTo: true, reshapable: true },
                     {
-                        routing: go.Link.Orthogonal,
+                        routing: go.Link.Normal,
                         curve: go.Link.JumpOver,
                         corner: 0,
                         toShortLength: 1
