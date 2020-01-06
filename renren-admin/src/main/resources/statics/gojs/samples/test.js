@@ -1402,7 +1402,7 @@ function init() {
                         isShadowed: true,//阴影
                         movable: true,//允许拖动
                         locationSpot: go.Spot.RightCenter, locationObjectName: "SHAPE",
-                        selectionObjectName: "SHAPE", rotatable: true,
+                        selectionObjectName: "SHAPE", 
                         background: "transparent",
                         ungroupable: true,
                         computesBoundsAfterDrag: true,
@@ -1437,7 +1437,7 @@ function init() {
                         isShadowed: true,//阴影
                         movable: true,//允许拖动
                         locationSpot: go.Spot.RightCenter, locationObjectName: "SHAPE",
-                        selectionObjectName: "SHAPE", rotatable: true,
+                        selectionObjectName: "SHAPE",
                         background: "transparent",
                         ungroupable: true,
                         computesBoundsAfterDrag: true,
