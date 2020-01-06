@@ -402,7 +402,7 @@ function init() {
                         fill:"rgba(0,0,0,0)",
                             geometry:go.Geometry.parse(icons.cbreaker_1, true)
                         },
-                        new go.Binding("stroke", "stroke_color"),
+                        new go.Binding("stroke", "stroke_color")
                         // new go.Binding("fill", "fill_color")
                         // new go.Binding("strokeWidth", "lw")
                     ),
@@ -480,10 +480,11 @@ function init() {
                     $(go.Shape, {
                             name: 'icon',
                             strokeWidth:2,
+                        fill:"rgba(0,0,0,0)",
                             geometry:go.Geometry.parse(icons.energyconsumer_0, true)
                         },
-                        new go.Binding("stroke", "stroke_color"),
-                        new go.Binding("fill", "fill_color")
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
                         // new go.Binding("strokeWidth", "lw")
                     ),
                     $(go.Shape, "Circle", portStyle(true),
@@ -494,10 +495,11 @@ function init() {
                     $(go.Shape, {
                             name: 'icon',
                             strokeWidth:2,
+                            fill:"rgba(0,0,0,0)",
                             geometry:go.Geometry.parse(icons.energyconsumer_1, true)
                         },
-                        new go.Binding("stroke", "stroke_color"),
-                        new go.Binding("fill", "fill_color")
+                        new go.Binding("stroke", "stroke_color")
+                        // new go.Binding("fill", "fill_color")
                         // new go.Binding("strokeWidth", "lw")
                     ),
                     $(go.Shape, "Circle", portStyle(true),

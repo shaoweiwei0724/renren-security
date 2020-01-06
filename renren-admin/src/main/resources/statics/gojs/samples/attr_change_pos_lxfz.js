@@ -898,9 +898,12 @@ function ok() {
     model.id=id;
     model.content=myDiagram.model.toJson();
     var xmlHttpSave = new XMLHttpRequest();
+    var sent_content=JSON.stringify(model);
+    sent_content=sent_content.replace(/TextNode_selected/g, 'TextNode');
+    sent_content=sent_content.replace(/OfNodes_selected/g, 'OfNodes');
     xmlHttpSave.open("POST", "../../../sys/sifanydatatext/update", true);
     xmlHttpSave.setRequestHeader('Content-Type', 'application/json');
-    xmlHttpSave.send(JSON.stringify(model));
+    xmlHttpSave.send(sent_content);
     xmlHttpSave.onreadystatechange = function () {
         if (xmlHttpSave.readyState === 4 && xmlHttpSave.status === 200) {
         }
