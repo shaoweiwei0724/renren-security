@@ -56,8 +56,8 @@ function init() {
             icons.disconnector_1="M6,3v5 M6,28v5 M0,28h12 M6,8v20";
             icons.disconnector_2="M6,3v5 M6,28v5 M0,28h12 M6,8l6,20" ;
             icons.disconnector_3="M6,0v36";
-            icons.energyconsumer_0="M16,0c8.8,0,16,7.2,16,16s-7.2,16-16,16S0,24.8,0,16S7.2,0,16,0z M8,24V8 M8,8l8,16 M16,24l8-16 M24,8v16";
-            icons.energyconsumer_1="M12,2v4 M0,6h24L12,24L0,6z";
+            icons.energyconsumer_0="M12,2v4 M0,6h24L12,24L0,6z";
+            icons.energyconsumer_1="M16,0c8.8,0,16,7.2,16,16s-7.2,16-16,16S0,24.8,0,16S7.2,0,16,0z M8,24V8 M8,8l8,16 M16,24l8-16 M24,8v16";
             icons.generalmeter="M13,40c7.2,0,13,5.8,13,13s-5.8,13-13,13S0,60.2,0,53S5.8,40,13,40z M13,0v40";
             icons.generator="M16,0c8.8,0,16,7.2,16,16s-7.2,16-16,16S0,24.8,0,16S7.2,0,16,0z M15.7,16.1h0.8c0-4.3-3.2-7.8-7.2-7.8\n" +
                 "\tS2,11.8,2,16.1h0.8c0-3.9,2.9-7,6.4-7S15.7,12.2,15.7,16.1C15.7,16.1,15.7,16.1,15.7,16.1z M15.7,16.1h0.8c0-4.3-3.2-7.8-7.2-7.8\n" +
