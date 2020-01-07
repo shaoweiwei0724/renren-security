@@ -241,24 +241,25 @@ public class SifanyGtoJsonController extends AbstractController{
                     if(childElement.getName()!="Text"&&childElement.getName()!="Station"&&childElement.getName()!="EnergyConsumer"){
                         id+=1;
                         List<SifanyClassEntity> classEntities =  sifanyClassService.list(new QueryWrapper<SifanyClassEntity>().eq("code",childElement.getName()));
-                        System.out.println("class"+classEntities);
-                        System.out.println("Name:"+childElement.getName());
                         if(classEntities.size()==0){
                             node.put("attrs","");
                         }
                         else {
                             for(SifanyClassEntity classEntitie:classEntities){
                                 System.out.println("objId:"+classEntitie.getId());
+                                //保存属性
                                 List<SifanyClassAttrEntity> classAttrEntities =  sifanyClassAttrService.list(new QueryWrapper<SifanyClassAttrEntity>().eq("class_id",classEntitie.getId()));
                                 for(SifanyClassAttrEntity attr:classAttrEntities){
                                     id+=1;
                                     JSONObject attr1=new JSONObject();
                                     attr1.put("id",id);
-                                    attr1.put("objName",attr.getName());
+                                    attr1.put("name",attr.getName());
                                     attr1.put("value","0");
                                     attrs.add(attr1);
                                 }
                                 node.put("attrs",attrs);
+                                //保存类信息
+                                node.put("source",classEntitie);
                             }
                         }
 
@@ -442,6 +443,7 @@ public class SifanyGtoJsonController extends AbstractController{
                                             attrs.add(attr1);
                                         }
                                         node.put("attrs",attrs);
+                                        node.put("source",classEntitie);
                                     }
                                 }
                             }
@@ -471,6 +473,7 @@ public class SifanyGtoJsonController extends AbstractController{
                                             attrs.add(attr1);
                                         }
                                         node.put("attrs",attrs);
+                                        node.put("source",classEntitie);
                                     }
                                 }
                             }

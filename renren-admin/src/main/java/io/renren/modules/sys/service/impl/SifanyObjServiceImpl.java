@@ -157,6 +157,73 @@ public class SifanyObjServiceImpl extends ServiceImpl<SifanyObjDao, SifanyObjEnt
         }
     }
 
+    @Override
+    public void GtoObj(SifanyObjEntity sifanyObjEntity) {
+        SifanyDataTextEntity sifanyDataTextEntity=sifanyDataTextService.getById(sifanyObjEntity.getgModelId());
+        JSONObject irons=JSONObject.parseObject(sifanyDataTextEntity.getContent());
+        JSONArray ironArray=irons.getJSONArray("nodeDataArray");
+        Long time = System.currentTimeMillis();
+
+        sifanyObjService.remove(new QueryWrapper<SifanyObjEntity>().eq("parent_id",sifanyObjEntity.getId()));
+        for(int i=0;i<ironArray.size();i++){
+            JSONObject iron=ironArray.getJSONObject(i);
+            String type=iron.getString("type");
+            String category=iron.getString("category");
+            System.out.println("iron:"+iron.toJSONString());
+            if(!category.equals("OfNodes")&&!category.equals("TextNode")){
+                    if(!type.equals("Text")){
+                        SifanyClassEntity obj=sifanyClassService.getById(iron.getJSONObject("source").getLong("id"));
+
+                        //模型实例
+                        SifanyObjEntity objEntity = new SifanyObjEntity();
+                        objEntity.setClassId(obj.getId());
+                        objEntity.setName(obj.getName() + "_entity");
+                        objEntity.setGoKey(iron.getInteger("key"));
+                        objEntity.setCreateTime(time);
+                        objEntity.setUpdateTime(time);
+                        objEntity.setIcons(obj.getIcons());
+                        objEntity.setParentId(sifanyObjEntity.getId());
+                        objEntity.setUserId(getUser().getUserId());
+                        sifanyObjService.save(objEntity);
+
+                        List<SifanyClassAttrEntity> classAttrEntities =  sifanyClassAttrService.list(new QueryWrapper<SifanyClassAttrEntity>().eq(true,"class_id",obj.getId()));
+
+
+
+                        for(SifanyClassAttrEntity classAttrEntity : classAttrEntities){
+                            SifanyObjDataEntity sifanyObjDataEntity = new SifanyObjDataEntity();
+
+                            sifanyObjDataEntity.setObjId(objEntity.getId());
+                            sifanyObjDataEntity.setDataType(classAttrEntity.getDataType());
+                            sifanyObjDataEntity.setAttrId(classAttrEntity.getId());
+
+
+
+//                sifanyObjDataEntity.setDataId();
+                            sifanyObjDataService.save(sifanyObjDataEntity);
+
+
+                            SifanyObjAttrEntity sifanyObjAttrEntity=new SifanyObjAttrEntity();
+                            sifanyObjAttrEntity.setObjId(objEntity.getId());
+                            sifanyObjAttrEntity.setDataType(classAttrEntity.getDataType());
+                            sifanyObjAttrEntity.setCode(classAttrEntity.getCode());
+                            sifanyObjAttrEntity.setName(classAttrEntity.getName());
+                            sifanyObjAttrEntity.setTypeId(classAttrEntity.getTypeId());
+                            sifanyObjAttrEntity.setUnitId(classAttrEntity.getUnitId());
+                            sifanyObjAttrEntity.setRemark(classAttrEntity.getRemark());
+                            sifanyObjAttrEntity.setCreateTime(classAttrEntity.getCreateTime());
+                            sifanyObjAttrEntity.setUpdateTime(classAttrEntity.getUpdateTime());
+                            sifanyObjAttrEntity.setAttrstypeId(classAttrEntity.getAttrstypeId());
+
+                            sifanyObjAttrService.save(sifanyObjAttrEntity);
+                        }
+                    }
+
+            }
+
+        }
+    }
+
 
 }
 

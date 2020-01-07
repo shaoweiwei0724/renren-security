@@ -151,11 +151,20 @@ public class SifanyClassServiceImpl extends ServiceImpl<SifanyClassDao, SifanyCl
     @Override
     public R getMap(Long id){
         SifanyObjEntity sifanyObjEntity=sifanyObjService.getById(id);
-        String mapJson=sifanyDataTextService.getById(sifanyObjEntity.getModelId()).getContent();
         Map res=new HashMap();
-        res.put("mapJson",mapJson);
-        res.put("mapJsonZxfz",sifanyDataTextService.getById(sifanyObjEntity.getOnlineSimModelId()).getContent());
-        res.put("mapJsonLxfz",sifanyDataTextService.getById(sifanyObjEntity.getOfflineSimModelId()).getContent());
+        if(sifanyObjEntity.getModelId()!=null){
+            String mapJson=sifanyDataTextService.getById(sifanyObjEntity.getModelId()).getContent();
+            res.put("mapJson",mapJson);
+        }
+        if(sifanyObjEntity.getOnlineSimModelId()!=null){
+            res.put("mapJsonZxfz",sifanyDataTextService.getById(sifanyObjEntity.getOnlineSimModelId()).getContent());
+        }
+        if(sifanyObjEntity.getOfflineSimModelId()!=null){
+            res.put("mapJsonLxfz",sifanyDataTextService.getById(sifanyObjEntity.getOfflineSimModelId()).getContent());
+        }
+        if(sifanyObjEntity.getgModelId()!=null){
+            res.put("mapJsonG",sifanyDataTextService.getById(sifanyObjEntity.getgModelId()).getContent());
+        }
         List<SifanyObjEntity> objs=sifanyObjService.list(new QueryWrapper<SifanyObjEntity>().eq("parent_id",id));
         for(SifanyObjEntity obj:objs){
             List<SifanyObjDataEntity> sifanyObjDataEntities=sifanyObjDataService.list(new QueryWrapper<SifanyObjDataEntity>().eq("obj_id",obj.getId()));

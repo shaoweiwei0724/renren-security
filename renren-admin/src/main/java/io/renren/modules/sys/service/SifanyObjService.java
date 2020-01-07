@@ -26,7 +26,7 @@ public interface SifanyObjService extends IService<SifanyObjEntity> {
 
     List<SifanyObjEntity> scadalist();
     void toObj(SifanyObjEntity sifanyObjEntity);
-
+    void GtoObj(SifanyObjEntity sifanyObjEntity);
 
 }
 

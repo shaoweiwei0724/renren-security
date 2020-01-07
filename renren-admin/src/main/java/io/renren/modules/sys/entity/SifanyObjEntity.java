@@ -56,6 +56,7 @@ public class SifanyObjEntity implements Serializable {
 	private Integer goKey;
 
 	private Long gId;
+	private  String gModelId;
 	private String modelId;
 	private String onlineSimModelId;
 	private String offlineSimModelId;
@@ -228,5 +229,13 @@ public class SifanyObjEntity implements Serializable {
 
 	public void setgId(Long gId) {
 		this.gId = gId;
+	}
+
+	public String getgModelId() {
+		return gModelId;
+	}
+
+	public void setgModelId(String gModelId) {
+		this.gModelId = gModelId;
 	}
 }

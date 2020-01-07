@@ -23,6 +23,7 @@ function init() {
             str = JSON.parse(xmlHttp.responseText);
             map = JSON.parse(str.mapJsonZxfz);
             swan_objs_res = str.objs;
+            console.log("swan_objs_res:",swan_objs_res);
             for (var i in swan_objs_res) {
                 var attrs = swan_objs_res[i].attrs;
                 if (attrs.length > 0) {
@@ -31,7 +32,7 @@ function init() {
                     }
                 }
             }
-            console.log("str:",str);
+            console.log("swan_redis_data:",swan_redis_data);
             for (var i = 0; i < map.nodeDataArray.length; i++) {
 
                 if(map.nodeDataArray[i].category=="TextNode"||map.nodeDataArray[i].category=="OfNodes"||map.nodeDataArray[i].category=="TextNode_selected"||map.nodeDataArray[i].category=="OfNodes_selected"){

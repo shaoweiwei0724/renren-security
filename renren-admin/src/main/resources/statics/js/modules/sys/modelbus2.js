@@ -601,6 +601,7 @@ function refreshNodeTree(nodes,id){
         }
         // vm.sifanyClass.parentName = node.name;
         localStorage.iconsId = vm.sifanyObj.modelId;
+        localStorage.fileId=node[0].gId;
         $('#config-swan-svg0').attr('src',$('#config-swan-svg0').attr('src'));
     })
 }
@@ -671,7 +672,8 @@ var vm = new Vue({
             irconurl:null,
             remark:null,
             orderNum:0,
-            modelId:null
+            modelId:null,
+            gModelId:null,
         },
         sifanyObjAttrGather: {
             className:null,
@@ -911,12 +913,15 @@ var vm = new Vue({
             var nodes = ztreeMain.getSelectedNodes();
 
             var values =$("#config-swan-svg2").contents().find("#swan-res").val();
+            var g_values =$("#Gfile").contents().find("#swan-res").val();
             // console.log($("#config-swan-svg").contents());
 
             if(values != null && values != ""){
                 vm.sifanyObj.modelId=encodeURI(values);
             }
-
+            if(g_values != null && g_values != ""){
+                vm.sifanyObj.gModelId=encodeURI(g_values);
+            }
 
             var url ="sys/sifanyobj/update";
             vm.sifanyObj['type']='base';
@@ -1038,10 +1043,12 @@ var vm = new Vue({
                 btn1: function (index) {
 
                     var values =$("#config-swan-svg2").contents().find("#swan-res").val();
+                    var g_values =$("#Gfile").contents().find("#swan-res").val();
                     console.log($("#config-swan-svg2").contents());
 
                     console.log("+++++++++++====="+values);
                     vm.sifanyObj.modelId=encodeURI(values);
+                    vm.sifanyObj.gModelId=encodeURI(g_values);
                     // alert(vm.sifanyClass.modelId)
 
                     var url ="sys/sifanyobj/update";

@@ -3,6 +3,7 @@ var baseIP="../../../";
 var nodeDataArray;
 var linkDataArray;
 var attrs=[];
+var swan_redis_data={};
 var text_node={};
 function init() {
 
@@ -26,6 +27,7 @@ function init() {
                             attr=nodedata.attrs[i];
                             attr.objId=nodeDataArray[j].key;
                             node_attr.push(attr);
+                            swan_redis_data[attr["id"].toString()] = 0
                         }
                         attrs.push(node_attr);
                     }}
@@ -39,6 +41,8 @@ function init() {
                     text_node[msp]=node_text;
                 }
             }
+
+        console.log("redis:",swan_redis_data);
             //定义模型
             var model={};
             model.class="go.GraphLinksModel";
@@ -47,6 +51,7 @@ function init() {
             model.nodeDataArray=nodeDataArray;
             model.linkDataArray=linkDataArray;
 
+            // document.getElementById('swan-res').value=(myDiagram.model.toJson());
             //定义图元
             var icons = {};
             icons.capacitor_p="M12.8,2.4v4 M0,6.4h25.6 M0,14.4h25.6 M12.8,14.4v12.8 M0,27.2h25.6 M3.2,32h19.2 M6.4,36.8h12.8";
@@ -1727,9 +1732,9 @@ function init() {
             myDiagram.nodeTemplateMap.add("Reactor_S_0", reactor_s);
             myDiagram.nodeTemplateMap.add("1_Station", station_1_1);
             myDiagram.nodeTemplateMap.add("1_Station_0", station_1_1);
-            myDiagram.nodeTemplateMap.add("1_Station_1_1", station_1_1);
-            myDiagram.nodeTemplateMap.add("1_Station_1_2", station_1_2);
-            myDiagram.nodeTemplateMap.add("1_Station_1_3", station_1_3);
+            myDiagram.nodeTemplateMap.add("1_Station_1", station_1_1);
+            myDiagram.nodeTemplateMap.add("1_Station_2", station_1_2);
+            myDiagram.nodeTemplateMap.add("1_Station_3", station_1_3);
             myDiagram.nodeTemplateMap.add("2_Station", station_2_1);
             myDiagram.nodeTemplateMap.add("2_Station_0", station_2_1);
             myDiagram.nodeTemplateMap.add("2_Station_1", station_2_1);
@@ -1785,8 +1790,83 @@ function init() {
             // myDiagram.model=  new go.GraphLinksModel(nodeDataArray, linkDataArray);
             myDiagram.model=go.Model.fromJson(model);
             getParaPanel();
+            // listenRedis();//监听redis添加参数
+            loop();
         }
     }
+}
+
+function loop() {
+    setTimeout(function() {
+        document.getElementById('swan-res').value=(myDiagram.model.toJson());
+        loop();
+    }, 60);
+}
+
+
+function listenRedis() {
+    setInterval(function () {
+        changeAllPara();
+    }, 1000);
+}
+
+
+//获取参数
+var para = {"id": 23, "name": "涡轮增压发动机", "额定电压": "220V", "额定电流": "12A", "创建时间": "2019-11-02"};
+
+setInterval(function () {
+    var keys = []
+    for (var key in swan_redis_data) {
+        keys.push(key)
+
+    }
+    keys = keys.join(",")
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", "http://localhost:5005/getRedis?key=" + keys, true);
+    xmlHttp.send();
+    xmlHttp.onreadystatechange = function () {
+        if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+            var jsons = JSON.parse(xmlHttp.responseText);
+            for (var key in jsons) {
+                swan_redis_data[key] = jsons[key]
+            }
+        }
+        ;
+    }
+}, 1000)
+
+//改变参数
+function changeAllPara() {
+    console.log("res:",swan_objs_res);
+    for (var i in swan_objs_res) {
+        var attrs = swan_objs_res[i].attrs;
+        if (attrs.length > 0) {
+            var goKey = swan_objs_res[i].goKey;
+            var para = {}
+            var attr_ids={}
+            for (var j in attrs) {
+                para[attrs[j]["objName"]] = swan_redis_data[attrs[j]["id"].toString()]
+                attr_ids[attrs[j]["objName"]]=attrs[j]["id"];
+            }
+            console.log("key",goKey);
+            console.log("para:",para);
+            console.log("attrs:",attrs);
+            console.log("attr_ids:",attr_ids);
+            changePara(goKey, para,attr_ids);
+        }
+    }
+}
+
+function changePara(goKey, para,attr_ids) {
+    for (var i in para) {
+        getPara(attr_ids[i], goKey, i, para[i]);
+    }
+}
+
+function getPara(j, key, i, value) {
+
+    var para = myDiagram.model.findNodeDataForKey(j);//首先拿到这个节点的对象
+    myDiagram.model.setDataProperty(para, "value", value)
 }
 
 
@@ -1803,8 +1883,8 @@ function getParaPanel() {
             var para = {};
             var ids={};
             for (var j=0;j<node_attrs.length;j++) {
-                para[node_attrs[j]["objName"]] = node_attrs[j]["objName"];
-                ids[node_attrs[j]["objName"]]=node_attrs[j]["id"];
+                para[node_attrs[j]["name"]] = node_attrs[j]["name"];
+                ids[node_attrs[j]["name"]]=node_attrs[j]["id"];
             }
             //获取父元素的坐标
             var group = myDiagram.model.findNodeDataForKey(goKey);
@@ -1821,8 +1901,9 @@ function getParaPanel() {
                 para_node["isGroup"] = true;
                 para_node["category"] = "OfNodes";
                 para_node["pos"]=loc;
-                para_node["panel_objId"]=goKey;
+                para_node["panel_objId"]=goKey;//所属图元
                 myDiagram.model.addNodeData(para_node);
+                console.log("参数组:",para_node);
             }
 
             //添加各参数
@@ -1833,12 +1914,13 @@ function getParaPanel() {
                 {
                     var node = {};
                     node["key"] = attr_key;
-                    node["text"] = i;
-                    node["value"] = 0;
-                    node["group"] = goKey + "_para";
-                    node["attr_objId"]=goKey;
+                    node["text"] = i;//指标名称
+                    node["value"] = 0;//指标值
+                    node["group"] = goKey + "_para";//所属panel
+                    node["attr_objId"]=goKey;//所属图元
                     node["category"] = "TextNode";
                     myDiagram.model.addNodeData(node);
+                    console.log("参数:",node);
                 }
             }
         }

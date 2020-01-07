@@ -15,6 +15,7 @@
         <result property="userId" column="user_id"/>
         <result property="modelId" column="model_id"/>
         <result property="gId" column="g_id"/>
+        <result property="gModelId" column="g_model_id"/>
         <result property="icons" column="icons"/>
         <result property="code" column="code"/>
         <result property="remark" column="remark"/>
