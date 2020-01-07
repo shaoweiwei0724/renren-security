@@ -601,6 +601,7 @@ function refreshNodeTree(nodes,id){
         }
         // vm.sifanyClass.parentName = node.name;
         localStorage.iconsId = vm.sifanyObj.modelId;
+        localStorage.objId_g=node[0].id;
         localStorage.fileId=node[0].gId;
         $('#config-swan-svg0').attr('src',$('#config-swan-svg0').attr('src'));
     })

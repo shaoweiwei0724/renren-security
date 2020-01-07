@@ -21,6 +21,7 @@ function init() {
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
             str = JSON.parse(xmlHttp.responseText);
+            console.log("str:",str);
             map = JSON.parse(str.mapJsonZxfz);
             swan_objs_res = str.objs;
             console.log("swan_objs_res:",swan_objs_res);
@@ -33,6 +34,7 @@ function init() {
                 }
             }
             console.log("swan_redis_data:",swan_redis_data);
+            console.log("map:",map);
             for (var i = 0; i < map.nodeDataArray.length; i++) {
 
                 if(map.nodeDataArray[i].category=="TextNode"||map.nodeDataArray[i].category=="OfNodes"||map.nodeDataArray[i].category=="TextNode_selected"||map.nodeDataArray[i].category=="OfNodes_selected"){

@@ -248,6 +248,7 @@
 
 <script>
     $(function(){
+        console.log("localStorage.objId_g:",localStorage.objId_g)
         new AjaxUpload('#upload', {
             action: baseURL + "sys/sifanygjson/upload?obj_id="+localStorage.objId_g,
             name: 'file',
