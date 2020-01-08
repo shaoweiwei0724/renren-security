@@ -55,14 +55,17 @@ public class SifanyGtoJsonController extends AbstractController{
         if (file.isEmpty()) {
             throw new RRException("上传文件不能为空");
         }
+        Long time = System.currentTimeMillis();
         String content=IOUtils.toString(file.getInputStream());
         SifanyDataTextEntity sifanyDataTextEntity=new SifanyDataTextEntity();
         sifanyDataTextEntity.setContent(content);
+        sifanyDataTextEntity.setUpdateTime(time);
+        sifanyDataTextEntity.setCreateTime(time);
         System.out.println(content);
         sifanyDataTextService.save(sifanyDataTextEntity);
 
 
-        Long time = System.currentTimeMillis();
+
         List<SifanyObjEntity> objEntities =  sifanyObjService.list(new QueryWrapper<SifanyObjEntity>().eq("id",obj_id));
         for(SifanyObjEntity obj:objEntities){
             obj.setCreateTime(time);

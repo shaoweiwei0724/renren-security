@@ -15,7 +15,6 @@ function init() {
             var json=JSON.parse(xmlHttp.responseText);
             nodeDataArray=json.node;
             linkDataArray=json.link;
-            console.log("length:",nodeDataArray.length)
             for (var j = 0; j < nodeDataArray.length; j++) {
                 var nodedata=nodeDataArray[j]
                 var node_attr=[];
@@ -42,7 +41,6 @@ function init() {
                 }
             }
 
-        console.log("redis:",swan_redis_data);
             //定义模型
             var model={};
             model.class="go.GraphLinksModel";
@@ -310,7 +308,6 @@ function init() {
                 if(nodeDataArray[i].type=="BusbarSection"){
                     var Spots=[];
                     var pin=nodeDataArray[i].pin;
-                    console.log("pin:",pin);
                     for(var j=0;j<pin.length;j++){
                         var Spot=
                             $(go.Shape, "Circle",
@@ -327,7 +324,6 @@ function init() {
 
                         Spots.push(Spot);
                     }
-                    console.log("spot:", Spots);
                     myDiagram.nodeTemplateMap.add(nodeDataArray[i].key,
                         $(go.Node,"Spot",SelectNode(),
                             {
@@ -1668,7 +1664,6 @@ function init() {
                 if (txn === null) return;
                 // iterate over all of the actual ChangedEvents of the Transaction
                 txn.changes.each(function(e) {
-                    console.log(e);
                     if(e.Dj=="location") {
                         if(e.object!=null){
                             var node_key=e.object.key;
@@ -1684,7 +1679,6 @@ function init() {
                                 var y=new Number(pos[1])+changeY;
                                 var loc=(x).toString()+" "+(y).toString();
                                 panel_select.data.pos=loc;
-                                console.log("panel_select",panel_select);
                                 myDiagram.model.updateTargetBindings(panel_select.data);
                             });
                             attr_text.each(function(attr_select) {
@@ -1693,7 +1687,6 @@ function init() {
                                 var y=new Number(pos[1])+changeY;
                                 var loc=(x).toString()+" "+(y).toString();
                                 attr_select.data.pos=loc;
-                                console.log("attr_select",attr_select);
                                 myDiagram.model.updateTargetBindings(attr_select.data);
                             });
                             texts_select.each(function(text_select) {
@@ -1702,7 +1695,6 @@ function init() {
                                 var y=new Number(pos[1])+changeY;
                                 var loc=(x).toString()+" "+(y).toString();
                                 text_select.data.pos=loc;
-                                console.log("text_select",text_select);
                                 myDiagram.model.updateTargetBindings(text_select.data);
                             });
                         }
@@ -1790,7 +1782,6 @@ function init() {
             // myDiagram.model=  new go.GraphLinksModel(nodeDataArray, linkDataArray);
             myDiagram.model=go.Model.fromJson(model);
             getParaPanel();
-            // listenRedis();//监听redis添加参数
             loop();
         }
     }
@@ -1803,81 +1794,12 @@ function loop() {
     }, 60);
 }
 
-
-function listenRedis() {
-    setInterval(function () {
-        changeAllPara();
-    }, 1000);
-}
-
-
-//获取参数
-var para = {"id": 23, "name": "涡轮增压发动机", "额定电压": "220V", "额定电流": "12A", "创建时间": "2019-11-02"};
-
-setInterval(function () {
-    var keys = []
-    for (var key in swan_redis_data) {
-        keys.push(key)
-
-    }
-    keys = keys.join(",")
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", "http://localhost:5005/getRedis?key=" + keys, true);
-    xmlHttp.send();
-    xmlHttp.onreadystatechange = function () {
-        if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
-            var jsons = JSON.parse(xmlHttp.responseText);
-            for (var key in jsons) {
-                swan_redis_data[key] = jsons[key]
-            }
-        }
-        ;
-    }
-}, 1000)
-
-//改变参数
-function changeAllPara() {
-    console.log("res:",swan_objs_res);
-    for (var i in swan_objs_res) {
-        var attrs = swan_objs_res[i].attrs;
-        if (attrs.length > 0) {
-            var goKey = swan_objs_res[i].goKey;
-            var para = {}
-            var attr_ids={}
-            for (var j in attrs) {
-                para[attrs[j]["objName"]] = swan_redis_data[attrs[j]["id"].toString()]
-                attr_ids[attrs[j]["objName"]]=attrs[j]["id"];
-            }
-            console.log("key",goKey);
-            console.log("para:",para);
-            console.log("attrs:",attrs);
-            console.log("attr_ids:",attr_ids);
-            changePara(goKey, para,attr_ids);
-        }
-    }
-}
-
-function changePara(goKey, para,attr_ids) {
-    for (var i in para) {
-        getPara(attr_ids[i], goKey, i, para[i]);
-    }
-}
-
-function getPara(j, key, i, value) {
-
-    var para = myDiagram.model.findNodeDataForKey(j);//首先拿到这个节点的对象
-    myDiagram.model.setDataProperty(para, "value", value)
-}
-
-
 function onSelectionChanged(e) {
 }
 //获取参数列表
 function getParaPanel() {
-    console.log("getattrs:",attrs);
     for (var k=0;k<attrs.length;k++) {
         var node_attrs=attrs[k];
-        console.log("node_attr:",node_attrs);
         if (node_attrs.length > 0) {
             var goKey = node_attrs[0].objId;
             var para = {};
@@ -1903,7 +1825,6 @@ function getParaPanel() {
                 para_node["pos"]=loc;
                 para_node["panel_objId"]=goKey;//所属图元
                 myDiagram.model.addNodeData(para_node);
-                console.log("参数组:",para_node);
             }
 
             //添加各参数
@@ -1920,7 +1841,6 @@ function getParaPanel() {
                     node["attr_objId"]=goKey;//所属图元
                     node["category"] = "TextNode";
                     myDiagram.model.addNodeData(node);
-                    console.log("参数:",node);
                 }
             }
         }

@@ -269,7 +269,7 @@ public class SifanyObjController  extends AbstractController{
                     sifanyObj.setOfflineSimModelId(sifanyDataTextEntityLXFZ.getId().toString());
                 }
 
-//                sifanyObjService.toObj(sifanyObj);
+                sifanyObjService.toObj(sifanyObj);
             } else {
                 sifanyObj.setModelId(sifanyObjEntity.getModelId());
                 sifanyObj.setOnlineSimModelId(sifanyObjEntity.getOnlineSimModelId());
@@ -294,7 +294,7 @@ public class SifanyObjController  extends AbstractController{
                     sifanyObj.setgModelId(sifanyDataTextEntityModel.getId().toString());
 
                 }
-            sifanyObjService.GtoObj(sifanyObj);
+//            sifanyObjService.GtoObj(sifanyObj);
             }else{
                 sifanyObj.setgModelId(sifanyObjEntity.getgModelId());
             }

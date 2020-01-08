@@ -1878,12 +1878,10 @@ function getParaPanel() {
 
             //获取父元素的坐标
             var group = myDiagram.model.findNodeDataForKey(goKey);
-            console.log("gokey:",goKey);
             var pos=group["pos"].trim().split(" ")
             var x=new Number(pos[0])+30;
             var y=new Number(pos[1]);
             var loc=(x).toString()+" "+(y).toString();
-            console.log("loc:",loc);
             //添加参数panel
             var para_key=goKey + "_para";
             var para_panel=myDiagram.model.findNodeDataForKey(para_key)
@@ -1895,7 +1893,6 @@ function getParaPanel() {
                 para_node["pos"]=loc;
                 para_node["panel_objId"]=goKey.toString();
                 myDiagram.model.addNodeData(para_node);
-                console.log("参数组:",para_node);
             }
 
             //添加各参数
@@ -1912,7 +1909,6 @@ function getParaPanel() {
                         node["category"] = "TextNode";
                         node["attr_objId"]=goKey.toString();//所属图元
                         myDiagram.model.addNodeData(node);
-                        console.log("参数：",node);
                 }
             }
         }

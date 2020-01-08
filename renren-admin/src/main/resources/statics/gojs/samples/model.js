@@ -3,6 +3,9 @@ var swan_objs=[];
 var swan_objs_res;
 var icon={};
 var iconsId=localStorage.iconsId ;
+var nodeDataArray=[];
+var linkDataArray=[];
+
 function init() {
     if (iconsId != null) {
         var xmlHttp1 = new XMLHttpRequest();
@@ -13,18 +16,37 @@ function init() {
                 strs = JSON.parse(xmlHttp1.responseText);
                 var map = strs.icons.content.toString();
                 var mapJson=JSON.parse(map);
+
+
                 console.log("map:",mapJson.nodeDataArray);
-                for(var i = 0; i < mapJson.nodeDataArray.length; i++)
-                {
-                    console.log(mapJson.nodeDataArray[i].category);
-                    if(mapJson.nodeDataArray[i].category=="OfNodes"){
-                        delete mapJson.nodeDataArray[i];
-                 }
-                    if(mapJson.nodeDataArray[i].category=="TextNode"){
-                        delete mapJson.nodeDataArray[i];
+                // for(var i = 0; i < mapJson.nodeDataArray.length; i++)
+                // {
+                //     console.log(mapJson.nodeDataArray[i].category);
+                //     if(mapJson.nodeDataArray[i].category=="OfNodes"){
+                //         delete mapJson.nodeDataArray[i];
+                //  }
+                //    else if(mapJson.nodeDataArray[i].category=="TextNode"){
+                //         delete mapJson.nodeDataArray[i];
+                //     }
+                //    else {};
+                // }
+
+                for (var i = 0; i < mapJson.nodeDataArray.length; i++) {
+
+                    if(mapJson.nodeDataArray[i].category=="OfNodes"){}
+                    else if(mapJson.nodeDataArray[i].category=="TextNode"){}
+                    else {
+                        nodeDataArray.push(mapJson.nodeDataArray[i]);
                     }
                 }
-                var modelJson=JSON.stringify(mapJson);
+                for (var j = 0; j < mapJson.linkDataArray.length; j++) {
+                    linkDataArray.push(mapJson.linkDataArray[j]);
+                }
+                var model={};
+                model.class="GraphLinksModel";
+                model.nodeDataArray=nodeDataArray;
+                model.linkDataArray=linkDataArray;
+                var modelJson=JSON.stringify(model);
                 document.getElementById("mySavedModel").value =modelJson;
 
             }
@@ -382,6 +404,7 @@ function init() {
             // node.category="select";
         }
     })
+            console.log("model:",document.getElementById("mySavedModel").value);
     myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);// animate some flow through the pipes
         loop();
         }
