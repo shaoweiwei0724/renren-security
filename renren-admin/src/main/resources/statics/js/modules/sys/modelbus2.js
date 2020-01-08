@@ -155,7 +155,7 @@ function tree_click_swan(e,treeId, treeNode) {
     selected_id=node[0].id;
     //localStorage.selectSceneId=selected_id;
     // localStorage.iconsId = selected_id;
-    vm.sifanyObj = {id:node[0].id,name:node[0].name,code:node[0].code,icons:node[0].icons,remark:node[0].remark,irconurl:node[0].irconurl,modelId:node[0].modelId,onlineSimModelId:node[0].onlineSimModelId,offlineSimModelId:node[0].offlineSimModelId};
+    vm.sifanyObj = {id:node[0].id,name:node[0].name,code:node[0].code,icons:node[0].icons,remark:node[0].remark,irconurl:node[0].irconurl,gId:node[0].gId,modelId:node[0].modelId,onlineSimModelId:node[0].onlineSimModelId,offlineSimModelId:node[0].offlineSimModelId};
     localStorage.objId_g=vm.sifanyObj.id;;
     localStorage.fileId=node[0].gId;
     localStorage.iconsId = vm.sifanyObj.modelId;
@@ -578,7 +578,7 @@ function reloadTree(){
             //触发默认数据的click事件
             $("#"+node.tId+"_a").dblclick();//触发ztree点击事件
             console.log("5",node);
-            vm.sifanyObj = {id:node.id,name:node.name,code:node.code,icons:node.icons,remark:node.remark,irconurl:node.irconurl,modelId:node.modelId,onlineSimModelId:node.onlineSimModelId,offlineSimModelId:node.offlineSimModelId };
+            vm.sifanyObj = {id:node.id,name:node.name,code:node.code,icons:node.icons,remark:node.remark,irconurl:node.irconurl,gId:node.gId,modelId:node.modelId,onlineSimModelId:node.onlineSimModelId,offlineSimModelId:node.offlineSimModelId };
         }
         // vm.sifanyClass.parentName = node.name;
     })
@@ -597,7 +597,7 @@ function refreshNodeTree(nodes,id){
             //触发默认数据的click事件
             $("#"+node.tId+"_a").dblclick();//触发ztree点击事件
             console.log("6",node);
-            vm.sifanyObj = {id:node.id,name:node.name,code:node.code,icons:node.icons,remark:node.remark,irconurl:node.irconurl,modelId:node.modelId,onlineSimModelId:node[0].onlineSimModelId,offlineSimModelId:node[0].offlineSimModelId };
+            vm.sifanyObj = {id:node.id,name:node.name,code:node.code,icons:node.icons,remark:node.remark,irconurl:node.irconurl,gId:node.gId,modelId:node.modelId,onlineSimModelId:node[0].onlineSimModelId,offlineSimModelId:node[0].offlineSimModelId };
         }
         // vm.sifanyClass.parentName = node.name;
         localStorage.iconsId = vm.sifanyObj.modelId;
@@ -677,6 +677,7 @@ var vm = new Vue({
             onlineSimModelId:null,
             offlineSimModelId:null,
             gModelId:null,
+            gId:null,
         },
         sifanyObjAttrGather: {
             className:null,
@@ -917,10 +918,12 @@ var vm = new Vue({
 
             var values =$("#config-swan-svg2").contents().find("#swan-res").val();
             var g_values =$("#Gfile").contents().find("#swan-res").val();
+            var gid=document.getElementById("save_id").value;
             // console.log($("#config-swan-svg").contents());
 
             if(values != null && values != ""){
                 vm.sifanyObj.modelId=encodeURI(values);
+                vm.sifanyObj.gId=parseInt(gid,10);
                 vm.sifanyObj.onlineSimModelId=encodeURI(values);
                 vm.sifanyObj.offlineSimModelId=encodeURI(values);
             }
@@ -1049,10 +1052,12 @@ var vm = new Vue({
 
                     var values =$("#config-swan-svg2").contents().find("#swan-res").val();
                     var g_values =$("#Gfile").contents().find("#swan-res").val();
+                    var gid=document.getElementById("save_id").value;
                     console.log($("#config-swan-svg2").contents());
 
                     console.log("+++++++++++====="+values);
                     vm.sifanyObj.modelId=encodeURI(values);
+                    vm.sifanyObj.gId=parseInt(gid,10);
                     vm.sifanyObj.onlineSimModelId=encodeURI(values);
                     vm.sifanyObj.offlineSimModelId=encodeURI(values);
                     vm.sifanyObj.gModelId=encodeURI(g_values);

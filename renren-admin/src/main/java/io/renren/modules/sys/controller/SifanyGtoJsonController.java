@@ -64,16 +64,16 @@ public class SifanyGtoJsonController extends AbstractController{
         System.out.println(content);
         sifanyDataTextService.save(sifanyDataTextEntity);
 
-
-
-        List<SifanyObjEntity> objEntities =  sifanyObjService.list(new QueryWrapper<SifanyObjEntity>().eq("id",obj_id));
-        for(SifanyObjEntity obj:objEntities){
-            obj.setCreateTime(time);
-            obj.setUpdateTime(time);
-            obj.setUserId(getUserId());
-            obj.setgId(sifanyDataTextEntity.getId());
-            sifanyObjService.updateById(obj);
-        }
+//
+//
+//        List<SifanyObjEntity> objEntities =  sifanyObjService.list(new QueryWrapper<SifanyObjEntity>().eq("id",obj_id));
+//        for(SifanyObjEntity obj:objEntities){
+//            obj.setCreateTime(time);
+//            obj.setUpdateTime(time);
+//            obj.setUserId(getUserId());
+//            obj.setgId(sifanyDataTextEntity.getId());
+//            sifanyObjService.updateById(obj);
+//        }
         return R.ok().put("id",sifanyDataTextEntity.getId());
     }
 

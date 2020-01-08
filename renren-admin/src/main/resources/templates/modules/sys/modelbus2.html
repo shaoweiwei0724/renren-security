@@ -241,7 +241,7 @@
         <iframe id="Gfile" src="${request.contextPath}/statics/gojs/samples/test.html"
                 width="100%" height="480"></iframe>
     </div>
-
+    <input id="save_id"  style="display:none">
 </div>
 </div>
 </div>
@@ -261,6 +261,7 @@
                 if(r.code == 0){
                     localStorage.fileId=r.id;
                     $('#Gfile').attr('src',$('#Gfile').attr('src')).trigger("reloadGrid");
+                    document.getElementById("save_id").value=r.id;
                 }else{
                     alert(r.msg);
                 }
