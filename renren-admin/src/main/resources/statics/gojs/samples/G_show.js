@@ -275,6 +275,8 @@ function init() {
             }
             function changeText(node) {
                 var node_select=node.key;
+                console.log("node",node);
+                console.log("node_key",node_select)
                 var texts_select=myDiagram.findNodesByExample({"msp":node_select});
                 var attr_panel=myDiagram.findNodesByExample({"panel_objId":node_select});
                 var attr_text=myDiagram.findNodesByExample({"attr_objId":node_select});
@@ -1876,6 +1878,7 @@ function getParaPanel() {
 
             //获取父元素的坐标
             var group = myDiagram.model.findNodeDataForKey(goKey);
+            console.log("gokey:",goKey);
             var pos=group["pos"].trim().split(" ")
             var x=new Number(pos[0])+30;
             var y=new Number(pos[1]);

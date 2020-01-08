@@ -155,7 +155,7 @@ function tree_click_swan(e,treeId, treeNode) {
     selected_id=node[0].id;
     //localStorage.selectSceneId=selected_id;
     // localStorage.iconsId = selected_id;
-    vm.sifanyObj = {id:node[0].id,name:node[0].name,code:node[0].code,icons:node[0].icons,remark:node[0].remark,irconurl:node[0].irconurl,modelId:node[0].modelId };
+    vm.sifanyObj = {id:node[0].id,name:node[0].name,code:node[0].code,icons:node[0].icons,remark:node[0].remark,irconurl:node[0].irconurl,modelId:node[0].modelId,onlineSimModelId:node[0].onlineSimModelId,offlineSimModelId:node[0].offlineSimModelId};
     localStorage.objId_g=node[0].id;
     localStorage.fileId=node[0].gId;
     localStorage.iconsId = vm.sifanyObj.modelId;
@@ -578,7 +578,7 @@ function reloadTree(){
             //触发默认数据的click事件
             $("#"+node.tId+"_a").dblclick();//触发ztree点击事件
             console.log("5",node);
-            vm.sifanyObj = {id:node.id,name:node.name,code:node.code,icons:node.icons,remark:node.remark,irconurl:node.irconurl,modelId:node.modelId };
+            vm.sifanyObj = {id:node.id,name:node.name,code:node.code,icons:node.icons,remark:node.remark,irconurl:node.irconurl,modelId:node.modelId,onlineSimModelId:node[0].onlineSimModelId,offlineSimModelId:node[0].offlineSimModelId };
         }
         // vm.sifanyClass.parentName = node.name;
     })
@@ -597,7 +597,7 @@ function refreshNodeTree(nodes,id){
             //触发默认数据的click事件
             $("#"+node.tId+"_a").dblclick();//触发ztree点击事件
             console.log("6",node);
-            vm.sifanyObj = {id:node.id,name:node.name,code:node.code,icons:node.icons,remark:node.remark,irconurl:node.irconurl,modelId:node.modelId };
+            vm.sifanyObj = {id:node.id,name:node.name,code:node.code,icons:node.icons,remark:node.remark,irconurl:node.irconurl,modelId:node.modelId,onlineSimModelId:node[0].onlineSimModelId,offlineSimModelId:node[0].offlineSimModelId };
         }
         // vm.sifanyClass.parentName = node.name;
         localStorage.iconsId = vm.sifanyObj.modelId;
@@ -674,6 +674,8 @@ var vm = new Vue({
             remark:null,
             orderNum:0,
             modelId:null,
+            onlineSimModelId:null,
+            offlineSimModelId:null,
             gModelId:null,
         },
         sifanyObjAttrGather: {
@@ -919,6 +921,8 @@ var vm = new Vue({
 
             if(values != null && values != ""){
                 vm.sifanyObj.modelId=encodeURI(values);
+                vm.sifanyObj.onlineSimModelId=encodeURI(values);
+                vm.sifanyObj.offlineSimModelId=encodeURI(values);
             }
             if(g_values != null && g_values != ""){
                 vm.sifanyObj.gModelId=encodeURI(g_values);
@@ -1029,7 +1033,7 @@ var vm = new Vue({
 
 
             localStorage.iconsId = vm.sifanyObj.modelId;
-
+            localStorage.objId_g=vm.sifanyObj.id;
             var nodes = ztreeMain.getSelectedNodes();
             layer.open({
                 type: 1,
@@ -1049,6 +1053,8 @@ var vm = new Vue({
 
                     console.log("+++++++++++====="+values);
                     vm.sifanyObj.modelId=encodeURI(values);
+                    vm.sifanyObj.onlineSimModelId=encodeURI(values);
+                    vm.sifanyObj.offlineSimModelId=encodeURI(values);
                     vm.sifanyObj.gModelId=encodeURI(g_values);
                     // alert(vm.sifanyClass.modelId)
 
