@@ -1789,7 +1789,11 @@ function init() {
 
 function loop() {
     setTimeout(function() {
-        document.getElementById('swan-res').value=(myDiagram.model.toJson());
+        var save_model=JSON.stringify(myDiagram.model.toJson());
+        save_model=save_model.replace(/TextNode_selected/g, 'TextNode');
+        save_model=save_model.replace(/OfNodes_selected/g, 'OfNodes');
+        var save_modelJson=JSON.parse(save_model)
+        document.getElementById('swan-res').value=save_modelJson;
         loop();
     }, 60);
 }
