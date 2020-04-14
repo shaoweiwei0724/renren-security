@@ -31,7 +31,7 @@
         </td>
         <td width="80%"   class="sifany-pm">
 
-            <div  class="layui-tab layui-tab-card" class="sifany-pm">
+            <div  class="layui-tab layui-tab-card" style="height:100%;">
                 <ul class="layui-tab-title">
                     <li class="layui-this"><span>指标</span></li>
                     <li ><span>组态</span></li>
@@ -81,8 +81,8 @@
                              </#if>
                         </div>
 
-                        <table id="jqGrid" style="width: 90%"></table>
-                        <div id="jqGridPager"></div>
+                        <table id="jqGrid" style="width: 90%;"></table>
+                        <div id="jqGridPager" ></div>
 
 
                     </div>
@@ -93,7 +93,7 @@
                         <div>
 
                             <iframe src="${request.contextPath}/statics/gojs/samples/productionProcess.html"
-                                    style="width: 100%;" id="config-swan-svg" height="400px"></iframe>
+                                    style="width: 100%;" id="config-swan-svg" height="100%" onload="changeFrameHeight(this)"></iframe>
                         </div>
 
                     <div  style="display: none">

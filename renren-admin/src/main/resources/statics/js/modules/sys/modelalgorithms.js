@@ -1,4 +1,16 @@
 $(function () {
+
+    /* $(window).resize(function(){
+        /!* // 宽度自动适应
+         $(grid_selector).setGridWidth($(window).width() - 30);
+         // 高度自动适应*!/
+         $(window).unbind("onresize");
+          // grid_selector 是 DIV 的 ID
+         $(window).bind("onresize", this);
+     });*/
+    /* var newHeight = $(window).height() - 340;
+     $("#jqGrid").css("cssText","height: "+newHeight+"px!important;");*/
+
     $('#swan-cancel').click(function () {
         $('#treeContextMenu').hide()
     });
@@ -8,9 +20,10 @@ $(function () {
     $('#toUpdateBtn').click(function () {
         addHoverDom();
     });
+
     $(document).ready(function () {
-       var element= layui.element;
-       // element.render();
+        var element= layui.element;
+        // element.render();
     });
 
     var url = "sys/sifanyclassattr/attrListInfo";
@@ -117,7 +130,7 @@ $(function () {
             { label: '用户id', name: 'userId', index: 'user_id', width: 50 }
         ],
         viewrecords: true,
-        height: 300,
+        height: $(window).height()-270,
         rowNum: 10,
         rowList : [10,30,50],
         rownumbers: true,
@@ -139,16 +152,27 @@ $(function () {
         gridComplete:function(){
             //隐藏grid底部滚动条
             $("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+            /*   var newHeight = $(window).height()  - 160;
+               $("#jqGrid").css("cssText","height: "+newHeight+"px!important;");*/
+
         }
-       /* onSelectRow: function (row) {
+        /* onSelectRow: function (row) {
 
-            var rowData = $("#jqGrid").getRowData(row);
-            vm.sifanyClassAttr = {name:rowData.name,code:rowData.code,unitId:rowData.unitId,attrstypeId:rowData.attrstypeId,remark:rowData.remark};
-            console.log(rowData);
-        }*/
+             var rowData = $("#jqGrid").getRowData(row);
+             vm.sifanyClassAttr = {name:rowData.name,code:rowData.code,unitId:rowData.unitId,attrstypeId:rowData.attrstypeId,remark:rowData.remark};
+             console.log(rowData);
+         }*/
     });
+    /*$(window).resize(function(){
+        $("#jqGrid").setGridHeight($(window).height()-30);
+    });*/
 });
+function changeFrameHeight(that){
+    //电脑屏幕高度-iframe上面其他组件的高度
+    //例:我这里iframe上面还有其他一些div组件，一共的高度是120，则减去120
+    $(that).height(document.documentElement.clientHeight - 80);
 
+}
 
 var selected_id=0;
 var ztreeMain;
@@ -156,11 +180,11 @@ function tree_click_swan(e,treeId, treeNode) {
     var node = ztreeMain.getSelectedNodes();
     selected_id=node[0].id;
     // localStorage.iconsId = selected_id;
-   vm.sifanyClass = {id:node[0].id,name:node[0].name,code:node[0].code,icons:node[0].icons,remark:node[0].remark,irconurl:node[0].irconurl,modelId:node[0].modelId };
-   localStorage.iconsId = vm.sifanyClass.modelId;
-    // localStorage.objId_g=vm.sifanyObj.id;
-   $('#config-swan-svg').attr('src',$('#config-swan-svg').attr('src'));
-console.log(vm.sifanyClass);
+    vm.sifanyClass = {id:node[0].id,name:node[0].name,code:node[0].code,icons:node[0].icons,remark:node[0].remark,irconurl:node[0].irconurl,modelId:node[0].modelId };
+    localStorage.iconsId = vm.sifanyClass.modelId;
+    localStorage.objId_g=vm.sifanyObj.id;
+    $('#config-swan-svg').attr('src',$('#config-swan-svg').attr('src'));
+    console.log(vm.sifanyClass);
     var page = $("#jqGrid").jqGrid('getGridParam','page');
     $("#jqGrid").jqGrid('setGridParam',{
         page:page,
@@ -258,7 +282,7 @@ function addHoverDom() {
                 //vm.reload();
                 $('#treeContextMenu').hide();
                 refreshNodeTree(nodes,nodes[0].id)
-               // $(document).ready();
+                // $(document).ready();
 
             }else{
                 layer.alert(r.msg);
@@ -266,49 +290,49 @@ function addHoverDom() {
             }
         }
     });
- }
- function deleteDom(){
-     var nodes = ztreeMain.getSelectedNodes();
-     var id = nodes[0].id;
-     if(id == null){
-         return ;
-     }
+}
+function deleteDom(){
+    var nodes = ztreeMain.getSelectedNodes();
+    var id = nodes[0].id;
+    if(id == null){
+        return ;
+    }
 
-     var parentId = nodes[0].parentId;
+    var parentId = nodes[0].parentId;
 
-     if(parentId==-1){
-       //  layer.msg("根节点不允许删除。", {icon: 1});
-          layer.alert("根节点不允许删除。");
-         return ;
-     }
-     var lock = false;
-     layer.confirm('确定要删除选中的记录？', {
-         btn: ['确定','取消'] //按钮
-     }, function(){
-         if(!lock) {
-             lock = true;
+    if(parentId==-1){
+        //  layer.msg("根节点不允许删除。", {icon: 1});
+        layer.alert("根节点不允许删除。");
+        return ;
+    }
+    var lock = false;
+    layer.confirm('确定要删除选中的记录？', {
+        btn: ['确定','取消'] //按钮
+    }, function(){
+        if(!lock) {
+            lock = true;
 
-             $.ajax({
-                 type: "POST",
-                 url: baseURL + "sys/sifanyclass/deleteDom",
-                 contentType: "application/json",
-                 data: JSON.stringify(id),
-                 success: function(r){
-                     if(r.code == 0){
+            $.ajax({
+                type: "POST",
+                url: baseURL + "sys/sifanyclass/deleteDom",
+                contentType: "application/json",
+                data: JSON.stringify(id),
+                success: function(r){
+                    if(r.code == 0){
 
-                         layer.msg("操作成功", {icon: 1});
-                         refreshNodeTree(nodes,parentId);
-                         $("#jqGrid").trigger("reloadGrid");
+                        layer.msg("操作成功", {icon: 1});
+                        refreshNodeTree(nodes,parentId);
+                        $("#jqGrid").trigger("reloadGrid");
 
-                     }else{
-                         layer.alert(r.msg);
-                     }
-                 }
-             });
-         }
-     }, function(){
-     });
- }
+                    }else{
+                        layer.alert(r.msg);
+                    }
+                }
+            });
+        }
+    }, function(){
+    });
+}
 function refreshNode() {
     /*根据 treeId 获取 zTree 对象*/
     var zTree = $.fn.zTree.getZTreeObj("classTreeMain"),
@@ -316,7 +340,7 @@ function refreshNode() {
         silent = false,
         /*获取 zTree 当前被选中的节点数据集合*/
         nodes = zTree.getSelectedNodes();
-        console.log(nodes);
+    console.log(nodes);
     /*强行异步加载父节点的子节点。[setting.async.enable = true 时有效]*/
     zTree.reAsyncChildNodes(nodes[0], type, silent);
 
@@ -591,7 +615,7 @@ function refreshNodeTree(nodes,id){
         // var a = JSON.stringify(r.classLists);?type=base
         // alert(a);
         ztreeMain = $.fn.zTree.init($("#classTreeMain"), setting, r.classLists);
-       var node = ztreeMain.getNodeByParam("id",id);
+        var node = ztreeMain.getNodeByParam("id",id);
         ztreeMain.selectNode(node);
 
         if(node){
@@ -603,7 +627,7 @@ function refreshNodeTree(nodes,id){
         }
         // vm.sifanyClass.parentName = node.name;
         localStorage.iconsId = vm.sifanyClass.modelId;
-        // localStorage.objId_g=vm.sifanyObj.id;
+        localStorage.objId_g=vm.sifanyObj.id;
         $('#config-swan-svg').attr('src',$('#config-swan-svg').attr('src'));
     })
 }
@@ -740,7 +764,7 @@ var vm = new Vue({
 
         add: function(){
             vm.showList = false;
-          //  vm.devList = true;
+            //  vm.devList = true;
             vm.title = "新增";
             vm.sifanyClassAttr = {className:null,classId:selected_id,typeName:null,typeId:0,orderNum:0};
             vm.getSifanyclass();
@@ -753,7 +777,7 @@ var vm = new Vue({
                 return ;
             }
             vm.showList = false;
-          //  vm.devList = true;
+            //  vm.devList = true;
             vm.title = "修改";
 
             vm.getInfo(id)
@@ -902,44 +926,44 @@ var vm = new Vue({
             if(values != null && values != ""){
                 vm.sifanyClass.modelId=encodeURI(values);
             }
-                vm.sifanyClass['type']='base';
-                $.ajax({
-                    type: "POST",
-                    url: baseURL + url,
-                    contentType: "application/json",
-                    data: JSON.stringify(vm.sifanyClass),
-                    success: function(r){
-                        if(r.code === 0){
-                            var url1="sys/sifanyclassattr/saveClassAttr";
-                            $.ajax({
-                                type: "POST",
-                                url: baseURL + url1,
-                                contentType: "application/json",
-                                data: JSON.stringify(vm.classAttrList),
-                                success: function(r){
-                                    if(r.code === 0){
-                                        layer.msg("操作成功", {icon: 1});
-                                        vm.reload();
+            vm.sifanyClass['type']='base';
+            $.ajax({
+                type: "POST",
+                url: baseURL + url,
+                contentType: "application/json",
+                data: JSON.stringify(vm.sifanyClass),
+                success: function(r){
+                    if(r.code === 0){
+                        var url1="sys/sifanyclassattr/saveClassAttr";
+                        $.ajax({
+                            type: "POST",
+                            url: baseURL + url1,
+                            contentType: "application/json",
+                            data: JSON.stringify(vm.classAttrList),
+                            success: function(r){
+                                if(r.code === 0){
+                                    layer.msg("操作成功", {icon: 1});
+                                    vm.reload();
 
-                                        // $(document).ready(reloadTree);
-                                        //   refreshNodeTree(nodes,nodes[0].id);
-                                    }else{
-                                        layer.alert(r.msg);
+                                    // $(document).ready(reloadTree);
+                                    //   refreshNodeTree(nodes,nodes[0].id);
+                                }else{
+                                    layer.alert(r.msg);
 
-                                    }
                                 }
-                            });
-                            layer.msg("操作成功", {icon: 1});
-                            vm.reload();
+                            }
+                        });
+                        layer.msg("操作成功", {icon: 1});
+                        vm.reload();
 
-                           // $(document).ready(reloadTree);
-                            refreshNodeTree(nodes,nodes[0].id);
-                        }else{
-                            layer.alert(r.msg);
+                        // $(document).ready(reloadTree);
+                        refreshNodeTree(nodes,nodes[0].id);
+                    }else{
+                        layer.alert(r.msg);
 
-                        }
                     }
-                });
+                }
+            });
 
 
         },
@@ -968,7 +992,7 @@ var vm = new Vue({
                     // window.postMessage("家用热水器用户行为分析", '*');
                     //
                     // vm.sifanyClass.icons=encodeURI(values);
-                     layer.close(index);
+                    layer.close(index);
 
                     $("#editProject-info").hide();
                 },
@@ -1017,72 +1041,72 @@ var vm = new Vue({
         },
         configmenu:function () {
 
-                // editor.setValue(vm.sifanyClass.icon);
-                localStorage.iconsId = vm.sifanyClass.modelId;
-            // localStorage.objId_g=vm.sifanyObj.id;
-                // alert(localStorage.iconsId);
-                // // if(localStorage.iconsId != null)
-                // $.get(baseURL + "sys/sifanydatatext/scene/"+localStorage.iconsId, function(r){
-                //     alert(r.icons);
-                //     // document.getElementById("mySavedModel").value = r.icons;
-                //     console.log(r.icons);
-                // });
-                 var nodes = ztreeMain.getSelectedNodes();
-                layer.open({
-                    type: 1,
-                    offset: '0',
-                    skin: 'layui-layer-molv',
-                    title: "svg1-edit",
-                    area: ['1000px', '1000px'],
-                    shade: 0,
-                    shadeClose: false,
-                    content: jQuery("#menumapLayer"),
-                    btn: ['确定', '取消'],
-                    btn1: function (index) {
+            // editor.setValue(vm.sifanyClass.icon);
+            localStorage.iconsId = vm.sifanyClass.modelId;
+            localStorage.objId_g=vm.sifanyObj.id;
+            // alert(localStorage.iconsId);
+            // // if(localStorage.iconsId != null)
+            // $.get(baseURL + "sys/sifanydatatext/scene/"+localStorage.iconsId, function(r){
+            //     alert(r.icons);
+            //     // document.getElementById("mySavedModel").value = r.icons;
+            //     console.log(r.icons);
+            // });
+            var nodes = ztreeMain.getSelectedNodes();
+            layer.open({
+                type: 1,
+                offset: '0',
+                skin: 'layui-layer-molv',
+                title: "svg1-edit",
+                area: ['1000px', '1000px'],
+                shade: 0,
+                shadeClose: false,
+                content: jQuery("#menumapLayer"),
+                btn: ['确定', '取消'],
+                btn1: function (index) {
 
-                        var values =$("#config-swan-svg").contents().find("#swan-res").val();
-                        console.log($("#config-swan-svg").contents());
+                    var values =$("#config-swan-svg").contents().find("#swan-res").val();
+                    console.log($("#config-swan-svg").contents());
 
-                        console.log("+++++++++++====="+values);
+                    console.log("+++++++++++====="+values);
 
-                        vm.sifanyClass.modelId=encodeURI(values);
-                       // alert(vm.sifanyClass.modelId)
+                    vm.sifanyClass.modelId=encodeURI(values);
+                    // alert(vm.sifanyClass.modelId)
 
-                        var url ="sys/sifanyclass/updateModel";
-                       // vm.sifanyClass['type']='map';
+                    var url ="sys/sifanyclass/updateModel";
+                    // vm.sifanyClass['type']='map';
 
-                        $.ajax({
-                            type: "POST",
-                            url: baseURL + url,
-                            contentType: "application/json",
-                            data: JSON.stringify(vm.sifanyClass),
-                            success: function(r){
-                                if(r.code === 0){
-                                    layer.msg("操作成功", {icon: 1});
+                    $.ajax({
+                        type: "POST",
+                        url: baseURL + url,
+                        contentType: "application/json",
+                        data: JSON.stringify(vm.sifanyClass),
+                        success: function(r){
+                            if(r.code === 0){
+                                layer.msg("操作成功", {icon: 1});
 
-                                    refreshNodeTree(nodes,nodes[0].id);
+                                refreshNodeTree(nodes,nodes[0].id);
 
-                                }else{
-                                    layer.alert(r.msg);
+                            }else{
+                                layer.alert(r.msg);
 
-                                }
                             }
-                        });
-                        layer.close(index);
-                        $("#menumapLayer").hide();
-                        // setTimeout(function () {
-                        //
-                        // },1000)
+                        }
+                    });
+                    layer.close(index);
+                    $("#menumapLayer").hide();
+                    // setTimeout(function () {
+                    //
+                    // },1000)
 
-                    },
-                    btn2: function (index) {
-                        layer.close(index);
-                        $("#menumapLayer").hide();
-                    },
-                    end:function(){
-                        $("#menumapLayer").hide();
-                    }
-                });
+                },
+                btn2: function (index) {
+                    layer.close(index);
+                    $("#menumapLayer").hide();
+                },
+                end:function(){
+                    $("#menumapLayer").hide();
+                }
+            });
 
         },
         clickMonitor:function (index) {
@@ -1097,7 +1121,7 @@ var vm = new Vue({
             }
         },
         clickOnlineSim:function (index) {
-           var that=vm.classAttrList[index];
+            var that=vm.classAttrList[index];
             if(that.onlineSim){
 
                 that.onlineSim=false;
