@@ -161,7 +161,8 @@ public class SifanyObjServiceImpl extends ServiceImpl<SifanyObjDao, SifanyObjEnt
     public void GtoObj(SifanyObjEntity sifanyObjEntity) {
         SifanyDataTextEntity sifanyDataTextEntity=sifanyDataTextService.getById(sifanyObjEntity.getgModelId());
         JSONObject irons=JSONObject.parseObject(sifanyDataTextEntity.getContent());
-        JSONArray ironArray=irons.getJSONArray("nodeDataArray");
+//        JSONArray ironArray=irons.getJSONArray("nodeDataArray");
+        JSONArray ironArray=irons.getJSONArray("node");
         Long time = System.currentTimeMillis();
 
         sifanyObjService.remove(new QueryWrapper<SifanyObjEntity>().eq("parent_id",sifanyObjEntity.getId()));

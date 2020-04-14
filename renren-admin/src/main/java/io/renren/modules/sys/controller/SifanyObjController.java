@@ -243,6 +243,7 @@ public class SifanyObjController  extends AbstractController{
                     sifanyDataTextService.save(sifanyDataText);
                     sifanyObj.setModelId(sifanyDataText.getId().toString());
 
+
                     sifanyDataText.setId(null);
                     sifanyDataTextService.save(sifanyDataText);
                     sifanyObj.setOnlineSimModelId(sifanyDataText.getId().toString());
@@ -280,14 +281,13 @@ public class SifanyObjController  extends AbstractController{
                 SifanyDataTextEntity sifanyDataTextEntityModel = sifanyDataTextService.getById(sifanyObjEntity.getgModelId());
                 if (sifanyDataTextEntityModel == null) {
                     SifanyDataTextEntity sifanyDataText = new SifanyDataTextEntity();
-                    sifanyDataText.setContent(URLDecoder.decode(sifanyObj.getgModelId(), "utf-8"));
+                    sifanyDataText.setContent(URLDecoder.decode(sifanyObj.getgModelId(), "utf-8").replace("linkDataArray","link").replace("nodeDataArray","node"));
                     sifanyDataText.setCreateTime(new Date().getTime());
                     sifanyDataText.setUpdateTime(sifanyDataText.getCreateTime());
                     sifanyDataTextService.save(sifanyDataText);
                     sifanyObj.setgModelId(sifanyDataText.getId().toString());
-
                 } else {
-                    sifanyDataTextEntityModel.setContent(URLDecoder.decode(sifanyObj.getgModelId(), "utf-8"));
+                    sifanyDataTextEntityModel.setContent(URLDecoder.decode(sifanyObj.getgModelId(), "utf-8").replace("linkDataArray","link").replace("nodeDataArray","node"));
                     sifanyDataTextEntityModel.setUpdateTime(new Date().getTime());
                     sifanyDataTextService.updateById(sifanyDataTextEntityModel);
                     sifanyObj.setgModelId(sifanyDataTextEntityModel.getId().toString());

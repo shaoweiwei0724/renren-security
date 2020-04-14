@@ -14,12 +14,14 @@ function init() {
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
             var json=JSON.parse(xmlHttp.responseText);
             nodeDataArray=json.node;
+            // console.log("nodeDataArray",nodeDataArray);
             linkDataArray=json.link;
+            // console.log("linkDataArray",linkDataArray);
             for (var j = 0; j < nodeDataArray.length; j++) {
                 var nodedata=nodeDataArray[j]
                 var node_attr=[];
                 if(nodedata.type!="Text"){
-                    if(nodedata.attrs!=""){
+                    if(nodedata.attrs!="" && nodedata.attrs!= null && nodedata.attrs!= "undefined"){
                         for(var i=0;i<nodedata.attrs.length;i++)
                         {
                             var attr={};
@@ -1560,8 +1562,8 @@ function init() {
                         }
                     },
                     $(go.Shape, "Rectangle",
-                        // {fill: "rgba(0,0,0,0)", stroke: null},
-                        {fill: "rgba(255,102,102,0.3)", stroke: null},
+                        {fill: "rgba(0,0,0,0)", stroke: null},
+                        // {fill: "rgba(255,102,102,0.3)", stroke: null},
                         new go.Binding("fill", "color")),
                     $(go.Panel, "Table",
                         {
@@ -1602,7 +1604,8 @@ function init() {
                         }
                     },
                     $(go.Shape, "Rectangle",
-                        {fill: "rgba(255,153,51,0.6)", stroke: null},
+                        // {fill: "rgba(255,153,51,0.6)", stroke: null},
+                        {fill: "rgba(0,0,0,0)", stroke: null},
                         new go.Binding("fill", "color")),
                     $(go.Panel, "Table",
                         {
@@ -1867,7 +1870,7 @@ function init() {
             if(localStorage.showAttr == "true"){
                 myDiagram.groupTemplateMap.add("OfNodes",groupNodeShow);
                 myDiagram.nodeTemplateMap.add("TextNode",attrNodeShow);
-                localStorage.showAttr = false;
+                // localStorage.showAttr = false;
             }else{
                 myDiagram.groupTemplateMap.add("OfNodes",groupNode);
                 myDiagram.nodeTemplateMap.add("TextNode",attrNode);
