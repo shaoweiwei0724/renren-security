@@ -1,8 +1,10 @@
 package io.renren.modules.sys.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.renren.common.utils.PageUtils;
 import io.renren.modules.sys.entity.SifanyDataTextEntity;
+import org.dom4j.DocumentException;
 
 import java.util.Map;
 
@@ -16,5 +18,6 @@ import java.util.Map;
 public interface SifanyDataTextService extends IService<SifanyDataTextEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+    JSONObject getGJson(String content) throws DocumentException;
 }
 

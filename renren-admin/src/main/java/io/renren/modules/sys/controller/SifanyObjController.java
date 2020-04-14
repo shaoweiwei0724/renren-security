@@ -243,7 +243,6 @@ public class SifanyObjController  extends AbstractController{
                     sifanyDataTextService.save(sifanyDataText);
                     sifanyObj.setModelId(sifanyDataText.getId().toString());
 
-
                     sifanyDataText.setId(null);
                     sifanyDataTextService.save(sifanyDataText);
                     sifanyObj.setOnlineSimModelId(sifanyDataText.getId().toString());

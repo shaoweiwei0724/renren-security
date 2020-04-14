@@ -986,6 +986,7 @@ var vm = new Vue({
                 }
             });
         },
+
         editProject: function(){
             // editor.setValue(vm.sifanyClass.icon);
             var algorithmName = vm.sifanyObjAttr.algorithmName;
@@ -993,6 +994,10 @@ var vm = new Vue({
                 algorithmName = vm.sifanyObjAttr.name + vm.sifanyObjAttr.id + vm.sifanyObjAttr.objId;
                 vm.sifanyObjAttr.algorithmName = algorithmName;
             }
+
+
+
+
             $("#editProject-info").show();
 
             var iframe = document.getElementById('editProject-info');
@@ -1033,7 +1038,6 @@ var vm = new Vue({
             });
         },
         configmenu:function () {
-
 
             localStorage.iconsId = vm.sifanyObj.modelId;
             localStorage.objId_g=vm.sifanyObj.id;

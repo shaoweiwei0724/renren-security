@@ -18,7 +18,7 @@ function init() {
                 var mapJson=JSON.parse(map);
 
 
-                console.log("map:",mapJson.nodeDataArray);
+                // console.log("map:",mapJson.nodeDataArray);
                 // for(var i = 0; i < mapJson.nodeDataArray.length; i++)
                 // {
                 //     console.log(mapJson.nodeDataArray[i].category);
@@ -68,7 +68,7 @@ function init() {
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState === 4 && xmlHttp.status ===200){
             str=JSON.parse(xmlHttp.responseText);
-            console.log("str:",str);
+            // console.log("str:",str);
     var html="";
     for(var i=0;i< str.classLists.length;i++){
        html+='<div style=" width: 200px">\n' +
@@ -85,7 +85,7 @@ function init() {
     var list=str.classLists[0].childs;
     swan_obj_list=str.classLists;
 
-    console.log("list:",swan_obj_list);
+    // console.log("list:",swan_obj_list);
     for(var i in swan_obj_list){
         var swan_obj_list_i=swan_obj_list[i]
 
@@ -101,7 +101,7 @@ function init() {
             }
 
                     }
-                    console.log(swan_obj_i);
+                    // console.log(swan_obj_i);
         swan_objs.push(swan_obj_i)
     }
 
@@ -324,7 +324,7 @@ function init() {
 
     // Some links need a custom to or from spot
     function spotConverter(dir) {
-        console.log(dir)
+        // console.log(dir)
         if (dir === "top") return go.Spot.TopSide;
         if (dir === "left") return go.Spot.LeftSide;
         if (dir === "right") return go.Spot.RightSide;
@@ -397,14 +397,14 @@ function init() {
     myDiagram.addModelChangedListener(function(e){
         if(e.modelChange=="nodeDataArray"){
             if (e.change === go.ChangedEvent.Insert) {
-                console.log(e.propertyName + " added node with key: " + e.newValue.key);
+                // console.log(e.propertyName + " added node with key: " + e.newValue.key);
             }
             // var node=e.newValue;
             // console.log("e:",e);
             // node.category="select";
         }
     })
-            console.log("model:",document.getElementById("mySavedModel").value);
+            // console.log("model:",document.getElementById("mySavedModel").value);
     myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);// animate some flow through the pipes
         loop();
         }
@@ -567,7 +567,7 @@ function closeSave() {
     name.value="";
     file.value="";
     img.src="images/null.png";
-    console.log(myDiagram.model.toJson());
+    // console.log(myDiagram.model.toJson());
 }
 //获取图片
 var img = document.querySelector('img');
@@ -612,7 +612,7 @@ function sure() {
          res.img=image;
          res.name=name.value;
          res.model=myDiagram.model.toJson();
-         console.log(res);
+         // console.log(res);
          closeSave();
          alert("成功保存！");
      }

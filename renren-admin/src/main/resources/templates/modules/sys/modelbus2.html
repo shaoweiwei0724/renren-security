@@ -238,6 +238,7 @@
 <!--        <input id="file"  type="file" onchange="upload(this)" />-->
 <!--        <label for="file">Choose a file</label>-->
         <button id="upload" style="color:black">上传G文件</button>
+        <button onclick="showAttrs()" style="color:black" id="showAttr">显示元件属性</button>
         <iframe id="Gfile" src="${request.contextPath}/statics/gojs/samples/G_analysis.html"
                 width="100%" height="480"></iframe>
     </div>
@@ -247,6 +248,19 @@
 </div>
 
 <script>
+    function showAttrs(){
+        if($("#showAttr").text() === "显示元件属性"){
+            $("#showAttr").text("隐藏元件属性");
+            localStorage.showAttr = "true";
+            $('#Gfile').attr('src',$('#Gfile').attr('src')).trigger("reloadGrid");
+        }else{
+            $("#showAttr").text("显示元件属性");
+            localStorage.showAttr = "false";
+            $('#Gfile').attr('src',$('#Gfile').attr('src')).trigger("reloadGrid");
+        }
+
+
+    }
     $(function(){
         console.log("localStorage.objId_g:",localStorage.objId_g)
         new AjaxUpload('#upload', {

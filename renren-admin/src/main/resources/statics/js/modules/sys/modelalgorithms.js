@@ -158,7 +158,7 @@ function tree_click_swan(e,treeId, treeNode) {
     // localStorage.iconsId = selected_id;
    vm.sifanyClass = {id:node[0].id,name:node[0].name,code:node[0].code,icons:node[0].icons,remark:node[0].remark,irconurl:node[0].irconurl,modelId:node[0].modelId };
    localStorage.iconsId = vm.sifanyClass.modelId;
-    localStorage.objId_g=vm.sifanyObj.id;
+    // localStorage.objId_g=vm.sifanyObj.id;
    $('#config-swan-svg').attr('src',$('#config-swan-svg').attr('src'));
 console.log(vm.sifanyClass);
     var page = $("#jqGrid").jqGrid('getGridParam','page');
@@ -603,7 +603,7 @@ function refreshNodeTree(nodes,id){
         }
         // vm.sifanyClass.parentName = node.name;
         localStorage.iconsId = vm.sifanyClass.modelId;
-        localStorage.objId_g=vm.sifanyObj.id;
+        // localStorage.objId_g=vm.sifanyObj.id;
         $('#config-swan-svg').attr('src',$('#config-swan-svg').attr('src'));
     })
 }
@@ -1019,7 +1019,7 @@ var vm = new Vue({
 
                 // editor.setValue(vm.sifanyClass.icon);
                 localStorage.iconsId = vm.sifanyClass.modelId;
-            localStorage.objId_g=vm.sifanyObj.id;
+            // localStorage.objId_g=vm.sifanyObj.id;
                 // alert(localStorage.iconsId);
                 // // if(localStorage.iconsId != null)
                 // $.get(baseURL + "sys/sifanydatatext/scene/"+localStorage.iconsId, function(r){

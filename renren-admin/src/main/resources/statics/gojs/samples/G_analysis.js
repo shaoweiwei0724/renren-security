@@ -1362,6 +1362,7 @@ function init() {
                                 margin: 5,
                                 editable: false,
                                 opacity: 0.75,
+                                stroke: "#42ff4c",
                             },
                             new go.Binding("text", "ts").makeTwoWay(),
                             new go.Binding("stroke", "stroke_color"),
@@ -1373,6 +1374,8 @@ function init() {
                             new go.Binding("scale", "scale"))
                     )
                 );
+
+
             var text_selected =
                 $(go.Node, "Auto",
                     {
@@ -1387,7 +1390,7 @@ function init() {
                                 margin: 5,
                                 editable: false,
                                 opacity: 0.75,
-                                stroke: "#f00",
+                                stroke: "#ff2236",
                             },
                             new go.Binding("text", "ts").makeTwoWay(),
                             new go.Binding("font", "ff"),
@@ -1397,6 +1400,7 @@ function init() {
                             new go.Binding("scale", "scale"))
                     )
                 );
+
             var groupNode=
                 $(go.Group, "Auto",
                     {
@@ -1424,14 +1428,52 @@ function init() {
                     }).ofObject(),
 
                     $(go.Shape, "Rectangle",
+                        {fill: "rgba(0,0,0,0)", stroke: null, strokeWidth: 2}),
+                    // {fill: "rgba(255,102,102,0.3)", stroke: null, strokeWidth: 2}),
+                    $(go.Panel, "Vertical",  // title above Placeholder
+                        $(go.Placeholder,
+                            {padding: 5, alignment: go.Spot.TopRight})
+                    ),  // end Vertical Panel
+                    new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify)
+                )
+
+            var groupNodeShow=
+                $(go.Group, "Auto",
+                    {
+                        isShadowed: true,//阴影
+                        movable: true,//允许拖动
+                        locationSpot: go.Spot.RightCenter, locationObjectName: "SHAPE",
+                        selectionObjectName: "SHAPE",
+                        background: "transparent",
+                        ungroupable: true,
+                        computesBoundsAfterDrag: true,
+                        // when the selection is dropped into a Group, add the selected Parts into that Group;
+                        // if it fails, cancel the tool, rolling back any changes
+                        mouseDrop: finishDrop,
+                        handlesDragDropForMembers: true,  // don't need to define handlers on member Nodes and Links
+                        // Groups containing Nodes lay out their members vertically
+                        layout:
+                            $(go.GridLayout,
+                                {
+                                    wrappingColumn: 1, alignment: go.GridLayout.Position,
+                                    cellSize: new go.Size(1, 1), spacing: new go.Size(4, 4)
+                                })
+                    },
+                    new go.Binding("background", "isHighlighted", function (h) {
+                        return h ? "rgba(255,0,0,0.2)" : "transparent";
+                    }).ofObject(),
+
+                    $(go.Shape, "Rectangle",
+                        // {fill: "rgba(0,0,0,0)", stroke: null, strokeWidth: 2}),
                         {fill: "rgba(255,102,102,0.3)", stroke: null, strokeWidth: 2}),
                     $(go.Panel, "Vertical",  // title above Placeholder
                         $(go.Placeholder,
                             {padding: 5, alignment: go.Spot.TopRight})
                     ),  // end Vertical Panel
                     new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify)
-
                 )
+
+
             var groupNode_selected=
                 $(go.Group, "Auto",
                     {
@@ -1473,8 +1515,52 @@ function init() {
                         mouseDrop: function (e, nod) {
                             finishDrop(e, nod.containingGroup);
                         }
+                    }
+                    // $(go.Shape, "Rectangle",
+                    //     {fill: "rgba(0,0,0,0)", stroke: null},
+                    //     // {fill: "rgba(255,102,102,0.3)", stroke: null},
+                    //     new go.Binding("fill", "color")),
+                    // $(go.Panel, "Table",
+                    //     {
+                    //         minSize: new go.Size(0, NaN),
+                    //         maxSize: new go.Size(100, NaN),
+                    //         margin: new go.Margin(6, 10, 0, 6),
+                    //         defaultAlignment: go.Spot.Left
+                    //     },
+                    //     $(go.RowColumnDefinition, {column: 2, width: 1}),
+                    //     $(go.TextBlock, // the name
+                    //         {
+                    //             row: 0, column: 0,
+                    //             font: "5pt Segoe UI,sans-serif",
+                    //             stroke: null,
+                    //             // stroke: "#000",
+                    //             editable: true, isMultiline: false,
+                    //         },
+                    //         new go.Binding("text", "text").makeTwoWay()),
+                    //     $(go.TextBlock,
+                    //         {
+                    //             row: 0, column: 1,
+                    //             font: "5pt Segoe UI,sans-serif",
+                    //             editable: true, isMultiline: false,
+                    //             stroke: null,
+                    //             // stroke: "#000",
+                    //             margin: new go.Margin(0, 0, 0, 3)
+                    //         },
+                    //         new go.Binding("text", "value").makeTwoWay())
+                    // ), // end Table Panel
+                    // new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify)
+
+                )
+
+            var attrNodeShow=
+                $(go.Node, "Auto",
+                    { // dropping on a Node is the same as dropping on its containing Group, even if it's top-level
+                        mouseDrop: function (e, nod) {
+                            finishDrop(e, nod.containingGroup);
+                        }
                     },
                     $(go.Shape, "Rectangle",
+                        // {fill: "rgba(0,0,0,0)", stroke: null},
                         {fill: "rgba(255,102,102,0.3)", stroke: null},
                         new go.Binding("fill", "color")),
                     $(go.Panel, "Table",
@@ -1489,7 +1575,8 @@ function init() {
                             {
                                 row: 0, column: 0,
                                 font: "5pt Segoe UI,sans-serif",
-                                stroke: "#fff",
+                                stroke: null,
+                                stroke: "#000",
                                 editable: true, isMultiline: false,
                             },
                             new go.Binding("text", "text").makeTwoWay()),
@@ -1498,13 +1585,15 @@ function init() {
                                 row: 0, column: 1,
                                 font: "5pt Segoe UI,sans-serif",
                                 editable: true, isMultiline: false,
-                                stroke: "#fff",
+                                stroke: null,
+                                // stroke: "#000",
                                 margin: new go.Margin(0, 0, 0, 3)
                             },
                             new go.Binding("text", "value").makeTwoWay())
                     ), // end Table Panel
                     new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify)
                 )
+
             var attrNode_selected=
                 $(go.Node, "Auto",
                     { // dropping on a Node is the same as dropping on its containing Group, even if it's top-level
@@ -1527,7 +1616,7 @@ function init() {
                             {
                                 row: 0, column: 0,
                                 font: "5pt Segoe UI,sans-serif",
-                                stroke: "#fff",
+                                stroke: "#000",
                                 editable: true, isMultiline: false,
                             },
                             new go.Binding("text", "text").makeTwoWay()),
@@ -1536,7 +1625,7 @@ function init() {
                                 row: 0, column: 1,
                                 font: "5pt Segoe UI,sans-serif",
                                 editable: true, isMultiline: false,
-                                stroke: "#fff",
+                                stroke: "#000",
                                 margin: new go.Margin(0, 0, 0, 3)
                             },
                             new go.Binding("text", "value").makeTwoWay())
@@ -1773,8 +1862,16 @@ function init() {
             myDiagram.nodeTemplateMap.add("Text_1", text);
             myDiagram.nodeTemplateMap.add("Text_selected", text_selected);
             myDiagram.nodeTemplateMap.add("BusbarSection_0",busbarsection);
-            myDiagram.groupTemplateMap.add("OfNodes",groupNode);
-            myDiagram.nodeTemplateMap.add("TextNode",attrNode);
+
+
+            if(localStorage.showAttr == "true"){
+                myDiagram.groupTemplateMap.add("OfNodes",groupNodeShow);
+                myDiagram.nodeTemplateMap.add("TextNode",attrNodeShow);
+                localStorage.showAttr = false;
+            }else{
+                myDiagram.groupTemplateMap.add("OfNodes",groupNode);
+                myDiagram.nodeTemplateMap.add("TextNode",attrNode);
+            }
             myDiagram.groupTemplateMap.add("OfNodes_selected",groupNode_selected);
             myDiagram.nodeTemplateMap.add("TextNode_selected",attrNode_selected);
             myDiagram.model.linkFromPortIdProperty="fromPort";
