@@ -157,7 +157,12 @@ function tree_click_swan(e,treeId, treeNode) {
     // localStorage.iconsId = selected_id;
     vm.sifanyObj = {id:node[0].id,name:node[0].name,code:node[0].code,icons:node[0].icons,remark:node[0].remark,irconurl:node[0].irconurl,gId:node[0].gId,modelId:node[0].modelId,onlineSimModelId:node[0].onlineSimModelId,offlineSimModelId:node[0].offlineSimModelId};
     localStorage.objId_g=vm.sifanyObj.id;;
-    localStorage.fileId=node[0].gId;
+    // localStorage.fileId=node[0].gId;
+    if(node[0].gModelId != null) {
+        localStorage.fileId = node[0].gModelId;
+    }else{
+        localStorage.fileId=node[0].gId;
+    }
     localStorage.iconsId = vm.sifanyObj.modelId;
     $('#config-swan-svg2').attr('src',$('#config-swan-svg2').attr('src')).trigger("reloadGrid");
     $('#Gfile').attr('src',$('#Gfile').attr('src')).trigger("reloadGrid");
@@ -602,7 +607,12 @@ function refreshNodeTree(nodes,id){
         // vm.sifanyClass.parentName = node.name;
         localStorage.iconsId = vm.sifanyObj.modelId;
         localStorage.objId_g=vm.sifanyObj.id;
-        localStorage.fileId=node.gId;
+        // localStorage.fileId=node.gId;
+        if(node.gModelId != null) {
+            localStorage.fileId = node.gModelId;
+        }else{
+            localStorage.fileId=node.gId;
+        }
         $('#config-swan-svg0').attr('src',$('#config-swan-svg0').attr('src'));
     })
 }

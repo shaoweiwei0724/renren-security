@@ -278,33 +278,73 @@ function init() {
                 ]
             }
             function changeText(node) {
-                var node_select=node.key;
-                var texts_select=myDiagram.findNodesByExample({"msp":node_select});
-                var attr_panel=myDiagram.findNodesByExample({"panel_objId":node_select});
-                var attr_text=myDiagram.findNodesByExample({"attr_objId":node_select});
-                if(node.isSelected){
-                    texts_select.each(function(text_select) {
+                // var node_select=node.key;
+                // var texts_select=myDiagram.findNodesByExample({"msp":node_select});
+                // var attr_panel=myDiagram.findNodesByExample({"panel_objId":node_select});
+                // var attr_text=myDiagram.findNodesByExample({"attr_objId":node_select});
+                // // if(node.isSelected) {
+                // if (texts_select.first() != null && texts_select.first().category == "Text_0") {
+                //         console.log("++++++++++++++++++++++++++++++++");
+                //         console.log(node_select);
+                //         console.log("++++++++++++++++++++++++++++++++");
+                //         console.log(texts_select.first().category);
+                //         console.log("++++++++++++++++++++++++++++++++");
+                //         texts_select.each(function (text_select) {
+                //             text_select.category = "Text_selected";
+                //         });
+                //         attr_panel.each(function (panel_select) {
+                //             panel_select.category = "OfNodes_selected";
+                //         });
+                //         attr_text.each(function (attr_select) {
+                //             attr_select.category = "TextNode_selected";
+                //         })
+                //     }
+                //     else {
+                //         texts_select.each(function (text_select) {
+                //             text_select.category = "Text_0";
+                //         });
+                //         attr_panel.each(function (panel_select) {
+                //             panel_select.category = "OfNodes";
+                //         });
+                //         attr_text.each(function (attr_select) {
+                //             attr_select.category = "TextNode";
+                //         })
+                // }
+
+            }
+
+            myDiagram.addDiagramListener("ObjectSingleClicked", function(e) { //点击事件
+                var node_select = e.subject.part.data.key || null;    //e.subject.part.data即获取到的data
+                var texts_select=myDiagram.findNodesByExample({"msp":node_select}) || null;
+                var attr_panel=myDiagram.findNodesByExample({"panel_objId":node_select})  || null;
+                var attr_text=myDiagram.findNodesByExample({"attr_objId":node_select})  || null;
+                if(texts_select != null && texts_select != "undefined"){ //如果点击的不是结点，会报错
+                // if(node.isSelected) {
+                if (texts_select.first() != null && texts_select.first().category == "Text_0") {
+                    texts_select.each(function (text_select) {
                         text_select.category = "Text_selected";
                     });
-                    attr_panel.each(function(panel_select) {
+                    attr_panel.each(function (panel_select) {
                         panel_select.category = "OfNodes_selected";
                     });
-                    attr_text.each(function(attr_select) {
+                    attr_text.each(function (attr_select) {
                         attr_select.category = "TextNode_selected";
                     })
                 }
                 else {
-                    texts_select.each(function(text_select){
-                        text_select.category="Text_0";
-                    } );
-                    attr_panel.each(function(panel_select) {
-                        panel_select.category= "OfNodes";
+                    texts_select.each(function (text_select) {
+                        text_select.category = "Text_0";
                     });
-                    attr_text.each(function(attr_select) {
+                    attr_panel.each(function (panel_select) {
+                        panel_select.category = "OfNodes";
+                    });
+                    attr_text.each(function (attr_select) {
                         attr_select.category = "TextNode";
                     })
                 }
-            }
+                }
+
+            });
             //定义母线节点
             for(var i=0;i<nodeDataArray.length;i++){
                 if(nodeDataArray[i].type=="BusbarSection"){
@@ -1392,7 +1432,7 @@ function init() {
                                 margin: 5,
                                 editable: false,
                                 opacity: 0.75,
-                                stroke: "#ff2236",
+                                stroke: "#ff1e3a",
                             },
                             new go.Binding("text", "ts").makeTwoWay(),
                             new go.Binding("font", "ff"),

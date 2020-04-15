@@ -88,7 +88,7 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
 
 
                 //获取连接线的属性
-                if(childElement.getName()=="ConnectLine"||childElement.getName()=="ACLineEnd"||childElement.getName()=="DCLineEnd") {
+                if(childElement.getName().equals("ConnectLine")||childElement.getName().equals("ACLineEnd")||childElement.getName().equals("DCLineEnd")) {
 
                     //获取属性名称
                     link.put("name", childElement.getName());
@@ -98,7 +98,7 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                     while (link_attrChildElement.hasNext()) {
                         Attribute attrChild = (Attribute) link_attrChildElement.next();
                         //将坐标的属性名换成points
-                        if(attrChild.getName()=="d") {
+                        if(attrChild.getName().equals("d")) {
                             String points=attrChild.getValue().replaceAll(" ",",");
                             String link_points[]=points.split(",|;");
                             double[] link_points_int=new double[link_points.length];
@@ -109,7 +109,7 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                             link.put("points",link_points_int);
                         }
                         //选择连接点
-                        else if(attrChild.getName()=="link"){
+                        else if(attrChild.getName().equals("link")){
                             //连接线的第一个节点
                             String link_node[]=attrChild.getValue().split(",|;");
                             link.put("from", link_node[2]);
@@ -120,15 +120,15 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                             link.put("toPort", link_node[4]);
                         }
                         //添加线色
-                        else if(attrChild.getName()=="lc"){
+                        else if(attrChild.getName().equals("lc")){
                             link.put("stroke_color","rgb("+attrChild.getValue()+")");
                         }
                         //添加填充色
-                        else if(attrChild.getName()=="fc"){
+                        else if(attrChild.getName().equals("fc")){
                             link.put("fill_color","rgb("+attrChild.getValue()+")");
                         }
                         //添加线的形式
-                        else if(attrChild.getName()=="ls"){
+                        else if(attrChild.getName().equals("ls")){
                             Integer ls=Integer.parseInt(attrChild.getValue());
                             JSONArray dash=new JSONArray();
                             if(ls==2){
@@ -160,7 +160,8 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                             else {}
                         }
                         //获取旋转的角度和比例
-                        else if(attrChild.getName()=="tfr"){
+//                        else if(attrChild.getName()=="tfr"){
+                        else if(attrChild.getName().equals("tfr")){
                             String value=attrChild.getValue();
                             //截取角度和比例
                             JSONArray tfr=new JSONArray();
@@ -209,7 +210,7 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
 
                     //获取元件属性
                     JSONArray attrs=new JSONArray();
-                    if(childElement.getName()!="Text"&&childElement.getName()!="Station"&&childElement.getName()!="EnergyConsumer"){
+                    if(!childElement.getName().equals("Text")&& !childElement.getName().equals("Station")&&!childElement.getName().equals("EnergyConsumer")){
                         id+=1;
                         List<SifanyClassEntity> classEntities =  sifanyClassService.list(new QueryWrapper<SifanyClassEntity>().eq("code",childElement.getName()));
                         if(classEntities.size()==0){
@@ -245,7 +246,7 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                         Attribute attrChild = (Attribute) node_attrChildElement.next();
 
                         //将坐标属性替换成pos(x,y)格式
-                        if (attrChild.getName() == "x") {
+                        if (attrChild.getName().equals("x")) {
                             if (lab == 1) {
                                 node.put("pos", attrChild.getValue() + " " + Y);
                             } else {
@@ -254,7 +255,7 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                             }
 
                         }
-                        else if (attrChild.getName() == "y") {
+                        else if (attrChild.getName().equals("y")) {
                             if (lab == 1) {
                                 node.put("pos", X + " " + attrChild.getValue());
                             } else {
@@ -262,7 +263,7 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                                 lab += 1;
                             }
                         }
-                        else if (attrChild.getName() == "x1"||attrChild.getName() == "x2") {
+                        else if (attrChild.getName().equals("x1")||attrChild.getName().equals("x2")) {
                             if (lab_x == 1) {
                                 x2=Double.parseDouble(attrChild.getValue());
                                 size_x=b_x-Double.parseDouble(attrChild.getValue());
@@ -282,7 +283,7 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                                 lab_x += 1;
                             }
                         }
-                        else if (attrChild.getName() == "y1"||attrChild.getName() == "y2") {
+                        else if (attrChild.getName().equals("y1")||attrChild.getName().equals("y2")) {
                             if (lab_y == 1) {
                                 y2=Double.parseDouble(attrChild.getValue());
                                 size_y=b_y-Double.parseDouble(attrChild.getValue());
@@ -305,25 +306,25 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                         }
 
                         //将id换成key
-                        else if (attrChild.getName() == "id") {
-                            if(childElement.getName()=="BusbarSection"){
+                        else if (attrChild.getName().equals("id")) {
+                            if(childElement.getName().equals("BusbarSection")){
                                 node.put("category", attrChild.getValue());
                             }
                             node.put("key", attrChild.getValue());
                         }
 
                         //添加线色
-                        else if (attrChild.getName() == "lc") {
+                        else if (attrChild.getName().equals("lc")) {
                             node.put("stroke_color", "rgb(" + attrChild.getValue() + ")");
                         }
 
                         //添加填充色
-                        else if (attrChild.getName() == "fc") {
+                        else if (attrChild.getName().equals("fc")) {
                             node.put("fill_color", "rgb(" + attrChild.getValue() + ")");
                         }
 
                         //添加线的形式
-                        else if (attrChild.getName() == "ls") {
+                        else if (attrChild.getName().equals("ls")) {
                             Integer ls = Integer.parseInt(attrChild.getValue());
                             JSONArray dash = new JSONArray();
                             if (ls == 2) {
@@ -353,7 +354,7 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                         }
 
                         //获取旋转的角度和图元的比例
-                        else if (attrChild.getName() == "tfr") {
+                        else if (attrChild.getName().equals("tfr")) {
                             String value = attrChild.getValue();
                             //截取角度和比例
                             JSONArray tfr = new JSONArray();
@@ -377,21 +378,21 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                         }
 
                         //获取节点的状态
-                        else if (attrChild.getName() == "sta") {
-                            if(childElement.getName()!="BusbarSection"&&childElement.getName()!="Station"&&childElement.getName()!="EnergyConsumer"){
+                        else if (attrChild.getName().equals("sta")) {
+                            if(!childElement.getName().equals("BusbarSection")&&!childElement.getName().equals("Station")&&!childElement.getName().equals("EnergyConsumer")){
                                 String category = node.getString("category");
                                 node.put("category", category + "_" + attrChild.getValue());
                             }
                         }
                         //获取Station的状态
-                        else if (attrChild.getName() == "shapeType") {
-                            if(childElement.getName()=="Station"){
+                        else if (attrChild.getName().equals("shapeType")) {
+                            if(childElement.getName().equals("Station")){
                                 String category = node.getString("category");
                                 node.put("category", category + "_" + attrChild.getValue());
                             }
                         }
-                        else if (attrChild.getName() == "stationType") {
-                            if(childElement.getName()=="Station"){
+                        else if (attrChild.getName().equals("stationType")) {
+                            if(childElement.getName().equals("Station")){
                                 String category = node.getString("category");
                                 String type= node.getString("type");
                                 node.put("type",attrChild.getValue()+ "_"+ type);
@@ -420,8 +421,8 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                             }
                         }
                         //获取EnergyConsumer的状态
-                        else if (attrChild.getName() == "loadType") {
-                            if(childElement.getName()=="EnergyConsumer"){
+                        else if (attrChild.getName().equals("loadType")) {
+                            if(childElement.getName().equals("EnergyConsumer")){
                                 String category = node.getString("category");
                                 String type=node.getString("type");
                                 node.put("type",type + "_" + attrChild.getValue());
@@ -457,7 +458,7 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
 
 
                     //保存母线的pin信息
-                    if(childElement.getName()=="BusbarSection"){
+                    if(childElement.getName().equals("BusbarSection")){
                         //获取pin信息
                         Iterator Bus_pins=childElement.elementIterator();
                         JSONArray Pin=new JSONArray();
@@ -473,18 +474,18 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
 
                                 Attribute pin_attr=(Attribute) pin_attrElement.next();
 
-                                if(pin_attr.getName()=="lc"){
+                                if(pin_attr.getName().equals("lc")){
                                     pin_port.put("stroke_color", "rgb(" + pin_attr.getValue() + ")");
                                 }
                                 //添加填充色
-                                else if (pin_attr.getName() == "fc") {
+                                else if (pin_attr.getName().equals("fc")) {
                                     pin_port.put("fill_color", "rgb(" + pin_attr.getValue() + ")");
                                 }
-                                else if(pin_attr.getName() == "r"){
+                                else if(pin_attr.getName().equals("r")){
                                     int r=Integer.parseInt(pin_attr.getValue())*2;
                                     pin_port.put("r", r);
                                 }
-                                else if (pin_attr.getName() == "cx") {
+                                else if (pin_attr.getName().equals("cx")) {
                                     if(x1!=0&&x2!=0){
                                         x_min=x1<x2?x1:x2;
                                         x_pin=x1>x2?x1-x2:x2-x1;
@@ -501,7 +502,7 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                                         pin_port.put("x_pin",x_pin);
                                     }
                                 }
-                                else if (pin_attr.getName() == "cy") {
+                                else if (pin_attr.getName().equals("cy")) {
                                     if(y1!=0&&y2!=0){
                                         y_min=y1<y2?y1:y2;
                                         y_pin=y1>y2?y1-y2:y2-y1;
