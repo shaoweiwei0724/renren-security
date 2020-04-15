@@ -8,7 +8,7 @@
 <div id="rrapp" v-cloak>
     <div v-show="showList" class="sifany-pm">
 
-        <table style="width: 100%;height: 99%">
+        <table style="width: 100%;height: 99%;">
             <tr>
                 <button id="btn" class="fa fa-arrow-right"></button>
                 <td id="menu" width="20%" style="vertical-align:top" ><!-- 选择父类-->
@@ -28,9 +28,9 @@
                         <input type="text"  v-model="sifanyObj.modelId"  placeholder="图标"/>
                     </div>
                     <a class="btn btn-primary" @click="copyurl"><i class="fa fa-plus"></i>&nbsp;分享组态</a>
-                    <div>
+                    <div >
                         <iframe src="${request.contextPath}/statics/gojs/samples/online_monitoring_show.html"
-                                width="100%" id="config-swan-svg0" height="600px"></iframe>
+                                width="99%" id="config-swan-svg0" onload="changeFrameHeight(this)"></iframe>
                     </div>
 
                 </td>

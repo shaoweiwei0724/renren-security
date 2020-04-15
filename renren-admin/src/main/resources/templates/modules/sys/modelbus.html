@@ -6,41 +6,41 @@
 </head>
 <body style="background: transparent">
 <div id="rrapp" v-cloak>
-    <div v-show="showList">
+    <div v-show="showList" class="sifany-pm">
 
-<table style="width: 100%;">
-    <tr>
-        <td id="menu" width="20%" style="vertical-align:top" ><!-- 选择父类-->
+        <table style="width: 100%;" class="sifany-pm">
+            <tr>
+                <td id="menu" width="20%" style="vertical-align:top" ><!-- 选择父类-->
 
-            <div id="classLayerMain" style="padding:10px;">
-                <ul id="classTreeMain" class="ztree"></ul>
-            </div>
-        </td>
+                    <div id="classLayerMain" style="padding:10px;">
+                        <ul id="classTreeMain" class="ztree"></ul>
+                    </div>
+                </td>
 
-        <td style="width: 80%">
+                <td style="width: 80%">
 
                     <#if shiro.hasPermission("sys:sifanyobjattr:save")>
                     <a class="btn btn-primary" @click="configmenu"><i class="fa fa-plus"></i>&nbsp;编辑</a>
-                    </#if>
-        <a class="btn btn-primary" @click="copyurl"><i class="fa fa-plus"></i>&nbsp;分享组态</a>
-                    <div  style="display: none">
-                        <input type="text"  v-model="sifanyObj.id"  placeholder="id"/>
-                        <input type="text"  v-model="sifanyObj.modelId"  placeholder="图标"/>
-                    </div>
-                    <div>
-                        <iframe src="${request.contextPath}/statics/gojs/samples/show.html"
-                                width="100%" id="config-swan-svg0" height="500px"></iframe>
-                    </div>
+                </#if>
+                <a class="btn btn-primary" @click="copyurl"><i class="fa fa-plus"></i>&nbsp;分享组态</a>
+                <div  style="display: none">
+                    <input type="text"  v-model="sifanyObj.id"  placeholder="id"/>
+                    <input type="text"  v-model="sifanyObj.modelId"  placeholder="图标"/>
+                </div>
+                <div>
+                    <iframe src="${request.contextPath}/statics/gojs/samples/show.html"
+                            width="99%" id="config-swan-svg0" onload="changeFrameHeight(this)"></iframe>
+                </div>
 
-        </td>
+                </td>
 
-        <!--<td width="500px" style="padding: 0;margin: 0;">
+                <!--<td width="500px" style="padding: 0;margin: 0;">
 
 
-        </td>-->
-    </tr>
-</table>
-</div>
+                </td>-->
+            </tr>
+        </table>
+    </div>
 </div>
 
 

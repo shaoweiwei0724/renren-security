@@ -140,7 +140,19 @@ $(function () {
     });
 });
 
+function changeFrameHeight(that){
+    //电脑屏幕高度-iframe上面其他组件的高度
+    //例:我这里iframe上面还有其他一些div组件，一共的高度是120，则减去120
+    $(that).height(document.documentElement.clientHeight - 45);
 
+}
+
+function changeFrameOffHeight(that){
+    //电脑屏幕高度-iframe上面其他组件的高度
+    //例:我这里iframe上面还有其他一些div组件，一共的高度是120，则减去120
+    $(that).height(document.documentElement.clientHeight - 80);
+
+}
 var selected_id=0;
 var ztreeMain;
 function tree_click_swan(e,treeId, treeNode) {
