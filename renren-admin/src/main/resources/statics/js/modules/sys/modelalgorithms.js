@@ -347,6 +347,7 @@ function refreshNode() {
 }
 function getGridDom(){
 
+
     var PostData={attrstypeId:2};
     $("#jqGridget").jqGrid({
         url: baseURL + 'sys/sifanyclassattr/list',
@@ -436,12 +437,13 @@ function getGridDom(){
             { label: '用户id', name: 'userId', index: 'user_id', width: 50 }
         ],
         viewrecords: true,
-        height: 400,
+     /*   width:window.screen.availWidth*"95%"-20,*/
+        height: $(window).height()-180,
         rowNum: 10,
         rowList : [10,30,50],
         rownumbers: true,
         rownumWidth: 25,
-        autowidth:true,
+        autowidth:false,
         multiselect: true,
         pager: "#jqGridPagerget",
         jsonReader : {
@@ -471,6 +473,7 @@ function getGridDom(){
 
 function getGridGatherDom(){
 
+
     var PostData={attrstypeId:1};
     $("#jqGridgather").jqGrid({
         url: baseURL + 'sys/sifanyclassattr/list',
@@ -478,16 +481,16 @@ function getGridGatherDom(){
         postData: PostData,
         colModel: [
             { label: 'id', name: 'id', index: 'id', width: 50, key: true ,hidden:true},
-            { label: '所属类id', name: 'classId', index: 'class_id', width: 40 },
+            { label: '所属类id', name: 'classId', index: 'class_id', width: 60 },
             { label: '属性名', name: 'name', index: 'name', width: 80 },
-            { label: '编码', name: 'code', index: 'code', width: 50 },
+            { label: '编码', name: 'code', index: 'code', width: 80 },
             { label: '类型id', name: 'typeId', index: 'type_id', width: 80 ,hidden:true},
             { label: '数据类型', name: 'dataType', index: 'data_type', width: 80 ,hidden:true},
             { label: '单位', name: 'unitId', index: 'unit_id', width: 80 ,hidden:true},
             { label: '备注', name: 'remark', index: 'remark', width: 80 },
             { label: '指标种类', name: 'attrstypeId', index: 'attrstype_id', width: 80 ,hidden:true},
 
-            { label: '创建时间', name: 'createTime', index: 'create_time', width: 60 , formatter: function(value, options, row){
+            { label: '创建时间', name: 'createTime', index: 'create_time', width: 80 , formatter: function(value, options, row){
                     if(value == null)
                         return "";
                     function TimeToDate(unixTime,type="Y-M-D H:i:s"){
@@ -557,15 +560,16 @@ function getGridGatherDom(){
                     }
                     return TimeToDate(value);
                 }},
-            { label: '用户id', name: 'userId', index: 'user_id', width: 50 }
+            { label: '用户id', name: 'userId', index: 'user_id', width: 70 }
         ],
         viewrecords: true,
-        height: 400,
+       /* width:window.screen.availWidth*"95%",*/
+        autowidth: true,
+        height: $(window).height()-180,
         rowNum: 10,
         rowList : [10,30,50],
         rownumbers: true,
         rownumWidth: 25,
-        autowidth:true,
         multiselect: true,
         pager: "#jqGridPagergather",
         jsonReader : {
@@ -583,6 +587,7 @@ function getGridGatherDom(){
         gridComplete:function(){
             //隐藏grid底部滚动条
             $("#jqGridgather").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+
         },
         onSelectRow: function (row) {
 
@@ -591,6 +596,9 @@ function getGridGatherDom(){
             console.log(rowData);
         }
     });
+
+
+
 }
 function reloadTree(){
     $.get(baseURL + "sys/sifanyclass/select", function(r){

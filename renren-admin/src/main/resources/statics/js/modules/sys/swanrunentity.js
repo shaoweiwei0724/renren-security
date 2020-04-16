@@ -125,7 +125,7 @@ $(function () {
 
         sortname: "start_time",
 		viewrecords: true,
-        height: 385,
+        height: $(window).height()-160,
         rowNum: 10,
 		rowList : [10,30,50],
         rownumbers: true, 

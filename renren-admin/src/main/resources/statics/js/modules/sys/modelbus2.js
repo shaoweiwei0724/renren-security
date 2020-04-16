@@ -148,7 +148,19 @@ $(function () {
         }
     }
 });
+function changeFrameHeight(that){
+    //电脑屏幕高度-iframe上面其他组件的高度
+    //例:我这里iframe上面还有其他一些div组件，一共的高度是120，则减去120
+    $(that).height(document.documentElement.clientHeight - 80);
 
+}
+
+function changeFrameCalHeight(that){
+    //电脑屏幕高度-iframe上面其他组件的高度
+    //例:我这里iframe上面还有其他一些div组件，一共的高度是120，则减去120
+    $(that).height(document.documentElement.clientHeight - 110);
+
+}
 
 var selected_id=0;
 var ztreeMain;
@@ -465,7 +477,7 @@ function getGridDom(){
             { label: '用户id', name: 'userId', index: 'user_id', width: 50 }
         ],
         viewrecords: true,
-        height: 400,
+        height: $(window).height()-180,
         rowNum: 10,
         rowList : [10,30,50],
         rownumbers: true,

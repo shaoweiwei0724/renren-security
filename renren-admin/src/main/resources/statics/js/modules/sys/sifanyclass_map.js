@@ -117,7 +117,7 @@ function loadGridSwan(){
             { label: '图标', name: 'icons', index: 'icons', width: 80 }
         ],
         viewrecords: true,
-        height: 385,
+        height: $(window).height()-160,
         rowNum: 10,
 
         rowList : [10,30,50],

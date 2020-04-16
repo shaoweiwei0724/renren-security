@@ -16,7 +16,7 @@ $(function () {
 			{ label: '执行时间', name: 'createTime', width: 80 }
         ],
 		viewrecords: true,
-        height: 385,
+        height: $(window).height()-160,
         rowNum: 10,
 		rowList : [10,30,50,100,200],
         rownumbers: true, 

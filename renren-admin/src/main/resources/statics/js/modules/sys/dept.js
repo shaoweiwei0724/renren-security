@@ -165,6 +165,7 @@ $(function () {
         table.setCodeField("deptId");
         table.setParentCodeField("parentId");
         table.setExpandAll(false);
+        table.setHeight($(window).height()-100);
         table.init();
         Dept.table = table;
     });

@@ -108,7 +108,7 @@ $(function () {
             { label: '用户id', name: 'userId', index: 'user_id', width: 50 }
         ],
         viewrecords: true,
-        height: 385,
+        height: $(window).height()-160,
         rowNum: 10,
         rowList : [10,30,50],
         rownumbers: true,
@@ -404,7 +404,7 @@ function getGridDom(){
             { label: '用户id', name: 'userId', index: 'user_id', width: 50 }
         ],
         viewrecords: true,
-        height: 385,
+        height: $(window).height()-160,
         rowNum: 10,
         rowList : [10,30,50],
         rownumbers: true,
@@ -528,7 +528,7 @@ function getGridGatherDom(){
             { label: '用户id', name: 'userId', index: 'user_id', width: 50 }
         ],
         viewrecords: true,
-        height: 385,
+        height: $(window).height()-160,
         rowNum: 10,
         rowList : [10,30,50],
         rownumbers: true,

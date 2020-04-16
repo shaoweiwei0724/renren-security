@@ -149,14 +149,14 @@
         </form>
     </div>
 </div>-->
-<div class="layui-tab-item">
-    <table>
+<div class="layui-tab-item" style="width:100%;">
+    <table style="width:100%;">
         <tr>
             <td>
-                <table id="jqGridget"></table>
+                <table id="jqGridget" style="width:100%;"></table>
                 <div id="jqGridPagerget"></div>
             </td>
-            <td>
+            <td style="vertical-align: top;">
 
                 <form>
                     <table class="param_update">
@@ -214,7 +214,7 @@
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <img style="height:250px;margin: 0 auto;" @click="editProject" src="../../statics/1234.png">
+                                <img style="height:180px;margin: 0 auto;" @click="editProject" src="../../statics/1234.png">
                             </td>
                         </tr>
                     </table>
@@ -238,7 +238,7 @@
     <!--</div>-->
     <div id="swan-svg-div">
         <iframe src="${request.contextPath}/statics/gojs/samples/productionProcess.html"
-                width="100%"  id="config-swan-svg2" height="500"></iframe>
+                width="100%"  id="config-swan-svg2" height="100%" onload="changeFrameHeight(this)"></iframe>
 
     </div>
 
@@ -251,7 +251,7 @@
         <button id="upload" style="color:black">上传G文件</button>
         <button onclick="showAttrs()" style="color:black" id="showAttr">显示元件属性</button>
         <iframe id="Gfile" src="${request.contextPath}/statics/gojs/samples/G_analysis.html"
-                width="100%" height="480"></iframe>
+                width="100%"height="100%" onload="changeFrameCalHeight(this)"></iframe>
     </div>
     <input id="save_id"  style="display:none">
 </div>
