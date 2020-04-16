@@ -56,7 +56,8 @@
                                     </div>
                                     <div class="div-inline">节点类型</div>
                                     <div class="div-inline">
-                                        <input  v-model="sifanyObj.nodeType" readonly="readonly" class="input_data"/>
+                                        <input  v-if = "sifanyObj.nodeType === '0'" value="组织机构"   readonly="readonly" class="input_data"/>
+                                        <input  v-else value="接线图"   readonly="readonly" class="input_data"/>
                                             <!--<option value="0">组织机构</option>-->
                                             <!--<option value="1">接线图</option>-->
                                         <!--</select>-->
