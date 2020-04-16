@@ -8,6 +8,9 @@ $(function () {
     $('#toUpdateBtn').click(function () {
         addHoverDom();
     });
+    $('#toUpdate2Btn').click(function () {
+        addHover2Dom();
+    });
     $(document).ready(function () {
         var element= layui.element;
         // element.render();
@@ -30,6 +33,7 @@ $(function () {
             { label: '备注', name: 'remark', index: 'remark', width: 80 },
             { label: '指标种类', name: 'attrstypeId', index: 'attrstype_id', width: 80 ,hidden:true},
             { label: '算法名称', name: 'algorithmName', index: 'algorithm_name', width: 80 ,hidden:true},
+            { label: '节点类型', name: 'nodeType', index: 'node_type', width: 80 ,hidden:true},
 
             { label: '创建时间', name: 'createTime', index: 'create_time', width: 80 , formatter: function(value, options, row){
                     if(value == null)
@@ -155,7 +159,7 @@ function tree_click_swan(e,treeId, treeNode) {
     selected_id=node[0].id;
     //localStorage.selectSceneId=selected_id;
     // localStorage.iconsId = selected_id;
-    vm.sifanyObj = {id:node[0].id,name:node[0].name,code:node[0].code,icons:node[0].icons,remark:node[0].remark,irconurl:node[0].irconurl,gId:node[0].gId,modelId:node[0].modelId,onlineSimModelId:node[0].onlineSimModelId,offlineSimModelId:node[0].offlineSimModelId};
+    vm.sifanyObj = {id:node[0].id,name:node[0].name,code:node[0].code,icons:node[0].icons,remark:node[0].remark,irconurl:node[0].irconurl,gId:node[0].gId,modelId:node[0].modelId,onlineSimModelId:node[0].onlineSimModelId,offlineSimModelId:node[0].offlineSimModelId,nodeType:node[0].nodeType};
     localStorage.objId_g=vm.sifanyObj.id;;
     // localStorage.fileId=node[0].gId;
     if(node[0].gModelId != null) {
@@ -226,10 +230,18 @@ function onRightClick(event, treeId, treeNode) {
         showContextMenu(treeNode.organId,treeNode.leaf, event.clientX -10, event.clientY -10);
     }
 }
-function addHoverDom() {
+function addHoverDom() { //添加组织机构
 //     //设置只有父节点可以新增 其它只能编辑
 
+
     var nodes = ztreeMain.getSelectedNodes();
+
+    // alert(nodes[0].parentId);
+    if(nodes[0].parentId != -1 && nodes[0].nodeType == "1"){
+
+        layer.alert("当前节点类型为接线图，不可以新增节点");
+        return;
+    }
 
     var newNode = { name: "example" };
 
@@ -239,7 +251,52 @@ function addHoverDom() {
     // }
 
     var url = "sys/sifanyobj/save";
-    vm.sifanyObj = {id:null,name:"example",parentId:nodes[0].id,orderNum:0,'icons':''};
+    vm.sifanyObj = {id:null,name:"example",parentId:nodes[0].id,orderNum:0,'icons':'',nodeType:"0"};
+    console.log("--------------------",vm.sifanyObjAttr);
+
+    $.ajax({
+        type: "POST",
+        url: baseURL + url,
+        contentType: "application/json",
+        data: JSON.stringify(vm.sifanyObj),
+        success: function(r){
+            if(r.code === 0){
+                layer.msg("操作成功", {icon: 1});
+                //vm.reload();
+                $('#treeContextMenu').hide();
+                refreshNodeTree(nodes,nodes[0].id)
+                // $(document).ready();
+
+            }else{
+                layer.alert(r.msg);
+
+            }
+        }
+    });
+}
+
+function addHover2Dom() { //添加接线图
+//     //设置只有父节点可以新增 其它只能编辑
+
+
+    var nodes = ztreeMain.getSelectedNodes();
+
+    // alert(nodes[0].parentId);
+    if(nodes[0].parentId != -1 && nodes[0].nodeType == "1"){
+
+        layer.alert("当前节点类型为接线图，不可以新增节点");
+        return;
+    }
+
+    var newNode = { name: "example" };
+
+    //4、把这个新节点添加到当前选中的节点下，作为它的子节点
+    // if(nodes.length > 0){
+    //     newNode = ztreeMain.addNodes(nodes[0], newNode);
+    // }
+
+    var url = "sys/sifanyobj/save";
+    vm.sifanyObj = {id:null,name:"example",parentId:nodes[0].id,orderNum:0,'icons':'',nodeType:"1"};
     console.log("--------------------",vm.sifanyObjAttr);
 
     $.ajax({
@@ -269,9 +326,10 @@ function deleteDom(){
         return ;
     }
 
+    var objId = nodes[0].objId;
     var parentId = nodes[0].parentId;
 
-    if(parentId==-1){
+    if(objId==-1){
         //  layer.msg("根节点不允许删除。", {icon: 1});
         layer.alert("根节点不允许删除。");
         return ;
@@ -294,7 +352,6 @@ function deleteDom(){
                         layer.msg("操作成功", {icon: 1});
                         refreshNodeTree(nodes,parentId);
                         $("#jqGrid").trigger("reloadGrid");
-
                     }else{
                         layer.alert(r.msg);
                     }
@@ -334,6 +391,7 @@ function getGridDom(){
             { label: '备注', name: 'remark', index: 'remark', width: 80 },
             { label: '指标种类', name: 'attrstypeId', index: 'attrstype_id', width: 80 ,hidden:true},
             { label: '算法名称', name: 'algorithmName', index: 'algorithm_name', width: 80 ,hidden:true},
+            { label: '节点类型', name: 'nodeType', index: 'node_type', width: 80 ,hidden:true},
             { label: '创建时间', name: 'createTime', index: 'create_time', width: 60 , formatter: function(value, options, row){
                     if(value == null)
                         return "";
@@ -458,6 +516,7 @@ function getGridGatherDom(){
             { label: '备注', name: 'remark', index: 'remark', width: 80 },
             { label: '指标种类', name: 'attrstypeId', index: 'attrstype_id', width: 80 ,hidden:true},
             { label: '算法名称', name: 'algorithmName', index: 'algorithm_name', width: 80 ,hidden:true},
+            { label: '节点类型', name: 'nodeType', index: 'node_type', width: 80 ,hidden:true},
             { label: '创建时间', name: 'createTime', index: 'create_time', width: 60 , formatter: function(value, options, row){
                     if(value == null)
                         return "";
@@ -583,7 +642,7 @@ function reloadTree(){
             //触发默认数据的click事件
             $("#"+node.tId+"_a").dblclick();//触发ztree点击事件
             console.log("5",node);
-            vm.sifanyObj = {id:node.id,name:node.name,code:node.code,icons:node.icons,remark:node.remark,irconurl:node.irconurl,gId:node.gId,modelId:node.modelId,onlineSimModelId:node.onlineSimModelId,offlineSimModelId:node.offlineSimModelId };
+            vm.sifanyObj = {id:node.id,name:node.name,code:node.code,icons:node.icons,remark:node.remark,irconurl:node.irconurl,gId:node.gId,modelId:node.modelId,onlineSimModelId:node.onlineSimModelId,offlineSimModelId:node.offlineSimModelId,nodeType:node.nodeType };
         }
         // vm.sifanyClass.parentName = node.name;
     })
@@ -602,7 +661,7 @@ function refreshNodeTree(nodes,id){
             //触发默认数据的click事件
             $("#"+node.tId+"_a").dblclick();//触发ztree点击事件
             console.log("6",node);
-            vm.sifanyObj = {id:node.id,name:node.name,code:node.code,icons:node.icons,remark:node.remark,irconurl:node.irconurl,gId:node.gId,modelId:node.modelId,onlineSimModelId:node[0].onlineSimModelId,offlineSimModelId:node[0].offlineSimModelId };
+            vm.sifanyObj = {id:node.id,name:node.name,code:node.code,icons:node.icons,remark:node.remark,irconurl:node.irconurl,gId:node.gId,modelId:node.modelId,onlineSimModelId:node[0].onlineSimModelId,offlineSimModelId:node[0].offlineSimModelId,nodeType:node.nodeType };
         }
         // vm.sifanyClass.parentName = node.name;
         localStorage.iconsId = vm.sifanyObj.modelId;
@@ -688,6 +747,7 @@ var vm = new Vue({
             offlineSimModelId:null,
             gModelId:null,
             gId:null,
+            nodeType:null,
         },
         sifanyObjAttrGather: {
             className:null,

@@ -78,9 +78,11 @@ public class SifanyObjController  extends AbstractController{
         List<SifanyObjEntity> objEntityLists = null;
         Long uerId = getUser().getUserId();
         if(getUser().getUsername().equals("admin"))
-            objEntityLists = sifanyObjService.swanList(new QueryWrapper());
+            objEntityLists = sifanyObjService.swanList(new QueryWrapper<SifanyObjEntity>().notLike("name","_entity"));
+//            objEntityLists = sifanyObjService.swanList(new QueryWrapper());
         else {
-            objEntityLists = sifanyObjService.swanList(new QueryWrapper<SifanyObjEntity>());
+            objEntityLists = sifanyObjService.swanList(new QueryWrapper<SifanyObjEntity>().notLike("name","_entity"));
+//            objEntityLists = sifanyObjService.swanList(new QueryWrapper<SifanyObjEntity>());
             objEntityLists = listDept(objEntityLists);
         }
         if(objEntityLists.size() == 0) {

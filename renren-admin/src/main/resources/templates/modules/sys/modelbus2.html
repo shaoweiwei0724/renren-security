@@ -20,7 +20,11 @@
                 <td width="80%"  class="sifany-pm">
 
                     <div  class="layui-tab layui-tab-card" style="height:100%;">
-                        <ul class="layui-tab-title">
+                        <ul v-if="sifanyObj.nodeType==='0'" class="layui-tab-title">
+                            <li class="layui-this"><span>指标</span></li>
+
+                        </ul>
+                        <ul v-else class="layui-tab-title">
                             <li class="layui-this"><span>指标</span></li>
                             <!-- <li id="svg-show-id" ><span>组态</span></li>
                              <li ><span>采集</span></li>-->
@@ -49,6 +53,13 @@
                                     </div>
                                     <div  class="div-inline">
                                         <img style="height:50px;width:50px;"  @click="menuTree" v-bind:src="sifanyObj.irconurl">
+                                    </div>
+                                    <div class="div-inline">节点类型</div>
+                                    <div class="div-inline">
+                                        <input  v-model="sifanyObj.nodeType" readonly="readonly" class="input_data"/>
+                                            <!--<option value="0">组织机构</option>-->
+                                            <!--<option value="1">接线图</option>-->
+                                        <!--</select>-->
                                     </div>
                                     <div class="div-inline">备注</div>
                                     <div class="div-inline">
@@ -370,7 +381,8 @@
 <div class="dropdown open" id="treeContextMenu" style="display: none;position: absolute">
     <ul class="dropdown-menu">
 
-        <li><a href="javascript:;" @click="addHoverDom" id="toUpdateBtn">增加子节点</a></li>
+        <li><a href="javascript:;" @click="addHoverDom" id="toUpdateBtn">增加组织机构</a></li>
+        <li><a href="javascript:;" @click="addHover2Dom" id="toUpdate2Btn">增加接线图</a></li>
         <li><a href="javascript:;" @click="deleteDom" id="deleteBtn" data-target="#confirmDialog" data-toggle="modal">删除</a></li>
         <li><a href="#" id="swan-cancel" >取消</a></li>
     </ul>

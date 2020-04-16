@@ -65,6 +65,8 @@ public class SifanyObjEntity implements Serializable {
 	private String code;
 	private String remark;
 
+	private String nodeType; //结点类型
+
 
 
 	@TableField(exist=false)
@@ -237,5 +239,13 @@ public class SifanyObjEntity implements Serializable {
 
 	public void setgModelId(String gModelId) {
 		this.gModelId = gModelId;
+	}
+
+	public String getNodeType() {
+		return nodeType;
+	}
+
+	public void setNodeType(String nodeType) {
+		this.nodeType = nodeType;
 	}
 }
