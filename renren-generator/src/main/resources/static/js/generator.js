@@ -9,7 +9,7 @@ $(function () {
 			{ label: '创建时间', name: 'createTime', width: 100 }
         ],
 		viewrecords: true,
-        height: 385,
+        height: $(window).height()-160,
         rowNum: 10,
 		rowList : [10,30,50,100,200],
         rownumbers: true, 

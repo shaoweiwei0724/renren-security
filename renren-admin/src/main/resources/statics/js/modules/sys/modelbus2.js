@@ -482,7 +482,7 @@ function getGridDom(){
         rowList : [10,30,50],
         rownumbers: true,
         rownumWidth: 25,
-        autowidth:true,
+        autowidth:false,
         multiselect: true,
         pager: "#jqGridPagerget",
         jsonReader : {

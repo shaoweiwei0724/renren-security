@@ -60,6 +60,7 @@ public class SifanyClassAttrEntity implements Serializable {
 	private Boolean onlineMonitor;
 	private Boolean onlineSim;
 	private Boolean offlineSim;
+	private Integer frequency;
 	public static long getSerialVersionUID() {
 		return serialVersionUID;
 	}
@@ -190,5 +191,13 @@ public class SifanyClassAttrEntity implements Serializable {
 
 	public void setOfflineSim(Boolean offlineSim) {
 		this.offlineSim = offlineSim;
+	}
+
+	public Integer getFrequency() {
+		return frequency;
+	}
+
+	public void setFrequency(Integer frequency) {
+		this.frequency = frequency;
 	}
 }

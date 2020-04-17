@@ -94,11 +94,11 @@ table>thead >tr:hover {
 }
 
 
-table>tbody>tr>td ,.treegrid-tbody td{
+/*table>tbody>tr>td ,.treegrid-tbody td{
     border: none;
     border-right: 1px solid #435d80;
     border-bottom: 1px solid #435d80;
-}
+}*/
 .table {
 
     border: 1px solid #435d80;

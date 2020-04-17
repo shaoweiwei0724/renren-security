@@ -21,6 +21,7 @@
         <result property="onlineMonitor" column="online_monitor"/>
         <result property="onlineSim" column="online_sim"/>
         <result property="offlineSim" column="offline_sim"/>
+        <result property="frequency" column="frequency"/>
     </resultMap>
 
     <select id="queryList" resultType="io.renren.modules.sys.entity.SifanyClassEntity">

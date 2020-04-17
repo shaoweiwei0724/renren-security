@@ -33,10 +33,10 @@
 
             <div  class="layui-tab layui-tab-card" style="height:100%;width:100%;">
                 <ul class="layui-tab-title">
-                    <li class="layui-this"><span>指标</span></li>
-                    <li ><span>组态</span></li>
-                    <li ><span>采集配置</span></li>
-                    <li ><span>计算配置</span></li>
+                    <li class="layui-this"><span>属性配置</span></li>
+                    <!--<li ><span>组态</span></li>-->
+                   <!-- <li ><span>采集配置</span></li>-->
+                    <li ><span>标签配置</span></li>
 
                 </ul>
                 <div class="layui-tab-content sifany-pm" id="sifany-main" style="width:100%;">
@@ -86,10 +86,10 @@
 
 
                     </div>
-                    <div class="layui-tab-item" >
-                    <!--<#if shiro.hasPermission("sys:sifanyclassattr:save")>-->
-                    <!--<a class="btn btn-primary" @click="configmenu"><i class="fa fa-plus"></i>&nbsp;编辑</a>-->
-                    <!--</#if>-->
+                    <!--<div class="layui-tab-item" >
+                    &lt;!&ndash;<#if shiro.hasPermission("sys:sifanyclassattr:save")>&ndash;&gt;
+                    &lt;!&ndash;<a class="btn btn-primary" @click="configmenu"><i class="fa fa-plus"></i>&nbsp;编辑</a>&ndash;&gt;
+                    &lt;!&ndash;</#if>&ndash;&gt;
                         <div>
 
                             <iframe src="${request.contextPath}/statics/gojs/samples/productionProcess.html"
@@ -100,16 +100,16 @@
                         <input type="text"  v-model="sifanyClass.id"  placeholder="id"/>
                         <input type="text"  v-model="sifanyClass.modelId"  placeholder="图标"/>
                     </div>
-                    <!--<div>-->
-                        <!--<iframe src="${request.contextPath}/statics/gojs/samples/model_show.html"-->
-                                <!--width="900px" id="config-swan-svg0" height="400px"></iframe>-->
-                    <!--</div>-->
-                    </div>
-                    <div class="layui-tab-item" width="100%">
+                    &lt;!&ndash;<div>&ndash;&gt;
+                        &lt;!&ndash;<iframe src="${request.contextPath}/statics/gojs/samples/model_show.html"&ndash;&gt;
+                                &lt;!&ndash;width="900px" id="config-swan-svg0" height="400px"></iframe>&ndash;&gt;
+                    &lt;!&ndash;</div>&ndash;&gt;
+                    </div>-->
+                   <!-- <div class="layui-tab-item" width="100%">
                         <table width="100%">
                             <tr>
                                 <td width="65%">
-                                    <table id="jqGridgather"></table>
+                                    <table id="jqGridgather" width="100%"></table>
                                     <div id="jqGridPagergather" ></div>
                                 </td>
                                 <td style="vertical-align: top;" width="35%">
@@ -173,7 +173,7 @@
                                 </td>
                             </tr>
                         </table>
-                    </div>
+                    </div>-->
                     <div class="layui-tab-item" width="100%">
                         <table width="100%">
                             <tr>
@@ -229,16 +229,30 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="2">
+                                                <td>
                                                     <div class="div-inline">备注</div>
                                                     <div class="div-inline">
                                                         <input type="text"  v-model="sifanyClassAttr.remark" readonly="readonly" placeholder="备注" style="width:160px;height:26px;"/>
                                                     </div>
                                                 </td>
+                                                <td >
+                                                    <div v-if="sifanyClassAttr.attrstypeId ==1||sifanyClassAttr.attrstypeId == 2">
+                                                    <div class="div-inline">频率</div>
+                                                    <div class="div-inline">
+                                                        <select  v-model="sifanyClassAttr.frequency" readonly="readonly" style="width:110px;height:26px;">
+                                                            <option value="0">1分钟</option>
+                                                            <option value="1">5分钟</option>
+                                                            <option value="2">15分钟</option>
+                                                            <option value="3">1小时</option>
+                                                            <option value="4">24小时</option>
+                                                        </select>
+                                                    </div>
+                                                    </div>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td colspan="2">
-                                                    <img style="height:180px;margin: 0 auto;" @click="editProject" src="../../statics/1234.png">
+                                                    <img v-if="sifanyClassAttr.attrstypeId == 2" style="height:180px;margin: 0 auto;" @click="editProject" src="../../statics/1234.png">
                                                 </td>
                                             </tr>
                                         </table>
@@ -324,6 +338,18 @@
                             <option value="0">输入类</option>
                             <option value="1">采集类</option>
                             <option value="2">计算类</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-2 control-label">频率</div>
+                    <div class="col-sm-10">
+                        <select class="form-control" v-model="sifanyClassAttr.frequency">
+                            <option value="0">1分钟</option>
+                            <option value="1">5分钟</option>
+                            <option value="2">15分钟</option>
+                            <option value="3">1小时</option>
+                            <option value="4">24小时</option>
                         </select>
                     </div>
                 </div>

@@ -71,13 +71,13 @@ function init() {
             // console.log("str:",str);
     var html="";
     for(var i=0;i< str.classLists.length;i++){
-       html+='<div style=" width: 200px;height:100%;">\n' +
-           '                <div onclick="setTab(\''+(i+1)+'\')"  style="float: top; cursor: pointer;z-index: 99;height: 50px; width: 200px;background: linear-gradient(to right,#363c6e,#081e41);vertical-align:middle ">\n' +
+       html+='<div style=" width: 100%;height:100%;">\n' +
+           '                <div onclick="setTab(\''+(i+1)+'\')"  style="float: top; cursor: pointer;z-index: 99;height: 50px; width: 100%;background: linear-gradient(to right,#363c6e,#081e41);vertical-align:middle ">\n' +
            '                    <input id="model'+(i+1)+'"  style=" background-color:transparent;cursor: pointer; font-size: large; width:50%; height:100%;margin-left:15%; border:0px; color:#EBEBEB"  value="'+str.classLists[i].name+'"/>\n' +
            '                    <img id="pic'+(i+1)+'" style=" width:13%;  margin-right: 10%"    src="images/back.png"/>\n' +
            '                    <!--                    <a target="_self" href="#" rel="external nofollow" rel="external nofollow" rel="external nofollow" onclick="setTab(\'one\',2,3)" id="one2">锅炉类</a>-->\n' +
            '                </div>\n' +
-           '                    <div   style="display: block; width: 200px;height:100%;" id="m'+(i+1)+'"><div id="myPaletteDiv'+(i+1)+'" style="height:100%;width: 200px;  border: solid 1px black;margin: 0 auto;background: rgb(1,10,34,0.3)"></div></div>\n' +
+           '                    <div   style="display: block; width: 100%;height:100%;" id="m'+(i+1)+'"><div id="myPaletteDiv'+(i+1)+'" style="height:100%;width: 100%;  border: solid 1px black;margin: 0 auto;background: rgb(1,10,34,0.3)"></div></div>\n' +
            '            </div>';
     }
     document.getElementById("bu").innerHTML=(html);

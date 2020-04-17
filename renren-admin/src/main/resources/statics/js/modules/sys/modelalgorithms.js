@@ -43,8 +43,10 @@ $(function () {
     reloadTree();
     getGridDom();
     getGridGatherDom();
+    var selected_id='18';
     $("#jqGrid").jqGrid({
         url: baseURL + 'sys/sifanyclassattr/list',
+        postData:{'selected_id':selected_id},
         datatype: "json",
         colModel: [
             { label: 'id', name: 'id', index: 'id', width: 50, key: true ,hidden:true},
@@ -193,7 +195,7 @@ function tree_click_swan(e,treeId, treeNode) {
     var page = $("#jqGridget").jqGrid('getGridParam','page');
     $("#jqGridget").jqGrid('setGridParam',{
         page:page,
-        postData:{'selected_id':selected_id,'attrstypeId':2},
+        postData:{'selected_id':selected_id},
     },true).trigger("reloadGrid");
     var page = $("#jqGridgather").jqGrid('getGridParam','page');
     $("#jqGridgather").jqGrid('setGridParam',{
@@ -347,12 +349,13 @@ function refreshNode() {
 }
 function getGridDom(){
 
+    var selected_id='18';
 
-    var PostData={attrstypeId:2};
+
     $("#jqGridget").jqGrid({
         url: baseURL + 'sys/sifanyclassattr/list',
+        postData:{'selected_id':selected_id},
         datatype: "json",
-        postData: PostData,
         colModel: [
             { label: 'id', name: 'id', index: 'id', width: 50, key: true ,hidden:true},
             { label: '所属类id', name: 'classId', index: 'class_id', width: 40 },
@@ -434,6 +437,7 @@ function getGridDom(){
                     }
                     return TimeToDate(value);
                 }},
+            { label: '频率', name: 'frequency', index: 'frequency', width: 50 ,hidden:true},
             { label: '用户id', name: 'userId', index: 'user_id', width: 50 }
         ],
         viewrecords: true,
@@ -465,8 +469,8 @@ function getGridDom(){
         onSelectRow: function (row) {
 
             var rowData = $("#jqGridget").getRowData(row);
-            vm.sifanyClassAttr = {name:rowData.name,code:rowData.code,unitId:rowData.unitId,attrstypeId:rowData.attrstypeId,remark:rowData.remark};
-            console.log(rowData);
+            vm.sifanyClassAttr = {name:rowData.name,code:rowData.code,unitId:rowData.unitId,attrstypeId:rowData.attrstypeId,remark:rowData.remark,frequency:rowData.frequency};
+
         }
     });
 }
@@ -563,8 +567,7 @@ function getGridGatherDom(){
             { label: '用户id', name: 'userId', index: 'user_id', width: 70 }
         ],
         viewrecords: true,
-       /* width:window.screen.availWidth*"95%",*/
-        autowidth: true,
+        autowidth: false,
         height: $(window).height()-180,
         rowNum: 10,
         rowList : [10,30,50],
@@ -694,7 +697,8 @@ var vm = new Vue({
             unitId:0,
             attrstypeId:0,
             remark:null,
-            name:null
+            name:null,
+            frequency:0
 
         },
         sifanyClass: {
@@ -771,10 +775,14 @@ var vm = new Vue({
         },
 
         add: function(){
+            var node = ztreeMain.getSelectedNodes();
+
+            selected_id=node[0].id;
+
             vm.showList = false;
             //  vm.devList = true;
             vm.title = "新增";
-            vm.sifanyClassAttr = {className:null,classId:selected_id,typeName:null,typeId:0,orderNum:0};
+            vm.sifanyClassAttr = {className:null,classId:selected_id,typeName:null,typeId:0,orderNum:0,frequency:0};
             vm.getSifanyclass();
             vm.getSifanyclassattr();
 
