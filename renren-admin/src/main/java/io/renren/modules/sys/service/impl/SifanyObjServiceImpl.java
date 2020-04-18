@@ -52,6 +52,15 @@ public class SifanyObjServiceImpl extends ServiceImpl<SifanyObjDao, SifanyObjEnt
         return new PageUtils(page);
     }
 
+    public PageUtils queryOrg(Map<String, Object> params) {
+        IPage<SifanyObjEntity> page = this.page(
+                new Query<SifanyObjEntity>().getPage(params),
+                new QueryWrapper<SifanyObjEntity>().eq("node_type",params.getOrDefault("node_type","0"))
+        );
+
+        return new PageUtils(page);
+    }
+
     @Override
     public PageUtils queryPageTree(Map<String, Object> params) {
         IPage<SifanyObjEntity> page = null;
@@ -79,6 +88,7 @@ public class SifanyObjServiceImpl extends ServiceImpl<SifanyObjDao, SifanyObjEnt
     public List<SifanyObjEntity> swanList(QueryWrapper queryWrapper) {
         return this.addIronUrl(this.list(queryWrapper));
     }
+
 
     private List<SifanyObjEntity> addIronUrl(List<SifanyObjEntity> sifanyObjEntities){
         for(SifanyObjEntity sifanyObjEntity:sifanyObjEntities){
@@ -165,12 +175,14 @@ public class SifanyObjServiceImpl extends ServiceImpl<SifanyObjDao, SifanyObjEnt
         JSONArray ironArray=irons.getJSONArray("node");
         Long time = System.currentTimeMillis();
 
+
         sifanyObjService.remove(new QueryWrapper<SifanyObjEntity>().eq("parent_id",sifanyObjEntity.getId()));
         for(int i=0;i<ironArray.size();i++){
             JSONObject iron=ironArray.getJSONObject(i);
             String type=iron.getString("type");
             String category=iron.getString("category");
             System.out.println("iron:"+iron.toJSONString());
+            try{
             if(!category.equals("OfNodes")&&!category.equals("TextNode")){
                     if(!type.equals("Text")){
                         SifanyClassEntity obj=sifanyClassService.getById(iron.getJSONObject("source").getLong("id"));
@@ -221,8 +233,12 @@ public class SifanyObjServiceImpl extends ServiceImpl<SifanyObjDao, SifanyObjEnt
                     }
 
             }
+            }catch (Exception e){
+                continue;
+            }
 
         }
+
     }
 
 

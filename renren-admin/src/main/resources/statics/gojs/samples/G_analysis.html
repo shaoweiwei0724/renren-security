@@ -17,9 +17,17 @@
 
 <body onload="init()" style="background:rgb(250,250,250);">
 <div id="sample">
-    <div style="width: 100%; height: 800px; display: flex; justify-content: space-between">
-        <div id="myDiagramDiv" style="flex-grow: 1; height: 800px; border: solid 1px black"></div>
-    </div>
+    <!--<div style="width: 100%; height: 800px; display: flex; justify-content: space-between">-->
+        <!--<div id="myDiagramDiv" style="flex-grow: 1; height: 800px; border: solid 1px black"></div>-->
+    <!--</div>-->
+    <div style="width: 100%; height: 100%; display: flex; justify-content: space-between">
+
+        <div id="bu" style=" overflow: auto; z-index:10;height:100%;width: 200px;color: #fff; margin-right: 2px;position: fixed">
+        </div>
+        <!--<div id="myPaletteDiv" style="margin-top:100px;z-index:99;height:400px;width: 200px; margin-right: 2px; background-color: whitesmoke; border: solid 1px black;position: fixed"></div>-->
+        <div id="myDiagramDiv" style="flex-grow: 1; height: 800px; border: solid 1px black;color: #fff;">
+        </div>
+</div>
 </div>
 <input id="swan-res"  style="display:none">
 </body>

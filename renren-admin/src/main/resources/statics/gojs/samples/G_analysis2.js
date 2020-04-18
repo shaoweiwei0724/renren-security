@@ -7,64 +7,6 @@ var swan_redis_data={};
 var text_node={};
 function init() {
 
-
-
-    model_icons=["Capacitor_P_0", "Capacitor_S_0","Breaker_1",
-        "Breaker_2","Disconnector_1","Disconnector_2","Disconnector_3","EnergyConsumer_0",
-        "EnergyConsumer_1","GeneralMeter_0", "Generator_0","GroundDisconnector_1","GroundDisconnector_2",
-        "Reactor_P_0", "Reactor_S_0", "1_Station_1", "1_Station_2",
-        "1_Station_3",  "2_Station_1", "2_Station_2", "2_Station_3",
-        "Transformer2_0","Transformer2_1","Transformer2_2","Transformer2_3","Transformer2_4",
-        "Transformer2_5","Transformer2_6","Transformer2_7","Transformer2_8","Transformer3_0",
-        "Transformer3_1","Transformer3_2","Transformer3_3","Transformer3_4","Transformer3_5","Transformer3_6",
-        "Transformer3_7","Transformer3_8","Transformer3_9","Transformer3_10","Transformer3_11",
-        "Transformer3_12","Transformer3_13","Transformer3_14","Transformer3_15","Transformer3_16",
-        "Transformer3_17","Transformer3_18","Transformer3_19","Transformer3_20","Transformer3_21",
-        "Transformer3_22","Transformer3_23","Transformer3_24","Transformer3_25","Transformer3_26"]
-
-    // model_icons=["Capacitor_P_0", "Capacitor_S_0","Breaker_1","Breaker_2"]
-    iconss={"Capacitor_P_0":"capacitor_p", "Capacitor_S_0":"capacitor_s", "Breaker_1":"cbreaker_0","Breaker_2":"cbreaker_1",
-        "Disconnector_1":"disconnector_1","Disconnector_2":"disconnector_2","Disconnector_3":"disconnector_3",
-        "EnergyConsumer_0":"energyConsumer_1", "EnergyConsumer_1" : "energyConsumer_0","GeneralMeter_0":"generalMeter", "Generator_0":"generator",
-        "GroundDisconnector_1":"groundDisconnector_1","GroundDisconnector_2":"groundDisconnector_2",
-        "Reactor_P_0":"reactor_p", "Reactor_S_0":"reactor_s",
-        "1_Station_1":"station_1_1", "1_Station_2":"station_1_2",
-        "1_Station_3":"station_1_3",  "2_Station_1":"station_2_1", "2_Station_2":"station_2_2", "2_Station_3":"station_2_3",
-        "Transformer2_0":"transformer2_0","Transformer2_1":"transformer2_1","Transformer2_2":"transformer2_2","Transformer2_3":"transformer2_3","Transformer2_4":"transformer2_4",
-        "Transformer2_5":"transformer2_5","Transformer2_6":"transformer2_6","Transformer2_7":"transformer2_7","Transformer2_8":"transformer2_8","Transformer3_0":"transformer3_0",
-        "Transformer3_1":"transformer3_1","Transformer3_2":"transformer3_2","Transformer3_3":"transformer3_3","Transformer3_4":"transformer3_4","Transformer3_5":"transformer3_5","Transformer3_6":"transformer3_6",
-        "Transformer3_7":"transformer3_7","Transformer3_8":"transformer3_8","Transformer3_9":"transformer3_9","Transformer3_10":"transformer3_10","Transformer3_11":"transformer3_11",
-        "Transformer3_12":"transformer3_12","Transformer3_13":"transformer3_13","Transformer3_14":"transformer3_14","Transformer3_15":"transformer3_15","Transformer3_16":"transformer3_16",
-        "Transformer3_17":"transformer3_17","Transformer3_18":"transformer3_18","Transformer3_19":"transformer3_19","Transformer3_20":"transformer3_20","Transformer3_21":"transformer3_21",
-        "Transformer3_22":"transformer3_22","Transformer3_23":"transformer3_23","Transformer3_24":"transformer3_24","Transformer3_25":"transformer3_25","Transformer3_26":"transformer3_26"}
-
-    var html = "";
-    divs = ["元件"]
-    for (var i = 0; i < divs.length; i++) {
-        html += '<div style=" width: 200px;height:100%;">\n' +
-            '                <div onclick="setTab(\'' + (i + 1) + '\')"  style="float: top; cursor: pointer;z-index: 99;height: 50px; width: 200px;background: linear-gradient(to right,#363c6e,#081e41);vertical-align:middle ">\n' +
-            '                    <input id="model' + (i + 1) + '"  style=" background-color:transparent;cursor: pointer; font-size: large; width:50%; height:100%;margin-left:15%; border:0px; color:#EBEBEB"  value="' + divs[i] + '"/>\n' +
-            '                    <img id="pic' + (i + 1) + '" style=" width:13%;  margin-right: 10%"    src="images/back.png"/>\n' +
-            '                    <!--                    <a target="_self" href="#" rel="external nofollow" rel="external nofollow" rel="external nofollow" onclick="setTab(\'one\',2,3)" id="one2">锅炉类</a>-->\n' +
-            '                </div>\n' +
-            '                    <div   style="display: block; width: 200px;height:100%;" id="m' + (i + 1) + '"><div id="myPaletteDiv' + (i + 1) + '" style="height:100%;width: 200px;  border: solid 1px black;margin: 0 auto;background: rgb(1,10,34,0.3)"></div></div>\n' +
-            '            </div>';
-    }
-    document.getElementById("bu").innerHTML = (html);
-
-    models=[];
-
-    for(var i in model_icons){
-        swan_model = {"icon":model_icons[i],category:model_icons[i], "iconWidth":30, "iconHeight":60,"color":model_icons[i],  "text":model_icons[i]};
-        models.push(swan_model);
-    }
-
-    function geoFunc(geoname) {
-        // alert(geoname);
-        var geo=iconss[geoname];
-        // return "images/" + geoname+".svg";
-        return "images/" + geo + ".svg";
-    }
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", baseIP + "sys/sifanygjson/getGJson?idd="+localStorage.fileId, true);
     xmlHttp.send();
@@ -261,32 +203,18 @@ function init() {
                 "\t M8,49.6l8-4.8 M24,49.6l-8-4.8 M16,35.2v9.6";
 
             var $ = go.GraphObject.make;  // for conciseness in defining templates
-            // var resizeAdornment =
-            //     $(go.Adornment, go.Panel.Spot,
-            //         $(go.Placeholder),
-            //         $(go.Shape,  // left resize handle
-            //             {
-            //                 alignment: go.Spot.Left, cursor: "col-resize",
-            //                 desiredSize: new go.Size(6, 6),
-            //             }),
-            //         $(go.Shape,  // right resize handle
-            //             {
-            //                 alignment: go.Spot.Right, cursor: "col-resize",
-            //                 desiredSize: new go.Size(6, 6),
-            //             })
-            //     );
             var resizeAdornment =
                 $(go.Adornment, go.Panel.Spot,
                     $(go.Placeholder),
                     $(go.Shape,  // left resize handle
                         {
                             alignment: go.Spot.Left, cursor: "col-resize",
-                            desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "dodgerblue"
+                            desiredSize: new go.Size(6, 6),
                         }),
                     $(go.Shape,  // right resize handle
                         {
                             alignment: go.Spot.Right, cursor: "col-resize",
-                            desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "dodgerblue"
+                            desiredSize: new go.Size(6, 6),
                         })
                 );
             function finishDrop(e, grp) {
@@ -303,38 +231,13 @@ function init() {
                         $(go.Shape, "LineV", { stroke: "rgb(0,0,0,0)", strokeWidth: 0.5 }),
                         $(go.Shape, "LineV", { stroke: "rgb(0,0,0,0)", strokeWidth: 0.5, interval: 10 })
                     ),
-                    // "draggingTool.isGridSnapEnabled": true,  // dragged nodes will snap to a grid of 10x10 cells
-                    // "undoManager.isEnabled": true,
-                    // "ChangedSelection": onSelectionChanged, // view additional information
-                    // "commandHandler.archetypeGroupData": {isGroup: true, category: "OfNodes"},
-                    // mouseDrop: function (e) {
-                    //     finishDrop(e, null);
-                    // },
-
-                    // "draggingTool.dragsLink": true,
-                    "draggingTool.isGridSnapEnabled": true,
-                    "linkingTool.isUnconnectedLinkValid": true,
-                    "linkingTool.portGravity": 20,
-                    "relinkingTool.isUnconnectedLinkValid": true,
-                    "relinkingTool.portGravity": 20,
-                    "relinkingTool.fromHandleArchetype":
-                        $(go.Shape, "Diamond", { segmentIndex: 0, cursor: "pointer", desiredSize: new go.Size(12, 12), fill: "tomato", stroke: "darkred" }),
-                    "relinkingTool.toHandleArchetype":
-                        $(go.Shape, "Diamond", { segmentIndex: -1, cursor: "pointer", desiredSize: new go.Size(12,12), fill: "darkred", stroke: "tomato" }),
-                    "linkReshapingTool.handleArchetype":
-                        $(go.Shape, "Diamond", { desiredSize: new go.Size(15, 15), fill: "lightblue", stroke: "deepskyblue" }),
-                    "rotatingTool.handleAngle": 270,
-                    "rotatingTool.handleDistance": 30,
-                    "rotatingTool.snapAngleMultiple": 15,
-                    "rotatingTool.snapAngleEpsilon": 15,
+                    "draggingTool.isGridSnapEnabled": true,  // dragged nodes will snap to a grid of 10x10 cells
                     "undoManager.isEnabled": true,
-                    maxSelectionCount: 1, // users can select only one part at a time
-                    "toolManager.hoverDelay": 10,  // how quickly tooltips are shown
-                    initialAutoScale: go.Diagram.Uniform,  // scale to show all of the contents
                     "ChangedSelection": onSelectionChanged, // view additional information
-                    scale:0.7,
-                    minScale:0.6,
-                    maxScale:1.5,
+                    "commandHandler.archetypeGroupData": {isGroup: true, category: "OfNodes"},
+                    mouseDrop: function (e) {
+                        finishDrop(e, null);
+                    },
                 });
 
             // A data binding conversion function. Given an name, return the Geometry.
@@ -353,99 +256,11 @@ function init() {
                     desiredSize: new go.Size(0.1, 0.1),
                 };
             }
-
-            function BarLink() {
-                go.Link.call(this);
-            }
-            go.Diagram.inherit(BarLink, go.Link);
-
-            BarLink.prototype.getLinkPoint = function(node, port, spot, from, ortho, othernode, otherport) {
-                // var r = new go.Rect(port.getDocumentPoint(go.Spot.TopLeft),
-                //     port.getDocumentPoint(go.Spot.BottomRight));
-                var r = new go.Rect(port.getDocumentPoint(go.Spot.TopLeft),
-                    port.getDocumentPoint(go.Spot.BottomRight));
-                var op = otherport.getDocumentPoint(go.Spot.Center);
-                var below = op.y > r.centerY;
-                var below_x=op.x>r.centerX;
-                var y = below ? r.bottom : r.top;
-                var x= below_x ? r.left:r.right;
-                if (node.category === "Exclusive1") {
-                    if(r.right-r.left<2){
-                        if(op.y<r.top+30) return new  go.Point(x, r.top+30);
-                        if(op.y>r.bottom-30) return new  go.Point(x, r.bottom-30);
-                        return new go.Point(x, op.y);
-                    }
-                    else if(r.top-r.bottom<2){
-                        if (op.x < r.left+30) return new go.Point(r.left+30, y);
-                        if (op.x > r.right-30) return new go.Point(r.right-30, y);
-                        return new go.Point(op.x, y);
-                    }
-                    else {
-                        return new go.Point(op.x, op.y);
-                    }
-                }
-                else {
-                    var lr = op.x - r.centerX;
-                    var hl = op.y - r.centerY;
-
-                    if (Math.abs(lr) > Math.abs(hl)) {
-                        if(op.x > r.centerX) return new go.Point(r.right, r.centerY);
-                        else return new go.Point(r.left, r.centerY);;
-                    }else{
-                        if(op.y > r.centerY) y = r.bottom;
-                        else y = r.top;
-                    }
-                    return new go.Point(r.centerX, y);
-                }
-            };
-//连接线与节点连接的角度
-            BarLink.prototype.getLinkDirection = function(node, port, linkpoint, spot, from, ortho, othernode, otherport) {
-                var p = port.getDocumentPoint(go.Spot.Center);
-                var r = new go.Rect(port.getDocumentPoint(go.Spot.TopLeft),
-                    port.getDocumentPoint(go.Spot.BottomRight));
-                var op = otherport.getDocumentPoint(go.Spot.Center);
-                var below = op.y > r.centerY;
-                var below_x=op.x>r.centerX;
-                var res=0;
-                if (node.category === "Exclusive1") {
-                    if(r.right-r.left<2){
-                        if(below_x) res=0;
-                        else res=180;
-                    }
-                    else if(r.top-r.bottom<2){
-                        if(below) res=90;
-                        else res=270;
-                    }
-                    else {
-                        res=0;
-                    }
-                }
-                else {
-                    var lr = op.x - r.centerX;
-                    var hl = op.y - r.centerY;
-
-                    if (Math.abs(lr) > Math.abs(hl)) {
-                        if(op.x > r.centerX) res=0;
-                        else res=180;
-                    }else{
-                        if(op.y > r.centerY) res=90;
-                        else res=270;
-                    }
-                }
-
-                // return below ? 90 : 270;
-                return res
-            };
             function NodeStyle() {
                 return[
                     {
                         locationObjectName: 'main',
-                        // locationSpot: go.Spot.TopLeft,
-                        resizeObjectName: "SHAPE", resizeAdornmentTemplate: resizeAdornment,
-                        // rotatable:true,
-                        fromLinkable: true, toLinkable: true,
-                        // locationSpot: go.Spot.Center,
-                        rotatable:true,
+                        locationSpot: go.Spot.TopLeft,
                     },
                     new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify),
                     new go.Binding("angle", "angle"),
@@ -547,9 +362,7 @@ function init() {
                                     cursor: "pointer",
                                     desiredSize: new go.Size(pin[j].r, pin[j].r),
                                 },
-                                { portId:pin[j].index ,alignment: new go.Spot(pin[j].x_pin, pin[j].y_pin)}
-                                // new go.Binding("desiredSize", "size", go.Size.parse).makeTwoWay(go.Size.stringify)
-                                )
+                                { portId:pin[j].index ,alignment: new go.Spot(pin[j].x_pin, pin[j].y_pin) ,})
 
                         Spots.push(Spot);
                     }
@@ -1958,229 +1771,24 @@ function init() {
                     )
                 ));
             //普通连线
-            // myDiagram.linkTemplate =
-            //     $(go.Link,
-            //         { relinkableFrom: true, relinkableTo: true, reshapable: true },
-            //         {
-            //             routing: go.Link.Normal,
-            //             curve: go.Link.JumpOver,
-            //             corner: 0,
-            //             toShortLength: 1
-            //         },
-            //         new go.Binding("points","points").makeTwoWay(),
-            //         $(go.Shape,
-            //             new go.Binding("stroke", "stroke_color"),
-            //             new go.Binding("fill", "fill_color"),
-            //             new go.Binding("strokeWidth", "lw"),
-            //             new go.Binding("strokeDashArray", "ls"),
-            //             new go.Binding("angle", "angle"),
-            //             new go.Binding("scale", "scale")
-            //         ));
-
-            function makePort(name, spot, output, input) {
-                // the port is basically just a small transparent square
-                return $(go.Shape, "Circle",
+            myDiagram.linkTemplate =
+                $(go.Link,
+                    { relinkableFrom: true, relinkableTo: true, reshapable: true },
                     {
-                        fill: null,  // not seen, by default; set to a translucent gray by showSmallPorts, defined below
-                        stroke: null,
-                        desiredSize: new go.Size(10, 10),
-                        alignment: spot,  // align the port on the main Shape
-                        alignmentFocus: spot,  // just inside the Shape
-                        portId: name,  // declare this object to be a "port"
-                        fromSpot: spot, toSpot: spot,  // declare where links may connect at this port
-                        fromLinkable: output, toLinkable: input,  // declare whether the user may draw links to/from here
-                        cursor: "pointer"  // show a different cursor to indicate potential link point
-                    });
-            }
-            function showSmallPorts(node, show) {
-                node.ports.each(function(port) {
-                    if (port.portId !== "") {  // don't change the default port, which is the big shape
-                        port.fill = show ? "rgba(0,0,0,.3)" : null;
-                    }
-                });
-            }
-
-            function spotConverter(dir) {
-                // console.log(dir)
-                if (dir === "top") return go.Spot.TopSide;
-                if (dir === "left") return go.Spot.LeftSide;
-                if (dir === "right") return go.Spot.RightSide;
-                if (dir === "bottom") return go.Spot.BottomSide;
-                if (dir === "rightsingle") return go.Spot.Right;
-            }
-
-            myDiagram.nodeTemplateMap.add("select",
-                $(go.Node, "Spot",
-                    // {
-                    //     selectionChanged: function(node) {
-                    //         console.log("node:",node);
-                    //         if(node.isSelected) {
-                    //             node.category="";
-                    //         } else {
-                    //             node.category="select";
-                    //         }
-                    //     }
-                    // },
-                    {
-                        locationObjectName: 'main',
-                        locationSpot: go.Spot.Center,
-                        rotatable:true,
+                        routing: go.Link.Normal,
+                        curve: go.Link.JumpOver,
+                        corner: 0,
+                        toShortLength: 1
                     },
-                    new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify),
-                    // The main element of the Spot panel is a vertical panel housing an optional icon,
-                    // plus a rectangle that acts as the port
-                    $(go.Panel, "Vertical",
-
-                        $(go.Picture,
-                            {
-                                desiredSize: new go.Size(100,100),
-                            },
-                            new go.Binding("source", "icon",geoFunc ))
-                    ),
-
-
-
-                    // four small named ports, one on each side:
-                    makePort("T", go.Spot.Top, true, true),
-                    makePort("L", go.Spot.Left, true, true),
-                    makePort("R", go.Spot.Right, true, true),
-                    makePort("B", go.Spot.Bottom, true, true),
-                    { // handle mouse enter/leave events to show/hide the ports
-                        mouseEnter: function(e, node) { showSmallPorts(node, true); },
-                        mouseLeave: function(e, node) { showSmallPorts(node, false); }
-                    }
-                ),
-                myDiagram.nodeTemplate =
-                    $(go.Node, "Spot",
-                        // {
-                        //     selectionChanged: function(node) {
-                        //         console.log("node:",node);
-                        //         if(node.isSelected) {
-                        //             node.category="";
-                        //         } else {
-                        //             node.category="select";
-                        //         }
-                        //     }
-                        // },
-                        {
-                            locationObjectName: 'main',
-                            locationSpot: go.Spot.Center,
-                            rotatable:true,
-                        },
-                        new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify),
-                        // The main element of the Spot panel is a vertical panel housing an optional icon,
-                        // plus a rectangle that acts as the port
-                        $(go.Panel, "Vertical",
-
-                            $(go.Picture,
-                                {
-                                    desiredSize: new go.Size(100,100),
-                                },
-                                new go.Binding("source", "icon",geoFunc )),
-                            $(go.TextBlock, {
-                                    font: "14px Lato, sans-serif",
-                                    textAlign: "center",
-                                    margin: 3,
-                                    stroke:"white",
-                                    editable:true,
-                                    maxSize: new go.Size(100, NaN),
-                                    alignment: go.Spot.TopCenter,
-                                    alignmentFocus: go.Spot.BottomCenter
-                                },
-
-                                new go.Binding("text"))
-
-                        ),
-
-
-
-                        // four small named ports, one on each side:
-                        makePort("T", go.Spot.Top, true, true),
-                        makePort("L", go.Spot.Left, true, true),
-                        makePort("R", go.Spot.Right, true, true),
-                        makePort("B", go.Spot.Bottom, true, true),
-                        { // handle mouse enter/leave events to show/hide the ports
-                            mouseEnter: function(e, node) { showSmallPorts(node, true); },
-                            mouseLeave: function(e, node) { showSmallPorts(node, false); }
-                        }
-                    ),
-
-
-
-                // Some links need a custom to or from spot
-                function spotConverter(dir) {
-                    // console.log(dir)
-                    if (dir === "top") return go.Spot.TopSide;
-                    if (dir === "left") return go.Spot.LeftSide;
-                    if (dir === "right") return go.Spot.RightSide;
-                    if (dir === "bottom") return go.Spot.BottomSide;
-                    if (dir === "rightsingle") return go.Spot.Right;
-                },
-
-                myDiagram.linkTemplate =
-                    $(BarLink, {
-                            routing: go.Link.Orthogonal,
-                            selectionAdorned: true,
-                            curve: go.Link.JumpOver,
-                            corner: 0, toShortLength: 4,
-                            relinkableFrom: true,
-                            relinkableTo: true,
-                            reshapable: true,
-                            resegmentable: true,
-                            // mouse-overs subtly highlight links:
-                            mouseEnter: function(e, link) { link.findObject("HIGHLIGHT").stroke = "rgba(30,144,255,0.2)"; },
-                            mouseLeave: function(e, link) { link.findObject("HIGHLIGHT").stroke = "transparent"; },
-                            selectionAdorned: true
-                        },
-                        // make sure links come in from the proper direction and go out appropriately
-                        new go.Binding("fromSpot", "fromSpot", function(d) { return spotConverter(d); }),
-                        new go.Binding("toSpot", "toSpot", function(d) { return spotConverter(d); }),
-                        new go.Binding("points").makeTwoWay(),
-                        // mark each Shape to get the link geometry with isPanelMain: true
-                        $(go.Shape, { isPanelMain: true,  strokeWidth: 2 },
-                            new go.Binding("stroke", "color"))
-                    ))
-
-
-            var myPalettes=[];
-            for(var i=0;i<divs.length;i++){
-                myPalette =
-                    $(go.Palette, "myPaletteDiv"+(i+1),  // must name or refer to the DIV HTML element
-                        {
-                            scale:0.7,
-                            maxSelectionCount: 1,
-                            nodeTemplateMap: myDiagram.nodeTemplateMap,  // share the templates used by myDiagram
-                            linkTemplate: // simplify the link template, just in this Palette
-                                $(go.Link,
-                                    { // because the GridLayout.alignment is Location and the nodes have locationSpot == Spot.Center,
-                                        // to line up the Link in the same manner we have to pretend the Link has the same location spot
-                                        locationSpot: go.Spot.Center,
-                                        selectionAdornmentTemplate:
-                                            $(go.Adornment, "Link",
-                                                { locationSpot: go.Spot.Center },
-                                                $(go.Shape,
-                                                    { isPanelMain: true, fill: null, stroke: "deepskyblue", strokeWidth: 0 }),
-                                                $(go.Shape,  // the arrowhead
-                                                    { toArrow: "Standard", stroke: null })
-                                            )
-                                    },
-                                    {
-                                        routing: go.Link.AvoidsNodes,
-                                        curve: go.Link.JumpOver,
-                                        corner: 5,
-                                        toShortLength: 4
-                                    },
-                                    new go.Binding("points"),
-                                    $(go.Shape,  // the link path shape
-                                        { isPanelMain: true, strokeWidth: 2 }),
-                                    $(go.Shape,  // the arrowhead
-                                        { toArrow: "Standard", stroke: null })
-                                ),
-                            model: new go.GraphLinksModel(models)
-
-                        });
-                myPalettes.push(myPalette)
-            }
+                    new go.Binding("points","points").makeTwoWay(),
+                    $(go.Shape,
+                        new go.Binding("stroke", "stroke_color"),
+                        new go.Binding("fill", "fill_color"),
+                        new go.Binding("strokeWidth", "lw"),
+                        new go.Binding("strokeDashArray", "ls"),
+                        new go.Binding("angle", "angle"),
+                        new go.Binding("scale", "scale")
+                    ));
             //监听元件拖动事件
             myDiagram.addModelChangedListener(function(evt) {
                 if (!evt.isTransactionFinished) return;
@@ -2331,23 +1939,6 @@ function loop() {
 }
 
 function onSelectionChanged(e) {
-}
-
-//tab切换效果
-function setTab(tab_id) {
-
-    var menu = document.getElementById("m" + tab_id);
-    var pic = document.getElementById("pic" + tab_id);
-    if(menu.style.display=="none")
-    {
-        menu.style.display="block";
-        pic.src="images/back.png";
-    }
-    else
-    {
-        menu.style.display="none";
-        pic.src="images/unfold.png";
-    }
 }
 //获取参数列表
 function getParaPanel() {

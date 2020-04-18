@@ -6,6 +6,7 @@ import java.util.*;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sun.xml.internal.stream.events.StartDocumentEvent;
+import io.renren.common.utils.Constant;
 import io.renren.common.utils.RedisUtils;
 import io.renren.common.validator.ValidatorUtils;
 import io.renren.modules.sys.entity.*;
@@ -60,6 +61,125 @@ public class SifanyObjController  extends AbstractController{
 
         return R.ok().put("page", page);
     }
+
+    /**
+     * 上级部门Id(管理员则为0)
+     */
+    @RequestMapping("/infoOrganization")
+    @RequiresPermissions("sys:sifanyobj:list")
+    public R infoOrganization(){
+        long deptId = 0;
+            List<SifanyObjEntity> objEntityLists = sifanyObjService.swanList(new QueryWrapper<SifanyObjEntity>().eq("node_type","0"));
+            Long parentId = null;
+            for(SifanyObjEntity sysDeptEntity : objEntityLists){
+                if(parentId == null){
+                    parentId = sysDeptEntity.getParentId();
+                    continue;
+                }
+
+                if(parentId > sysDeptEntity.getParentId().longValue()){
+                    parentId = sysDeptEntity.getParentId();
+                }
+            }
+            deptId = parentId;
+
+
+        return R.ok().put("deptId", deptId);
+    }
+
+    /**
+     * //组织机构列表
+     * @param params
+     * @return
+     */
+
+//    @RequestMapping("/listOrganization")
+//    @RequiresPermissions("sys:sifanyobj:list")
+//    public R listOrganization(@RequestParam Map<String, Object> params){
+//        PageUtils page = sifanyObjService.queryOrg(params);
+//        return R.ok().put("page", page);
+//    }
+
+    @RequestMapping("/listOrganization")
+    @RequiresPermissions("sys:sifanyobj:list")
+    public List<SifanyObjEntity> listOrganization(){
+        List<SifanyObjEntity> objEntityLists = null;
+        Long uerId = getUser().getUserId();
+        if(getUser().getUsername().equals("admin"))
+            objEntityLists = sifanyObjService.swanList(new QueryWrapper<SifanyObjEntity>().eq("node_type","0"));
+//            objEntityLists = sifanyObjService.swanList(new QueryWrapper());
+        else {
+            objEntityLists = sifanyObjService.swanList(new QueryWrapper<SifanyObjEntity>().eq("node_type","0"));
+//            objEntityLists = sifanyObjService.swanList(new QueryWrapper<SifanyObjEntity>());
+            objEntityLists = listDept(objEntityLists);
+        }
+//        return R.ok().put("organizationLists", objEntityLists);
+        return objEntityLists;
+    }
+
+
+    /**
+     * 添加组织机构
+     * @param sifanyObj
+     * @return
+
+     */
+    @RequestMapping("/saveOrganization")
+    @RequiresPermissions("sys:sifanyobj:save")
+    public R saveOrganization(@RequestBody SifanyObjEntity sifanyObj) {
+        sifanyObj.setNodeType("0");
+        sifanyObjService.save(sifanyObj);
+        return R.ok();
+    }
+
+    /**
+     * 修改组织机构
+     * @param sifanyObj
+     * @return
+
+     */
+    @RequestMapping("/updateOrganization")
+    @RequiresPermissions("sys:sifanyobj:save")
+    public R updateOrganization(@RequestBody SifanyObjEntity sifanyObj) {
+        ValidatorUtils.validateEntity(sifanyObj);
+        sifanyObjService.updateById(sifanyObj);
+
+        return R.ok();
+    }
+    /**
+     * 组织机构树
+     */
+    @RequestMapping("/selectOrganization")
+    public R selectOrganization(){
+
+        List<SifanyObjEntity> objEntityLists = null;
+        Long uerId = getUser().getUserId();
+        if(getUser().getUsername().equals("admin"))
+            objEntityLists = sifanyObjService.swanList(new QueryWrapper<SifanyObjEntity>().eq("node_type","0"));
+//            objEntityLists = sifanyObjService.swanList(new QueryWrapper());
+        else {
+            objEntityLists = sifanyObjService.swanList(new QueryWrapper<SifanyObjEntity>().eq("node_type","0"));
+//            objEntityLists = sifanyObjService.swanList(new QueryWrapper<SifanyObjEntity>());
+            objEntityLists = listDept(objEntityLists);
+        }
+        return R.ok().put("organizationLists", objEntityLists);
+    }
+
+    /**
+     * 删除组织机构
+     */
+    @RequestMapping("/deleteOrganization")
+    @RequiresPermissions("sys:sifanyobj:delete")
+    public R deleteOrganization(Long sifanyobjId){
+        List<SifanyObjEntity> sifanyobjList = sifanyObjService.swanList(new QueryWrapper<SifanyObjEntity>().eq("node_type","0").eq("parent_id",sifanyobjId));
+        if(sifanyobjList.size() > 0){
+            return R.error("请先删除子部门");
+        }
+        sifanyObjService.removeById(sifanyobjId);
+
+        return R.ok();
+    }
+
 
     /**
      * select
@@ -129,6 +249,8 @@ public class SifanyObjController  extends AbstractController{
 
         return R.ok().put("sifanyObj", sifanyObj);
     }
+
+
 
     /**
      * 保存

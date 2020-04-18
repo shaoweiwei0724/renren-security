@@ -20,6 +20,7 @@ public interface SifanyObjService extends IService<SifanyObjEntity> {
 
     PageUtils queryPageTree(Map<String, Object> params);
     PageUtils queryPage(Map<String, Object> params);
+    PageUtils queryOrg(Map<String, Object> params);
     List<SifanyObjEntity> swanList(QueryWrapper queryWrapper);
 
     List<SifanyObjEntity> queryList(Map<String, Object> map);
@@ -27,6 +28,5 @@ public interface SifanyObjService extends IService<SifanyObjEntity> {
     List<SifanyObjEntity> scadalist();
     void toObj(SifanyObjEntity sifanyObjEntity);
     void GtoObj(SifanyObjEntity sifanyObjEntity);
-
 }
 

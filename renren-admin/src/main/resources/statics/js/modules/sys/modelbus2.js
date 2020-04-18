@@ -172,7 +172,8 @@ function tree_click_swan(e,treeId, treeNode) {
     //localStorage.selectSceneId=selected_id;
     // localStorage.iconsId = selected_id;
     vm.sifanyObj = {id:node[0].id,name:node[0].name,code:node[0].code,icons:node[0].icons,remark:node[0].remark,irconurl:node[0].irconurl,gId:node[0].gId,modelId:node[0].modelId,onlineSimModelId:node[0].onlineSimModelId,offlineSimModelId:node[0].offlineSimModelId,nodeType:node[0].nodeType};
-    localStorage.objId_g=vm.sifanyObj.id;;
+
+    localStorage.objId_g=vm.sifanyObj.id;
     // localStorage.fileId=node[0].gId;
     if(node[0].gModelId != null) {
         localStorage.fileId = node[0].gModelId;
