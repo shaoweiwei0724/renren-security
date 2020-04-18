@@ -72,9 +72,10 @@ function init() {
     var html="";
     for(var i=0;i< str.classLists.length;i++){
        html+='<div style=" width: 100%;height:100%;">\n' +
-           '                <div onclick="setTab(\''+(i+1)+'\')"  style="float: top; cursor: pointer;z-index: 99;height: 50px; width: 100%;background: linear-gradient(to right,#363c6e,#081e41);vertical-align:middle ">\n' +
-           '                    <input id="model'+(i+1)+'"  style=" background-color:transparent;cursor: pointer; font-size: large; width:50%; height:100%;margin-left:15%; border:0px; color:#EBEBEB"  value="'+str.classLists[i].name+'"/>\n' +
-           '                    <img id="pic'+(i+1)+'" style=" width:13%;  margin-right: 10%"    src="images/back.png"/>\n' +
+           '                <div  style="float: top; cursor: pointer;z-index: 99;height: 40px; width: 100%;background: linear-gradient(to right,#363c6e,#081e41);vertical-align:middle ">\n' +
+           '                    <input id="model'+(i+1)+'" readonly="readonly" style=" background-color:transparent;cursor: pointer; left: 2px;font-size: large; width:20%; height:100%;margin-left:5%; border:0px; color:#EBEBEB"  value="'+str.classLists[i].name+'"/>\n' +
+            '                   <span onclick="setBigScreen()" style=" background-color:transparent;cursor: pointer; left: 2px;font-size: large; width:20%; height:100%;margin-left:5%; border:0px; color:#EBEBEB" >大屏</span>\n' +
+           '                    <img id="pic'+(i+1)+'" style=" width:13%; margin-left: 10%; margin-right: 10%;"  onclick="setTab(\''+(i+1)+'\')"  src="images/back.png"/>\n' +
            '                    <!--                    <a target="_self" href="#" rel="external nofollow" rel="external nofollow" rel="external nofollow" onclick="setTab(\'one\',2,3)" id="one2">锅炉类</a>-->\n' +
            '                </div>\n' +
            '                    <div   style="display: block; width: 100%;height:100%;" id="m'+(i+1)+'"><div id="myPaletteDiv'+(i+1)+'" style="height:100%;width: 100%;  border: solid 1px black;margin: 0 auto;background: rgb(1,10,34,0.3)"></div></div>\n' +
@@ -94,10 +95,10 @@ function init() {
             var child_i=swan_obj_list_i['childs'][i];
             icon[child_i.id]=child_i.icons;
             if(child_i.name=="母线"){
-                swan_obj_i.push({"icon":child_i.id, "iconWidth":30, "iconHeight":60, "category":"Exclusive1", "text":child_i.name, "source":child_i});
+                swan_obj_i.push({"icon":child_i.id, "iconWidth":15, "iconHeight":30, "category":"Exclusive1", "text":child_i.name, "source":child_i});
             }
             else {
-                swan_obj_i.push({"icon":child_i.id, "iconWidth":30, "iconHeight":60,  "text":child_i.name, "source":child_i});
+                swan_obj_i.push({"icon":child_i.id, "iconWidth":15, "iconHeight":30,  "text":child_i.name, "source":child_i});
             }
 
                     }
@@ -207,7 +208,7 @@ function init() {
                     $(go.Shape,
                         { // horizontal line stretched to an initial width of 200
                             name: "SHAPE", geometryString: "M0 0 L100 0 H1",
-                            fill: "transparent", stroke: "#2875ff", width: 100
+                            fill: "transparent", stroke: "#ffffff", width: 100
                         },
                         new go.Binding("desiredSize", "size", go.Size.parse).makeTwoWay(go.Size.stringify)),
             $(go.TextBlock, {
@@ -409,6 +410,12 @@ function init() {
         loop();
         }
     };
+
+
+   /*
+    $('#btnset').click(function () {
+
+    });*/
 }
 
 
@@ -528,7 +535,23 @@ function loop() {
         loop();
     }, 60);
 }
+var div1State = 1;
+function setBigScreen() {
 
+    if(div1State){
+
+
+        launchFullScreen(window.document.querySelector('#sample'));
+        this.title = "点击退出"
+        div1State = 0;
+
+    }else{
+
+        exitFullscreen(window.document.querySelector('#sample'));
+        this.title = "点击全屏预览"
+        div1State = 1;
+    }
+}
 
 function onSelectionChanged(e) {}
 //tab切换效果
@@ -547,6 +570,40 @@ function setTab(tab_id) {
         pic.src="images/unfold.png";
     }
 }
+function initSize(){
+    var a = document.getElementById("swan-main");//获取div块对象
+    var Height=document.documentElement.clientHeight-90;//取得浏览器页面可视区域的宽度
+    var Width=document.documentElement.clientWidth;//取得浏览器页面可视区域的宽度
+    // var gao1 = a.offsetHeight;//获取div块的高度值
+    // var gao2 = a.offsetWidth;//获取div块的宽度值
+    // var Sgao1= 2*(Height - gao1)/5;
+    // var Sgao2= (Width - gao2)/2+"px";
+    a.style.height=Height+"px";
+}
+// 开启全屏
+function launchFullScreen(element) {
+    if(element.requestFullScreen) {
+        element.requestFullScreen();
+    }else if(element.mozRequestFullScreen) { //兼容moz
+        element.mozRequestFullScreen();
+    }else if(element.webkitRequestFullScreen) { //兼容webkit
+        element.webkitRequestFullScreen();
+    }
+
+}
+//退出全屏
+function exitFullscreen() {
+    console.log('推出全屏')
+    if(document.exitFullscreen) {
+        document.exitFullscreen();
+    }else if(document.mozCancelFullScreen) { //兼容moz
+        document.mozCancelFullScreen();
+    }else if(document.webkitExitFullscreen) { //兼容webkit
+        document.webkitExitFullscreen();
+    }
+
+}
+
 
 //保存模型弹出框
 function save() {

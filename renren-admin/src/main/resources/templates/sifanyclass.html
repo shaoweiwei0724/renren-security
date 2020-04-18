@@ -40,19 +40,35 @@
     }
 </style>
 <script>
+    function initSize(){
+        var a = document.getElementById("swan-main");//获取div块对象
+        var Height=document.documentElement.clientHeight-90;//取得浏览器页面可视区域的宽度
+        var Width=document.documentElement.clientWidth;//取得浏览器页面可视区域的宽度
+        // var gao1 = a.offsetHeight;//获取div块的高度值
+        // var gao2 = a.offsetWidth;//获取div块的宽度值
+        // var Sgao1= 2*(Height - gao1)/5;
+        // var Sgao2= (Width - gao2)/2+"px";
+        a.style.height=Height+"px";
+    }
     $(document).ready(function(){
         $('.swan-home').click(function(){
             location.href=$(this).attr('href')
         })
 
-            var a = document.getElementById("swan-main");//获取div块对象
-            var Height=document.documentElement.clientHeight-90;//取得浏览器页面可视区域的宽度
-            var Width=document.documentElement.clientWidth;//取得浏览器页面可视区域的宽度
-            // var gao1 = a.offsetHeight;//获取div块的高度值
-            // var gao2 = a.offsetWidth;//获取div块的宽度值
-            // var Sgao1= 2*(Height - gao1)/5;
-            // var Sgao2= (Width - gao2)/2+"px";
-            a.style.height=Height+"px";
+        $(document).keyup(function(event){
+
+            switch(event.keyCode) {
+                case 27:
+                    initSize();
+                default:
+                    break;
+
+            }
+        });
+          initSize();
+        setInterval(function () {
+            initSize();
+        },1500)
             // a.style.left=Sgao2;
 
     })

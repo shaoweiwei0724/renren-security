@@ -95,3 +95,15 @@
     text-decoration: none;
     color: #2D2C3B;
 }
+:-webkit-full-screen video {
+    width: 100%;
+    height: 100%;
+    background:url(../../images/menu.png) no-repeat;
+    background-size: 100% 100%;
+}
+:fullscreen { /* spec */
+    width: 100%;
+    height: 100%;
+    background:url(../../images/menu.png) no-repeat;
+    background-size: 100% 100%;
+}
