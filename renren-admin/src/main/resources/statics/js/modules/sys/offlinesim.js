@@ -161,6 +161,8 @@ function tree_click_swan(e,treeId, treeNode) {
     console.log(node);
     selected_id=node[0].id;
     localStorage.fileId = node[0].gModelId;
+    localStorage.onlineSimModelId=node[0].onlineSimModelId;
+    localStorage.offlineSimModelId=node[0].offlineSimModelId;
     localStorage.selectSceneId=selected_id;
     vm.sifanyObj = {id:node[0].id,name:node[0].name,code:node[0].code,icons:node[0].icons,remark:node[0].remark,irconurl:node[0].irconurl,modelId:node[0].modelId };
     localStorage.iconsId = vm.sifanyObj.modelId;
