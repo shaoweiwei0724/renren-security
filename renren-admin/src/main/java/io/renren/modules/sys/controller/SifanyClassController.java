@@ -3,6 +3,7 @@ package io.renren.modules.sys.controller;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -14,6 +15,7 @@ import io.renren.modules.sys.entity.*;
 import io.renren.modules.sys.service.SifanyClassAttrService;
 import io.renren.modules.sys.service.SifanyDataImageService;
 import io.renren.modules.sys.service.SifanyDataTextService;
+import io.renren.modules.sys.vo.AttrVO;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.jaxb.SpringDataJaxb;
@@ -103,17 +105,42 @@ public class SifanyClassController extends AbstractController{
         return R.ok();
     }
 
-
+    /**获取元件*/
+    private List<SifanyClassEntity> getChildAll(){
+        return sifanyClassService.list();
+    }
+    /** 获取元件属性*/
+    private List<SifanyClassAttrEntity> getSifanyClassAttr(){
+        return sifanyClassAttrService.list();
+    }
     /**
      * 选择父类(添加、修改菜单)
      */
     @RequestMapping("/select/{id}")
     public R select(@PathVariable("id") Long id){
-        List<SifanyClassEntity> sifanyClassEntities=getChilds(id);
-        for(SifanyClassEntity sifanyClassEntity:sifanyClassEntities){
-            sifanyClassEntity.setChilds(this.getChilds(sifanyClassEntity.getId()));
-        }
-//        List<SifanyClassEntity> classLists = sifanyClassService.queryList(new HashMap<String, Object>());
+        List<SifanyClassEntity> childAll=this.getChildAll();
+        //获取所有元件属性
+        List<SifanyClassAttrEntity> sifanyClassAttr = this.getSifanyClassAttr();
+
+        Map<Long, List<SifanyClassEntity>> listMap = childAll.stream().collect(Collectors.groupingBy(SifanyClassEntity::getParentId));
+        Map<Long, List<SifanyClassAttrEntity>> attrListMap = sifanyClassAttr.stream().collect(Collectors.groupingBy(SifanyClassAttrEntity::getClassId));
+
+        List<SifanyClassEntity> sifanyClassEntities = listMap.get(id);
+        sifanyClassEntities.stream().forEach(obj->{
+            List<SifanyClassEntity> classEntities = listMap.get(obj.getId());
+            List<AttrVO> attrVOS = new ArrayList<>();
+            classEntities.stream().forEach(obj2->{
+                List<SifanyClassAttrEntity> attr2 = attrListMap.get(obj2.getId());
+                attr2.forEach(obj3->{
+                    AttrVO attrVO = new AttrVO();
+                    attrVO.setId(obj3.getId());
+                    attrVO.setName(obj3.getName());
+                    attrVOS.add(attrVO);
+                });
+                obj2.setAttrs(attrVOS);
+            });
+            obj.setChilds(classEntities);
+        });
         return R.ok().put("classLists", sifanyClassEntities);
     }
 

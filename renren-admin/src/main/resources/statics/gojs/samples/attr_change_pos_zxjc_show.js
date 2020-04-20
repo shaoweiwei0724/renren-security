@@ -2452,16 +2452,17 @@ function init() {
                     myDiagram.nodeTemplateMap.add("Text_1", text);
                     myDiagram.nodeTemplateMap.add("Text_selected", text_selected);
                     myDiagram.nodeTemplateMap.add("BusbarSection_0", busbarsection);
+                    myDiagram.groupTemplateMap.add("OfNodes", groupNodeShow);
+                    myDiagram.nodeTemplateMap.add("TextNode", attrNodeShow);
 
-
-                    if (localStorage.showAttr == "true") {
-                        myDiagram.groupTemplateMap.add("OfNodes", groupNodeShow);
-                        myDiagram.nodeTemplateMap.add("TextNode", attrNodeShow);
-                        // localStorage.showAttr = false;
-                    } else {
-                        myDiagram.groupTemplateMap.add("OfNodes", groupNode);
-                        myDiagram.nodeTemplateMap.add("TextNode", attrNode);
-                    }
+                    // if (localStorage.showAttr == "true") {
+                    //     myDiagram.groupTemplateMap.add("OfNodes", groupNodeShow);
+                    //     myDiagram.nodeTemplateMap.add("TextNode", attrNodeShow);
+                    //     // localStorage.showAttr = false;
+                    // } else {
+                    //     myDiagram.groupTemplateMap.add("OfNodes", groupNode);
+                    //     myDiagram.nodeTemplateMap.add("TextNode", attrNode);
+                    // }
                     myDiagram.groupTemplateMap.add("OfNodes_selected", groupNode_selected);
                     myDiagram.nodeTemplateMap.add("TextNode_selected", attrNode_selected);
                     myDiagram.model.linkFromPortIdProperty = "fromPort";

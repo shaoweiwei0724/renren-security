@@ -31,8 +31,8 @@ function init() {
             for (var i = 0; i < str.classLists.length; i++) { //一级目录
                 html += '<div style=" width: 100%;height:100%;">\n' +
                     '                <div  style="float: top; cursor: pointer;z-index: 99;height: 40px; width: 100%;background: linear-gradient(to right,#363c6e,#081e41);vertical-align:middle ">\n' +
-                    '                    <input id="model' + (i + 1) + '" readonly="readonly" style=" background-color:transparent;cursor: pointer; left: 2px;font-size: large; width:20%; height:100%;margin-left:5%; border:0px; color:#EBEBEB"  value="' + str.classLists[i].name + '"/>\n' +
-                    '                   <span onclick="setBigScreen()" style=" background-color:transparent;cursor: pointer; left: 2px;font-size: large; width:20%; height:100%;margin-left:5%; border:0px; color:#EBEBEB" >大屏</span>\n' +
+                    '                    <input id="model' + (i + 1) + '" readonly="readonly" style=" background-color:transparent;cursor: pointer; left: 2px;font-size: small; width:20%; height:100%;margin-left:5%; border:0px; color:#EBEBEB"  value="' + str.classLists[i].name + '"/>\n' +
+                    '                   <span onclick="setBigScreen()" style=" background-color:transparent;cursor: pointer; left: 2px;font-size: small; width:20%; height:100%;margin-left:5%; border:0px; color:#EBEBEB" >大屏</span>\n' +
                     '                    <img id="pic' + (i + 1) + '" style=" width:13%; margin-left: 10%; margin-right: 10%;"  onclick="setTab(\'' + (i + 1) + '\')"  src="images/back.png"/>\n' +
                     '                    <!--                    <a target="_self" href="#" rel="external nofollow" rel="external nofollow" rel="external nofollow" onclick="setTab(\'one\',2,3)" id="one2">锅炉类</a>-->\n' +
                     '                </div>\n' +
@@ -2317,7 +2317,8 @@ function init() {
                                                                 isPanelMain: true,
                                                                 fill: null,
                                                                 stroke: "deepskyblue",
-                                                                strokeWidth: 0
+                                                                strokeWidth: 0,
+                                                                // maxSize: new go.Size(10, NaN),
                                                             }),
                                                         $(go.Shape,  // the arrowhead
                                                             {toArrow: "Standard", stroke: null})

@@ -714,7 +714,9 @@ function init() {
                         }
                     }
                     var busbarsection =
-                        $(go.Node, SelectNode(), {
+                        $(go.Node, SelectNode(),
+                            {doubleClick:OnsChange},
+                            {
                                 locationObjectName: 'main',
                                 locationSpot: go.Spot.TopLeft,
                             },
@@ -2001,6 +2003,65 @@ function init() {
                             ), // end Table Panel
                             new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify)
                         )
+
+                    myDiagram.nodeTemplate.contextMenu =
+                        $("ContextMenu",
+                            $("ContextMenuButton",
+                                $(go.TextBlock, "在线仿真显示指标配置"),
+                                {
+                                    click: OnsChange,
+                                }
+                            )
+                        );
+
+                    //在线仿真指标显示配置
+                    function OnsChange(e,node){
+                        showLabelOns(node.part.data["key"], e.event.clientX - 10, e.event.clientY - 10);
+                    }
+                    function showLabelOns(key, x, y) {
+                        var html="";
+                        var label;
+                        for (var i in swan_objs_res) {
+                            var goKey = swan_objs_res[i].goKey;
+                            if (key == goKey) {
+                                var attrs = swan_objs_res[i].attrs;
+                                if (attrs.length > 0) {
+                                    var para = {};//参数名称
+                                    var attrs_id={}//参数ID
+                                    var ons = {};//参数显示标志
+                                    for (var j in attrs) {
+                                        para[attrs[j]["objName"]] = attrs[j]["id"].toString();
+                                        ons[attrs[j]["objName"]] = attrs[j]["onlineSim"];
+                                        attrs_id[attrs[j]["objName"]] = attrs[j]["id"];
+                                    }
+                                    console.log("onm:",ons);
+                                    for (var i in para) {
+                                        console.log("i:",ons[i]);
+                                        if (ons[i] == false) {
+                                            html += '<tr><td><input type="checkbox" name="'+goKey+'" onclick="changeParaOns(this,'+attrs_id[i]+')"  id="'+attrs_id[i]+'">' + i+'</td></tr>';
+                                            console.log("html",html);
+                                            label=false;
+                                        } else {
+                                            html += '<tr><td><input type="checkbox" name="'+goKey+'" onclick="changeParaOns(this,'+attrs_id[i]+')" checked="true" id="'+attrs_id[i]+'">' + i+'</td></tr>';
+                                            console.log("html",html);
+                                            label=true;
+                                        }
+
+                                    }
+
+                                    console.log(html);
+                                    var div=document.getElementById("layer_ons");
+                                    var check=document.getElementById("check_ons");
+                                    div.style.left = x + 'px';  // 指定创建的DIV在文档中距离左侧的位置
+                                    div.style.top = y + 'px';  // 指定创建的DIV在文档中距离顶部的位置
+                                    div.style.display="block";
+                                    check.innerHTML = html;
+                                    //
+                                    // document.body.appendChild(oDiv);
+                                }
+                            }
+                        }
+                    }
                     myDiagram.nodeTemplate =
                         $(go.Node, "Auto",
                             {
@@ -2195,6 +2256,7 @@ function init() {
                         ),
                         myDiagram.nodeTemplate =
                             $(go.Node, "Spot",
+                                {doubleClick:OnsChange},
                                 // {
                                 //     selectionChanged: function(node) {
                                 //         console.log("node:",node);
@@ -2452,16 +2514,17 @@ function init() {
                     myDiagram.nodeTemplateMap.add("Text_1", text);
                     myDiagram.nodeTemplateMap.add("Text_selected", text_selected);
                     myDiagram.nodeTemplateMap.add("BusbarSection_0", busbarsection);
+                    myDiagram.groupTemplateMap.add("OfNodes", groupNodeShow);
+                    myDiagram.nodeTemplateMap.add("TextNode", attrNodeShow);
 
-
-                    if (localStorage.showAttr == "true") {
-                        myDiagram.groupTemplateMap.add("OfNodes", groupNodeShow);
-                        myDiagram.nodeTemplateMap.add("TextNode", attrNodeShow);
-                        // localStorage.showAttr = false;
-                    } else {
-                        myDiagram.groupTemplateMap.add("OfNodes", groupNode);
-                        myDiagram.nodeTemplateMap.add("TextNode", attrNode);
-                    }
+                    // if (localStorage.showAttr == "true") {
+                    //     myDiagram.groupTemplateMap.add("OfNodes", groupNodeShow);
+                    //     myDiagram.nodeTemplateMap.add("TextNode", attrNodeShow);
+                    //     // localStorage.showAttr = false;
+                    // } else {
+                    //     myDiagram.groupTemplateMap.add("OfNodes", groupNode);
+                    //     myDiagram.nodeTemplateMap.add("TextNode", attrNode);
+                    // }
                     myDiagram.groupTemplateMap.add("OfNodes_selected", groupNode_selected);
                     myDiagram.nodeTemplateMap.add("TextNode_selected", attrNode_selected);
                     myDiagram.model.linkFromPortIdProperty = "fromPort";
@@ -2485,6 +2548,7 @@ function loop() {
         loop();
     }, 60);
 }
+
 
 function onSelectionChanged(e) {
 }

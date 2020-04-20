@@ -3,6 +3,7 @@ package io.renren.modules.sys.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.renren.modules.sys.vo.AttrVO;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -55,7 +56,9 @@ public class SifanyClassEntity implements Serializable {
 
 	@TableField(exist = false)
 	private String irconurl;
-
+	/**元件属性列表*/
+	@TableField(exist = false)
+	private List<AttrVO> attrs;
 
 	private String type;
 	private String code;

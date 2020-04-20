@@ -570,7 +570,6 @@ function init() {
                                 // locationSpot: go.Spot.Center,
                                 rotatable: false,
                                 movable:false,
-                                // isReadOnly: true,
                             },
                             new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify),
                             new go.Binding("angle", "angle"),
@@ -721,9 +720,9 @@ function init() {
                             },
                             new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify),
                             { // special resizing: just at the ends
-                                // resizable: true, resizeObjectName: "SHAPE", resizeAdornmentTemplate: resizeAdornment,
-                                // rotatable: true,
-                                // fromLinkable: true, toLinkable: true
+                                resizable: true, resizeObjectName: "SHAPE", resizeAdornmentTemplate: resizeAdornment,
+                                rotatable: true,
+                                fromLinkable: true, toLinkable: true
                             },
                             $(go.Shape,
                                 { // horizontal line stretched to an initial width of 200
@@ -2453,16 +2452,17 @@ function init() {
                     myDiagram.nodeTemplateMap.add("Text_1", text);
                     myDiagram.nodeTemplateMap.add("Text_selected", text_selected);
                     myDiagram.nodeTemplateMap.add("BusbarSection_0", busbarsection);
+                    myDiagram.groupTemplateMap.add("OfNodes", groupNodeShow);
+                    myDiagram.nodeTemplateMap.add("TextNode", attrNodeShow);
 
-
-                    if (localStorage.showAttr == "true") {
-                        myDiagram.groupTemplateMap.add("OfNodes", groupNodeShow);
-                        myDiagram.nodeTemplateMap.add("TextNode", attrNodeShow);
-                        // localStorage.showAttr = false;
-                    } else {
-                        myDiagram.groupTemplateMap.add("OfNodes", groupNode);
-                        myDiagram.nodeTemplateMap.add("TextNode", attrNode);
-                    }
+                    // if (localStorage.showAttr == "true") {
+                    //     myDiagram.groupTemplateMap.add("OfNodes", groupNodeShow);
+                    //     myDiagram.nodeTemplateMap.add("TextNode", attrNodeShow);
+                    //     // localStorage.showAttr = false;
+                    // } else {
+                    //     myDiagram.groupTemplateMap.add("OfNodes", groupNode);
+                    //     myDiagram.nodeTemplateMap.add("TextNode", attrNode);
+                    // }
                     myDiagram.groupTemplateMap.add("OfNodes_selected", groupNode_selected);
                     myDiagram.nodeTemplateMap.add("TextNode_selected", attrNode_selected);
                     myDiagram.model.linkFromPortIdProperty = "fromPort";
