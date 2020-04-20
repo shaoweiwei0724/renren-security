@@ -24,15 +24,31 @@
                             <!--<li class="layui-this"><span>指标</span></li>-->
 
                         <!--</ul>-->
-                        <ul v-if="sifanyObj.nodeType==='1'" class="layui-tab-title">
+                        <!--<ul v-if="sifanyObj.nodeType==='1'" class="layui-tab-title">
                             <li class="layui-this"><span>指标</span></li>
-                            <!-- <li id="svg-show-id" ><span>组态</span></li>
-                             <li ><span>采集</span></li>-->
+                            &lt;!&ndash; <li id="svg-show-id" ><span>组态</span></li>
+                             <li ><span>采集</span></li>&ndash;&gt;
                             <li ><span>计算配置</span></li>
                             <li  id="edit_change" >组态</li>
                             <li  >接线图</li>
-                        </ul>
-                        <div class="layui-tab-content" style="height: 500px;">
+                        </ul>-->
+                        <div v-if="sifanyObj.nodeType==0">
+                        <div style=" position: absolute;left: 50%;top: 40%;text-align:center;vertical-align:middle;">当前节点不是接线图</div>
+                        </div>
+                        <div style="padding:20px;" v-else="sifanyObj.nodeType==1">
+                          <div>
+                            <button id="upload" style="color:black">上传G文件</button>
+                            <button onclick="showAttrs()" style="color:black" id="showAttr">显示元件属性</button>
+                              <a class="btn btn-primary" @click="addclass"><i class="fa fa-plus"></i>&nbsp;保存</a>
+                            <iframe id="Gfile" src="${request.contextPath}/statics/gojs/samples/G_analysis.html"
+                                    width="100%"height="100%" onload="changeFrameCalHeight(this)"></iframe>
+                        </div>
+                        <input id="save_id"  style="display:none">
+
+                        </div>
+
+
+                        <!--<div class="layui-tab-content" style="height: 500px;">
                             <div class="layui-tab-item  layui-show">
 
                                 <form >
@@ -58,9 +74,9 @@
                                     <div class="div-inline">
                                         <input  v-if = "sifanyObj.nodeType === '0'" value="组织机构"   readonly="readonly" class="input_data"/>
                                         <input  v-else value="接线图"   readonly="readonly" class="input_data"/>
-                                            <!--<option value="0">组织机构</option>-->
-                                            <!--<option value="1">接线图</option>-->
-                                        <!--</select>-->
+                                            &lt;!&ndash;<option value="0">组织机构</option>&ndash;&gt;
+                                            &lt;!&ndash;<option value="1">接线图</option>&ndash;&gt;
+                                        &lt;!&ndash;</select>&ndash;&gt;
                                     </div>
                                     <div class="div-inline">备注</div>
                                     <div class="div-inline">
@@ -90,7 +106,7 @@
 
 </div>
 
-<!--<div class="layui-tab-item">
+<div class="layui-tab-item">
     <div style="float:left ;width:500px;">
         <table id="jqGridgather"></table>
         <div id="jqGridPagergather"></div>
@@ -149,7 +165,7 @@
             </table>
         </form>
     </div>
-</div>-->
+</div>
 <div class="layui-tab-item" style="width:100%;">
     <table style="width:100%;">
         <tr>
@@ -226,17 +242,17 @@
     </table>
 </div>
 <div class="layui-tab-item" >
-    <!--<#if shiro.hasPermission("sys:sifanyobjattr:save")>-->
-    <!--<a class="btn btn-primary" @click="configmenu"><i class="fa fa-plus"></i>&nbsp;编辑</a>-->
-    <!--</#if>-->
+    &lt;!&ndash;<#if shiro.hasPermission("sys:sifanyobjattr:save")>&ndash;&gt;
+    &lt;!&ndash;<a class="btn btn-primary" @click="configmenu"><i class="fa fa-plus"></i>&nbsp;编辑</a>&ndash;&gt;
+    &lt;!&ndash;</#if>&ndash;&gt;
     <div  style="display: none">
         <input type="text"  v-model="sifanyObj.id"  placeholder="id"/>
         <input type="text"  v-model="sifanyObj.modelId"  placeholder="图标"/>
     </div>
-    <!--<div>-->
-    <!--<iframe src="${request.contextPath}/statics/gojs/samples/show.html"-->
-    <!--width="900px" id="config-swan-svg0" height="400px"></iframe>-->
-    <!--</div>-->
+    &lt;!&ndash;<div>&ndash;&gt;
+    &lt;!&ndash;<iframe src="${request.contextPath}/statics/gojs/samples/show.html"&ndash;&gt;
+    &lt;!&ndash;width="900px" id="config-swan-svg0" height="400px"></iframe>&ndash;&gt;
+    &lt;!&ndash;</div>&ndash;&gt;
     <div id="swan-svg-div">
         <iframe src="${request.contextPath}/statics/gojs/samples/productionProcess.html"
                 width="100%"  id="config-swan-svg2" height="100%" onload="changeFrameHeight(this)"></iframe>
@@ -244,11 +260,11 @@
     </div>
 
 </div>
-<script src="${request.contextPath}/statics/libs/ajaxupload.js"></script>
+
 <div class="layui-tab-item" >
     <div >
-<!--        <input id="file"  type="file" onchange="upload(this)" />-->
-<!--        <label for="file">Choose a file</label>-->
+&lt;!&ndash;        <input id="file"  type="file" onchange="upload(this)" />&ndash;&gt;
+&lt;!&ndash;        <label for="file">Choose a file</label>&ndash;&gt;
         <button id="upload" style="color:black">上传G文件</button>
         <button onclick="showAttrs()" style="color:black" id="showAttr">显示元件属性</button>
         <iframe id="Gfile" src="${request.contextPath}/statics/gojs/samples/G_analysis.html"
@@ -256,46 +272,10 @@
     </div>
     <input id="save_id"  style="display:none">
 </div>
+</div>-->
 </div>
-</div>
-
-<script>
-    function showAttrs(){
-        if($("#showAttr").text() === "显示元件属性"){
-            $("#showAttr").text("隐藏元件属性");
-            localStorage.showAttr = "true";
-            $('#Gfile').attr('src',$('#Gfile').attr('src')).trigger("reloadGrid");
-        }else{
-            $("#showAttr").text("显示元件属性");
-            localStorage.showAttr = "false";
-            $('#Gfile').attr('src',$('#Gfile').attr('src')).trigger("reloadGrid");
-        }
 
 
-    }
-    $(function(){
-        console.log("localStorage.objId_g:",localStorage.objId_g)
-        new AjaxUpload('#upload', {
-            action: baseURL + "sys/sifanygjson/upload?obj_id="+localStorage.objId_g,
-            name: 'file',
-            autoSubmit:true,
-            responseType:"json",
-            onSubmit:function(file, extension){
-
-            },
-            onComplete : function(file, r){
-                if(r.code == 0){
-                    localStorage.fileId=r.id;
-                    $('#Gfile').attr('src',$('#Gfile').attr('src')).trigger("reloadGrid");
-                    document.getElementById("save_id").value=r.id;
-                }else{
-                    alert(r.msg);
-                }
-            }
-        });
-
-    })
-</script>
 
 
 </td>
@@ -384,6 +364,7 @@
 
         <!--<li><a href="javascript:;" @click="addHoverDom" id="toUpdateBtn">增加组织机构</a></li>-->
         <li><a href="javascript:;" @click="addHover2Dom" id="toUpdate2Btn">增加接线图</a></li>
+        <li><a href="javascript:;" @click="addHover2Dom" id="toRemane">修改节点名称</a></li>
         <li><a href="javascript:;" @click="deleteDom" id="deleteBtn" data-target="#confirmDialog" data-toggle="modal">删除</a></li>
         <li><a href="#" id="swan-cancel" >取消</a></li>
     </ul>
@@ -417,6 +398,45 @@
             width="100%" id="editProject-info" height="800px"></iframe>
 </div>
 
+
+<script>
+    function showAttrs(){
+        if($("#showAttr").text() === "显示元件属性"){
+            $("#showAttr").text("隐藏元件属性");
+            localStorage.showAttr = "true";
+            $('#Gfile').attr('src',$('#Gfile').attr('src')).trigger("reloadGrid");
+        }else{
+            $("#showAttr").text("显示元件属性");
+            localStorage.showAttr = "false";
+            $('#Gfile').attr('src',$('#Gfile').attr('src')).trigger("reloadGrid");
+        }
+
+
+    }
+    $(function(){
+        console.log("localStorage.objId_g:",localStorage.objId_g)
+        new AjaxUpload('#upload', {
+            action: baseURL + "sys/sifanygjson/upload?obj_id="+localStorage.objId_g,
+            name: 'file',
+            autoSubmit:true,
+            responseType:"json",
+            onSubmit:function(file, extension){
+
+            },
+            onComplete : function(file, r){
+                if(r.code == 0){
+                    localStorage.fileId=r.id;
+                    $('#Gfile').attr('src',$('#Gfile').attr('src')).trigger("reloadGrid");
+                    document.getElementById("save_id").value=r.id;
+                }else{
+                    alert(r.msg);
+                }
+            }
+        });
+
+    })
+</script>
+<script src="${request.contextPath}/statics/libs/ajaxupload.js"></script>
 <script src="${request.contextPath}/statics/js/modules/sys/modelbus2.js?_${.now?long}"></script>
 <script src="${request.contextPath}/statics/plugins/layui/lay/dest/layui.all.js"></script>
 <link rel="stylesheet" href="${request.contextPath}/statics/plugins/layui/css/layui.css">

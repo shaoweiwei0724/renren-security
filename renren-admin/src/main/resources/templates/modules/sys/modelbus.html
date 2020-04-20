@@ -23,15 +23,21 @@
                     <a class="btn btn-primary" @click="configmenu"><i class="fa fa-plus"></i>&nbsp;编辑</a>
                 </#if>
                 <a class="btn btn-primary" @click="copyurl"><i class="fa fa-plus"></i>&nbsp;分享组态</a>
-                <div  style="display: none">
-                    <input type="text"  v-model="sifanyObj.id"  placeholder="id"/>
-                    <input type="text"  v-model="sifanyObj.modelId"  placeholder="图标"/>
+                <div  class="layui-tab layui-tab-card" style="height:96%;">
+                    <div  style="display: none">
+                        <input type="text"  v-model="sifanyObj.id"  placeholder="id"/>
+                        <input type="text"  v-model="sifanyObj.modelId"  placeholder="图标"/>
+                    </div>
+                    <div v-if="sifanyObj.nodeType==0">
+                        <div style=" position: absolute;left: 50%;top: 40%;text-align:center;vertical-align:middle;">当前节点不是接线图</div>
+                    </div>
+                    <div style="padding:20px;" v-else="sifanyObj.nodeType==1">
+                        <div>
+                            <iframe src="${request.contextPath}/statics/gojs/samples/show.html"
+                                    width="99%" id="config-swan-svg0" onload="changeFrameHeight(this)"></iframe>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <iframe src="${request.contextPath}/statics/gojs/samples/show.html"
-                            width="99%" id="config-swan-svg0" onload="changeFrameHeight(this)"></iframe>
-                </div>
-
                 </td>
 
                 <!--<td width="500px" style="padding: 0;margin: 0;">

@@ -139,7 +139,7 @@ $(function () {
 function changeFrameHeight(that){
     //电脑屏幕高度-iframe上面其他组件的高度
     //例:我这里iframe上面还有其他一些div组件，一共的高度是120，则减去120
-    $(that).height(document.documentElement.clientHeight - 45);
+    $(that).height(document.documentElement.clientHeight - 90);
 
 }
 var selected_id=0;
@@ -152,7 +152,7 @@ function tree_click_swan(e,treeId, treeNode) {
     localStorage.fileId = node[0].gModelId;
     localStorage.selectSceneId=selected_id;
 
-    vm.sifanyObj = {id:node[0].id,name:node[0].name,code:node[0].code,icons:node[0].icons,remark:node[0].remark,irconurl:node[0].irconurl,modelId:node[0].modelId };
+    vm.sifanyObj = {id:node[0].id,name:node[0].name,code:node[0].code,icons:node[0].icons,remark:node[0].remark,irconurl:node[0].irconurl,modelId:node[0].modelId,nodeType:node[0].nodeType };
     localStorage.iconsId = vm.sifanyObj.modelId;
     localStorage.fileId=node[0].gId;
     localStorage.objId_g=vm.sifanyObj.id;

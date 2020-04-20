@@ -11,6 +11,9 @@ $(function () {
     $('#toUpdate2Btn').click(function () {
         addHover2Dom();
     });
+    $('#toRemane').click(function () {
+        onRename();
+    });
     $(document).ready(function () {
         var element= layui.element;
         // element.render();
@@ -158,7 +161,7 @@ function changeFrameHeight(that){
 function changeFrameCalHeight(that){
     //电脑屏幕高度-iframe上面其他组件的高度
     //例:我这里iframe上面还有其他一些div组件，一共的高度是120，则减去120
-    $(that).height(document.documentElement.clientHeight - 110);
+    $(that).height(document.documentElement.clientHeight - 80);
 
 }
 
@@ -265,7 +268,7 @@ function addHoverDom() { //添加组织机构
 
     var url = "sys/sifanyobj/save";
     vm.sifanyObj = {id:null,name:"example",parentId:nodes[0].id,orderNum:0,'icons':'',nodeType:"0"};
-    console.log("--------------------",vm.sifanyObjAttr);
+
 
     $.ajax({
         type: "POST",
@@ -295,7 +298,7 @@ function addHover2Dom() { //添加接线图
     var nodes = ztreeMain.getSelectedNodes();
 
     // alert(nodes[0].parentId);
-    if(nodes[0].parentId != -1 && nodes[0].nodeType == "1"){
+    if(nodes[0].nodeType == "1"){
 
         layer.alert("当前节点类型为接线图，不可以新增节点");
         return;
@@ -339,7 +342,7 @@ function deleteDom(){
         return ;
     }
 
-    var objId = nodes[0].objId;
+    var objId = nodes[0].id;
     var parentId = nodes[0].parentId;
 
     if(objId==-1){
@@ -666,14 +669,14 @@ function refreshNodeTree(nodes,id){
         // alert(a);
         ztreeMain = $.fn.zTree.init($("#classTreeMain"), setting, r.objEntityLists);
         var node = ztreeMain.getNodeByParam("id",id);
-        console.log("node2",node)
+
 
         ztreeMain.selectNode(node);
 
         if(node){
             //触发默认数据的click事件
             $("#"+node.tId+"_a").dblclick();//触发ztree点击事件
-            console.log("6",node);
+
             vm.sifanyObj = {id:node.id,name:node.name,code:node.code,icons:node.icons,remark:node.remark,irconurl:node.irconurl,gId:node.gId,modelId:node.modelId,onlineSimModelId:node[0].onlineSimModelId,offlineSimModelId:node[0].offlineSimModelId,nodeType:node.nodeType };
         }
         // vm.sifanyClass.parentName = node.name;
@@ -688,6 +691,54 @@ function refreshNodeTree(nodes,id){
         $('#config-swan-svg0').attr('src',$('#config-swan-svg0').attr('src'));
     })
 }
+function onRename(e,treeId,treeNode,isCancel){
+    var zTree = $.fn.zTree.getZTreeObj("classTreeMain"),
+        type = "refresh",
+        silent = false,
+        /*获取 zTree 当前被选中的节点数据集合*/
+        nodes = zTree.getSelectedNodes();
+    zTree.editName(nodes[0]);
+    $("#treeContextMenu").hide();
+
+}
+function beforeRename(treeId, treeNode, newName, isCancel) {
+    if (treeNode.id == -1) {
+                    layer.alert("根目录不能编辑！");
+                    return true;
+                } else {
+        if (treeNode.name == newName) {
+            return true;
+        } else if (newName.length == 0) {
+
+            layer.alert("菜单名称不能为空！");
+            treeNode.name = treeNode.name;
+            return false;
+        } else {
+            var url = "sys/sifanyobj/update";
+            vm.sifanyObj = {id:treeNode.id,name:newName};
+
+            $.ajax({
+                type: "POST",
+                url: baseURL + url,
+                contentType: "application/json",
+                data: JSON.stringify(vm.sifanyObj),
+                success: function(r){
+                    if(r.code === 0){
+                        layer.msg("操作成功", {icon: 1});
+                        //vm.reload();
+                        $('#treeContextMenu').hide();
+                        refreshNodeTree(nodes,nodes[0].id)
+                        // $(document).ready();
+
+                    }else{
+                        layer.alert(r.msg);
+
+                    }
+                }
+            });
+        }
+    }
+}
 var setting = {
     data: {
         simpleData: {
@@ -700,10 +751,10 @@ var setting = {
             url:"nourl"
         }
     },
-
     callback: {
         onClick: tree_click_swan,
-        onRightClick: onRightClick
+        onRightClick: onRightClick,
+        beforeRename: beforeRename
 
 
 
