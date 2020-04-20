@@ -50,7 +50,6 @@ var vm = new Vue({
                 return ;
             }
 
-            alert(deptId);
             $.get(baseURL + "sys/sifanyobj/info/"+deptId, function(r){
                 vm.showList = false;
                 vm.title = "修改";

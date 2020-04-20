@@ -39,7 +39,7 @@ function init() {
                     '                    <div   style="display: block; width: 100%;height:100%;" id="m' + (i + 1) + '"><div id="myPaletteDiv' + (i + 1) + '" style="height:100%;width: 100%;  border: solid 1px black;margin: 0 auto;background: rgb(1,10,34,0.3)"></div></div>\n' +
                     '            </div>';
             }
-            document.getElementById("bu").innerHTML = (html);
+            // document.getElementById("bu").innerHTML = (html);
 
             var list = str.classLists[0].childs;
             swan_obj_list = str.classLists;
@@ -2291,50 +2291,50 @@ function init() {
                             ))
 
 
-                    var myPalettes = [];
-                    for (var i = 0; i < swan_obj_list.length; i++) {
-                        myPalette =
-                            $(go.Palette, "myPaletteDiv" + (i + 1),  // must name or refer to the DIV HTML element
-                                {
-                                    scale: 0.7,
-                                    maxSelectionCount: 1,
-                                    nodeTemplateMap: myDiagram.nodeTemplateMap,  // share the templates used by myDiagram
-                                    linkTemplate: // simplify the link template, just in this Palette
-                                        $(go.Link,
-                                            { // because the GridLayout.alignment is Location and the nodes have locationSpot == Spot.Center,
-                                                // to line up the Link in the same manner we have to pretend the Link has the same location spot
-                                                locationSpot: go.Spot.Center,
-                                                selectionAdornmentTemplate:
-                                                    $(go.Adornment, "Link",
-                                                        {locationSpot: go.Spot.Center},
-                                                        $(go.Shape,
-                                                            {
-                                                                isPanelMain: true,
-                                                                fill: null,
-                                                                stroke: "deepskyblue",
-                                                                strokeWidth: 0
-                                                            }),
-                                                        $(go.Shape,  // the arrowhead
-                                                            {toArrow: "Standard", stroke: null})
-                                                    )
-                                            },
-                                            {
-                                                routing: go.Link.AvoidsNodes,
-                                                curve: go.Link.JumpOver,
-                                                corner: 5,
-                                                toShortLength: 4
-                                            },
-                                            new go.Binding("points"),
-                                            $(go.Shape,  // the link path shape
-                                                {isPanelMain: true, strokeWidth: 2}),
-                                            $(go.Shape,  // the arrowhead
-                                                {toArrow: "Standard", stroke: null})
-                                        ),
-                                    model: new go.GraphLinksModel(swan_objs[i])
-
-                                });
-                        myPalettes.push(myPalette)
-                    }
+                    // var myPalettes = [];
+                    // for (var i = 0; i < swan_obj_list.length; i++) {
+                    //     myPalette =
+                    //         $(go.Palette, "myPaletteDiv" + (i + 1),  // must name or refer to the DIV HTML element
+                    //             {
+                    //                 scale: 0.7,
+                    //                 maxSelectionCount: 1,
+                    //                 nodeTemplateMap: myDiagram.nodeTemplateMap,  // share the templates used by myDiagram
+                    //                 linkTemplate: // simplify the link template, just in this Palette
+                    //                     $(go.Link,
+                    //                         { // because the GridLayout.alignment is Location and the nodes have locationSpot == Spot.Center,
+                    //                             // to line up the Link in the same manner we have to pretend the Link has the same location spot
+                    //                             locationSpot: go.Spot.Center,
+                    //                             selectionAdornmentTemplate:
+                    //                                 $(go.Adornment, "Link",
+                    //                                     {locationSpot: go.Spot.Center},
+                    //                                     $(go.Shape,
+                    //                                         {
+                    //                                             isPanelMain: true,
+                    //                                             fill: null,
+                    //                                             stroke: "deepskyblue",
+                    //                                             strokeWidth: 0
+                    //                                         }),
+                    //                                     $(go.Shape,  // the arrowhead
+                    //                                         {toArrow: "Standard", stroke: null})
+                    //                                 )
+                    //                         },
+                    //                         {
+                    //                             routing: go.Link.AvoidsNodes,
+                    //                             curve: go.Link.JumpOver,
+                    //                             corner: 5,
+                    //                             toShortLength: 4
+                    //                         },
+                    //                         new go.Binding("points"),
+                    //                         $(go.Shape,  // the link path shape
+                    //                             {isPanelMain: true, strokeWidth: 2}),
+                    //                         $(go.Shape,  // the arrowhead
+                    //                             {toArrow: "Standard", stroke: null})
+                    //                     ),
+                    //                 model: new go.GraphLinksModel(swan_objs[i])
+                    //
+                    //             });
+                    //     myPalettes.push(myPalette)
+                    // }
                     //监听元件拖动事件
                     myDiagram.addModelChangedListener(function (evt) {
                         if (!evt.isTransactionFinished) return;

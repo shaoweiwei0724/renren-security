@@ -70,7 +70,7 @@ function init() {
             str=JSON.parse(xmlHttp.responseText);
             // console.log("str:",str);
     var html="";
-    for(var i=0;i< str.classLists.length;i++){
+    for(var i=0;i< str.classLists.length;i++){ //一级目录
        html+='<div style=" width: 100%;height:100%;">\n' +
            '                <div  style="float: top; cursor: pointer;z-index: 99;height: 40px; width: 100%;background: linear-gradient(to right,#363c6e,#081e41);vertical-align:middle ">\n' +
            '                    <input id="model'+(i+1)+'" readonly="readonly" style=" background-color:transparent;cursor: pointer; left: 2px;font-size: large; width:20%; height:100%;margin-left:5%; border:0px; color:#EBEBEB"  value="'+str.classLists[i].name+'"/>\n' +
