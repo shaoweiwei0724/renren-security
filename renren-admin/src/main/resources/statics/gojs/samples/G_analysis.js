@@ -493,7 +493,7 @@ function init() {
                         var below_x = op.x > r.centerX;
                         var y = below ? r.bottom : r.top;
                         var x = below_x ? r.left : r.right;
-                        if (node.category === "Exclusive1") {
+                        if (node.category === "BusbarSection_0") {
                             if (r.right - r.left < 2) {
                                 if (op.y < r.top + 30) return new go.Point(x, r.top + 30);
                                 if (op.y > r.bottom - 30) return new go.Point(x, r.bottom - 30);
@@ -532,7 +532,7 @@ function init() {
                         var below = op.y > r.centerY;
                         var below_x = op.x > r.centerX;
                         var res = 0;
-                        if (node.category === "Exclusive1") {
+                        if (node.category === "BusbarSection_0") {
                             if (r.right - r.left < 2) {
                                 if (below_x) res = 0;
                                 else res = 180;
@@ -573,7 +573,7 @@ function init() {
                                 // locationSpot: go.Spot.Center,
                                 rotatable: true,
                                 movable:true,
-                                reshapable:true,
+                                reshapable:true
                             },
                             new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify),
                             new go.Binding("angle", "angle"),
