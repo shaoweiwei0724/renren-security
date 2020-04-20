@@ -354,7 +354,7 @@ public class SifanyObjController  extends AbstractController{
 //        }else{
 //            sifanyObj.setModelId(sifanyObjEntity.getModelId());
 //        }
-        if(sifanyObj.getModelId()!=null) {
+        if(sifanyObj.getModelId()!=null) { //组态
             if (URLDecoder.decode(sifanyObj.getModelId(), "utf-8").length() > basestring.length() + 10) {
                 SifanyDataTextEntity sifanyDataTextEntityModel = sifanyDataTextService.getById(sifanyObjEntity.getModelId());
                 SifanyDataTextEntity sifanyDataTextEntityZXFZ = sifanyDataTextService.getById(sifanyObjEntity.getOnlineSimModelId());
@@ -400,9 +400,11 @@ public class SifanyObjController  extends AbstractController{
                 sifanyObj.setOfflineSimModelId(sifanyObjEntity.getOfflineSimModelId());
             }
         }
-        if(sifanyObj.getgModelId()!=null){
+        if(sifanyObj.getgModelId()!=null){ //接线图
             if( URLDecoder.decode(sifanyObj.getgModelId(), "utf-8").length()> basestring.length() + 10) {
                 SifanyDataTextEntity sifanyDataTextEntityModel = sifanyDataTextService.getById(sifanyObjEntity.getgModelId());
+                SifanyDataTextEntity sifanyDataTextEntityZXFZ = sifanyDataTextService.getById(sifanyObjEntity.getOnlineSimModelId());
+                SifanyDataTextEntity sifanyDataTextEntityLXFZ = sifanyDataTextService.getById(sifanyObjEntity.getOfflineSimModelId());
                 if (sifanyDataTextEntityModel == null) {
                     SifanyDataTextEntity sifanyDataText = new SifanyDataTextEntity();
                     sifanyDataText.setContent(URLDecoder.decode(sifanyObj.getgModelId(), "utf-8").replace("linkDataArray","link").replace("nodeDataArray","node"));
@@ -410,11 +412,28 @@ public class SifanyObjController  extends AbstractController{
                     sifanyDataText.setUpdateTime(sifanyDataText.getCreateTime());
                     sifanyDataTextService.save(sifanyDataText);
                     sifanyObj.setgModelId(sifanyDataText.getId().toString());
+
+                    sifanyDataText.setId(null); //设置在线仿真
+                    sifanyDataTextService.save(sifanyDataText);
+                    sifanyObj.setOnlineSimModelId(sifanyDataText.getId().toString());
+                    sifanyDataText.setId(null); //设置离线仿真
+                    sifanyDataTextService.save(sifanyDataText);
+                    sifanyObj.setOfflineSimModelId(sifanyDataText.getId().toString());
                 } else {
                     sifanyDataTextEntityModel.setContent(URLDecoder.decode(sifanyObj.getgModelId(), "utf-8").replace("linkDataArray","link").replace("nodeDataArray","node"));
                     sifanyDataTextEntityModel.setUpdateTime(new Date().getTime());
                     sifanyDataTextService.updateById(sifanyDataTextEntityModel);
                     sifanyObj.setgModelId(sifanyDataTextEntityModel.getId().toString());
+
+                    sifanyDataTextEntityZXFZ.setContent(URLDecoder.decode(sifanyObj.getOnlineSimModelId(), "utf-8"));
+                    sifanyDataTextEntityZXFZ.setUpdateTime(new Date().getTime());
+                    sifanyDataTextService.updateById(sifanyDataTextEntityZXFZ);
+                    sifanyObj.setOnlineSimModelId(sifanyDataTextEntityZXFZ.getId().toString());
+
+                    sifanyDataTextEntityLXFZ.setContent(URLDecoder.decode(sifanyObj.getOfflineSimModelId(), "utf-8"));
+                    sifanyDataTextEntityLXFZ.setUpdateTime(new Date().getTime());
+                    sifanyDataTextService.updateById(sifanyDataTextEntityLXFZ);
+                    sifanyObj.setOfflineSimModelId(sifanyDataTextEntityLXFZ.getId().toString());
 
                 }
             sifanyObjService.GtoObj(sifanyObj);

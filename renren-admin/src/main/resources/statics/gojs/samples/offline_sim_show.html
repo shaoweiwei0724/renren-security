@@ -6,34 +6,56 @@
     <script src="../release/go.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="js/alert.js"></script>
-    <script src="offline_sim_show.js"></script>
+    <!--<script src="js/alert.js"></script>-->
+    <!--<script src="../release/go.js"></script>-->
+    <script src="../extensions/Figures.js"></script>
+    <script src="../assets/js/goSamples.js"></script>
+    <script src="G_analysis_show.js"></script>
+    <!--<script src="offline_sim_show.js"></script>-->
 </head>
-<body onload="init()" style=" background-size: 100% 100%;">
+<!--<body onload="init()" style=" background-size: 100% 100%;">-->
 
-<div id="sample" style="width: 100%;">
-    <div id="myDiagramDiv" style="border: solid 1px black; margin: 10px; height:600px"></div>
+<!--<div id="sample" style="width: 100%;">-->
+    <!--<div id="myDiagramDiv" style="border: solid 1px black; margin: 10px; height:600px"></div>-->
+<!--</div>-->
+
+<!--<div id="layer" style="width: 300px;height: auto;color:#fff;background: #1b6d85;display: none;position: absolute;z-index: 9999;text-align: center">-->
+
+    <!--<table style="padding: 10px;width:80%;">-->
+        <!--<tr >-->
+            <!--<td style="width:100%;text-align:center" >-->
+                <!--<p>离线仿真显示属性配置</p>-->
+            <!--</td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<td>-->
+                <!--<table id="check" style="width: 90%;text-align: left;margin-left: 10px;border-color: #fff">-->
+                <!--</table>-->
+            <!--</td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<td>-->
+                <!--<button onclick="ok()" style="font-size: 12px;color: #4b4b4b;height: 22px;border: 1px solid #ccc;float: right">确定</button>-->
+            <!--</td>-->
+        <!--</tr>-->
+    <!--</table>-->
+<!--</div>-->
+<!--</body>-->
+
+<body onload="init()" style="background:rgb(250,250,250);">
+<div id="sample">
+    <!--<div style="width: 100%; height: 800px; display: flex; justify-content: space-between">-->
+    <!--<div id="myDiagramDiv" style="flex-grow: 1; height: 800px; border: solid 1px black"></div>-->
+    <!--</div>-->
+    <div style="width: 100%;"><input type="button" name="button" value="保存" onclick="ok()" style="width: 80px;height: 30px;background: #0099CC; border-style: none; color: #fff;border-radius: 15px" class="btn"></div>
+
+    <div style="width: 100%; height: 100%; display: flex; justify-content: space-between">
+
+        <!--<div id="myPaletteDiv" style="margin-top:100px;z-index:99;height:400px;width: 200px; margin-right: 2px; background-color: whitesmoke; border: solid 1px black;position: fixed"></div>-->
+        <div id="myDiagramDiv" style="flex-grow: 1; height: 800px; border: solid 1px black;color: #fff;">
+        </div>
+    </div>
 </div>
-
-<div id="layer" style="width: 300px;height: auto;color:#fff;background: #1b6d85;display: none;position: absolute;z-index: 9999;text-align: center">
-
-    <table style="padding: 10px;width:80%;">
-        <tr >
-            <td style="width:100%;text-align:center" >
-                <p>离线仿真显示属性配置</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <table id="check" style="width: 90%;text-align: left;margin-left: 10px;border-color: #fff">
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <button onclick="ok()" style="font-size: 12px;color: #4b4b4b;height: 22px;border: 1px solid #ccc;float: right">确定</button>
-            </td>
-        </tr>
-    </table>
-</div>
+<input id="swan-res"  style="display:none">
 </body>
 </html>
