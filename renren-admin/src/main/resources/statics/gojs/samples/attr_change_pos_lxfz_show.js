@@ -168,7 +168,7 @@ function init() {
             }
 
             xmlHttp = new XMLHttpRequest();
-            xmlHttp.open("GET", baseIP + "sys/sifanygjson/getGJson?idd=" + localStorage.fileId, true);
+            xmlHttp.open("GET", baseIP + "sys/sifanygjson/getGJson?idd=" + localStorage.offlineSimModelId, true);
             xmlHttp.send();
             xmlHttp.onreadystatechange = function () {
                 if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
