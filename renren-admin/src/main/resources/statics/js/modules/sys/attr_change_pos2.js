@@ -560,6 +560,12 @@ function reloadTree(){
     $.get(baseURL + "sys/sifanyobj/select", function(r){
         // var a = JSON.stringify(r.classLists);?type=base
         // alert(a);
+        for(var i in r.objEntityLists) {
+            var swan_obj_list_i = r.objEntityLists[i];
+            if(swan_obj_list_i.nodeType==1){
+                swan_obj_list_i["iconSkin"]="icon05";
+            }
+        }
         ztreeMain = $.fn.zTree.init($("#classTreeMain"), setting, r.objEntityLists);
         if(localStorage.selectSceneId){
             var node = ztreeMain.getNodeByParam("id",localStorage.selectSceneId);
