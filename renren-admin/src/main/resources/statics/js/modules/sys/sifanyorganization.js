@@ -35,7 +35,8 @@ var vm = new Vue({
                 var node = ztree.getNodeByParam("id", vm.sifanyObj.parentId);
                 ztree.selectNode(node);
 
-                vm.sifanyObj.parentName = node.name;
+                if(node != null)
+                    vm.sifanyObj.parentName = node.name;
             })
         },
         add: function(){

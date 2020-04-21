@@ -60,7 +60,8 @@ function init() {
                                 "iconHeight": 30,
                                 "category": "BusbarSection_0",
                                 "text": child_i.name,
-                                "source": child_i
+                                "source": child_i,
+                                "attrs": child_i.attrs
                             });
                             break;
                         case "发电机2":
@@ -70,7 +71,8 @@ function init() {
                                 "iconHeight": 30,
                                 "category": "Generator_0",
                                 "text": child_i.name,
-                                "source": child_i
+                                "source": child_i,
+                                "attrs": child_i.attrs
                             });
                             break;
                         case "两卷变2":
@@ -80,7 +82,8 @@ function init() {
                                 "iconHeight": 30,
                                 "category": "Transformer2_0",
                                 "text": child_i.name,
-                                "source": child_i
+                                "source": child_i,
+                                "attrs": child_i.attrs
                             });
                             break;
                         default:
@@ -89,7 +92,8 @@ function init() {
                                 "iconWidth": 15,
                                 "iconHeight": 30,
                                 "text": child_i.name,
-                                "source": child_i
+                                "source": child_i,
+                                "attrs": child_i.attrs
                             });
                     }
                     // if(child_i.name=="母线"){

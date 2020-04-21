@@ -177,6 +177,7 @@ function init() {
                     // console.log("nodeDataArray",nodeDataArray);
                     linkDataArray = json.link;
                     // console.log("linkDataArray",linkDataArray);
+                    if( nodeDataArray != null && nodeDataArray != "undefined"){
                     for (var j = 0; j < nodeDataArray.length; j++) {
                         var nodedata = nodeDataArray[j]
                         var node_attr = [];
@@ -201,6 +202,9 @@ function init() {
                             node_text.push(nodedata.key);
                             text_node[msp] = node_text;
                         }
+                    }
+                    }else{
+                        nodeDataArray = [];
                     }
 
                     //定义模型

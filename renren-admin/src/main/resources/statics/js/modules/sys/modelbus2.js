@@ -325,6 +325,7 @@ function addHover2Dom() { //添加接线图
                 layer.msg("操作成功", {icon: 1});
                 //vm.reload();
                 $('#treeContextMenu').hide();
+                reloadTree();
                 refreshNodeTree(nodes,nodes[0].id)
                 // $(document).ready();
 
@@ -335,6 +336,26 @@ function addHover2Dom() { //添加接线图
         }
     });
 }
+function showAttrs(){
+    if($("#showAttr").text() === "显示元件属性"){
+        $("#showAttr").text("隐藏元件属性");
+        localStorage.showAttr = "true";
+        var node = ztreeMain.getSelectedNodes();
+        if(node[0].gModelId != null) {
+            localStorage.fileId = node[0].gModelId;
+        }else{
+            localStorage.fileId=node[0].gId;
+        }
+        $('#Gfile').attr('src',$('#Gfile').attr('src')).trigger("reloadGrid");
+    }else{
+        $("#showAttr").text("显示元件属性");
+        localStorage.showAttr = "false";
+        $('#Gfile').attr('src',$('#Gfile').attr('src')).trigger("reloadGrid");
+    }
+
+
+}
+
 function deleteDom(){
     var nodes = ztreeMain.getSelectedNodes();
     var id = nodes[0].id;
@@ -667,17 +688,19 @@ function refreshNodeTree(nodes,id){
     $.get(baseURL + "sys/sifanyobj/select", function(r){
         // var a = JSON.stringify(r.classLists);?type=base
         // alert(a);
+
         ztreeMain = $.fn.zTree.init($("#classTreeMain"), setting, r.objEntityLists);
+        // ztreeMain.reload();
         var node = ztreeMain.getNodeByParam("id",id);
 
 
         ztreeMain.selectNode(node);
 
-        if(node){
+        if(node && node[0] != "undefined"){
             //触发默认数据的click事件
             $("#"+node.tId+"_a").dblclick();//触发ztree点击事件
 
-            vm.sifanyObj = {id:node.id,name:node.name,code:node.code,icons:node.icons,remark:node.remark,irconurl:node.irconurl,gId:node.gId,modelId:node.modelId,onlineSimModelId:node[0].onlineSimModelId,offlineSimModelId:node[0].offlineSimModelId,nodeType:node.nodeType };
+            vm.sifanyObj = {id:node.id,name:node.name,code:node.code,icons:node.icons,remark:node.remark,irconurl:node.irconurl,gId:node.gId|null,modelId:node.modelId|null,nodeType:node.nodeType|null };
         }
         // vm.sifanyClass.parentName = node.name;
         localStorage.iconsId = vm.sifanyObj.modelId;
@@ -729,6 +752,7 @@ function beforeRename(treeId, treeNode, newName, isCancel) {
                         $('#treeContextMenu').hide();
                         refreshNodeTree(nodes,nodes[0].id)
                         // $(document).ready();
+                        // refreshNodeTree(nodes,treeNode.id)
 
                     }else{
                         layer.alert(r.msg);

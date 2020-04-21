@@ -59,6 +59,8 @@ public class SifanyClassEntity implements Serializable {
 	/**元件属性列表*/
 	@TableField(exist = false)
 	private List<AttrVO> attrs;
+	@TableField(exist = false)
+	private SifanyClassEntity source;
 
 	private String type;
 	private String code;

@@ -400,19 +400,7 @@
 
 
 <script>
-    function showAttrs(){
-        if($("#showAttr").text() === "显示元件属性"){
-            $("#showAttr").text("隐藏元件属性");
-            localStorage.showAttr = "true";
-            $('#Gfile').attr('src',$('#Gfile').attr('src')).trigger("reloadGrid");
-        }else{
-            $("#showAttr").text("显示元件属性");
-            localStorage.showAttr = "false";
-            $('#Gfile').attr('src',$('#Gfile').attr('src')).trigger("reloadGrid");
-        }
 
-
-    }
     $(function(){
         console.log("localStorage.objId_g:",localStorage.objId_g)
         new AjaxUpload('#upload', {

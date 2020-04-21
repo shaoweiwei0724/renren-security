@@ -128,6 +128,8 @@ public class SifanyObjController  extends AbstractController{
     @RequiresPermissions("sys:sifanyobj:save")
     public R saveOrganization(@RequestBody SifanyObjEntity sifanyObj) {
         sifanyObj.setNodeType("0");
+        sifanyObj.setUserId(getUserId());
+
         sifanyObjService.save(sifanyObj);
         return R.ok();
     }
@@ -420,21 +422,36 @@ public class SifanyObjController  extends AbstractController{
                     sifanyDataTextService.save(sifanyDataText);
                     sifanyObj.setOfflineSimModelId(sifanyDataText.getId().toString());
                 } else {
+
                     sifanyDataTextEntityModel.setContent(URLDecoder.decode(sifanyObj.getgModelId(), "utf-8").replace("linkDataArray","link").replace("nodeDataArray","node"));
                     sifanyDataTextEntityModel.setUpdateTime(new Date().getTime());
                     sifanyDataTextService.updateById(sifanyDataTextEntityModel);
                     sifanyObj.setgModelId(sifanyDataTextEntityModel.getId().toString());
 
-                    sifanyDataTextEntityZXFZ.setContent(URLDecoder.decode(sifanyObj.getOnlineSimModelId(), "utf-8"));
-                    sifanyDataTextEntityZXFZ.setUpdateTime(new Date().getTime());
-                    sifanyDataTextService.updateById(sifanyDataTextEntityZXFZ);
+                    if(sifanyDataTextEntityZXFZ != null) {
+                        sifanyDataTextEntityZXFZ.setContent(URLDecoder.decode(sifanyObj.getOnlineSimModelId(), "utf-8"));
+                        sifanyDataTextEntityZXFZ.setUpdateTime(new Date().getTime());
+                        sifanyDataTextService.updateById(sifanyDataTextEntityZXFZ);
+                    }else{
+                        sifanyDataTextEntityZXFZ = new SifanyDataTextEntity();
+                        sifanyDataTextEntityZXFZ.setContent(URLDecoder.decode(sifanyObj.getOnlineSimModelId(), "utf-8"));
+                        sifanyDataTextEntityZXFZ.setUpdateTime(new Date().getTime());
+                        sifanyDataTextService.save(sifanyDataTextEntityZXFZ);
+                    }
                     sifanyObj.setOnlineSimModelId(sifanyDataTextEntityZXFZ.getId().toString());
 
-                    sifanyDataTextEntityLXFZ.setContent(URLDecoder.decode(sifanyObj.getOfflineSimModelId(), "utf-8"));
-                    sifanyDataTextEntityLXFZ.setUpdateTime(new Date().getTime());
-                    sifanyDataTextService.updateById(sifanyDataTextEntityLXFZ);
+                    if(sifanyDataTextEntityLXFZ != null) {
+                        sifanyDataTextEntityLXFZ.setContent(URLDecoder.decode(sifanyObj.getOfflineSimModelId(), "utf-8"));
+                        sifanyDataTextEntityLXFZ.setUpdateTime(new Date().getTime());
+                        sifanyDataTextService.updateById(sifanyDataTextEntityLXFZ);
+                    }
+                    else{
+                        sifanyDataTextEntityLXFZ = new SifanyDataTextEntity();
+                        sifanyDataTextEntityLXFZ.setContent(URLDecoder.decode(sifanyObj.getOfflineSimModelId(), "utf-8"));
+                        sifanyDataTextEntityLXFZ.setUpdateTime(new Date().getTime());
+                        sifanyDataTextService.save(sifanyDataTextEntityLXFZ);
+                    }
                     sifanyObj.setOfflineSimModelId(sifanyDataTextEntityLXFZ.getId().toString());
-
                 }
             sifanyObjService.GtoObj(sifanyObj);
             }else{

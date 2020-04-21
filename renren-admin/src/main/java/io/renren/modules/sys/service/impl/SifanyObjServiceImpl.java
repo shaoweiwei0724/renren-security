@@ -183,8 +183,8 @@ public class SifanyObjServiceImpl extends ServiceImpl<SifanyObjDao, SifanyObjEnt
             String category=iron.getString("category");
             System.out.println("iron:"+iron.toJSONString());
             try{
-            if(!category.equals("OfNodes")&&!category.equals("TextNode")){
-                    if(!type.equals("Text")){
+            if(!("OfNodes").equals(category)&&!("TextNode").equals(category)){
+                    if(!("Text").equals(type)){
                         SifanyClassEntity obj=sifanyClassService.getById(iron.getJSONObject("source").getLong("id"));
 
                         //模型实例

@@ -1,6 +1,7 @@
 package io.renren.modules.sys.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URLDecoder;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -17,6 +18,7 @@ import io.renren.modules.sys.service.SifanyDataImageService;
 import io.renren.modules.sys.service.SifanyDataTextService;
 import io.renren.modules.sys.vo.AttrVO;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.web.bind.annotation.*;
@@ -126,24 +128,31 @@ public class SifanyClassController extends AbstractController{
         Map<Long, List<SifanyClassAttrEntity>> attrListMap = sifanyClassAttr.stream().collect(Collectors.groupingBy(SifanyClassAttrEntity::getClassId));
 
         List<SifanyClassEntity> sifanyClassEntities = listMap.get(id);
-        sifanyClassEntities.stream().forEach(obj->{
+        sifanyClassEntities.forEach(obj -> {
             List<SifanyClassEntity> classEntities = listMap.get(obj.getId());
-            List<AttrVO> attrVOS = new ArrayList<>();
-            classEntities.stream().forEach(obj2->{
-                List<SifanyClassAttrEntity> attr2 = attrListMap.get(obj2.getId());
-                attr2.forEach(obj3->{
-                    AttrVO attrVO = new AttrVO();
-                    attrVO.setId(obj3.getId());
-                    attrVO.setName(obj3.getName());
-                    attrVOS.add(attrVO);
-                });
-                obj2.setAttrs(attrVOS);
+            List<SifanyClassEntity> infoVOList = new ArrayList<>();
+            classEntities.forEach(obj2 -> {
+                SifanyClassEntity infoVO = new SifanyClassEntity();
+                List<AttrVO> attrVOS = new ArrayList<>();
+                List<SifanyClassAttrEntity> attrList = attrListMap.get(obj2.getId());
+                if(Objects.nonNull(attrList)) {
+                    attrList.forEach(obj3 -> {
+                            AttrVO attrVO = new AttrVO();
+                            attrVO.setId(obj3.getId());
+                            attrVO.setName(obj3.getName());
+                            attrVOS.add(attrVO);
+
+                    });
+                }
+                BeanUtils.copyProperties(obj2,infoVO);
+                infoVO.setAttrs(attrVOS);
+                infoVO.setSource(obj2);
+                infoVOList.add(infoVO);
             });
-            obj.setChilds(classEntities);
+            obj.setChilds(infoVOList);
         });
         return R.ok().put("classLists", sifanyClassEntities);
     }
-
     /**
      * 选择父类(添加、修改菜单)
      */

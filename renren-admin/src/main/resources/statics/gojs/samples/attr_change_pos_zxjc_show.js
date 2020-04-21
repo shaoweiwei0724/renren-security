@@ -178,7 +178,7 @@ function init() {
                     linkDataArray = json.link;
                     // console.log("linkDataArray",linkDataArray);
                     for (var j = 0; j < nodeDataArray.length; j++) {
-                        var nodedata = nodeDataArray[j]
+                        var nodedata = nodeDataArray[j];
                         var node_attr = [];
                         if (nodedata.type != "Text") {
                             if (nodedata.attrs != "" && nodedata.attrs != null && nodedata.attrs != "undefined") {
