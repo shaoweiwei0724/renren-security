@@ -142,14 +142,14 @@ $(function () {
          }*/
     });
 
-    if(localStorage.edit_change == document.getElementById("edit_change").innerText){
-
-        if("编辑组态" == document.getElementById("edit_change").innerText){
-            document.getElementById("edit_change").innerText = "编辑接线图";
-        }else{
-            document.getElementById("edit_change").innerText = "编辑组态";
-        }
-    }
+    // if(localStorage.edit_change == document.getElementById("edit_change").innerText){
+    //
+    //     if("编辑组态" == document.getElementById("edit_change").innerText){
+    //         document.getElementById("edit_change").innerText = "编辑接线图";
+    //     }else{
+    //         document.getElementById("edit_change").innerText = "编辑组态";
+    //     }
+    // }
 });
 function changeFrameHeight(that){
     //电脑屏幕高度-iframe上面其他组件的高度
@@ -336,25 +336,7 @@ function addHover2Dom() { //添加接线图
         }
     });
 }
-function showAttrs(){
-    if($("#showAttr").text() === "显示元件属性"){
-        $("#showAttr").text("隐藏元件属性");
-        localStorage.showAttr = "true";
-        var node = ztreeMain.getSelectedNodes();
-        if(node[0].gModelId != null && node[0].gModelId != null) {
-            localStorage.fileId = node[0].gModelId;
-        }else{
-            localStorage.fileId=null;
-        }
-        $('#Gfile').attr('src',$('#Gfile').attr('src')).trigger("reloadGrid");
-    }else{
-        $("#showAttr").text("显示元件属性");
-        localStorage.showAttr = "false";
-        $('#Gfile').attr('src',$('#Gfile').attr('src')).trigger("reloadGrid");
-    }
 
-
-}
 
 function deleteDom(){
     var nodes = ztreeMain.getSelectedNodes();
@@ -904,17 +886,17 @@ var vm = new Vue({
             })
         },
 
-        edit_change: function(){
-            if("编辑组态" == document.getElementById("edit_change").innerText){
-                document.getElementById("edit_change").innerText = "编辑接线图";
-                localStorage.edit_change = "编辑组态";
-            }else{
-                document.getElementById("edit_change").innerText = "编辑组态";
-                localStorage.edit_change = "编辑接线图"
-            }
-            $('#config-swan-svg2').attr('src',$('#config-swan-svg2').attr('src')).trigger("reloadGrid");
-
-        },
+        // edit_change: function(){
+        //     if("编辑组态" == document.getElementById("edit_change").innerText){
+        //         document.getElementById("edit_change").innerText = "编辑接线图";
+        //         localStorage.edit_change = "编辑组态";
+        //     }else{
+        //         document.getElementById("edit_change").innerText = "编辑组态";
+        //         localStorage.edit_change = "编辑接线图"
+        //     }
+        //     $('#config-swan-svg2').attr('src',$('#config-swan-svg2').attr('src')).trigger("reloadGrid");
+        //
+        // },
 
         add: function(){
             vm.showList = false;
@@ -1295,6 +1277,25 @@ function show_GO() {
     btn_go.setAttribute("disabled", true);
     g.style.display="none";
     go.style.display="block";
+}
+function showAttrs(){
+    if($("#showAttr").text() === "显示元件属性"){
+        $("#showAttr").text("隐藏元件属性");
+        localStorage.showAttr = "true";
+        var node = ztreeMain.getSelectedNodes();
+        if(node[0].gModelId != null && node[0].gModelId != null) {
+            localStorage.fileId = node[0].gModelId;
+        }else{
+            localStorage.fileId = null;
+        }
+        $('#Gfile').attr('src',$('#Gfile').attr('src')).trigger("reloadGrid");
+    }else{
+        $("#showAttr").text("显示元件属性");
+        localStorage.showAttr = "false";
+        $('#Gfile').attr('src',$('#Gfile').attr('src')).trigger("reloadGrid");
+    }
+
+
 }
 function upload(input) {
     if (window.FileReader) {

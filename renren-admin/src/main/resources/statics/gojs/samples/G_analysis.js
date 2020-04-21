@@ -12,6 +12,8 @@ var icon={};
 var iconsId=localStorage.iconsId ;
 function init() {
 
+    if(localStorage.fileId == null)
+        return;
     // if (window.goSamples) goSamples();  // init for these samples -- you don't need to call this
 
     var str={};
