@@ -304,7 +304,7 @@ function addHover2Dom() { //添加接线图
         return;
     }
 
-    var newNode = { name: "example" };
+    var newNode = { name: "接线图1" };
 
     //4、把这个新节点添加到当前选中的节点下，作为它的子节点
     // if(nodes.length > 0){
@@ -312,7 +312,7 @@ function addHover2Dom() { //添加接线图
     // }
 
     var url = "sys/sifanyobj/save";
-    vm.sifanyObj = {id:null,name:"example",parentId:nodes[0].id,orderNum:0,'icons':'',nodeType:"1"};
+    vm.sifanyObj = {id:null,name:"接线图1",parentId:nodes[0].id,orderNum:0,'icons':'',nodeType:"1"};
     console.log("--------------------",vm.sifanyObjAttr);
 
     $.ajax({
