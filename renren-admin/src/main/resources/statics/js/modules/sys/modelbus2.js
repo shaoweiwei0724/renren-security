@@ -341,10 +341,10 @@ function showAttrs(){
         $("#showAttr").text("隐藏元件属性");
         localStorage.showAttr = "true";
         var node = ztreeMain.getSelectedNodes();
-        if(node[0].gModelId != null) {
+        if(node[0].gModelId != null && node[0].gModelId != null) {
             localStorage.fileId = node[0].gModelId;
         }else{
-            localStorage.fileId=node[0].gId;
+            localStorage.fileId=null;
         }
         $('#Gfile').attr('src',$('#Gfile').attr('src')).trigger("reloadGrid");
     }else{

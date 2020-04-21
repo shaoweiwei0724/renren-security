@@ -575,8 +575,8 @@ function reloadTree(){
         console.log("node1:", node.modelId)
 
         localStorage.modelId=node.modelId;
-        localStorage.onlineSimModelId=node[0].onlineSimModelId;
-        localStorage.offlineSimModelId=node[0].offlineSimModelId;
+        localStorage.onlineSimModelId=node.onlineSimModelId;
+        localStorage.offlineSimModelId=node.offlineSimModelId;
         console.log(localStorage.modelId);
         ztreeMain.selectNode(node);
 

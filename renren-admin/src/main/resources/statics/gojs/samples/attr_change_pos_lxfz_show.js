@@ -177,30 +177,34 @@ function init() {
                     // console.log("nodeDataArray",nodeDataArray);
                     linkDataArray = json.link;
                     // console.log("linkDataArray",linkDataArray);
-                    for (var j = 0; j < nodeDataArray.length; j++) {
-                        var nodedata = nodeDataArray[j]
-                        var node_attr = [];
-                        if (nodedata.type != "Text") {
-                            if (nodedata.attrs != "" && nodedata.attrs != null && nodedata.attrs != "undefined") {
-                                for (var i = 0; i < nodedata.attrs.length; i++) {
-                                    var attr = {};
-                                    attr = nodedata.attrs[i];
-                                    attr.objId = nodeDataArray[j].key;
-                                    node_attr.push(attr);
-                                    swan_redis_data[attr["id"].toString()] = 0
+                    if( nodeDataArray != null && nodeDataArray != "undefined") {
+                        for (var j = 0; j < nodeDataArray.length; j++) {
+                            var nodedata = nodeDataArray[j]
+                            var node_attr = [];
+                            if (nodedata.type != "Text") {
+                                if (nodedata.attrs != "" && nodedata.attrs != null && nodedata.attrs != "undefined") {
+                                    for (var i = 0; i < nodedata.attrs.length; i++) {
+                                        var attr = {};
+                                        attr = nodedata.attrs[i];
+                                        attr.objId = nodeDataArray[j].key;
+                                        node_attr.push(attr);
+                                        swan_redis_data[attr["id"].toString()] = 0
+                                    }
+                                    attrs.push(node_attr);
                                 }
-                                attrs.push(node_attr);
+                            }
+                            else {
+                                var msp = nodedata.msp;
+                                var node_text = [];
+                                if (text_node[msp] != undefined) {
+                                    node_text = text_node[msp];
+                                }
+                                node_text.push(nodedata.key);
+                                text_node[msp] = node_text;
                             }
                         }
-                        else {
-                            var msp = nodedata.msp;
-                            var node_text = [];
-                            if (text_node[msp] != undefined) {
-                                node_text = text_node[msp];
-                            }
-                            node_text.push(nodedata.key);
-                            text_node[msp] = node_text;
-                        }
+                    }else{
+                        nodeDataArray = [];
                     }
 
                     //定义模型

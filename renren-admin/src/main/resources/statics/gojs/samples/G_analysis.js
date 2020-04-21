@@ -577,7 +577,8 @@ function init() {
                                 // locationSpot: go.Spot.Center,
                                 rotatable: true,
                                 movable:true,
-                                reshapable:true
+                                reshapable:true,
+                                text:null,
                             },
                             new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify),
                             new go.Binding("angle", "angle"),
