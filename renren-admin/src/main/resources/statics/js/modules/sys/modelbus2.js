@@ -325,7 +325,7 @@ function addHover2Dom() { //添加接线图
                 layer.msg("操作成功", {icon: 1});
                 //vm.reload();
                 $('#treeContextMenu').hide();
-                reloadTree();
+               // reloadTree();
                 refreshNodeTree(nodes,nodes[0].id)
                 // $(document).ready();
 
@@ -676,6 +676,12 @@ function refreshNodeTree(nodes,id){
     $.get(baseURL + "sys/sifanyobj/select", function(r){
         // var a = JSON.stringify(r.classLists);?type=base
         // alert(a);
+        for(var i in r.objEntityLists) {
+            var swan_obj_list_i = r.objEntityLists[i];
+            if(swan_obj_list_i.nodeType==1){
+                swan_obj_list_i["iconSkin"]="icon05";
+            }
+        }
 
         ztreeMain = $.fn.zTree.init($("#classTreeMain"), setting, r.objEntityLists);
         // ztreeMain.reload();
