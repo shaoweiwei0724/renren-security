@@ -73,6 +73,7 @@ public class SifanyObjEntity implements Serializable {
 	private String irconurl;
 
 	private String icons;
+	private Long orgId;
 
 
 
@@ -247,5 +248,13 @@ public class SifanyObjEntity implements Serializable {
 
 	public void setNodeType(String nodeType) {
 		this.nodeType = nodeType;
+	}
+
+	public Long getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(Long orgId) {
+		this.orgId = orgId;
 	}
 }

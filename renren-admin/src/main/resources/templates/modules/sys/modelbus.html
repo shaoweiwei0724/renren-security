@@ -28,10 +28,10 @@
                         <input type="text"  v-model="sifanyObj.id"  placeholder="id"/>
                         <input type="text"  v-model="sifanyObj.modelId"  placeholder="图标"/>
                     </div>
-                    <div v-if="sifanyObj.nodeType==0">
+                    <div v-show="sifanyObj.nodeType!=1">
                         <div style=" position: absolute;left: 50%;top: 40%;text-align:center;vertical-align:middle;">当前节点不是接线图</div>
                     </div>
-                    <div style="padding:20px;" v-else="sifanyObj.nodeType==1">
+                    <div style="padding:20px;" v-show="sifanyObj.nodeType==1">
                         <div>
                             <iframe src="${request.contextPath}/statics/gojs/samples/show.html"
                                     width="99%" id="config-swan-svg0" onload="changeFrameHeight(this)"></iframe>

@@ -557,20 +557,25 @@ function getGridGatherDom(){
     });
 }
 function reloadTree(){
-    $.get(baseURL + "sys/sifanyobj/select", function(r){
+    $.get(baseURL + "sys/sifanyorganization/diagramList", function(r){
         // var a = JSON.stringify(r.classLists);?type=base
         // alert(a);
         for(var i in r.objEntityLists) {
             var swan_obj_list_i = r.objEntityLists[i];
-            if(swan_obj_list_i.nodeType==1){
-                swan_obj_list_i["iconSkin"]="icon05";
+            if(swan_obj_list_i.children!=null){
+                for(var j in swan_obj_list_i.children){
+                    if(swan_obj_list_i.children[j].nodeType==1){
+                        swan_obj_list_i.children[j]["iconSkin"]="icon05";
+                    }
+                }
             }
+
         }
         ztreeMain = $.fn.zTree.init($("#classTreeMain"), setting, r.objEntityLists);
         if(localStorage.selectSceneId){
             var node = ztreeMain.getNodeByParam("id",localStorage.selectSceneId);
         }else{
-            var node = ztreeMain.getNodeByParam("id","-1");
+            var node = ztreeMain.getNodeByParam("id","1");
         }
         console.log("node1:", node.modelId)
 
