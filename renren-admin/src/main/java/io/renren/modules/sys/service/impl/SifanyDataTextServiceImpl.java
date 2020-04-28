@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -105,6 +107,10 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                             for(int i=0;i<link_points.length;i++){
                                 link_points_int[i]=Double.parseDouble(link_points[i]);
                             }
+//                            if(link_points_int.length == 4) {
+//                                link_points_int[0] += -1.5;
+//                                link_points_int[2] += -1.5;
+//                            }
                             System.out.println("points:"+link_points_int);
                             link.put("points",link_points_int);
                         }
@@ -240,6 +246,7 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                     node.put("category",childElement.getName());
                     node.put("type",childElement.getName());
 
+
                     //获取子节点标签属性
                     Iterator node_attrChildElement = childElement.attributeIterator();
                     while (node_attrChildElement.hasNext()) {
@@ -248,7 +255,7 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                         //将坐标属性替换成pos(x,y)格式
                         if (attrChild.getName().equals("x")) {
                             if (lab == 1) {
-                                node.put("pos", attrChild.getValue() + " " + Y);
+                                node.put("pos", Double.parseDouble(attrChild.getValue()) -1 + " " + (Double.parseDouble(Y)-1.5));
                             } else {
                                 X = attrChild.getValue();
                                 lab += 1;
@@ -256,8 +263,8 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
 
                         }
                         else if (attrChild.getName().equals("y")) {
-                            if (lab == 1) {
-                                node.put("pos", X + " " + attrChild.getValue());
+                            if (lab == 1) { //减1、减2 解决空隙问题
+                                node.put("pos", Double.parseDouble(X) -1 + " " + (Double.parseDouble(attrChild.getValue()) -1.5));
                             } else {
                                 Y = attrChild.getValue();
                                 lab += 1;
@@ -271,8 +278,8 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                                 size_x=Math.abs(size_x);
                                 bus_x=b_x/2;
                                 if(lab==1){
-                                    node.put("pos", String.valueOf(bus_x) + " " +String.valueOf(bus_y) );
-                                    node.put("size", String.valueOf(size_x) + " " +String.valueOf(size_y) );
+                                    node.put("pos", String.valueOf(bus_x - 1) + " " +String.valueOf(bus_y) );
+                                    node.put("size", String.valueOf(size_x - 1) + " " +String.valueOf(size_y) );
                                 }
                                 else {
                                     lab+=1;
@@ -382,6 +389,8 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                             if(!childElement.getName().equals("BusbarSection")&&!childElement.getName().equals("Station")&&!childElement.getName().equals("EnergyConsumer")){
                                 String category = node.getString("category");
                                 node.put("category", category + "_" + attrChild.getValue());
+
+
                             }
                         }
                         //获取Station的状态
@@ -494,7 +503,7 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                                             x_pin=0.5;
                                         }
                                         else {
-                                            x_pin=(Double.parseDouble(pin_attr.getValue())-x_min)/x_pin;
+                                            x_pin=(Double.parseDouble(pin_attr.getValue())-x_min + 0.5)/x_pin;
 //                                            String x_pin_s = String.format("%.2f",x_pin);
 //                                            x_pin=Double.parseDouble(x_pin_s);
                                         }
@@ -526,6 +535,35 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                             Pin.add(pin_port);
                         }
                         node.put("pin",Pin);
+
+                    }
+                    if("Transformer2".equals(node.getString("type"))) { //设置两卷变颜色
+                        ArrayList strokes = new ArrayList();
+//                        ArrayList strokes2 = new ArrayList();
+                        ArrayList geometrys = new ArrayList();
+                        Double v1 = node.getDouble("voltype1");
+                        Double v2 = node.getDouble("voltype2");
+                        strokes = getStrokes(v1,v2,strokes);
+//                                    strokes.add("A");
+//                                    strokes.add("B");
+//                        node.put("geometry_2_stroke1",getStroke(v1));
+//                        node.put("geometry_2_stroke2",getStroke(v2));
+                        node.put("geometry_2_stroke",strokes);
+                        geometrys.add("geometry_top");
+                        geometrys.add("geometry_bottom");
+                        node.put("geometry_2",geometrys);
+                    }
+
+                    if("Transformer3".equals(node.getString("type"))) { //设置三卷变颜色
+                        ArrayList strokes = new ArrayList();
+                        Double v1 = node.getDouble("voltype1");
+                        Double v2 = node.getDouble("voltype2");
+                        Double v3 = node.getDouble("voltype3");
+                        strokes.add(getStroke(v1));
+                        strokes.add(getStroke(v2));
+                        strokes.add(getStroke(v3));
+//
+                        node.put("geometry_3_stroke",strokes);
                     }
                     node_list.add(node);//保存节点信息
                 }
@@ -536,5 +574,67 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
 //        System.out.println(object.toString());
         return object;
     }
+
+    private ArrayList getStrokes(Double v1, Double v2, ArrayList strokes) {
+        strokes.add(getStroke(v1));
+        strokes.add(getStroke(v2));
+        return  strokes;
+    }
+
+    private String getStroke(Double v) {
+
+        if(v == 0) //灰色
+            return "rgba(128,128,128)";
+//            return "A";
+        if(v > 0 && v < 6) //
+            return "rgba(0,169,169)";
+//            return "A";
+        if(v >= 6 && v < 10) //深蓝
+            return "rgba(0,0,139)";
+//            return "B";
+        if(v >= 10 && v < 13)
+            return "rgba(185,72,66)";
+//            return "C";
+        if(v >= 13 && v < 15)
+            return "rgba(0,210,0)";
+//            return "D";
+        if(v >= 15 && v < 20)
+            return "rgba(0,128,0)";
+//            return "E";
+        if(v >= 20 && v < 35)
+            return "rgba(226,172,6)";
+//            return "F";
+        if(v >= 35 && v < 66)
+//            return "rgba(255,255,0)";
+            return "G";
+        if(v >= 66 && v < 110)
+            return "rgba(255,204,0)";
+//            return "H";
+        if(v >= 110 && v < 220)
+            return "rgba(240,65,128)";
+//            return "L";
+        if(v >= 220 && v < 330)
+            return "rgba(128,0,128)";
+//            return "M";
+        if(v >= 330 && v < 500)
+            return "rgba(255,0,0)";
+//            return "N";
+        if(v >= 500 && v < 660)
+            return "rgba(255,0,0)";
+//            return "O";
+        if(v >= 660 && v < 750)
+            return "rgba(250,128,10)";
+//            return "P";
+        if(v >= 750 && v < 800)
+            return "rgba(250,128,10)";
+//            return "Q";
+        if(v >= 800 && v < 1000)
+            return "rgba(0,0,255)";
+//            return "R";
+        else // >=1000
+            return "rgba(0,0,0)";
+//            return "R";
+    }
+
 
 }

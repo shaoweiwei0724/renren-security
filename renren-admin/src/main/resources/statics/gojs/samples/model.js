@@ -108,7 +108,7 @@ function init() {
 
 
     var $ = go.GraphObject.make;  // for conciseness in defining templates
-    var resizeAdornment =
+    var resizeAdornment = //节点装饰器模板
                 $(go.Adornment, go.Panel.Spot,
                     $(go.Placeholder),
                     $(go.Shape,  // left resize handle
