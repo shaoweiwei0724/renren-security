@@ -236,9 +236,9 @@ function onRightClick(event, treeId, treeNode) {
         return false;
     }
     //alert(1)
-    if (treeNode.id == "1") {
+   /* if (treeNode.id == "1") {
         return;
-    }
+    }*/
     if (treeNode) {
         ztreeMain.selectNode(treeNode);
         // alert('ddddd')
@@ -312,7 +312,7 @@ function addHover2Dom() { //添加接线图
     // }
 
     var url = "sys/sifanyobj/save";
-    vm.sifanyObj = {id:null,name:"接线图1",parentId:nodes[0].id,orderNum:0,'icons':'',nodeType:"1"};
+    vm.sifanyObj = {id:null,name:"接线图1",orgId:nodes[0].id,orderNum:0,'icons':'',nodeType:"1"};
     console.log("--------------------",vm.sifanyObjAttr);
 
     $.ajax({
@@ -347,7 +347,11 @@ function deleteDom(){
 
     var objId = nodes[0].id;
     var parentId = nodes[0].parentId;
+    if(nodes[0].nodeType != "1"){
 
+        layer.alert("当前节点类型不为接线图，不允许删除该节点。");
+        return;
+    }
     if(objId==-1){
         //  layer.msg("根节点不允许删除。", {icon: 1});
         layer.alert("根节点不允许删除。");
@@ -642,14 +646,19 @@ function getGridGatherDom(){
     });
 }
 function reloadTree(){
-    $.get(baseURL + "sys/sifanyobj/select", function(r){
+    $.get(baseURL + "sys/sifanyorganization/diagramList", function(r){
         // var a = JSON.stringify(r.classLists);?type=base
         // alert(a);
         for(var i in r.objEntityLists) {
             var swan_obj_list_i = r.objEntityLists[i];
-            if(swan_obj_list_i.nodeType==1){
-                swan_obj_list_i["iconSkin"]="icon05";
+            if(swan_obj_list_i.children!=null){
+                for(var j in swan_obj_list_i.children){
+                    if(swan_obj_list_i.children[j].nodeType==1){
+                        swan_obj_list_i.children[j]["iconSkin"]="icon05";
+                    }
+                }
             }
+
         }
         ztreeMain = $.fn.zTree.init($("#classTreeMain"), setting, r.objEntityLists);
 
@@ -657,7 +666,7 @@ function reloadTree(){
         if(localStorage.selectSceneId){
             var node = ztreeMain.getNodeByParam("id",localStorage.selectSceneId);
         }else{
-            var node = ztreeMain.getNodeByParam("id","-1");
+            var node = ztreeMain.getNodeByParam("id","1");
         }
 
         console.log("node1:", node)
@@ -670,17 +679,23 @@ function reloadTree(){
             vm.sifanyObj = {id:node.id,name:node.name,code:node.code,icons:node.icons,remark:node.remark,irconurl:node.irconurl,gId:node.gId,modelId:node.modelId,onlineSimModelId:node.onlineSimModelId,offlineSimModelId:node.offlineSimModelId,nodeType:node.nodeType };
         }
         // vm.sifanyClass.parentName = node.name;
+
     })
 }
 function refreshNodeTree(nodes,id){
-    $.get(baseURL + "sys/sifanyobj/select", function(r){
+    $.get(baseURL + "sys/sifanyorganization/diagramList", function(r){
         // var a = JSON.stringify(r.classLists);?type=base
         // alert(a);
         for(var i in r.objEntityLists) {
             var swan_obj_list_i = r.objEntityLists[i];
-            if(swan_obj_list_i.nodeType==1){
-                swan_obj_list_i["iconSkin"]="icon05";
+            if(swan_obj_list_i.children!=null){
+                for(var j in swan_obj_list_i.children){
+                    if(swan_obj_list_i.children[j].nodeType==1){
+                        swan_obj_list_i.children[j]["iconSkin"]="icon05";
+                    }
+                }
             }
+
         }
 
         ztreeMain = $.fn.zTree.init($("#classTreeMain"), setting, r.objEntityLists);
@@ -709,20 +724,26 @@ function refreshNodeTree(nodes,id){
     })
 }
 function onRename(e,treeId,treeNode,isCancel){
+
     var zTree = $.fn.zTree.getZTreeObj("classTreeMain"),
         type = "refresh",
         silent = false,
         /*获取 zTree 当前被选中的节点数据集合*/
         nodes = zTree.getSelectedNodes();
+    if(nodes[0].nodeType!=1) {
+        layer.alert("非接线图节点名称不能编辑！");
+        return true;
+    }
     zTree.editName(nodes[0]);
     $("#treeContextMenu").hide();
 
 }
 function beforeRename(treeId, treeNode, newName, isCancel) {
-    if (treeNode.id == -1) {
+    if (treeNode.id == 1) {
                     layer.alert("根目录不能编辑！");
                     return true;
-                } else {
+    } else{
+
         if (treeNode.name == newName) {
             return true;
         } else if (newName.length == 0) {
@@ -731,6 +752,7 @@ function beforeRename(treeId, treeNode, newName, isCancel) {
             treeNode.name = treeNode.name;
             return false;
         } else {
+
             var url = "sys/sifanyobj/update";
             vm.sifanyObj = {id:treeNode.id,name:newName};
 

@@ -22,6 +22,7 @@
         <result property="code" column="code"/>
         <result property="remark" column="remark"/>
         <result property="nodeType" column="node_type"/>
+        <result property="orgId" column="org_id"/>
     </resultMap>
 
     <select id="queryList" resultType="io.renren.modules.sys.entity.SifanyObjEntity">
