@@ -3753,14 +3753,28 @@ go.Shape.defineFigureGenerator("Resistor", function(shape, w, h) {
   var geo = new go.Geometry();
   var fig = new go.PathFigure(0, .5 * h, false);
   geo.add(fig);
-
-  fig.add(new go.PathSegment(go.PathSegment.Line, .1 * w, 0));
-  fig.add(new go.PathSegment(go.PathSegment.Line, .2 * w, h));
-  fig.add(new go.PathSegment(go.PathSegment.Line, .3 * w, 0));
-  fig.add(new go.PathSegment(go.PathSegment.Line, .4 * w, h));
-  fig.add(new go.PathSegment(go.PathSegment.Line, .5 * w, 0));
-  fig.add(new go.PathSegment(go.PathSegment.Line, .6 * w, h));
-  fig.add(new go.PathSegment(go.PathSegment.Line, .7 * w, .5 * h));
+    fig.add(new go.PathSegment(go.PathSegment.Line, .1 * w, .5 * h));
+    fig.add(new go.PathSegment(go.PathSegment.Line, .2 * w, 0));
+    fig.add(new go.PathSegment(go.PathSegment.Line, .21 * w, 0));
+    fig.add(new go.PathSegment(go.PathSegment.Line, .31 * w, h));
+    fig.add(new go.PathSegment(go.PathSegment.Line, .32 * w, h));
+    fig.add(new go.PathSegment(go.PathSegment.Line, .42 * w, 0));
+    fig.add(new go.PathSegment(go.PathSegment.Line, .43 * w, 0));
+    fig.add(new go.PathSegment(go.PathSegment.Line, .53 * w, h));
+    fig.add(new go.PathSegment(go.PathSegment.Line, .54 * w, h));
+    fig.add(new go.PathSegment(go.PathSegment.Line, .64 * w, 0));
+    fig.add(new go.PathSegment(go.PathSegment.Line, .65 * w, 0));
+    fig.add(new go.PathSegment(go.PathSegment.Line, .75 * w, h));
+    fig.add(new go.PathSegment(go.PathSegment.Line, .76 * w, h));
+    fig.add(new go.PathSegment(go.PathSegment.Line, .86 * w, .5 * h));
+    fig.add(new go.PathSegment(go.PathSegment.Line, w, .5 * h));
+  // fig.add(new go.PathSegment(go.PathSegment.Line, .14 * w, 0));
+  // fig.add(new go.PathSegment(go.PathSegment.Line, .28 * w, h));
+  // fig.add(new go.PathSegment(go.PathSegment.Line, .42 * w, 0));
+  // fig.add(new go.PathSegment(go.PathSegment.Line, .56 * w, h));
+  // fig.add(new go.PathSegment(go.PathSegment.Line, .7 * w, 0));
+  // fig.add(new go.PathSegment(go.PathSegment.Line, .84 * w, h));
+  // fig.add(new go.PathSegment(go.PathSegment.Line, w, .5 * h));
   return geo;
 });
 

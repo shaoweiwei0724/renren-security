@@ -15,11 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -108,8 +104,8 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                                 link_points_int[i]=Double.parseDouble(link_points[i]);
                             }
 //                            if(link_points_int.length == 4) {
-//                                link_points_int[0] += -1.5;
-//                                link_points_int[2] += -1.5;
+//                                link_points_int[0] += -0.5;
+//                                link_points_int[2] += -0.5;
 //                            }
                             System.out.println("points:"+link_points_int);
                             link.put("points",link_points_int);
@@ -251,20 +247,40 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                     Iterator node_attrChildElement = childElement.attributeIterator();
                     while (node_attrChildElement.hasNext()) {
                         Attribute attrChild = (Attribute) node_attrChildElement.next();
+                        String angle = node.getString("angle");
+                        double angle_num = 0;
+                        if(Objects.nonNull(angle))
+                            angle_num = Double.parseDouble(angle);
+                        double poss[] = new double[2];
 
                         //将坐标属性替换成pos(x,y)格式
                         if (attrChild.getName().equals("x")) {
+//                            poss[0] = Double.parseDouble(attrChild.getValue()) -1;
+//                            poss[1] = Double.parseDouble(Y)-1.5;
+                            poss[0] = Double.parseDouble(attrChild.getValue());
+                            poss[1] = Double.parseDouble(Y)  - 0.7;
+
+                            //坐标转换到元件中心，之前在左上角
+//                            if(angle_num == 90.0 || angle_num ==270.0)
+                                poss = getCenterXY(poss,node.getString("category"),angle_num);
                             if (lab == 1) {
-                                node.put("pos", Double.parseDouble(attrChild.getValue()) -1 + " " + (Double.parseDouble(Y)-1.5));
+                                node.put("pos", poss[0] + " " + poss[1]);
                             } else {
                                 X = attrChild.getValue();
                                 lab += 1;
                             }
-
                         }
                         else if (attrChild.getName().equals("y")) {
-                            if (lab == 1) { //减1、减2 解决空隙问题
-                                node.put("pos", Double.parseDouble(X) -1 + " " + (Double.parseDouble(attrChild.getValue()) -1.5));
+//                            poss[0] = Double.parseDouble(X) -1;
+//                            poss[1] = Double.parseDouble(attrChild.getValue()) - 1.5;
+                            poss[0] = Double.parseDouble(X);
+                            poss[1] = Double.parseDouble(attrChild.getValue()) - 0.7;
+
+                            //坐标转换到元件中心，之前在左上角
+//                            if(angle_num > 0)
+                                poss = getCenterXY(poss,node.getString("category"),angle_num);
+                            if (lab == 1) {
+                                node.put("pos", poss[0] + " " + poss[1]);
                             } else {
                                 Y = attrChild.getValue();
                                 lab += 1;
@@ -278,8 +294,8 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                                 size_x=Math.abs(size_x);
                                 bus_x=b_x/2;
                                 if(lab==1){
-                                    node.put("pos", String.valueOf(bus_x - 1) + " " +String.valueOf(bus_y) );
-                                    node.put("size", String.valueOf(size_x - 1) + " " +String.valueOf(size_y) );
+                                    node.put("pos", String.valueOf(bus_x) + " " +String.valueOf(bus_y  - 0.7) );
+                                    node.put("size", String.valueOf(size_x) + " " +String.valueOf(size_y) );
                                 }
                                 else {
                                     lab+=1;
@@ -298,7 +314,7 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                                 size_y=Math.abs(size_y);
                                 bus_y=b_y/2;
                                 if(lab==1){
-                                    node.put("pos", String.valueOf(bus_x) + " " +String.valueOf(bus_y) );
+                                    node.put("pos", String.valueOf(bus_x) + " " +String.valueOf(bus_y  - 0.7) );
                                     node.put("size", String.valueOf(size_x) + " " +String.valueOf(size_y) );
                                 }
                                 else {
@@ -575,6 +591,180 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
         return object;
     }
 
+    //js里把旋转中心改为center之后需要修改x,y坐标
+    private double[] getCenterXY(double[] poss, String category, double angle) {
+        if (category.contains("Disconnector")){ //12,36
+            if(angle == 90.0 || angle == 270.0) {
+                poss[0] += 18;
+                poss[1] += 6;
+                return poss;
+            }else{
+                poss[1] += 18;
+                poss[0] += 6;
+                return poss;
+            }
+        }
+
+        if (category.contains("Capacitor_P")){ //25.6,36.8
+            if(angle == 90.0 || angle == 270.0) {
+                poss[0] += 18.4;
+                poss[1] += 12.8;
+                return poss;
+            }else{
+                poss[1] += 18.4;
+                poss[0] += 12.8;
+                return poss;
+            }
+        }
+
+        if (category.contains("Capacitor_S")){ //20.8,25.6
+            if(angle == 90.0 || angle == 270.0) {
+                poss[0] += 12.8;
+                poss[1] += 10.4;
+                return poss;
+            }else{
+                poss[1] += 12.8;
+                poss[0] += 10.4;
+                return poss;
+            }
+        }
+
+        if (category.contains("Breaker")){ //8,26
+            if(angle == 90.0 || angle == 270.0) {
+                poss[0] += 13;
+                poss[1] += 4;
+                return poss;
+            }else{
+                poss[1] += 13;
+                poss[0] += 4;
+                return poss;
+            }
+        }
+
+        if (category.contains("EnergyConsumer_0")){ //24,24
+            poss[0] += 12;
+            poss[1] += 12;
+            return poss;
+
+        }
+//
+        if (category.contains("EnergyConsumer_1")){  //32,32
+            poss[0] += 16;
+            poss[1] += 16;
+            return poss;
+        }
+
+        if (category.contains("GeneralMeter_0")){ //26,66
+            if(angle == 90.0 || angle == 270.0) {
+                poss[0] += 33;
+                poss[1] += 13;
+                return poss;
+            }else{
+                poss[1] += 33;
+                poss[0] += 13;
+                return poss;
+            }
+        }
+
+        if (category.contains("Generator_0")){ //32,32
+            poss[0] += 16;
+            poss[1] += 16;
+            return poss;
+        }
+
+        if (category.contains("GroundDisconnector")){ //20.8,51.2
+            if(angle == 90.0 || angle == 270.0) {
+                poss[0] += 25.6;
+                poss[1] += 10.4;
+                return poss;
+            }else{
+                poss[1] += 25.6;
+                poss[0] += 10.4;
+                return poss;
+            }
+        }
+
+        if (category.contains("Reactor_P")){ //20.8,45.6
+            if(angle == 90.0 || angle == 270.0) {
+                poss[0] += 22.8;
+                poss[1] += 10.4;
+                return poss;
+            }else{
+                poss[1] += 22.8;
+                poss[0] += 10.4;
+                return poss;
+            }
+        }
+
+        if (category.contains("Reactor_S")){ //33.6，20.8
+            if(angle == 90.0 || angle == 270.0) {
+                poss[0] += 10.4;
+                poss[1] += 12.8;
+                return poss;
+            }else{
+                poss[1] += 10.4;
+                poss[0] += 12.8;
+                return poss;
+            }
+        }
+
+        if (category.contains("Reactor_S")){ //33.6，20.8
+            if(angle == 90.0 || angle == 270.0) {
+                poss[0] += 10.4;
+                poss[1] += 12.8;
+                return poss;
+            }else{
+                poss[1] += 10.4;
+                poss[0] += 12.8;
+                return poss;
+            }
+        }
+
+        if (category.contains("1_Station")){ //32，32
+            poss[0] += 16;
+            poss[1] += 16;
+            return poss;
+        }
+
+        if (category.contains("2_Station")){ //42，30
+            if(angle == 90.0 || angle == 270.0) {
+                poss[0] += 15;
+                poss[1] += 21;
+                return poss;
+            }else{
+                poss[1] += 15;
+                poss[0] += 30;
+                return poss;
+            }
+        }
+
+        if (category.contains("Transformer2")){ //32，59.2
+            if(angle == 90.0 || angle == 270.0) {
+                poss[0] += 29.6;
+                poss[1] += 16;
+                return poss;
+            }else{
+                poss[1] += 29.6;
+                poss[0] += 16;
+                return poss;
+            }
+        }
+        if (category.contains("Transformer3")){ //54.4，59.2
+            if(angle == 90.0 || angle == 270.0) {
+                poss[0] += 29.6;
+                poss[1] += 27.2;
+                return poss;
+            }else{
+                poss[1] += 29.6;
+                poss[0] += 27.2;
+                return poss;
+            }
+        }
+        return poss;
+    }
+
+
+
     private ArrayList getStrokes(Double v1, Double v2, ArrayList strokes) {
         strokes.add(getStroke(v1));
         strokes.add(getStroke(v2));
@@ -605,8 +795,8 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
             return "rgba(226,172,6)";
 //            return "F";
         if(v >= 35 && v < 66)
-//            return "rgba(255,255,0)";
-            return "G";
+            return "rgba(255,255,0)";
+//            return "G";
         if(v >= 66 && v < 110)
             return "rgba(255,204,0)";
 //            return "H";

@@ -91,8 +91,8 @@ function init() {
                         default:
                             swan_obj_i.push({
                                 "icon": child_i.id,
-                                "iconWidth": 15,
-                                "iconHeight": 30,
+                                "iconWidth": 5,
+                                "iconHeight": 5,
                                 "text": child_i.name,
                                 "source": child_i,
                                 "attrs": child_i.attrs
@@ -204,9 +204,11 @@ function init() {
                     icons.station_2_1 = "M5,5h32v20H5V5z";
                     icons.station_2_2 = "M5,5h32v20H5V5z M21,9c3.3,0,6,2.7,6,6s-2.7,6-6,6s-6-2.7-6-6S17.7,9,21,9z";
                     icons.station_2_3 = "M5,5h32v20H5V5z M5,15h16v10";
-                    icons.transformer2_0 = "M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
-                        "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z";
-                    icons.transformer2_0_1 = "M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z";
+                    // icons.transformer2_0 = "M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
+                    //     "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z";
+                    icons.transformer2_0 = "M16-4.2c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2-4.2,16-4.2z M16,18.2c8.8,0,16,7.2,16,16\n" +
+                        "\ts-7.2,16-16,16S0,43,0,34.2S7.2,18.2,16,18.2z";
+                    icons.transformer2_0_1 = "M16-2.2c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2-2.2,16-2.2z";
                     icons.transformer2_0_2 = "M16,24.8c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z"
                     icons.transformer2_1 = "M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
                         "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M8,9.6l8,4.8 M24,9.6l-8,4.8 M16,24v-9.6";
@@ -230,7 +232,8 @@ function init() {
                         "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M16,51.2L9.6,40 M9.6,40h12.8 M22.4,40L16,51.2";
                     icons.transformer3_0 = "M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z M16,24.8c8.8,0,16,7.2,16,16\n" +
                         "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z";
-                    icons.transformer3_0_1 ="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z";
+                    // icons.transformer3_0_1 ="M16,2.4c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,2.4,16,2.4z";
+                    icons.transformer3_0_1 = "M16-4.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2-4.6,16-4.6z";
                     icons.transformer3_0_2 ="M16,24.8c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z";
                     icons.transformer3_0_3 ="M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z";
 
@@ -321,6 +324,10 @@ function init() {
                         "\ts-7.2,16-16,16s-16-7.2-16-16S7.2,24.8,16,24.8z M36,13.6c8.8,0,16,7.2,16,16s-7.2,16-16,16s-16-7.2-16-16S27.2,13.6,36,13.6z\n" +
                         "\t M8,49.6l8-4.8 M24,49.6l-8-4.8 M16,35.2v9.6";
 
+                    // icons.ACLink = "M23,14.6l23,14 M45,27.6l-42,18 M1,44.6l44,15 M44,58.6l-42,18 M0,75.6l44,16 M42,91.6l-42,16 M0,106l25,19\n" +
+                    //     "\t M23-3.6v20 M23.5,123.9v20";
+                    icons.ACLink = "M14.2,25.1L26.9,1.4 M26,2.5l20.2,41 M45.3,45.5L57.9,0.7 M57,1.8l20.2,41 M76.3,44.8L89.9,0 M90,2l18.3,41.1\n" +
+                        "\t M106.6,43.2l17.6-26 M-4,26.1L16,25 M123.3,18.7l20-1.1";
                     var $ = go.GraphObject.make;  // for conciseness in defining templates
                     // var resizeAdornment =
                     //     $(go.Adornment, go.Panel.Spot,
@@ -522,11 +529,11 @@ function init() {
                         return [
                             {
                                 locationObjectName: 'main',
-                                locationSpot: go.Spot.TopLeft,
+                                // locationSpot: go.Spot.TopLeft,
                                 // resizeObjectName: "SHAPE", resizeAdornmentTemplate: resizeAdornment,
                                 // rotatable:true,
                                 // fromLinkable: true, toLinkable: true,
-                                // locationSpot: go.Spot.Center,
+                                locationSpot: go.Spot.Center,
                                 rotatable: true,
                                 movable:true,
                                 reshapable:true,
@@ -563,38 +570,30 @@ function init() {
                     }
 
                     function changeText(node) {
-                        // var node_select=node.key;
-                        // var texts_select=myDiagram.findNodesByExample({"msp":node_select});
-                        // var attr_panel=myDiagram.findNodesByExample({"panel_objId":node_select});
-                        // var attr_text=myDiagram.findNodesByExample({"attr_objId":node_select});
-                        // // if(node.isSelected) {
-                        // if (texts_select.first() != null && texts_select.first().category == "Text_0") {
-                        //         console.log("++++++++++++++++++++++++++++++++");
-                        //         console.log(node_select);
-                        //         console.log("++++++++++++++++++++++++++++++++");
-                        //         console.log(texts_select.first().category);
-                        //         console.log("++++++++++++++++++++++++++++++++");
-                        //         texts_select.each(function (text_select) {
-                        //             text_select.category = "Text_selected";
-                        //         });
-                        //         attr_panel.each(function (panel_select) {
-                        //             panel_select.category = "OfNodes_selected";
-                        //         });
-                        //         attr_text.each(function (attr_select) {
-                        //             attr_select.category = "TextNode_selected";
-                        //         })
-                        //     }
-                        //     else {
-                        //         texts_select.each(function (text_select) {
-                        //             text_select.category = "Text_0";
-                        //         });
-                        //         attr_panel.each(function (panel_select) {
-                        //             panel_select.category = "OfNodes";
-                        //         });
-                        //         attr_text.each(function (attr_select) {
-                        //             attr_select.category = "TextNode";
-                        //         })
-                        // }
+                        var node_select=node.key;
+                        var texts_select=myDiagram.findNodesByExample({"msp":node_select});
+                        var attr_panel=myDiagram.findNodesByExample({"panel_objId":node_select});
+                        var attr_text=myDiagram.findNodesByExample({"attr_objId":node_select});
+                        if(node.isSelected) {
+                        // if (texts_select.first() != null) {
+                            texts_select.each(function (text_select) {
+                                text_select.category = "Text_selected";
+                            });
+                                // attr_panel.each(function (panel_select) {
+                                //     panel_select.category = "OfNodes_selected";
+                                // });
+                                attr_text.each(function (attr_select) {
+                                    attr_select.category = "TextNode_selected";
+                                })
+                            }
+                            else {
+                                texts_select.each(function (text_select) {
+                                    text_select.category = "Text_0";
+                                });
+                                attr_panel.each(function (panel_select) {
+                                    panel_select.category = "OfNodes";
+                                })
+                        }
 
                     }
 
@@ -818,8 +817,16 @@ function init() {
                                 // new go.Binding("fill", "fill_color")
                                 // new go.Binding("strokeWidth", "lw")
                             ),
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "0", alignment: new go.Spot(0.5, 0)})
                             $(go.Shape, "Circle", portStyle(true),
-                                {portId: "0", alignment: new go.Spot(0.5, 0)})
+                                {portId: "0", alignment: new go.Spot(0.5, 0)}),
+                            $(go.Shape, "Circle", portStyle(true),
+                                {portId: "1", alignment: new go.Spot(0.5, 1)}),
+                            $(go.Shape, "Circle", portStyle(true),
+                                {portId: "2", alignment: new go.Spot(0, 0.5)}),
+                            $(go.Shape, "Circle", portStyle(true),
+                                {portId: "3", alignment: new go.Spot(1, 0.5)})
                         );
                     var energyconsumer_1 =
                         $(go.Node, "Spot", SelectNode(), NodeStyle(),
@@ -833,8 +840,16 @@ function init() {
                                 // new go.Binding("fill", "fill_color")
                                 // new go.Binding("strokeWidth", "lw")
                             ),
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "0", alignment: new go.Spot(0.5, 0.5)})
                             $(go.Shape, "Circle", portStyle(true),
-                                {portId: "0", alignment: new go.Spot(0.5, 0.5)})
+                                {portId: "0", alignment: new go.Spot(0.5, 0)}),
+                            $(go.Shape, "Circle", portStyle(true),
+                                {portId: "1", alignment: new go.Spot(0.5, 1)}),
+                            $(go.Shape, "Circle", portStyle(true),
+                                {portId: "2", alignment: new go.Spot(0, 0.5)}),
+                            $(go.Shape, "Circle", portStyle(true),
+                                {portId: "3", alignment: new go.Spot(1, 0.5)})
                         );
                     var generalmeter =
                         $(go.Node, "Spot", SelectNode(), NodeStyle(),
@@ -846,7 +861,12 @@ function init() {
                                 new go.Binding("stroke", "stroke_color"),
                                 new go.Binding("fill", "fill_color")
                                 // new go.Binding("strokeWidth", "lw")
-                            )
+                            ),
+                            $(go.Shape, "Circle", portStyle(true),
+                                {portId: "0", alignment: new go.Spot(0.5, 0)}),
+                            $(go.Shape, "Circle", portStyle(true),
+                                {portId: "0", alignment: new go.Spot(0.5, 1)})
+
                         );
                     var generator =
                         $(go.Node, "Spot", SelectNode(), NodeStyle(),
@@ -860,8 +880,18 @@ function init() {
                                 // new go.Binding("fill", "fill_color")
                                 // new go.Binding("strokeWidth", "lw")
                             ),
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "0", alignment: new go.Spot(0.5, 0)}),
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "0", alignment: new go.Spot(0.5, 1)})
                             $(go.Shape, "Circle", portStyle(true),
-                                {portId: "0", alignment: new go.Spot(0.5, 0.5)})
+                                {portId: "0", alignment: new go.Spot(0.5, 0)}),
+                            $(go.Shape, "Circle", portStyle(true),
+                                {portId: "1", alignment: new go.Spot(0.5, 1)}),
+                            $(go.Shape, "Circle", portStyle(true),
+                                {portId: "2", alignment: new go.Spot(0, 0.5)}),
+                            $(go.Shape, "Circle", portStyle(true),
+                                {portId: "3", alignment: new go.Spot(1, 0.5)})
                         );
                     var grounddisconnector_1 =
                         $(go.Node, "Spot", SelectNode(), NodeStyle(),
@@ -1013,24 +1043,6 @@ function init() {
                         );
                     var i = 0;
                     function attr2Stroke(geometry_2_stroke) { //两变卷线段颜色
-                        // switch (geometry_2_stroke) {
-                        //     case "A":return "rgba(128,128,128)";break;
-                        //     case "B":return "rgba(0,0,139)";break;
-                        //     case "C":return "rgba(185,72,66)";break;
-                        //     case "D":return "rgba(0,210,0)";break;
-                        //     case "E":return "rgba(0,128,0)";break;
-                        //     case "F":return "rgba(226,172,6)";break;
-                        //     case "G":return "rgba(255,255,0)";break;
-                        //     case "H":return "rgba(255,204,0)";break;
-                        //     case "L":return "rgba(240,65,128)";break;
-                        //     case "M":return "rgba(128,0,128)";break;
-                        //     case "N":return "rgba(255,0,0)";break;
-                        //     case "O":return "rgba(255,0,0)";break;
-                        //     case "P":return "rgba(250,128,10)";break;
-                        //     case "Q":return "rgba(250,128,10)";break;
-                        //     case "R":return "rgba(0,0,255)";break;
-                        //     default: return "rgba(0,0,0)";
-                        // }
                         return geometry_2_stroke;
                     }
                     function transformer2Geometry(geometry_2_stroke){ //两卷变拼接
@@ -1051,43 +1063,28 @@ function init() {
 
                     var transformer2_0 = $(go.Node,"Spot", SelectNode(), NodeStyle(),
                         $(go.Panel,
-                            { name: "ICON" },
+                            { name: "ICON" ,margin: 0},
                             $(go.Shape, "Circle",
                                 // { strokeWidth: 2, fill: "white", stroke: "#919191", portId: "" }
-                                {strokeWidth: 2, fill: "white",stroke:null,geometry: go.Geometry.parse(icons.transformer2_0, true)}
+                                {strokeWidth: 2, margin: 0,fill: "white",stroke:null,geometry: go.Geometry.parse(icons.transformer2_0, true)}
                                 ),
                             $(go.Panel,
                                 { // for each attribute show a Shape at a particular place in the overall square
                                     itemTemplate:
                                         $(go.Panel,
                                             $(go.Shape,
-                                                { fill: null,strokeWidth: 2 },
+                                                { fill: null,strokeWidth: 2 ,margin: 0},
                                                 new go.Binding("stroke", "", attr2Stroke),
                                                 new go.Binding("geometry", "", transformer2Geometry))),
-                                    //         $(go.Shape,
-                                    //             { fill: null,strokeWidth: 2 ,geometry:go.Geometry.parse(icons.transformer2_0_1,true)},
-                                    //             // new go.Binding("stroke", "geometry_2_stroke1")),
-                                    //             new go.Binding("stroke", "geometry_2_stroke1")),
-                                    //                 // new go.Binding("geometry", "", transformer2Geometry)),
-                                    //     $(go.Shape,
-                                    // { fill: null,strokeWidth: 2 ,geometry:go.Geometry.parse(icons.transformer2_0_2,true)},
-                                    // new go.Binding("stroke", "geometry_2_stroke2")
-                                    // // new go.Binding("geometry", "", transformer2Geometry))
-                                    //         )),
 
-                                    margin: 1
+                                    margin: 0
                                 },
-                                // new go.Binding("itemArray", "a")
-
-                                new go.Binding("itemArray", "geometry_2_stroke")
-                    // new go.Binding("itemArray", "geometry_2")
-
-                            ),
-                            $(go.Shape, "Circle", portStyle(true),
-                                            {portId: "0", alignment: new go.Spot(0.5, 0)}),
-                                        $(go.Shape, "Circle", portStyle(true),
-                                            {portId: "1", alignment: new go.Spot(0.5, 1)})
-
+                                new go.Binding("itemArray", "geometry_2_stroke"),
+                                $(go.Shape, "Circle", portStyle(true),
+                                    {portId: "0", alignment: new go.Spot(0.5, 1)}),
+                                $(go.Shape, "Circle", portStyle(true),
+                                    {portId: "1", alignment: new go.Spot(0.5, 0)})
+                            )
                 )
 
 
@@ -1302,11 +1299,19 @@ function init() {
                                                 new go.Binding("stroke", "", attr3Stroke),
                                                 new go.Binding("geometry", "", transformer3Geometry))),
 
-                                    margin: 1
+                                    margin: 0
                                 },
-                                new go.Binding("itemArray", "geometry_3_stroke")
+                                new go.Binding("itemArray", "geometry_3_stroke"),
+                                $(go.Shape, "Circle", portStyle(true),
+                                {portId: "0", alignment: new go.Spot(1, 0.5)}),
+                            $(go.Shape, "Circle", portStyle(true),
+                                {portId: "1", alignment: new go.Spot(0.21,1)}),
+                            $(go.Shape, "Circle", portStyle(true),
+                                {portId: "2", alignment: new go.Spot(0.21,0)}))
 
-                            )
+                            //  $(go.Shape, "Circle", portStyle(true),
+                            //  {portId: "2", alignment: new go.Spot(0.5, 0.5)})
+                            // )
 
                         )
 
@@ -2078,36 +2083,36 @@ function init() {
                                     finishDrop(e, nod.containingGroup);
                                 }
                             },
-                            $(go.Shape, "Rectangle",
-                                // {fill: "rgba(255,153,51,0.6)", stroke: null},
-                                {fill: "rgba(0,0,0,0)", stroke: null},
-                                new go.Binding("fill", "color")),
-                            $(go.Panel, "Table",
-                                {
-                                    minSize: new go.Size(0, NaN),
-                                    maxSize: new go.Size(100, NaN),
-                                    margin: new go.Margin(6, 10, 0, 6),
-                                    defaultAlignment: go.Spot.Left
-                                },
-                                $(go.RowColumnDefinition, {column: 2, width: 1}),
-                                $(go.TextBlock, // the name
-                                    {
-                                        row: 0, column: 0,
-                                        font: "5pt Segoe UI,sans-serif",
-                                        stroke: "#000",
-                                        editable: true, isMultiline: false,
-                                    },
-                                    new go.Binding("text", "text").makeTwoWay()),
-                                $(go.TextBlock,
-                                    {
-                                        row: 0, column: 1,
-                                        font: "5pt Segoe UI,sans-serif",
-                                        editable: true, isMultiline: false,
-                                        stroke: "#000",
-                                        margin: new go.Margin(0, 0, 0, 3)
-                                    },
-                                    new go.Binding("text", "value").makeTwoWay())
-                            ), // end Table Panel
+                            // $(go.Shape, "Rectangle",
+                            //     // {fill: "rgba(255,153,51,0.6)", stroke: null},
+                            //     {fill: "rgba(0,0,0,0)", stroke: null},
+                            //     new go.Binding("fill", "color")),
+                            // $(go.Panel, "Table",
+                            //     {
+                            //         minSize: new go.Size(0, NaN),
+                            //         maxSize: new go.Size(100, NaN),
+                            //         margin: new go.Margin(6, 10, 0, 6),
+                            //         defaultAlignment: go.Spot.Left
+                            //     },
+                            //     $(go.RowColumnDefinition, {column: 2, width: 1}),
+                            //     $(go.TextBlock, // the name
+                            //         {
+                            //             row: 0, column: 0,
+                            //             font: "5pt Segoe UI,sans-serif",
+                            //             stroke: "#000",
+                            //             editable: true, isMultiline: false,
+                            //         },
+                            //         new go.Binding("text", "text").makeTwoWay()),
+                            //     $(go.TextBlock,
+                            //         {
+                            //             row: 0, column: 1,
+                            //             font: "5pt Segoe UI,sans-serif",
+                            //             editable: true, isMultiline: false,
+                            //             stroke: "#000",
+                            //             margin: new go.Margin(0, 0, 0, 3)
+                            //         },
+                            //         new go.Binding("text", "value").makeTwoWay())
+                            // ), // end Table Panel
                             new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify)
                         )
                     myDiagram.nodeTemplate =
@@ -2153,9 +2158,11 @@ function init() {
                                 curve: go.Link.JumpOver,
                                 corner: 0,
                                 toShortLength: 1,
+                                margin:0,
                             },
                             new go.Binding("points", "points").makeTwoWay(),
                             $(go.Shape,
+                                {margin:0},
                                 new go.Binding("stroke", "stroke_color"),
                                 new go.Binding("fill", "fill_color"),
                                 new go.Binding("strokeWidth", "lw"),
@@ -2163,18 +2170,37 @@ function init() {
                                 new go.Binding("angle", "angle"),
                                 new go.Binding("scale", "scale")
                             ),
-                            $(go.Shape,
+                            // $(go.Shape,
+                            //     {
+                            //         figure: "Resistor",
+                            //         desiredSize: new go.Size(18, 6),
+                            //         segmentOrientation: go.Link.OrientUpright,
+                            //         alignmentFocus: new go.Spot(0.5, 0.5),
+                            //         // alignmentFocus:new go.Spot(0.4, 0.5),
+                            //         fill: "#D4B52C"
+                            //     },
+                            //     new go.Binding("stroke", "stroke_color")
+                            //     // new go.Binding("fill", "fill_color")
+                            // )
+                            $(go.Shape,  //icons.ACLink
                                 {
                                     figure: "Resistor",
-                                    desiredSize: new go.Size(18, 6),
+                                    // scale: 0,
+                                    // fill: "#fafcfa" ,
+                                    background:"#fafcfa" ,
+                                    // stroke: "#fbf4ff"
+                                    // fill: "rgba(0,0,0,0)",
+                                    // margin:null,
+                                    desiredSize: new go.Size(30, 10),
                                     segmentOrientation: go.Link.OrientUpright,
                                     alignmentFocus: new go.Spot(0.5, 0.5),
-                                    // alignmentFocus:new go.Spot(0.4, 0.5),
+                                    // geometry: go.Geometry.parse(icons.ACLink, true)
                                 },
-                                new go.Binding("stroke", "stroke_color"),
-                                new go.Binding("fill", "fill_color")
-                            )
-                        ));
+                                new go.Binding("stroke", "stroke_color")
+                                )
+
+                        )
+                    );
                     //直流线
                     myDiagram.linkTemplateMap.add("DCLineEnd",
                         $(go.Link,
@@ -2231,7 +2257,7 @@ function init() {
                             {
                                 fill: null,  // not seen, by default; set to a translucent gray by showSmallPorts, defined below
                                 stroke: null,
-                                desiredSize: new go.Size(10, 10),
+                                desiredSize: new go.Size(5, 5),
                                 alignment: spot,  // align the port on the main Shape
                                 alignmentFocus: spot,  // just inside the Shape
                                 portId: name,  // declare this object to be a "port"
@@ -2582,6 +2608,7 @@ function init() {
                     myDiagram.nodeTemplateMap.add("Transformer3_27", transformer3_0);
                     myDiagram.nodeTemplateMap.add("Text_0", text);
                     myDiagram.nodeTemplateMap.add("Text_1", text);
+                    myDiagram.nodeTemplateMap.add("Text", text);
                     myDiagram.nodeTemplateMap.add("Text_selected", text_selected);
                     myDiagram.nodeTemplateMap.add("BusbarSection_0", busbarsection);
 
