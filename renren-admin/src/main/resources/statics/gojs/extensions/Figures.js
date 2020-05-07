@@ -3768,13 +3768,6 @@ go.Shape.defineFigureGenerator("Resistor", function(shape, w, h) {
     fig.add(new go.PathSegment(go.PathSegment.Line, .76 * w, h));
     fig.add(new go.PathSegment(go.PathSegment.Line, .86 * w, .5 * h));
     fig.add(new go.PathSegment(go.PathSegment.Line, w, .5 * h));
-  // fig.add(new go.PathSegment(go.PathSegment.Line, .14 * w, 0));
-  // fig.add(new go.PathSegment(go.PathSegment.Line, .28 * w, h));
-  // fig.add(new go.PathSegment(go.PathSegment.Line, .42 * w, 0));
-  // fig.add(new go.PathSegment(go.PathSegment.Line, .56 * w, h));
-  // fig.add(new go.PathSegment(go.PathSegment.Line, .7 * w, 0));
-  // fig.add(new go.PathSegment(go.PathSegment.Line, .84 * w, h));
-  // fig.add(new go.PathSegment(go.PathSegment.Line, w, .5 * h));
   return geo;
 });
 
