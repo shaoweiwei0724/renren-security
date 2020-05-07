@@ -1344,3 +1344,44 @@ function upload(input) {
 
     }
 }
+// 开启全屏
+function launchFullScreen(element) {
+    if(element.requestFullScreen) {
+        element.requestFullScreen();
+    }else if(element.mozRequestFullScreen) { //兼容moz
+        element.mozRequestFullScreen();
+    }else if(element.webkitRequestFullScreen) { //兼容webkit
+        element.webkitRequestFullScreen();
+    }
+
+}
+//退出全屏
+function exitFullscreen() {
+    console.log('推出全屏')
+    if(document.exitFullscreen) {
+        document.exitFullscreen();
+    }else if(document.mozCancelFullScreen) { //兼容moz
+        document.mozCancelFullScreen();
+    }else if(document.webkitExitFullscreen) { //兼容webkit
+        document.webkitExitFullscreen();
+    }
+
+}
+
+var div1State = 1;
+function setBigScreen() {
+
+    if(div1State){
+
+
+        launchFullScreen(window.document.querySelector('#Gfile'));
+        this.title = "点击退出"
+        div1State = 0;
+
+    }else{
+
+        exitFullscreen(window.document.querySelector('#Gfile'));
+        this.title = "点击全屏预览"
+        div1State = 1;
+    }
+}

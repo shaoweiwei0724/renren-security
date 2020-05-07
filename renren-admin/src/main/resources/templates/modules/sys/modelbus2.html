@@ -39,9 +39,9 @@
                           <div>
 
                             <button id="upload"  style="color:black">上传G文件</button>
-                            <button onclick="showAttrs()" style="color:black" id="showAttr">显示元件属性</button>
+                            <!--<button onclick="showAttrs()" style="color:black" id="showAttr">显示元件属性</button>-->
+                            <button onclick="setBigScreen()" style="color:black" id="showAttr">大屏显示</button>
                               <a class="btn btn-primary" @click="addclass"><i class="fa fa-plus"></i>&nbsp;保存</a>
-
                             <iframe id="Gfile" src="${request.contextPath}/statics/gojs/samples/G_analysis.html"
                                     width="100%"height="100%" onload="changeFrameCalHeight(this)"></iframe>
 
