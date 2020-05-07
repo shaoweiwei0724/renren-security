@@ -572,11 +572,11 @@ function reloadTree(){
 
         }
         ztreeMain = $.fn.zTree.init($("#classTreeMain"), setting, r.objEntityLists);
-        if(localStorage.selectSceneId){
+        /*if(localStorage.selectSceneId){
             var node = ztreeMain.getNodeByParam("id",localStorage.selectSceneId);
-        }else{
-            var node = ztreeMain.getNodeByParam("id","1");
-        }
+        }else{*/
+        var node = ztreeMain.getNodeByParam("id","1");
+
         console.log("node1:", node.modelId)
 
         localStorage.modelId=node.modelId;
