@@ -258,7 +258,7 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
 //                            poss[0] = Double.parseDouble(attrChild.getValue()) -1;
 //                            poss[1] = Double.parseDouble(Y)-1.5;
                             poss[0] = Double.parseDouble(attrChild.getValue());
-                            poss[1] = Double.parseDouble(Y)  - 0.7;
+                            poss[1] = Double.parseDouble(Y);
 
                             //坐标转换到元件中心，之前在左上角
 //                            if(angle_num == 90.0 || angle_num ==270.0)
@@ -274,7 +274,7 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
 //                            poss[0] = Double.parseDouble(X) -1;
 //                            poss[1] = Double.parseDouble(attrChild.getValue()) - 1.5;
                             poss[0] = Double.parseDouble(X);
-                            poss[1] = Double.parseDouble(attrChild.getValue()) - 0.7;
+                            poss[1] = Double.parseDouble(attrChild.getValue());
 
                             //坐标转换到元件中心，之前在左上角
 //                            if(angle_num > 0)
@@ -294,7 +294,7 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                                 size_x=Math.abs(size_x);
                                 bus_x=b_x/2;
                                 if(lab==1){
-                                    node.put("pos", String.valueOf(bus_x) + " " +String.valueOf(bus_y  - 0.7) );
+                                    node.put("pos", String.valueOf(bus_x) + " " +String.valueOf(bus_y) );
                                     node.put("size", String.valueOf(size_x) + " " +String.valueOf(size_y) );
                                 }
                                 else {
@@ -314,7 +314,7 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                                 size_y=Math.abs(size_y);
                                 bus_y=b_y/2;
                                 if(lab==1){
-                                    node.put("pos", String.valueOf(bus_x) + " " +String.valueOf(bus_y  - 0.7) );
+                                    node.put("pos", String.valueOf(bus_x) + " " +String.valueOf(bus_y) );
                                     node.put("size", String.valueOf(size_x) + " " +String.valueOf(size_y) );
                                 }
                                 else {

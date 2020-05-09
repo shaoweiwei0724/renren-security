@@ -176,7 +176,8 @@ function init() {
                     icons.disconnector_1 = "M6,3v5 M6,28v5 M0,28h12 M6,8v20";
                     icons.disconnector_2 = "M6,3v5 M6,28v5 M0,28h12 M6,8l6,20";
                     icons.disconnector_3 = "M6,0v36";
-                    icons.energyconsumer_0 = "M12,2v4 M0,6h24L12,24L0,6z";
+                    icons.energyconsumer_0 = "M12.9-0.3v4 M0.9,3.7h24l-12,18L0.9,3.7z";
+                    // icons.energyconsumer_0 = "M12,2v4 M0,6h24L12,24L0,6z";
                     icons.energyconsumer_1 = "M16,0c8.8,0,16,7.2,16,16s-7.2,16-16,16S0,24.8,0,16S7.2,0,16,0z M8,24V8 M8,8l8,16 M16,24l8-16 M24,8v16";
                     icons.generalmeter = "M13,40c7.2,0,13,5.8,13,13s-5.8,13-13,13S0,60.2,0,53S5.8,40,13,40z M13,0v40";
                     icons.generator = "M16,0c8.8,0,16,7.2,16,16s-7.2,16-16,16S0,24.8,0,16S7.2,0,16,0z M15.7,16.1h0.8c0-4.3-3.2-7.8-7.2-7.8\n" +
@@ -423,6 +424,8 @@ function init() {
                             scale: 0.7,
                             minScale: 0.6,
                             maxScale: 1.5,
+
+
                         });
 
                     // A data binding conversion function. Given an name, return the Geometry.
@@ -438,11 +441,10 @@ function init() {
                             toLinkable: true,
                             toMaxLinks: 100,
                             cursor: "pointer",
-                            desiredSize: new go.Size(0.1, 0.1),
+                            desiredSize: new go.Size(5, 5),
                         };
 
-                        return $(go.Shape, "Circle",
-                            {
+                        return{
                                 fill: null,  // not seen, by default; set to a translucent gray by showSmallPorts, defined below
                                 stroke: null,
                                 desiredSize: new go.Size(5, 5),
@@ -450,9 +452,9 @@ function init() {
                                 alignmentFocus: spot,  // just inside the Shape
                                 portId: name,  // declare this object to be a "port"
                                 fromSpot: spot, toSpot: spot,  // declare where links may connect at this port
-                                fromLinkable: output, toLinkable: input,  // declare whether the user may draw links to/from here
+                                fromLinkable: input, toLinkable: input,  // declare whether the user may draw links to/from here
                                 cursor: "pointer"  // show a different cursor to indicate potential link point
-                            });
+                            }
                     }
 
                     function BarLink() {
@@ -551,6 +553,7 @@ function init() {
                                 locationSpot: go.Spot.Center,
                                 rotatable: true,
                                 movable:true,
+                                margin:0,
                                 reshapable:true,
                                 text:null,
                             },
@@ -714,21 +717,23 @@ function init() {
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
+                                    margin: 0,
                                     geometry: go.Geometry.parse(icons.capacitor_p, true)
                                 },
                                 new go.Binding("stroke", "stroke_color"),
                                 new go.Binding("fill", "fill_color")
                                 // new go.Binding("strokeWidth", "lw")
                             ),
-                            $(go.Shape, "Circle", portStyle(true),
-                                {portId: "0", alignment: new go.Spot(0.5, 0)})
-                            // makePort("T", go.Spot.Top, true, true)
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "0", alignment: new go.Spot(0.5, 0)})
+                            makePort("0", go.Spot.Top, true, true)
                         );
                     var capacitor_s =
                         $(go.Node, "Spot", SelectNode(), NodeStyle(),
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
+                                    margin: 0,
                                     geometry: go.Geometry.parse(icons.capacitor_s, true)
                                 },
                                 new go.Binding("stroke", "stroke_color"),
@@ -740,14 +745,15 @@ function init() {
                             // $(go.Shape, "Circle", portStyle(true),
                             //     {portId: "1", alignment: new go.Spot(1, 0.5)})
 
-                        makePort("L", go.Spot.Left, true, true),
-                        makePort("R", go.Spot.Right, true, true)
+                        makePort("0", new go.Spot(0, 0.5), true, true),
+                        makePort("1", new go.Spot(1, 0.5), true, true)
                         );
                     var cbreaker_1 =
                         $(go.Node, "Spot", SelectNode(), NodeStyle(),
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
+                                    margin: 0,
                                     fill: "rgba(0,0,0,0)",
                                     geometry: go.Geometry.parse(icons.cbreaker_1, true)
                                 },
@@ -755,37 +761,39 @@ function init() {
                                 // new go.Binding("fill", "fill_color")
                                 // new go.Binding("strokeWidth", "lw")
                             ),
-                            $(go.Shape, "Circle", portStyle(true),
-                                {portId: "0", alignment: new go.Spot(0.5, 0)}),
-                            $(go.Shape, "Circle", portStyle(true),
-                                {portId: "1", alignment: new go.Spot(0.5, 1)})
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "0", alignment: new go.Spot(0.5, 0)}),
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "1", alignment: new go.Spot(0.5, 1)})
 
-                            // makePort("T", go.Spot.Top, true, true),
-                            // makePort("B", go.Spot.Bottom, true, true)
+                            makePort("0", new go.Spot(0.5, 0), true, true),
+                            makePort("1", new go.Spot(0.5, 1), true, true)
                         );
                     var cbreaker_2 =
                         $(go.Node, "Spot", SelectNode(), NodeStyle(),
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
+                                    margin: 0,
                                     geometry: go.Geometry.parse(icons.cbreaker_2, true)
                                 },
                                 new go.Binding("stroke", "stroke_color"),
                                 new go.Binding("fill", "fill_color")
                                 // new go.Binding("strokeWidth", "lw")
                             ),
-                            $(go.Shape, "Circle", portStyle(true),
-                                {portId: "0", alignment: new go.Spot(0.5, 0)}),
-                            $(go.Shape, "Circle", portStyle(true),
-                                {portId: "1", alignment: new go.Spot(0.5, 1)})
-                            // makePort("T", go.Spot.Top, true, true),
-                            // makePort("B", go.Spot.Bottom, true, true)
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "0", alignment: new go.Spot(0.5, 0)}),
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "1", alignment: new go.Spot(0.5, 1)})
+                            makePort("0", new go.Spot(0.5, 0), true, true),
+                            makePort("1", new go.Spot(0.5, 1), true, true)
                         );
                     var disconnector_1 =
                         $(go.Node, "Spot", SelectNode(), NodeStyle(),
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
+                                    margin: 0,
                                     geometry: go.Geometry.parse(icons.disconnector_1, true)
                                 },
                                 new go.Binding("stroke", "stroke_color"),
@@ -796,14 +804,15 @@ function init() {
                             //     {portId: "0", alignment: new go.Spot(0.5, 0)}),
                             // $(go.Shape, "Circle", portStyle(true),
                             //     {portId: "1", alignment: new go.Spot(0.5, 1)})
-                            makePort("T", go.Spot.Top, true, true),
-                            makePort("B", go.Spot.Bottom, true, true)
+                        makePort("0", new go.Spot(0.5, 0), true, true),
+                        makePort("1", new go.Spot(0.5, 1), true, true)
                         );
                     var disconnector_2 =
                         $(go.Node, "Spot", SelectNode(), NodeStyle(),
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
+                                    margin: 0,
                                     geometry: go.Geometry.parse(icons.disconnector_2, true)
                                 },
                                 new go.Binding("stroke", "stroke_color"),
@@ -814,14 +823,15 @@ function init() {
                             //     {portId: "0", alignment: new go.Spot(0.5, 0)}),
                             // $(go.Shape, "Circle", portStyle(true),
                             //     {portId: "1", alignment: new go.Spot(0.5, 1)})
-                            makePort("T", go.Spot.Top, true, true),
-                            makePort("B", go.Spot.Bottom, true, true)
+                            makePort("0", new go.Spot(0.5, 0), true, true),
+                            makePort("1", new go.Spot(0.5, 1), true, true)
                         );
                     var disconnector_3 =
                         $(go.Node, "Spot", SelectNode(), NodeStyle(),
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
+                                    margin: 0,
                                     geometry: go.Geometry.parse(icons.disconnector_3, true)
                                 },
                                 new go.Binding("stroke", "stroke_color"),
@@ -832,42 +842,44 @@ function init() {
                             //     {portId: "0", alignment: new go.Spot(0.5, 0)}),
                             // $(go.Shape, "Circle", portStyle(true),
                             //     {portId: "1", alignment: new go.Spot(0.5, 1)})
-                            makePort("T", go.Spot.Top, true, true),
-                            makePort("B", go.Spot.Bottom, true, true)
+                            makePort("0", new go.Spot(0.5, 0), true, true),
+                            makePort("1", new go.Spot(0.5, 1), true, true)
                         );
                     var energyconsumer_0 =
                         $(go.Node, "Spot", SelectNode(), NodeStyle(),
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
+                                    margin: 0,
                                     fill: "rgba(0,0,0,0)",
+                                    toShortLength: 0,
                                     geometry: go.Geometry.parse(icons.energyconsumer_0, true)
                                 },
                                 new go.Binding("stroke", "stroke_color")
                                 // new go.Binding("fill", "fill_color")
                                 // new go.Binding("strokeWidth", "lw")
                             ),
+
+                            makePort("0", new go.Spot(0.5, 0), true, true)
                             // $(go.Shape, "Circle", portStyle(true),
                             //     {portId: "0", alignment: new go.Spot(0.5, 0)})
                             // $(go.Shape, "Circle", portStyle(true),
-                            //     {portId: "0", alignment: new go.Spot(0.5, 0)}),
+                            //     {portId: "0", alignment: new go.Spot(0.5, 0)})
                             // $(go.Shape, "Circle", portStyle(true),
                             //     {portId: "1", alignment: new go.Spot(0.5, 1)}),
                             // $(go.Shape, "Circle", portStyle(true),
                             //     {portId: "2", alignment: new go.Spot(0, 0.5)}),
                             // $(go.Shape, "Circle", portStyle(true),
                             //     {portId: "3", alignment: new go.Spot(1, 0.5)})
-                            makePort("T", go.Spot.Top, true, true),
-                            makePort("B", go.Spot.Bottom, true, true),
-                            makePort("L", go.Spot.Left, true, true),
-                            makePort("R", go.Spot.Right, true, true)
                         );
                     var energyconsumer_1 =
                         $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                            { margin: 0,},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
-                                    fill: "rgba(0,0,0,0)",
+                                    margin: 0,
+                                    fill: "#fafcfa",
                                     geometry: go.Geometry.parse(icons.energyconsumer_1, true)
                                 },
                                 new go.Binding("stroke", "stroke_color")
@@ -876,53 +888,52 @@ function init() {
                             ),
                             // $(go.Shape, "Circle", portStyle(true),
                             //     {portId: "0", alignment: new go.Spot(0.5, 0.5)})
-                            $(go.Shape, "Circle", portStyle(true),
-                                {portId: "0", alignment: new go.Spot(0.5, 0)})
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "0", alignment: new go.Spot(0.5, 0)}),
                             // $(go.Shape, "Circle", portStyle(true),
                             //     {portId: "1", alignment: new go.Spot(0.5, 1)}),
                             // $(go.Shape, "Circle", portStyle(true),
                             //     {portId: "2", alignment: new go.Spot(0, 0.5)}),
                             // $(go.Shape, "Circle", portStyle(true),
                             //     {portId: "3", alignment: new go.Spot(1, 0.5)})
-                            // makePort("T", go.Spot.Top, true, true),
-                            // makePort("B", go.Spot.Bottom, true, true),
-                            // makePort("L", go.Spot.Left, true, true),
-                            // makePort("R", go.Spot.Right, true, true)
+                            makePort("T", go.Spot.Top, true, true),
+                            makePort("B", go.Spot.Bottom, true, true),
+                            makePort("L", go.Spot.Left, true, true),
+                            makePort("R", go.Spot.Right, true, true)
                         );
                     var generalmeter =
                         $(go.Node, "Spot", SelectNode(), NodeStyle(),
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
+                                    margin: 0,
                                     geometry: go.Geometry.parse(icons.generalmeter, true)
                                 },
                                 new go.Binding("stroke", "stroke_color"),
                                 new go.Binding("fill", "fill_color")
                                 // new go.Binding("strokeWidth", "lw")
                             ),
-                            $(go.Shape, "Circle", portStyle(true),
-                                {portId: "0", alignment: new go.Spot(0.5, 0)}),
-                            $(go.Shape, "Circle", portStyle(true),
-                                {portId: "0", alignment: new go.Spot(0.5, 1)})
-                            // makePort("T", go.Spot.Top, true, true),
-                            // makePort("B", go.Spot.Bottom, true, true)
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "0", alignment: new go.Spot(0.5, 0)}),
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "1", alignment: new go.Spot(0.5, 1)})
+                            makePort("0", new go.Spot(0.5, 0), true, true),
+                            makePort("1", new go.Spot(0.5, 1), true, true)
                         );
                     var generator =
                         $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                            { margin: 0,},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
-                                    fill: "rgba(0,0,0,0)",
+                                    margin: 0,
+                                    fill: "#fafcfa",
                                     geometry: go.Geometry.parse(icons.generator, true)
                                 },
                                 new go.Binding("stroke", "stroke_color")
                                 // new go.Binding("fill", "fill_color")
                                 // new go.Binding("strokeWidth", "lw")
                             ),
-                            // $(go.Shape, "Circle", portStyle(true),
-                            //     {portId: "0", alignment: new go.Spot(0.5, 0)}),
-                            // $(go.Shape, "Circle", portStyle(true),
-                            //     {portId: "0", alignment: new go.Spot(0.5, 1)})
                             makePort("T", go.Spot.Top, true, true),
                             makePort("B", go.Spot.Bottom, true, true),
                             makePort("L", go.Spot.Left, true, true),
@@ -935,43 +946,47 @@ function init() {
                             //     {portId: "2", alignment: new go.Spot(0, 0.5)}),
                             // $(go.Shape, "Circle", portStyle(true),
                             //     {portId: "3", alignment: new go.Spot(1, 0.5)})
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "0", alignment: new go.Spot(0.5, 0.5)})
                         );
                     var grounddisconnector_1 =
                         $(go.Node, "Spot", SelectNode(), NodeStyle(),
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
+                                    margin: 0,
                                     geometry: go.Geometry.parse(icons.grounddisconnector_1, true)
                                 },
                                 new go.Binding("stroke", "stroke_color"),
                                 new go.Binding("fill", "fill_color")
                                 // new go.Binding("strokeWidth", "lw")
                             ),
-                            $(go.Shape, "Circle", portStyle(true),
-                                {portId: "0", alignment: new go.Spot(0.5, 0)})
-                            // makePort("T", go.Spot.Top, true, true)
-
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "0", alignment: new go.Spot(0.5, 0)})
+                            makePort("0", new go.Spot(0.5, 0), true, true)
                         );
                     var grounddisconnector_2 =
                         $(go.Node, "Spot", SelectNode(), NodeStyle(),
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
+                                    margin: 0,
                                     geometry: go.Geometry.parse(icons.grounddisconnector_2, true)
                                 },
                                 new go.Binding("stroke", "stroke_color"),
                                 new go.Binding("fill", "fill_color")
                                 // new go.Binding("strokeWidth", "lw")
                             ),
-                            $(go.Shape, "Circle", portStyle(true),
-                                {portId: "0", alignment: new go.Spot(0.5, 0)})
-                            // makePort("T", go.Spot.Top, true, true)
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "0", alignment: new go.Spot(0.5, 0)})
+                            makePort("0", new go.Spot(0.5, 0), true, true)
                         );
                     var reactor_p =
                         $(go.Node, "Spot", SelectNode(), NodeStyle(),
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
+                                    margin: 0,
                                     geometry: go.Geometry.parse(icons.reactor_p, true)
                                 },
                                 new go.Binding("stroke", "stroke_color"),
@@ -980,13 +995,14 @@ function init() {
                             ),
                             // $(go.Shape, "Circle", portStyle(true),
                             //     {portId: "0", alignment: new go.Spot(0.5, 0)})
-                            makePort("T", go.Spot.Top, true, true)
+                            makePort("0", new go.Spot(0.5, 0), true, true)
                         );
                     var reactor_s =
                         $(go.Node, "Spot", SelectNode(), NodeStyle(),
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
+                                    margin: 0,
                                     geometry: go.Geometry.parse(icons.reactor_s, true)
                                 },
                                 new go.Binding("stroke", "stroke_color"),
@@ -997,14 +1013,16 @@ function init() {
                             //     {portId: "0", alignment: new go.Spot(0, 0.5)}),
                             // $(go.Shape, "Circle", portStyle(true),
                             //     {portId: "1", alignment: new go.Spot(1, 0.5)})
-                            makePort("L", go.Spot.Left, true, true),
-                            makePort("R", go.Spot.Right, true, true)
+
+                            makePort("0", new go.Spot(0, 0.5), true, true),
+                            makePort("1", new go.Spot(1, 0.5), true, true)
                         );
                     var station_1_1 =
                         $(go.Node, "Spot", SelectNode(), NodeStyle(),
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
+                                    margin: 0,
                                     fill: "rgba(0,0,0,0)",
                                     geometry: go.Geometry.parse(icons.station_1_1, true)
                                 },
@@ -1014,16 +1032,25 @@ function init() {
                             ),
                             // $(go.Shape, "Circle", portStyle(true),
                             //     {portId: "0", alignment: new go.Spot(0.5, 0.5)})
-                            makePort("T", go.Spot.Top, true, true),
-                            makePort("B", go.Spot.Bottom, true, true),
-                            makePort("L", go.Spot.Left, true, true),
-                            makePort("R", go.Spot.Right, true, true)
+                            makePort("0", new go.Spot(0.5, 0), true, true),
+                            makePort("1", new go.Spot(0.5, 1), true, true),
+                            makePort("2", new go.Spot(0, 0.5), true, true),
+                            makePort("3", new go.Spot(1, 0.5), true, true)
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "0", alignment: new go.Spot(0.5, 0)}),
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "1", alignment: new go.Spot(0.5, 1)}),
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "2", alignment: new go.Spot(0, 0.5)}),
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "3", alignment: new go.Spot(1, 0.5)})
                         );
                     var station_1_2 =
                         $(go.Node, "Spot", SelectNode(), NodeStyle(),
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
+                                    margin: 0,
                                     fill: "rgba(0,0,0,0)",
                                     geometry: go.Geometry.parse(icons.station_1_2, true)
                                 },
@@ -1033,16 +1060,25 @@ function init() {
                             ),
                             // $(go.Shape, "Circle", portStyle(true),
                             //     {portId: "0", alignment: new go.Spot(0.5, 0.5)})
-                            makePort("T", go.Spot.Top, true, true),
-                            makePort("B", go.Spot.Bottom, true, true),
-                            makePort("L", go.Spot.Left, true, true),
-                            makePort("R", go.Spot.Right, true, true)
+                            makePort("0", new go.Spot(0.5, 0), true, true),
+                            makePort("1", new go.Spot(0.5, 1), true, true),
+                            makePort("2", new go.Spot(0, 0.5), true, true),
+                            makePort("3", new go.Spot(1, 0.5), true, true)
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "0", alignment: new go.Spot(0.5, 0)}),
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "1", alignment: new go.Spot(0.5, 1)}),
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "2", alignment: new go.Spot(0, 0.5)}),
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "3", alignment: new go.Spot(1, 0.5)})
                         );
                     var station_1_3 =
                         $(go.Node, "Spot", SelectNode(), NodeStyle(),
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
+                                    margin: 0,
                                     fill: "rgba(0,0,0,0)",
                                     geometry: go.Geometry.parse(icons.station_1_3, true)
                                 },
@@ -1052,16 +1088,25 @@ function init() {
                             ),
                             // $(go.Shape, "Circle", portStyle(true),
                             //     {portId: "0", alignment: new go.Spot(0.5, 0.5)})
-                            makePort("T", go.Spot.Top, true, true),
-                            makePort("B", go.Spot.Bottom, true, true),
-                            makePort("L", go.Spot.Left, true, true),
-                            makePort("R", go.Spot.Right, true, true)
+                            makePort("0", new go.Spot(0.5, 0), true, true),
+                            makePort("1", new go.Spot(0.5, 1), true, true),
+                            makePort("2", new go.Spot(0, 0.5), true, true),
+                            makePort("3", new go.Spot(1, 0.5), true, true)
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "0", alignment: new go.Spot(0.5, 0)}),
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "1", alignment: new go.Spot(0.5, 1)}),
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "2", alignment: new go.Spot(0, 0.5)}),
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "3", alignment: new go.Spot(1, 0.5)})
                         );
                     var station_2_1 =
                         $(go.Node, "Spot", SelectNode(), NodeStyle(),
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
+                                    margin: 0,
                                     fill: "rgba(0,0,0,0)",
                                     geometry: go.Geometry.parse(icons.station_2_1, true)
                                 },
@@ -1071,16 +1116,25 @@ function init() {
                             ),
                             // $(go.Shape, "Circle", portStyle(true),
                             //     {portId: "0", alignment: new go.Spot(0.5, 0.5)})
-                            makePort("T", go.Spot.Top, true, true),
-                            makePort("B", go.Spot.Bottom, true, true),
-                            makePort("L", go.Spot.Left, true, true),
-                            makePort("R", go.Spot.Right, true, true)
+                            makePort("0", new go.Spot(0.5, 0), true, true),
+                            makePort("1", new go.Spot(0.5, 1), true, true),
+                            makePort("2", new go.Spot(0, 0.5), true, true),
+                            makePort("3", new go.Spot(1, 0.5), true, true)
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "0", alignment: new go.Spot(0.5, 0)}),
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "1", alignment: new go.Spot(0.5, 1)}),
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "2", alignment: new go.Spot(0, 0.5)}),
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "3", alignment: new go.Spot(1, 0.5)})
                         );
                     var station_2_2 =
                         $(go.Node, "Spot", SelectNode(), NodeStyle(),
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
+                                    margin: 0,
                                     fill: "rgba(0,0,0,0)",
                                     geometry: go.Geometry.parse(icons.station_2_2, true)
                                 },
@@ -1090,16 +1144,25 @@ function init() {
                             ),
                             // $(go.Shape, "Circle", portStyle(true),
                             //     {portId: "0", alignment: new go.Spot(0.5, 0.5)})
-                            makePort("T", go.Spot.Top, true, true),
-                            makePort("B", go.Spot.Bottom, true, true),
-                            makePort("L", go.Spot.Left, true, true),
-                            makePort("R", go.Spot.Right, true, true)
+                            makePort("0", new go.Spot(0.5, 0), true, true),
+                            makePort("1", new go.Spot(0.5, 1), true, true),
+                            makePort("2", new go.Spot(0, 0.5), true, true),
+                            makePort("3", new go.Spot(1, 0.5), true, true)
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "0", alignment: new go.Spot(0.5, 0)}),
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "1", alignment: new go.Spot(0.5, 1)}),
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "2", alignment: new go.Spot(0, 0.5)}),
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "3", alignment: new go.Spot(1, 0.5)})
                         );
                     var station_2_3 =
                         $(go.Node, "Spot", SelectNode(), NodeStyle(),
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
+                                    margin: 0,
                                     fill: "rgba(0,0,0,0)",
                                     geometry: go.Geometry.parse(icons.station_2_3, true)
                                 },
@@ -1109,10 +1172,18 @@ function init() {
                             ),
                             // $(go.Shape, "Circle", portStyle(true),
                             //     {portId: "0", alignment: new go.Spot(0.5, 0.5)})
-                            makePort("T", go.Spot.Top, true, true),
-                            makePort("B", go.Spot.Bottom, true, true),
-                            makePort("L", go.Spot.Left, true, true),
-                            makePort("R", go.Spot.Right, true, true)
+                            makePort("0", new go.Spot(0.5, 0), true, true),
+                            makePort("1", new go.Spot(0.5, 1), true, true),
+                            makePort("2", new go.Spot(0, 0.5), true, true),
+                            makePort("3", new go.Spot(1, 0.5), true, true)
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "0", alignment: new go.Spot(0.5, 0)}),
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "1", alignment: new go.Spot(0.5, 1)}),
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "2", alignment: new go.Spot(0, 0.5)}),
+                            // $(go.Shape, "Circle", portStyle(true),
+                            //     {portId: "3", alignment: new go.Spot(1, 0.5)})
                         );
                     var i = 0;
                     function attr2Stroke(geometry_2_stroke) { //两变卷线段颜色
@@ -1151,16 +1222,21 @@ function init() {
                                                 new go.Binding("geometry", "", transformer2Geometry))),
                                     margin: 0
                                 },
-                                new go.Binding("itemArray", "geometry_2_stroke"),
-                                $(go.Shape, "Circle", portStyle(true),
-                                    {portId: "0", alignment: new go.Spot(0.5, 1)}),
-                                $(go.Shape, "Circle", portStyle(true),
-                                    {portId: "1", alignment: new go.Spot(0.5, 0)})
-                                // makePort("T", go.Spot.Top, true, true),
-                                // makePort("B", go.Spot.Bottom, true, true)
-                            )
-                )
+                                new go.Binding("itemArray", "geometry_2_stroke")
 
+                                // makePort("T", new go.Spot(0.5, 1), true, true),
+                                // makePort("B", new go.Spot(0.5, 0), true, true)
+                            )
+
+
+                ),
+                        // $(go.Shape, "Circle", portStyle(true),
+                        //     {portId: "0",margin:0, alignment: new go.Spot(0.5, 0)}),
+                        // $(go.Shape, "Circle", portStyle(true),
+                        //     {portId: "1",margin:0, alignment: new go.Spot(0.5, 1)})
+
+                        makePort("1", new go.Spot(0.5, 1), true, true),
+                        makePort("0", new go.Spot(0.5, 0), true, true)
 
                     )
                     // var transformer2_0 =
@@ -1359,37 +1435,36 @@ function init() {
 
                     var transformer3_0 = $(go.Node,"Spot", SelectNode(), NodeStyle(),
                         $(go.Panel,
-                            { name: "ICON" },
+                            { name: "ICON",margin: 0},
                             $(go.Shape, "Circle",
-                                {strokeWidth: 2, fill: "white",stroke:null,geometry: go.Geometry.parse(icons.transformer3_0, true)}
+                                {strokeWidth: 2,margin: 0, fill: "white",stroke:null,geometry: go.Geometry.parse(icons.transformer3_0, true)}
                             ),
                             $(go.Panel,
                                 {
                                     itemTemplate:
                                         $(go.Panel,
                                             $(go.Shape,
-                                                {fill: null,strokeWidth: 2 },
+                                                {fill: null,strokeWidth: 2 ,margin: 0},
                                                 new go.Binding("stroke", "", attr3Stroke),
                                                 new go.Binding("geometry", "", transformer3Geometry)
                                             )
                                         ),
                                     margin: 0
                                 },
-                                new go.Binding("itemArray", "geometry_3_stroke"),
-                                // $(go.Shape, "Circle", portStyle(true),
-                                //     {portId: "transformer3_0_0", alignment: new go.Spot(1, 0.5)}),
-                                // $(go.Shape, "Circle", portStyle(true),
-                                //     {portId: "transformer3_0_1", alignment: new go.Spot(0.21,1)}),
-                                // $(go.Shape, "Circle", portStyle(true),
-                                //     {portId: "transformer3_0_2", alignment: new go.Spot(0.21,0)})
+                                new go.Binding("itemArray", "geometry_3_stroke")
 
-                        makePort("transformer3_0_T", new go.Spot(0.21,1), true, true),
-                        makePort("transformer3_0_B", new go.Spot(0.21,0), true, true),
-                        makePort("transformer3_0_R", new go.Spot(1,0.5), true, true)
-                            //  $(go.Shape, "Circle", portStyle(true),
-                            //  {portId: "2", alignment: new go.Spot(0.5, 0.5)})
-                            // )
-                        ))
+                        )),
+                        // $(go.Shape, "Circle", portStyle(true),
+                        //     {portId: "0", alignment: new go.Spot(0.31,0)}),
+                        // $(go.Shape, "Circle", portStyle(true),
+                        //     {portId: "1", alignment: new go.Spot(1, 0.5)}),
+                        // $(go.Shape, "Circle", portStyle(true),
+                        //     {portId: "2", alignment: new go.Spot(0.31,1)})
+
+                        makePort("0", new go.Spot(0.31,0), true, true),
+                        makePort("1", new go.Spot(1, 0.5), true, true),
+                        makePort("2", new go.Spot(0.31,1), true, true)
+
                     )
                     // var transformer3_0 =
                     //     $(go.Node, "Spot", SelectNode(), NodeStyle(),
@@ -2193,7 +2268,7 @@ function init() {
                         $(go.Node, "Auto",
                             {
                                 locationObjectName: 'main',
-                                locationSpot: go.Spot.TopLeft,
+                                locationSpot: go.Spot.TopLeft
                             },
                             new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify),
                             $(go.Shape, "Rectangle",
@@ -2223,20 +2298,19 @@ function init() {
                             )
                         );  // end Node
 
+
                     //交流线
                     myDiagram.linkTemplateMap.add("ACLineEnd",
-                        $(go.Link,
+                     $(go.Link,
                             {relinkableFrom: true, relinkableTo: true, reshapable: true},
                             {
                                 routing: go.Link.Normal,
                                 curve: go.Link.JumpOver,
                                 corner: 0,
-                                toShortLength: 1,
-                                margin:0,
+                                toShortLength: 0
                             },
                             new go.Binding("points", "points").makeTwoWay(),
                             $(go.Shape,
-                                {margin:0},
                                 new go.Binding("stroke", "stroke_color"),
                                 new go.Binding("fill", "fill_color"),
                                 new go.Binding("strokeWidth", "lw"),
@@ -2244,35 +2318,28 @@ function init() {
                                 new go.Binding("angle", "angle"),
                                 new go.Binding("scale", "scale")
                             ),
-                            // $(go.Shape,
-                            //     {
-                            //         figure: "Resistor",
-                            //         desiredSize: new go.Size(18, 6),
-                            //         segmentOrientation: go.Link.OrientUpright,
-                            //         alignmentFocus: new go.Spot(0.5, 0.5),
-                            //         // alignmentFocus:new go.Spot(0.4, 0.5),
-                            //         fill: "#D4B52C"
-                            //     },
-                            //     new go.Binding("stroke", "stroke_color")
-                            //     // new go.Binding("fill", "fill_color")
-                            // )
-                            $(go.Shape,  //icons.ACLink
-                                {
-                                    figure: "Resistor",
-                                    // scale: 0,
-                                    // fill: "#fafcfa" ,
-                                    background:"#fafcfa" ,
-                                    // stroke: "#fbf4ff"
-                                    // fill: "rgba(0,0,0,0)",
-                                    margin:0,
-                                    desiredSize: new go.Size(30, 10),
-                                    segmentOrientation: go.Link.OrientUpright,
-                                    alignmentFocus: new go.Spot(0.5, 0.5),
-                                    // geometry: go.Geometry.parse(icons.ACLink, true)
-                                },
-                                new go.Binding("stroke", "stroke_color")
-                                )
-
+                         // this.archetypeLabelNodeData ={ category: "valve" }
+                            $(go.Shape,"Resistor",
+                             {
+                                 // scale: 0,
+                                 // width:45,
+                                 // height: 100,
+                                 margin:0,
+                                 fill:null,
+                                 // background:"#fafcfa",
+                                 background: $(go.Brush, "Linear", {
+                                     0.0: "transparent",
+                                     0.0001: "white",
+                                     0.9999: "white",
+                                     1: "transparent",
+                                     start: new go.Spot(0.001,0.49),end:new go.Spot(0.999,0.51),}),
+                                 desiredSize: new go.Size(30, 10),
+                                 segmentOrientation: go.Link.OrientUpright,
+                                 alignmentFocus: new go.Spot(0.5, 0.5),
+                                 //geometry: go.Geometry.parse(icons.ACLink, true)
+                             },
+                             new go.Binding("stroke", "stroke_color")
+                         )
                         )
                     );
                     //直流线
@@ -2283,7 +2350,7 @@ function init() {
                                 routing: go.Link.Normal,
                                 curve: go.Link.JumpOver,
                                 corner: 0,
-                                toShortLength: 1,
+                                toShortLength: 0,
                             },
                             new go.Binding("points", "points").makeTwoWay(),
                             $(go.Shape,
@@ -2313,7 +2380,8 @@ function init() {
                                 routing: go.Link.Normal,
                                 curve: go.Link.JumpOver,
                                 corner: 0,
-                                toShortLength: 1
+                                toShortLength: 0,
+                                margin: 0
                             },
                             new go.Binding("points","points").makeTwoWay(),
                             $(go.Shape,
@@ -2331,11 +2399,11 @@ function init() {
                             {
                                 fill: null,  // not seen, by default; set to a translucent gray by showSmallPorts, defined below
                                 stroke: null,
-                                desiredSize: new go.Size(5, 5),
+                                desiredSize: new go.Size(2, 2),
                                 alignment: spot,  // align the port on the main Shape
                                 alignmentFocus: spot,  // just inside the Shape
                                 portId: name,  // declare this object to be a "port"
-                                fromSpot: spot, toSpot: spot,  // declare where links may connect at this port
+                                // fromSpot: spot, toSpot: spot,  // declare where links may connect at this port
                                 fromLinkable: output, toLinkable: input,  // declare whether the user may draw links to/from here
                                 cursor: "pointer"  // show a different cursor to indicate potential link point
                             });
@@ -2477,7 +2545,8 @@ function init() {
                                     routing: go.Link.Normal,
                                     curve: go.Link.JumpOver,
                                     corner: 0,
-                                    toShortLength: 1
+                                    toShortLength: 0,
+                                    margin: 0
                                 },
                                 new go.Binding("points","points").makeTwoWay(),
                                 $(go.Shape,
