@@ -642,8 +642,8 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
         }
 
         if (category.contains("EnergyConsumer_0")){ //24,24
-            poss[0] += 12;
-            poss[1] += 12;
+            poss[0] += 11.9999999995;
+            poss[1] += 11.9999999995;
             return poss;
 
         }

@@ -176,7 +176,7 @@ function init() {
                     icons.disconnector_1 = "M6,3v5 M6,28v5 M0,28h12 M6,8v20";
                     icons.disconnector_2 = "M6,3v5 M6,28v5 M0,28h12 M6,8l6,20";
                     icons.disconnector_3 = "M6,0v36";
-                    icons.energyconsumer_0 = "M12.9-0.3v4 M0.9,3.7h24l-12,18L0.9,3.7z";
+                    icons.energyconsumer_0 = "M4.8-6.6v4 M-7.2-2.6h24l-12,18L-7.2-2.6z";
                     // icons.energyconsumer_0 = "M12,2v4 M0,6h24L12,24L0,6z";
                     icons.energyconsumer_1 = "M16,0c8.8,0,16,7.2,16,16s-7.2,16-16,16S0,24.8,0,16S7.2,0,16,0z M8,24V8 M8,8l8,16 M16,24l8-16 M24,8v16";
                     icons.generalmeter = "M13,40c7.2,0,13,5.8,13,13s-5.8,13-13,13S0,60.2,0,53S5.8,40,13,40z M13,0v40";
@@ -851,8 +851,8 @@ function init() {
                                     name: 'icon',
                                     strokeWidth: 2,
                                     margin: 0,
+                                    toShortLength: 2,
                                     fill: "rgba(0,0,0,0)",
-                                    toShortLength: 0,
                                     geometry: go.Geometry.parse(icons.energyconsumer_0, true)
                                 },
                                 new go.Binding("stroke", "stroke_color")
@@ -860,7 +860,7 @@ function init() {
                                 // new go.Binding("strokeWidth", "lw")
                             ),
 
-                            makePort("0", new go.Spot(0.5, 0), true, true)
+                            makePort("0", new go.Spot(0.5, 0.039), true, true)
                             // $(go.Shape, "Circle", portStyle(true),
                             //     {portId: "0", alignment: new go.Spot(0.5, 0)})
                             // $(go.Shape, "Circle", portStyle(true),
@@ -2399,7 +2399,7 @@ function init() {
                             {
                                 fill: null,  // not seen, by default; set to a translucent gray by showSmallPorts, defined below
                                 stroke: null,
-                                desiredSize: new go.Size(2, 2),
+                                desiredSize: new go.Size(1, 1),
                                 alignment: spot,  // align the port on the main Shape
                                 alignmentFocus: spot,  // just inside the Shape
                                 portId: name,  // declare this object to be a "port"
