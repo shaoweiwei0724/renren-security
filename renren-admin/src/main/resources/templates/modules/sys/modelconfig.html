@@ -30,35 +30,66 @@
                 </ul>
                 <div class="layui-tab-content" style="height: 90%">
                     <div class="layui-tab-item layui-show" style="height: 90%">
-                        <span style="padding:10px; display: inline-block;" >在线监测默认显示指标</span><a class="btn btn-primary" @click="addclassAttr"><i class="fa fa-plus"></i>&nbsp;保存</a>
+                        <span style="padding:10px; display: inline-block;" >在线监测默认显示属性和指标</span><a class="btn btn-primary" @click="addclassAttr"><i class="fa fa-plus"></i>&nbsp;保存</a>
 
                         <div class="sag">
-                            <span v-for="(item,index) in classAttrList" :key="item.id">
-                                 <input type="checkbox"   :checked="item.onlineMonitor" @click="clickMonitor(index)"> {{item.name}}
-                            </span>
-
+                            <div class="propsag">
+                                <span style="display: block; color: #3F8CDD;padding-bottom: 20px;" >属性列表</span>
+                                <span style="padding: 10px;" v-for="(item,index) in classPropList" :key="item.id">
+                                     <input type="checkbox"   :checked="item.onlineMonitor" @click="clickMonitorProp(index)"> {{item.name}}
+                                </span>
+                            </div>
+                            <div class="propsag">
+                                <span style="display: block; color: #3F8CDD;padding-bottom: 20px;" >指标列表</span>
+                                <span style="padding: 10px;" v-for="(item,index) in classAttrList" :key="item.id">
+                                     <input type="checkbox"   :checked="item.onlineMonitor" @click="clickMonitor(index)"> {{item.name}}
+                                </span>
+                            </div>
                         </div>
 
                     </div>
                     <div class="layui-tab-item" style="height: 90%">
 
-                        <span style="padding:10px;display: inline-block;">在线仿真默认显示指标</span><a class="btn btn-primary" @click="addclassAttr"><i class="fa fa-plus"></i>&nbsp;保存</a>
-                        <div class="sag">
-                            <span v-for="(item,index) in classAttrList" :key="item.id">
+                        <span style="padding:10px;display: inline-block;">在线仿真默认显示属性和指标</span><a class="btn btn-primary" @click="addclassAttr"><i class="fa fa-plus"></i>&nbsp;保存</a>
+                       <div class="sag">
+                           <!--  <span v-for="(item,index) in classAttrList" :key="item.id">
                              <input type="checkbox"  :checked="item.onlineSim" @click="clickOnlineSim(index)"> {{item.name}}
-                        </span>
+                        </span>-->
+                            <div class="propsag">
+                                <span style="display: block; color: #3F8CDD;padding-bottom: 20px;" >属性列表</span>
+                                <span style="padding: 10px;" v-for="(item,index) in classPropList" :key="item.id">
+                                     <input type="checkbox"   :checked="item.onlineSim" @click="clickOnlineSimProp(index)"> {{item.name}}
+                                </span>
+                            </div>
+                            <div class="propsag">
+                                <span style="display: block; color: #3F8CDD;padding-bottom: 20px;" >指标列表</span>
+                                <span style="padding: 10px;" v-for="(item,index) in classAttrList" :key="item.id">
+                                     <input type="checkbox"   :checked="item.onlineSim" @click="clickOnlineSim(index)"> {{item.name}}
+                                </span>
+                            </div>
 
                         </div>
 
                         </div>
 
                     <div class="layui-tab-item" style="height: 90%">
-                        <span style="padding:10px;display: inline-block;">离线仿真默认显示指标</span><a class="btn btn-primary" @click="addclassAttr"><i class="fa fa-plus"></i>&nbsp;保存</a>
+                        <span style="padding:10px;display: inline-block;">离线仿真默认显示属性和指标</span><a class="btn btn-primary" @click="addclassAttr"><i class="fa fa-plus"></i>&nbsp;保存</a>
                         <div class="sag">
-                            <span v-for="(item,index) in classAttrList" :key="item.id">
+                            <!--<span v-for="(item,index) in classAttrList" :key="item.id">
                              <input type="checkbox" name="" id="" :checked="item.offlineSim" @click="clickOfflineSim(index)"> {{item.name}}
-                        </span>
-
+                        </span>-->
+                            <div class="propsag">
+                                <span style="display: block; color: #3F8CDD;padding-bottom: 20px;" >属性列表</span>
+                                <span style="padding: 10px;" v-for="(item,index) in classPropList" :key="item.id">
+                                     <input type="checkbox"   :checked="item.offlineSim" @click="clickOfflineSimProp(index)"> {{item.name}}
+                                </span>
+                            </div>
+                            <div class="propsag">
+                                <span style="display: block; color: #3F8CDD;padding-bottom: 20px;" >指标列表</span>
+                                <span style="padding: 10px;" v-for="(item,index) in classAttrList" :key="item.id">
+                                     <input type="checkbox"   :checked="item.offlineSim" @click="clickOfflineSim(index)"> {{item.name}}
+                                </span>
+                            </div>
                         </div>
                     </div>
 

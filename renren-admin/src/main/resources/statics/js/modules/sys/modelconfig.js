@@ -31,6 +31,19 @@ $(function () {
             }
         }
     });
+    var urlProp = "sys/sifanyclassprop/propListInfo";
+    $.ajax({
+        type: "POST",
+        url: baseURL + urlProp,
+        contentType: "application/json",
+        data: JSON.stringify(querys),
+        success: function (r) {
+            if (r.code === 0) {
+
+                vm.classPropList = r.classPropList;
+            }
+        }
+    });
     reloadTree();
     getGridDom();
     getGridGatherDom();
@@ -654,6 +667,7 @@ var vm = new Vue({
         //devList:true,
         title: null,
         classAttrList:[],
+        classPropList:[],
         sifanyClassAttr: {
             className:null,
             classId:0,
@@ -1102,6 +1116,40 @@ var vm = new Vue({
             }
 
         },
+        clickMonitorProp:function (index) {
+
+            var that=vm.classPropList[index];
+            if(that.onlineMonitor){
+
+                that.onlineMonitor=false;
+            }else{
+
+                that.onlineMonitor=true;
+            }
+        },
+        clickOnlineSimProp:function (index) {
+            var that=vm.classPropList[index];
+            if(that.onlineSim){
+
+                that.onlineSim=false;
+            }else{
+
+                that.onlineSim=true;
+            }
+
+        },
+        clickOfflineSimProp:function (index) {
+
+            var that=vm.classPropList[index];
+            if(that.offlineSim){
+
+                that.offlineSim=false;
+            }else{
+
+                that.offlineSim=true;
+            }
+
+        },
         addclassAttr:function (){
             var url1="sys/sifanyclassattr/saveClassAttr";
             $.ajax({
@@ -1111,7 +1159,26 @@ var vm = new Vue({
                 data: JSON.stringify(vm.classAttrList),
                 success: function(r){
                     if(r.code === 0){
-                        layer.msg("操作成功", {icon: 1});
+                      //  layer.msg("操作成功", {icon: 1});
+                        var url2="sys/sifanyclassprop/saveClassProp";
+                        $.ajax({
+                            type: "POST",
+                            url: baseURL + url2,
+                            contentType: "application/json",
+                            data: JSON.stringify(vm.classPropList),
+                            success: function(r){
+                                if(r.code === 0){
+                                    layer.msg("操作成功", {icon: 1});
+                                  //  vm.reload();
+
+                                    // $(document).ready(reloadTree);
+                                    //   refreshNodeTree(nodes,nodes[0].id);
+                                }else{
+                                    layer.alert(r.msg);
+
+                                }
+                            }
+                        });
                         vm.reload();
 
                         // $(document).ready(reloadTree);
@@ -1122,6 +1189,7 @@ var vm = new Vue({
                     }
                 }
             });
+
         }
 
 

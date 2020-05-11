@@ -7,7 +7,6 @@ import java.util.Map;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.renren.common.validator.ValidatorUtils;
-import io.renren.modules.sys.entity.CustomFieldEntity;
 import io.renren.modules.sys.entity.SifanyClassEntity;
 import io.renren.modules.sys.service.SifanyClassService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

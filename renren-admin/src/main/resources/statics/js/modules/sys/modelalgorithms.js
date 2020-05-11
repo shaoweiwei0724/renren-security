@@ -44,7 +44,7 @@ $(function () {
     getGridDom();
     getGridGatherDom();
     var selected_id='18';
-    $("#jqGrid").jqGrid({
+    /*$("#jqGrid").jqGrid({
         url: baseURL + 'sys/sifanyclassattr/list',
         postData:{'selected_id':selected_id},
         datatype: "json",
@@ -154,20 +154,128 @@ $(function () {
         gridComplete:function(){
             //隐藏grid底部滚动条
             $("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
-            /*   var newHeight = $(window).height()  - 160;
-               $("#jqGrid").css("cssText","height: "+newHeight+"px!important;");*/
+            /!*   var newHeight = $(window).height()  - 160;
+               $("#jqGrid").css("cssText","height: "+newHeight+"px!important;");*!/
 
         }
-        /* onSelectRow: function (row) {
+        /!* onSelectRow: function (row) {
 
              var rowData = $("#jqGrid").getRowData(row);
              vm.sifanyClassAttr = {name:rowData.name,code:rowData.code,unitId:rowData.unitId,attrstypeId:rowData.attrstypeId,remark:rowData.remark};
              console.log(rowData);
-         }*/
-    });
+         }*!/
+    });*/
     /*$(window).resize(function(){
         $("#jqGrid").setGridHeight($(window).height()-30);
     });*/
+    $("#jqGrid").jqGrid({
+        url: baseURL + 'sys/sifanyclassprop/list',
+        postData:{'selected_id':selected_id},
+        datatype: "json",
+        colModel: [
+            { label: 'id', name: 'id', index: 'id', width: 50, key: true },
+            { label: '所属类id', name: 'classId', index: 'class_id', width: 80 },
+            { label: '属性名', name: 'name', index: 'name', width: 80 },
+            { label: '属性值', name: 'propValue', index: 'prop_value', width: 80 },
+          /*  { label: '数据类型', name: 'dataType', index: 'data_type', width: 80 },*/
+            { label: '创建时间', name: 'createTime', index: 'create_time', width: 80 , formatter: function(value, options, row){
+                    if(value == null)
+                        return "";
+                    function TimeToDate(unixTime,type="Y-M-D H:i:s"){
+                        var date = new Date(unixTime);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                        var datetime = "";
+                        datetime += date.getFullYear() + type.substring(1,2);
+                        datetime += (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + type.substring(3,4);
+                        datetime += (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate());
+                        if (type.substring(5,6)) {
+                            if (type.substring(5,6).charCodeAt() > 255) {
+                                datetime += type.substring(5,6);
+                                if (type.substring(7,8)) {
+                                    datetime += " " + (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours());
+                                    if (type.substring(9,10)) {
+                                        datetime += type.substring(8,9) + (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes());
+                                        if (type.substring(11,12)) {
+                                            datetime += type.substring(10,11) + (date.getSeconds() < 10 ? '0'+(date.getSeconds()) : date.getSeconds());
+                                        };
+                                    };
+                                };
+                            }else{
+                                datetime += " " + (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours());
+                                if (type.substring(8,9)) {
+                                    datetime += type.substring(7,8) + (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes());
+                                    if (type.substring(10,11)) {
+                                        datetime += type.substring(9,10) + (date.getSeconds() < 10 ? '0'+(date.getSeconds()) : date.getSeconds());
+                                    };
+                                };
+                            };
+                        };
+                        return datetime;
+                    }
+                    return TimeToDate(value);
+                }},
+            { label: '最后更新时间', name: 'updateTime', index: 'update_time', width: 80 , formatter: function(value, options, row){
+                    if(value == null)
+                        return "";
+                    function TimeToDate(unixTime,type="Y-M-D H:i:s"){
+                        var date = new Date(unixTime);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                        var datetime = "";
+                        datetime += date.getFullYear() + type.substring(1,2);
+                        datetime += (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + type.substring(3,4);
+                        datetime += (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate());
+                        if (type.substring(5,6)) {
+                            if (type.substring(5,6).charCodeAt() > 255) {
+                                datetime += type.substring(5,6);
+                                if (type.substring(7,8)) {
+                                    datetime += " " + (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours());
+                                    if (type.substring(9,10)) {
+                                        datetime += type.substring(8,9) + (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes());
+                                        if (type.substring(11,12)) {
+                                            datetime += type.substring(10,11) + (date.getSeconds() < 10 ? '0'+(date.getSeconds()) : date.getSeconds());
+                                        };
+                                    };
+                                };
+                            }else{
+                                datetime += " " + (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours());
+                                if (type.substring(8,9)) {
+                                    datetime += type.substring(7,8) + (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes());
+                                    if (type.substring(10,11)) {
+                                        datetime += type.substring(9,10) + (date.getSeconds() < 10 ? '0'+(date.getSeconds()) : date.getSeconds());
+                                    };
+                                };
+                            };
+                        };
+                        return datetime;
+                    }
+                    return TimeToDate(value);
+                }},
+            { label: '用户id', name: 'userId', index: 'user_id', width: 50 }
+
+        ],
+        viewrecords: true,
+        height: $(window).height()-260,
+        rowNum: 10,
+        rowList : [10,30,50],
+        rownumbers: true,
+        rownumWidth: 25,
+        autowidth:true,
+        multiselect: true,
+        pager: "#jqGridPager",
+        jsonReader : {
+            root: "page.list",
+            page: "page.currPage",
+            total: "page.totalPage",
+            records: "page.totalCount"
+        },
+        prmNames : {
+            page:"page",
+            rows:"limit",
+            order: "order"
+        },
+        gridComplete:function(){
+            //隐藏grid底部滚动条
+            $("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+        }
+    });
 });
 function changeFrameHeight(that){
     //电脑屏幕高度-iframe上面其他组件的高度
@@ -442,7 +550,7 @@ function getGridDom(){
         ],
         viewrecords: true,
      /*   width:window.screen.availWidth*"95%"-20,*/
-        height: $(window).height()-180,
+        height: $(window).height()-210,
         rowNum: 10,
         rowList : [10,30,50],
         rownumbers: true,
@@ -685,6 +793,8 @@ var vm = new Vue({
     data:{
         showList: true,
         //devList:true,
+        propshowList:false,
+        showListattr:false,
         title: null,
         classAttrList:[],
         sifanyClassAttr: {
@@ -725,7 +835,8 @@ var vm = new Vue({
             remark:null,
             name:null
 
-        }
+        },
+        sifanyClassProp: {}
     },
     methods: {
         query: function () {
@@ -780,6 +891,8 @@ var vm = new Vue({
             selected_id=node[0].id;
 
             vm.showList = false;
+            vm.propshowList=false;
+            vm.showListattr=true;
             //  vm.devList = true;
             vm.title = "新增";
             vm.sifanyClassAttr = {className:null,classId:selected_id,typeName:null,typeId:0,orderNum:0,frequency:0};
@@ -788,11 +901,13 @@ var vm = new Vue({
 
         },
         update: function (event) {
-            var id = getSelectedRow();
+            var id = getSelectedgetRow();
             if(id == null){
                 return ;
             }
             vm.showList = false;
+            vm.propshowList=false;
+                vm.showListattr=true;
             //  vm.devList = true;
             vm.title = "修改";
 
@@ -824,7 +939,7 @@ var vm = new Vue({
             });
         },
         del: function (event) {
-            var ids = getSelectedRows();
+            var ids = getSelectedgetRows();
             if(ids == null){
                 return ;
             }
@@ -842,7 +957,7 @@ var vm = new Vue({
                         success: function(r){
                             if(r.code == 0){
                                 layer.msg("操作成功", {icon: 1});
-                                $("#jqGrid").trigger("reloadGrid");
+                                $("#jqGridget").trigger("reloadGrid");
                             }else{
                                 layer.alert(r.msg);
                             }
@@ -930,8 +1045,10 @@ var vm = new Vue({
         },
         reload: function (event) {
             vm.showList = true;
-            var page = $("#jqGrid").jqGrid('getGridParam','page');
-            $("#jqGrid").jqGrid('setGridParam',{
+            vm.propshowList=false;
+                vm.showListattr=false;
+            var page = $("#jqGridget").jqGrid('getGridParam','page');
+            $("#jqGridget").jqGrid('setGridParam',{
                 page:page
             }).trigger("reloadGrid");
         },
@@ -1158,6 +1275,95 @@ var vm = new Vue({
                 that.offlineSim=true;
             }
 
+        },
+        addProp: function(){
+            var node = ztreeMain.getSelectedNodes();
+
+            selected_id=node[0].id;
+
+            vm.showList = false;
+            vm.title = "新增";
+            vm.propshowList=true;
+            vm.showListattr=false;
+            vm.sifanyClassProp = {classId:selected_id};
+        },
+        updateProp: function (event) {
+            var id = getSelectedRow();
+            if(id == null){
+                return ;
+            }
+            vm.showList = false;
+            vm.propshowList=true;
+            vm.showListattr=false;
+            vm.title = "修改";
+
+            vm.getInfoProp(id)
+        },
+        saveOrUpdateProp: function (event) {
+            $('#btnSaveOrUpdateProp').button('loading').delay(1000).queue(function() {
+                var url = vm.sifanyClassProp.id == null ? "sys/sifanyclassprop/save" : "sys/sifanyclassprop/update";
+                $.ajax({
+                    type: "POST",
+                    url: baseURL + url,
+                    contentType: "application/json",
+                    data: JSON.stringify(vm.sifanyClassProp),
+                    success: function(r){
+                        if(r.code === 0){
+                            layer.msg("操作成功", {icon: 1});
+                            vm.reloadProp();
+                            $('#btnSaveOrUpdateProp').button('reset');
+                            $('#btnSaveOrUpdateProp').dequeue();
+                        }else{
+                            layer.alert(r.msg);
+                            $('#btnSaveOrUpdateProp').button('reset');
+                            $('#btnSaveOrUpdateProp').dequeue();
+                        }
+                    }
+                });
+            });
+        },
+        delProp: function (event) {
+            var ids = getSelectedRows();
+            if(ids == null){
+                return ;
+            }
+            var lock = false;
+            layer.confirm('确定要删除选中的记录？', {
+                btn: ['确定','取消'] //按钮
+            }, function(){
+                if(!lock) {
+                    lock = true;
+                    $.ajax({
+                        type: "POST",
+                        url: baseURL + "sys/sifanyclassprop/delete",
+                        contentType: "application/json",
+                        data: JSON.stringify(ids),
+                        success: function(r){
+                            if(r.code == 0){
+                                layer.msg("操作成功", {icon: 1});
+                                $("#jqGrid").trigger("reloadGrid");
+                            }else{
+                                layer.alert(r.msg);
+                            }
+                        }
+                    });
+                }
+            }, function(){
+            });
+        },
+        getInfoProp: function(id){
+            $.get(baseURL + "sys/sifanyclassprop/info/"+id, function(r){
+                vm.sifanyClassProp = r.sifanyClassProp;
+            });
+        },
+        reloadProp: function (event) {
+            vm.showList = true;
+            vm.propshowList=false;
+            vm.showListattr=false;
+            var page = $("#jqGrid").jqGrid('getGridParam','page');
+            $("#jqGrid").jqGrid('setGridParam',{
+                page:page
+            }).trigger("reloadGrid");
         }
 
     }

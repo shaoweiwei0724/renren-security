@@ -63,6 +63,23 @@ function getSelectedRow() {
     return selectedIDs[0];
 }
 //选择一条记录
+function getSelectedgetRow() {
+    var grid = $("#jqGridget");
+    var rowKey = grid.getGridParam("selrow");
+    if(!rowKey){
+        alert("请选择一条记录");
+        return ;
+    }
+
+    var selectedIDs = grid.getGridParam("selarrrow");
+    if(selectedIDs.length > 1){
+        alert("只能选择一条记录");
+        return ;
+    }
+
+    return selectedIDs[0];
+}
+//选择一条记录
 function getSelectedRowfield() {
     var grid = $("#jqGrid1");
     var rowKey = grid.getGridParam("selrow");
@@ -90,7 +107,17 @@ function getSelectedRows() {
     
     return grid.getGridParam("selarrrow");
 }
+//选择多条记录
+function getSelectedgetRows() {
+    var grid = $("#jqGridget");
+    var rowKey = grid.getGridParam("selrow");
+    if(!rowKey){
+        alert("请选择一条记录");
+        return ;
+    }
 
+    return grid.getGridParam("selarrrow");
+}
 //选择多条记录
 function getSelectedRowsfield() {
     var grid = $("#jqGrid1");

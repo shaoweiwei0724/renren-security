@@ -171,10 +171,19 @@ option{
 .sag{
     border:1px solid #FFFFFF;
     width:65%;
-    height: 80%;
+    height: 90%;
     margin-left: 10px;
     padding:10px;
     margin-top: 15px;
+}
+
+.propsag{
+
+    width:65%;
+    height: 45%;
+    margin-left: 10px;
+  /*  padding:10px;*/
+    /*margin-top: 15px;*/
 }
 
 .s-config {
