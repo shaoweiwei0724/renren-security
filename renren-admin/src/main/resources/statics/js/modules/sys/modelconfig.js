@@ -201,9 +201,21 @@ console.log(vm.sifanyClass);
         data: JSON.stringify(selected_id),
         success: function (r) {
             if (r.code === 0) {
-                console.log("11111111111111111111wwwwwwww"+r.classAttrList);
 
                 vm.classAttrList = r.classAttrList;
+            }
+        }
+    });
+    var urlProp = "sys/sifanyclassprop/propListInfo";
+    $.ajax({
+        type: "POST",
+        url: baseURL + urlProp,
+        contentType: "application/json",
+        data: JSON.stringify(selected_id),
+        success: function (r) {
+            if (r.code === 0) {
+
+                vm.classPropList = r.classPropList;
             }
         }
     });
