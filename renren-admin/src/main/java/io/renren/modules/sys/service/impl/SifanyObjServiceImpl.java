@@ -42,6 +42,11 @@ public class SifanyObjServiceImpl extends ServiceImpl<SifanyObjDao, SifanyObjEnt
     private SifanyClassService sifanyClassService;
     @Autowired
     private SifanyObjAttrService sifanyObjAttrService;
+    @Autowired
+    private SifanyClassPropService sifanyClassPropService;
+    @Autowired
+    private SifanyObjPropService sifanyObjPropService;
+
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<SifanyObjEntity> page = this.page(
@@ -232,6 +237,21 @@ public class SifanyObjServiceImpl extends ServiceImpl<SifanyObjDao, SifanyObjEnt
                             sifanyObjAttrEntity.setAttrstypeId(classAttrEntity.getAttrstypeId());
 
                             sifanyObjAttrService.save(sifanyObjAttrEntity);
+                        }
+
+                        List<SifanyClassPropEntity> classPropEntities =  sifanyClassPropService.list(new QueryWrapper<SifanyClassPropEntity>().eq(true,"class_id",obj.getId()));
+                        if(!classPropEntities.isEmpty()){
+                            List<SifanyObjPropEntity> sent=new ArrayList<>();
+                            for(SifanyClassPropEntity prop:classPropEntities){
+                                SifanyObjPropEntity objProp = new SifanyObjPropEntity();
+                                objProp.setObjId(objEntity.getId());
+                                objProp.setPropId(prop.getId());
+                                sent.add(objProp);
+                            }
+                            if(!sent.isEmpty()){
+                                sifanyObjPropService.saveBatch(sent);
+                            }
+
                         }
                     }
 
