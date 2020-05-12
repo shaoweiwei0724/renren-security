@@ -543,7 +543,6 @@ setInterval(function () {
     var keys = []
     for (var key in swan_redis_data) {
         keys.push(key)
-
     }
     keys = keys.join(",")
     var xmlHttp = new XMLHttpRequest();

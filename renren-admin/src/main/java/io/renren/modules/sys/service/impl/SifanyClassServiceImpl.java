@@ -170,10 +170,8 @@ public class SifanyClassServiceImpl extends ServiceImpl<SifanyClassDao, SifanyCl
             List<SifanyObjDataEntity> sifanyObjDataEntities=sifanyObjDataService.list(new QueryWrapper<SifanyObjDataEntity>().eq("obj_id",obj.getId()));
             for(SifanyObjDataEntity sifanyObjDataEntity:sifanyObjDataEntities){
                 sifanyObjDataEntity.setObjName(sifanyClassAttrService.getById(sifanyObjDataEntity.getAttrId()).getName());
-
             }
             obj.setAttrs(sifanyObjDataEntities);
-
         }
         res.put("objs",objs);
 
