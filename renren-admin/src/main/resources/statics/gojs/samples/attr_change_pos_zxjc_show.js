@@ -29,20 +29,6 @@ function init() {
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
             str = JSON.parse(xmlHttp.responseText);
-        //     console.log("str:", str);
-        //     var html = "";
-        //     for (var i = 0; i < str.classLists.length; i++) { //一级目录
-        //         html += '<div style=" width: 100%;height:100%;">\n' +
-        //             '                <div  style="float: top; cursor: pointer;z-index: 99;height: 40px; width: 100%;background: linear-gradient(to right,#363c6e,#081e41);vertical-align:middle ">\n' +
-        //             '                    <input id="model' + (i + 1) + '" readonly="readonly" style=" background-color:transparent;cursor: pointer; left: 2px;font-size: small; width:20%; height:100%;margin-left:5%; border:0px; color:#EBEBEB"  value="' + str.classLists[i].name + '"/>\n' +
-        //             '                   <span onclick="setBigScreen()" style=" background-color:transparent;cursor: pointer; left: 2px;font-size: small; width:20%; height:100%;margin-left:5%; border:0px; color:#EBEBEB" >大屏</span>\n' +
-        //             '                    <img id="pic' + (i + 1) + '" style=" width:13%; margin-left: 10%; margin-right: 10%;"  onclick="setTab(\'' + (i + 1) + '\')"  src="images/back.png"/>\n' +
-        //             '                    <!--                    <a target="_self" href="#" rel="external nofollow" rel="external nofollow" rel="external nofollow" onclick="setTab(\'one\',2,3)" id="one2">锅炉类</a>-->\n' +
-        //             '                </div>\n' +
-        //             '                    <div   style="display: block; width: 100%;height:100%;" id="m' + (i + 1) + '"><div id="myPaletteDiv' + (i + 1) + '" style="height:100%;width: 100%;  border: solid 1px black;margin: 0 auto;background: rgb(1,10,34,0.3)"></div></div>\n' +
-        //             '            </div>';
-        //     }
-        //     document.getElementById("bu").innerHTML = (html);
 
             var list = str.classLists[0].childs;
             swan_obj_list = str.classLists;
@@ -589,15 +575,15 @@ function init() {
                         var attr_text=myDiagram.findNodesByExample({"attr_objId":node_select});
                         if(node.isSelected) {
                         // if (texts_select.first() != null) {
-                            texts_select.each(function (text_select) {
-                                text_select.category = "Text_selected";
-                            });
-                                // attr_panel.each(function (panel_select) {
-                                //     panel_select.category = "OfNodes_selected";
-                                // });
-                                attr_text.each(function (attr_select) {
-                                    attr_select.category = "TextNode_selected";
-                                })
+                        //     texts_select.each(function (text_select) {
+                        //         text_select.category = "Text_selected";
+                        //     });
+                                attr_panel.each(function (panel_select) {
+                                    panel_select.category = "OfNodes_selected";
+                                });
+                                // attr_text.each(function (attr_select) {
+                                //     attr_select.category = "TextNode_selected";
+                                // })
                             }
                             else {
                                 texts_select.each(function (text_select) {
@@ -708,7 +694,7 @@ function init() {
                             new go.Binding("fill", "fill_color")
                         );
                     var capacitor_p =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -724,7 +710,7 @@ function init() {
                             makePort("0", go.Spot.Top, true, true)
                         );
                     var capacitor_s =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -744,7 +730,7 @@ function init() {
                         makePort("1", new go.Spot(1, 0.5), true, true)
                         );
                     var cbreaker_1 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -765,7 +751,7 @@ function init() {
                             makePort("1", new go.Spot(0.5, 1), true, true)
                         );
                     var cbreaker_2 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -784,7 +770,7 @@ function init() {
                             makePort("1", new go.Spot(0.5, 1), true, true)
                         );
                     var disconnector_1 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -803,7 +789,7 @@ function init() {
                         makePort("1", new go.Spot(0.5, 1), true, true)
                         );
                     var disconnector_2 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -822,7 +808,7 @@ function init() {
                             makePort("1", new go.Spot(0.5, 1), true, true)
                         );
                     var disconnector_3 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -841,7 +827,7 @@ function init() {
                             makePort("1", new go.Spot(0.5, 1), true, true)
                         );
                     var energyconsumer_0 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -868,7 +854,7 @@ function init() {
                             //     {portId: "3", alignment: new go.Spot(1, 0.5)})
                         );
                     var energyconsumer_1 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             { margin: 0,},
                             $(go.Shape, {
                                     name: 'icon',
@@ -897,7 +883,7 @@ function init() {
                             makePort("R", go.Spot.Right, true, true)
                         );
                     var generalmeter =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -916,7 +902,7 @@ function init() {
                             makePort("1", new go.Spot(0.5, 1), true, true)
                         );
                     var generator =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},{doubleClick:OnmChange},
                             { margin: 0,},
                             $(go.Shape, {
                                     name: 'icon',
@@ -945,7 +931,7 @@ function init() {
                             //     {portId: "0", alignment: new go.Spot(0.5, 0.5)})
                         );
                     var grounddisconnector_1 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -961,7 +947,7 @@ function init() {
                             makePort("0", new go.Spot(0.5, 0), true, true)
                         );
                     var grounddisconnector_2 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -977,7 +963,7 @@ function init() {
                             makePort("0", new go.Spot(0.5, 0), true, true)
                         );
                     var reactor_p =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -993,7 +979,7 @@ function init() {
                             makePort("0", new go.Spot(0.5, 0), true, true)
                         );
                     var reactor_s =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1013,7 +999,7 @@ function init() {
                             makePort("1", new go.Spot(1, 0.5), true, true)
                         );
                     var station_1_1 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1041,7 +1027,7 @@ function init() {
                             //     {portId: "3", alignment: new go.Spot(1, 0.5)})
                         );
                     var station_1_2 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1069,7 +1055,7 @@ function init() {
                             //     {portId: "3", alignment: new go.Spot(1, 0.5)})
                         );
                     var station_1_3 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1097,7 +1083,7 @@ function init() {
                             //     {portId: "3", alignment: new go.Spot(1, 0.5)})
                         );
                     var station_2_1 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1125,7 +1111,7 @@ function init() {
                             //     {portId: "3", alignment: new go.Spot(1, 0.5)})
                         );
                     var station_2_2 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1153,7 +1139,7 @@ function init() {
                             //     {portId: "3", alignment: new go.Spot(1, 0.5)})
                         );
                     var station_2_3 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1200,7 +1186,7 @@ function init() {
                         }
                     }
 
-                    var transformer2_0 = $(go.Node,"Spot", SelectNode(), NodeStyle(),
+                    var transformer2_0 = $(go.Node,"Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                         $(go.Panel,
                             { name: "ICON" ,margin: 0},
                             $(go.Shape, "Circle",
@@ -1235,7 +1221,7 @@ function init() {
 
                     )
                     // var transformer2_0 =
-                    //     $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                    //     $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                     //         $(go.Shape, {
                     //                 name: 'icon',
                     //                 strokeWidth: 2,
@@ -1269,7 +1255,7 @@ function init() {
                     //             {portId: "1", alignment: new go.Spot(0.5, 1)})
                     //     );
                     var transformer2_1 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1286,7 +1272,7 @@ function init() {
                                 {portId: "1", alignment: new go.Spot(0.5, 1)})
                         );
                     var transformer2_2 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1303,7 +1289,7 @@ function init() {
                                 {portId: "1", alignment: new go.Spot(0.5, 1)})
                         );
                     var transformer2_3 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1320,7 +1306,7 @@ function init() {
                                 {portId: "1", alignment: new go.Spot(0.5, 1)})
                         );
                     var transformer2_4 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1337,7 +1323,7 @@ function init() {
                                 {portId: "1", alignment: new go.Spot(0.5, 1)})
                         );
                     var transformer2_5 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1354,7 +1340,7 @@ function init() {
                                 {portId: "1", alignment: new go.Spot(0.5, 1)})
                         );
                     var transformer2_6 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1371,7 +1357,7 @@ function init() {
                                 {portId: "1", alignment: new go.Spot(0.5, 1)})
                         );
                     var transformer2_7 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1388,7 +1374,7 @@ function init() {
                                 {portId: "1", alignment: new go.Spot(0.5, 1)})
                         );
                     var transformer2_8 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1428,7 +1414,7 @@ function init() {
                         }
                     }
 
-                    var transformer3_0 = $(go.Node,"Spot", SelectNode(), NodeStyle(),
+                    var transformer3_0 = $(go.Node,"Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                         $(go.Panel,
                             { name: "ICON",margin: 0},
                             $(go.Shape, "Circle",
@@ -1462,7 +1448,7 @@ function init() {
 
                     )
                     // var transformer3_0 =
-                    //     $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                    //     $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                     //         $(go.Shape, {
                     //                 name: 'icon',
                     //                 strokeWidth: 2,
@@ -1481,7 +1467,7 @@ function init() {
                     //             {portId: "2", alignment: new go.Spot(1, 0.5)})
                     //     );
                     var transformer3_1 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1500,7 +1486,7 @@ function init() {
                                 {portId: "2", alignment: new go.Spot(1, 0.5)})
                         );
                     var transformer3_2 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1519,7 +1505,7 @@ function init() {
                                 {portId: "2", alignment: new go.Spot(1, 0.5)})
                         );
                     var transformer3_3 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1538,7 +1524,7 @@ function init() {
                                 {portId: "2", alignment: new go.Spot(1, 0.5)})
                         );
                     var transformer3_4 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1557,7 +1543,7 @@ function init() {
                                 {portId: "2", alignment: new go.Spot(1, 0.5)})
                         );
                     var transformer3_5 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1576,7 +1562,7 @@ function init() {
                                 {portId: "2", alignment: new go.Spot(1, 0.5)})
                         );
                     var transformer3_6 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1596,7 +1582,7 @@ function init() {
                                 {portId: "2", alignment: new go.Spot(1, 0.5)})
                         );
                     var transformer3_7 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1615,7 +1601,7 @@ function init() {
                                 {portId: "2", alignment: new go.Spot(1, 0.5)})
                         );
                     var transformer3_8 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1634,7 +1620,7 @@ function init() {
                                 {portId: "2", alignment: new go.Spot(1, 0.5)})
                         );
                     var transformer3_9 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1653,7 +1639,7 @@ function init() {
                                 {portId: "2", alignment: new go.Spot(1, 0.5)})
                         );
                     var transformer3_10 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1672,7 +1658,7 @@ function init() {
                                 {portId: "2", alignment: new go.Spot(1, 0.5)})
                         );
                     var transformer3_11 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1691,7 +1677,7 @@ function init() {
                                 {portId: "2", alignment: new go.Spot(1, 0.5)})
                         );
                     var transformer3_12 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1710,7 +1696,7 @@ function init() {
                                 {portId: "2", alignment: new go.Spot(1, 0.5)})
                         );
                     var transformer3_13 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1729,7 +1715,7 @@ function init() {
                                 {portId: "2", alignment: new go.Spot(1, 0.5)})
                         );
                     var transformer3_14 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1748,7 +1734,7 @@ function init() {
                                 {portId: "2", alignment: new go.Spot(1, 0.5)})
                         );
                     var transformer3_15 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1767,7 +1753,7 @@ function init() {
                                 {portId: "2", alignment: new go.Spot(1, 0.5)})
                         );
                     var transformer3_16 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1786,7 +1772,7 @@ function init() {
                                 {portId: "2", alignment: new go.Spot(1, 0.5)})
                         );
                     var transformer3_17 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1805,7 +1791,7 @@ function init() {
                                 {portId: "2", alignment: new go.Spot(1, 0.5)})
                         );
                     var transformer3_18 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1824,7 +1810,7 @@ function init() {
                                 {portId: "2", alignment: new go.Spot(1, 0.5)})
                         );
                     var transformer3_19 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1843,7 +1829,7 @@ function init() {
                                 {portId: "2", alignment: new go.Spot(1, 0.5)})
                         );
                     var transformer3_20 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1862,7 +1848,7 @@ function init() {
                                 {portId: "2", alignment: new go.Spot(1, 0.5)})
                         );
                     var transformer3_21 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1881,7 +1867,7 @@ function init() {
                                 {portId: "2", alignment: new go.Spot(1, 0.5)})
                         );
                     var transformer3_22 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1900,7 +1886,7 @@ function init() {
                                 {portId: "2", alignment: new go.Spot(1, 0.5)})
                         );
                     var transformer3_23 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1919,7 +1905,7 @@ function init() {
                                 {portId: "2", alignment: new go.Spot(1, 0.5)})
                         );
                     var transformer3_24 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1938,7 +1924,7 @@ function init() {
                                 {portId: "2", alignment: new go.Spot(1, 0.5)})
                         );
                     var transformer3_25 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -1957,7 +1943,7 @@ function init() {
                                 {portId: "2", alignment: new go.Spot(1, 0.5)})
                         );
                     var transformer3_26 =
-                        $(go.Node, "Spot", SelectNode(), NodeStyle(),
+                        $(go.Node, "Spot", SelectNode(), NodeStyle(),{doubleClick:OnmChange},
                             $(go.Shape, {
                                     name: 'icon',
                                     strokeWidth: 2,
@@ -2055,42 +2041,6 @@ function init() {
                             }).ofObject(),
 
                             $(go.Shape, "Rectangle",
-                                {fill: "rgba(0,0,0,0)", stroke: null, strokeWidth: 2}),
-                            // {fill: "rgba(255,102,102,0.3)", stroke: null, strokeWidth: 2}),
-                            $(go.Panel, "Vertical",  // title above Placeholder
-                                $(go.Placeholder,
-                                    {padding: 5, alignment: go.Spot.TopRight})
-                            ),  // end Vertical Panel
-                            new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify)
-                        )
-
-                    var groupNodeShow =
-                        $(go.Group, "Auto",
-                            {
-                                isShadowed: true,//阴影
-                                movable: true,//允许拖动
-                                locationSpot: go.Spot.RightCenter, locationObjectName: "SHAPE",
-                                selectionObjectName: "SHAPE",
-                                background: "transparent",
-                                ungroupable: true,
-                                computesBoundsAfterDrag: true,
-                                // when the selection is dropped into a Group, add the selected Parts into that Group;
-                                // if it fails, cancel the tool, rolling back any changes
-                                mouseDrop: finishDrop,
-                                handlesDragDropForMembers: true,  // don't need to define handlers on member Nodes and Links
-                                // Groups containing Nodes lay out their members vertically
-                                layout:
-                                    $(go.GridLayout,
-                                        {
-                                            wrappingColumn: 1, alignment: go.GridLayout.Position,
-                                            cellSize: new go.Size(1, 1), spacing: new go.Size(4, 4)
-                                        })
-                            },
-                            new go.Binding("background", "isHighlighted", function (h) {
-                                return h ? "rgba(255,0,0,0.2)" : "transparent";
-                            }).ofObject(),
-
-                            $(go.Shape, "Rectangle",
                                 // {fill: "rgba(0,0,0,0)", stroke: null, strokeWidth: 2}),
                                 {fill: "rgba(255,102,102,0.3)", stroke: null, strokeWidth: 2}),
                             $(go.Panel, "Vertical",  // title above Placeholder
@@ -2136,49 +2086,6 @@ function init() {
                             new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify)
                         )
                     var attrNode =
-                        $(go.Node, "Auto",
-                            { // dropping on a Node is the same as dropping on its containing Group, even if it's top-level
-                                mouseDrop: function (e, nod) {
-                                    finishDrop(e, nod.containingGroup);
-                                }
-                            }
-                            // $(go.Shape, "Rectangle",
-                            //     {fill: "rgba(0,0,0,0)", stroke: null},
-                            //     // {fill: "rgba(255,102,102,0.3)", stroke: null},
-                            //     new go.Binding("fill", "color")),
-                            // $(go.Panel, "Table",
-                            //     {
-                            //         minSize: new go.Size(0, NaN),
-                            //         maxSize: new go.Size(100, NaN),
-                            //         margin: new go.Margin(6, 10, 0, 6),
-                            //         defaultAlignment: go.Spot.Left
-                            //     },
-                            //     $(go.RowColumnDefinition, {column: 2, width: 1}),
-                            //     $(go.TextBlock, // the name
-                            //         {
-                            //             row: 0, column: 0,
-                            //             font: "5pt Segoe UI,sans-serif",
-                            //             stroke: null,
-                            //             // stroke: "#000",
-                            //             editable: true, isMultiline: false,
-                            //         },
-                            //         new go.Binding("text", "text").makeTwoWay()),
-                            //     $(go.TextBlock,
-                            //         {
-                            //             row: 0, column: 1,
-                            //             font: "5pt Segoe UI,sans-serif",
-                            //             editable: true, isMultiline: false,
-                            //             stroke: null,
-                            //             // stroke: "#000",
-                            //             margin: new go.Margin(0, 0, 0, 3)
-                            //         },
-                            //         new go.Binding("text", "value").makeTwoWay())
-                            // ), // end Table Panel
-                            // new go.Binding("location", "pos", go.Point.parse).makeTwoWay(go.Point.stringify)
-
-                        )
-
-                    var attrNodeShow =
                         $(go.Node, "Auto",
                             { // dropping on a Node is the same as dropping on its containing Group, even if it's top-level
                                 mouseDrop: function (e, nod) {
@@ -2586,7 +2493,7 @@ function init() {
                         function showLabelOnm(key, x, y) {
 
 
-                        console.log("key,x,y",key,x,y);
+                        console.log("swan_objs_res",swan_objs_res);
                             var html="";
                             for (var i in swan_objs_res) {
                                 var goKey = swan_objs_res[i].goKey;
@@ -2771,8 +2678,6 @@ var div1State = 1;
 function setBigScreen() {
 
     if(div1State){
-
-
         launchFullScreen(window.document.querySelector('#sample'));
         this.title = "点击退出"
         div1State = 0;
@@ -2835,20 +2740,97 @@ function setTab(tab_id) {
     }
 }
 //获取参数列表
+// function getParaPanel() {
+//     for (var k=0;k<attrs.length;k++) {
+//         var node_attrs=attrs[k];
+//         if (node_attrs.length > 0) {
+//             var goKey = node_attrs[0].objId;
+//             var para = {};
+//             var ids={};
+//             var onm = {};
+//             var ons = {};
+//             var ofs = {};
+//             for (var j=0;j<node_attrs.length;j++) {
+//                 para[node_attrs[j]["name"]] = node_attrs[j]["name"];
+//                 ids[node_attrs[j]["name"]]=node_attrs[j]["id"];
+//                 onm[attrs[j]["objName"]] = node_attrs[j]["onlineMonitor"];
+//                 ons[attrs[j]["objName"]] = node_attrs[j]["onlineSim"];
+//                 ofs[attrs[j]["objName"]] = node_attrs[j]["offlineSim"];
+//             }
+//             //获取父元素的坐标
+//             var group = myDiagram.model.findNodeDataForKey(goKey);
+//             var pos=group["pos"].trim().split(" ")
+//             var x=new Number(pos[0])+30;
+//             var y=new Number(pos[1]);
+//             var loc=(x).toString()+" "+(y).toString();
+//             //添加参数panel
+//             var para_key=goKey + "_para";
+//             var para_panel=myDiagram.model.findNodeDataForKey(para_key)
+//             if(para_panel==null){
+//                 var para_node = {}
+//                 para_node["key"] = goKey + "_para";
+//                 para_node["isGroup"] = true;
+//                 para_node["category"] = "OfNodes";
+//                 para_node["pos"]=loc;
+//                 para_node["panel_objId"]=goKey;//所属图元
+//                 myDiagram.model.addNodeData(para_node);
+//             }
+//
+//             //添加各参数
+//             for (var i in para) {
+//                 var attr_key=ids[i];
+//                 var attr=myDiagram.model.findNodeDataForKey(attr_key)
+//                 if(attr==null)
+//                 {
+//                     var node = {};
+//                     node["key"] = attr_key;
+//                     node["text"] = i;//指标名称
+//                     node["value"] = 0;//指标值
+//                     node["group"] = goKey + "_para";//所属panel
+//                     node["attr_objId"]=goKey;//所属图元
+//                     node["category"] = "OfNodes";
+//                     node["onm"]=onm[i];
+//                     node["ons"]=ons[i];
+//                     node["ofs"]=ofs[i];
+//                     myDiagram.model.addNodeData(node);
+//                 }
+//             }
+//         }
+//     }
+// }
+
+//获取参数列表
 function getParaPanel() {
-    for (var k=0;k<attrs.length;k++) {
-        var node_attrs=attrs[k];
-        if (node_attrs.length > 0) {
-            var goKey = node_attrs[0].objId;
+    for (var i in swan_objs_res) {
+        var attrs = swan_objs_res[i].attrs;
+        console.log("attrs:",attrs);
+        if (attrs.length > 0) {
+            var goKey = swan_objs_res[i].goKey;
             var para = {};
+            var onm = {};
+            var ons = {};
+            var ofs = {};
             var ids={};
-            for (var j=0;j<node_attrs.length;j++) {
-                para[node_attrs[j]["name"]] = node_attrs[j]["name"];
-                ids[node_attrs[j]["name"]]=node_attrs[j]["id"];
+            for (var j in attrs) {
+                para[attrs[j]["objName"]] = swan_redis_data[attrs[j]["id"].toString()];
+                // if(attrs[j]["onlineMonitor"]==true){onm[attrs[j]["objName"]] ="show"}else {onm[attrs[j]["objName"]] ="noshow"}
+                // if(attrs[j]["onlineSim"]==true){ons[attrs[j]["objName"]] ="show"}else {ons[attrs[j]["objName"]] ="noshow"}
+                // if(attrs[j]["offlineSim"]==true){ofs[attrs[j]["objName"]] ="show"}else {ofs[attrs[j]["objName"]] ="noshow"}
+                onm[attrs[j]["objName"]] = attrs[j]["onlineMonitor"];
+                ons[attrs[j]["objName"]] = attrs[j]["onlineSim"];
+                ofs[attrs[j]["objName"]] = attrs[j]["offlineSim"];
+                ids[attrs[j]["objName"]]=attrs[j]["id"]
             }
+
             //获取父元素的坐标
+            // var group = myDiagram.model.findNodeDataForKey(goKey);
+            // var pos=group["pos"].trim().split(" ")
+            // var x=new Number(pos[0])-75;
+            // var y=new Number(pos[1])-100;
+            // var loc=(x).toString()+" "+(y).toString();
+            // console.log("loc:",loc);
             var group = myDiagram.model.findNodeDataForKey(goKey);
-            var pos=group["pos"].trim().split(" ")
+            var pos=group["pos"].trim().split(" ");
             var x=new Number(pos[0])+30;
             var y=new Number(pos[1]);
             var loc=(x).toString()+" "+(y).toString();
@@ -2858,10 +2840,12 @@ function getParaPanel() {
             if(para_panel==null){
                 var para_node = {}
                 para_node["key"] = goKey + "_para";
+                para_node["text"] = "参数";
                 para_node["isGroup"] = true;
                 para_node["category"] = "OfNodes";
                 para_node["pos"]=loc;
-                para_node["panel_objId"]=goKey;//所属图元
+                para_node["pic_node"]=goKey;
+                para_node["panel_objId"]=goKey;
                 myDiagram.model.addNodeData(para_node);
             }
 
@@ -2871,19 +2855,28 @@ function getParaPanel() {
                 var attr=myDiagram.model.findNodeDataForKey(attr_key)
                 if(attr==null)
                 {
-                    var node = {};
-                    node["key"] = attr_key;
-                    node["text"] = i;//指标名称
-                    node["value"] = 0;//指标值
-                    node["group"] = goKey + "_para";//所属panel
-                    node["attr_objId"]=goKey;//所属图元
-                    node["category"] = "TextNode";
-                    myDiagram.model.addNodeData(node);
+                    if(onm[i]==true){
+                        console.log("onm:",onm[i]);
+                        console.log("ons:",ons[i]);
+                        console.log("ofs:",ofs[i]);
+                        var node = {};
+                        node["key"] = attr_key;
+                        node["text"] = i;
+                        node["value"] = 0;
+                        node["group"] = goKey + "_para";
+                        node["category"] = "TextNode";
+                        node["attr_objId"]=goKey;
+                        node["onm"]=onm[i];
+                        node["ons"]=ons[i];
+                        node["ofs"]=ofs[i];
+                        myDiagram.model.addNodeData(node);
+                    }
                 }
             }
         }
     }
 }
+
 
 /**
 * 更改显示状态

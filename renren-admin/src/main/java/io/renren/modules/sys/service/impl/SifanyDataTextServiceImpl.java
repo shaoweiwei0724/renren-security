@@ -222,16 +222,19 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                             for(SifanyClassEntity classEntitie:classEntities){
                                 System.out.println("objId:"+classEntitie.getId());
                                 //保存属性
-                                List<SifanyClassAttrEntity> classAttrEntities =  sifanyClassAttrService.list(new QueryWrapper<SifanyClassAttrEntity>().eq("class_id",classEntitie.getId()));
-                                for(SifanyClassAttrEntity attr:classAttrEntities){
-                                    id+=1;
-                                    JSONObject attr1=new JSONObject();
-                                    attr1.put("id",id);
-                                    attr1.put("name",attr.getName());
-                                    attr1.put("value","0");
-                                    attrs.add(attr1);
-                                }
-                                node.put("attrs",attrs);
+//                                List<SifanyClassAttrEntity> classAttrEntities =  sifanyClassAttrService.list(new QueryWrapper<SifanyClassAttrEntity>().eq("class_id",classEntitie.getId()));
+//                                for(SifanyClassAttrEntity attr:classAttrEntities){
+//                                    id+=1;
+//                                    JSONObject attr1=new JSONObject();
+//                                    attr1.put("id",id);
+//                                    attr1.put("name",attr.getName());
+//                                    attr1.put("value","0");
+//                                    attr1.put("onm",true);
+//                                    attr1.put("ons",true);
+//                                    attr1.put("ofs",true);
+//                                    attrs.add(attr1);
+//                                }
+//                                node.put("attrs",attrs);
                                 //保存类信息
                                 node.put("source",classEntitie);
                             }
