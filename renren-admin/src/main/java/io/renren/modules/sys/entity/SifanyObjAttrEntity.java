@@ -1,5 +1,6 @@
 package io.renren.modules.sys.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -47,6 +48,17 @@ public class SifanyObjAttrEntity implements Serializable {
 	 * 最后更新时间
 	 */
 	private Long updateTime;
+	@TableField(exist=false)
+	private String objName;
+
+	public String getObjName() {
+		return objName;
+	}
+
+	public void setObjName(String objName) {
+		this.objName = objName;
+	}
+
 	/**
 	 * 用户id
 	 */

@@ -218,7 +218,11 @@ public class SifanyObjServiceImpl extends ServiceImpl<SifanyObjDao, SifanyObjEnt
                             sifanyObjDataEntity.setOnlineMonitor(classAttrEntity.getOnlineMonitor());
                             sifanyObjDataEntity.setOnlineSim(classAttrEntity.getOnlineSim());
 
+                            //redis key值（G文件元件id_元件标签code）
 
+                            String redis_key = iron.getString("key") + "_" + classAttrEntity.getCode();
+
+                            sifanyObjDataEntity.setRedisKey(redis_key);
 
 //                sifanyObjDataEntity.setDataId();
                             sifanyObjDataService.save(sifanyObjDataEntity);

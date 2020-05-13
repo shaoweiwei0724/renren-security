@@ -45,6 +45,8 @@ public class SifanyObjDataEntity implements Serializable {
 	private Boolean onlineSim;
 	private Boolean offlineSim;
 
+	private String redisKey;
+
 	public Long getAttrId() {
 		return attrId;
 	}
@@ -115,5 +117,13 @@ public class SifanyObjDataEntity implements Serializable {
 
 	public void setDataId(Long dataId) {
 		this.dataId = dataId;
+	}
+
+	public String getRedisKey() {
+		return redisKey;
+	}
+
+	public void setRedisKey(String redisKey) {
+		this.redisKey = redisKey;
 	}
 }
