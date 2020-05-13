@@ -433,16 +433,16 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                                 else {
                                     for(SifanyClassEntity classEntitie:classEntities){
                                         System.out.println("objId:"+classEntitie.getId());
-                                        List<SifanyClassAttrEntity> classAttrEntities =  sifanyClassAttrService.list(new QueryWrapper<SifanyClassAttrEntity>().eq("class_id",classEntitie.getId()));
-                                        for(SifanyClassAttrEntity attr:classAttrEntities){
-                                            id+=1;
-                                            JSONObject attr1=new JSONObject();
-                                            attr1.put("id",id);
-                                            attr1.put("objName",attr.getName());
-                                            attr1.put("value","0");
-                                            attrs.add(attr1);
-                                        }
-                                        node.put("attrs",attrs);
+//                                        List<SifanyClassAttrEntity> classAttrEntities =  sifanyClassAttrService.list(new QueryWrapper<SifanyClassAttrEntity>().eq("class_id",classEntitie.getId()));
+//                                        for(SifanyClassAttrEntity attr:classAttrEntities){
+//                                            id+=1;
+//                                            JSONObject attr1=new JSONObject();
+//                                            attr1.put("id",id);
+//                                            attr1.put("objName",attr.getName());
+//                                            attr1.put("value","0");
+//                                            attrs.add(attr1);
+//                                        }
+//                                        node.put("attrs",attrs);
                                         node.put("source",classEntitie);
                                     }
                                 }
@@ -463,16 +463,16 @@ public class SifanyDataTextServiceImpl extends ServiceImpl<SifanyDataTextDao, Si
                                 else {
                                     for(SifanyClassEntity classEntitie:classEntities){
                                         System.out.println("objId:"+classEntitie.getId());
-                                        List<SifanyClassAttrEntity> classAttrEntities =  sifanyClassAttrService.list(new QueryWrapper<SifanyClassAttrEntity>().eq("class_id",classEntitie.getId()));
-                                        for(SifanyClassAttrEntity attr:classAttrEntities){
-                                            id+=1;
-                                            JSONObject attr1=new JSONObject();
-                                            attr1.put("id",id);
-                                            attr1.put("objName",attr.getName());
-                                            attr1.put("value","0");
-                                            attrs.add(attr1);
-                                        }
-                                        node.put("attrs",attrs);
+//                                        List<SifanyClassAttrEntity> classAttrEntities =  sifanyClassAttrService.list(new QueryWrapper<SifanyClassAttrEntity>().eq("class_id",classEntitie.getId()));
+//                                        for(SifanyClassAttrEntity attr:classAttrEntities){
+//                                            id+=1;
+//                                            JSONObject attr1=new JSONObject();
+//                                            attr1.put("id",id);
+//                                            attr1.put("objName",attr.getName());
+//                                            attr1.put("value","0");
+//                                            attrs.add(attr1);
+//                                        }
+//                                        node.put("attrs",attrs);
                                         node.put("source",classEntitie);
                                     }
                                 }

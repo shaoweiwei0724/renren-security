@@ -93,14 +93,14 @@ function init() {
                     str = JSON.parse(xmlHttp.responseText);
                     jsons = JSON.parse(str.mapJsonG);
                     swan_objs_res = str.objs;
-                    // for (var i in swan_objs_res) {
-                    //     var attrs = swan_objs_res[i].attrs;
-                    //     if (attrs.length > 0) {
-                    //         for (var j in attrs) {
-                    //             swan_redis_data[attrs[j]["id"].toString()] = 0
-                    //         }
-                    //     }
-                    // }
+                    for (var i in swan_objs_res) {
+                        var attrs = swan_objs_res[i].attrs;
+                        if (attrs.length > 0) {
+                            for (var j in attrs) {
+                                swan_redis_data[attrs[j]["redisKey"].toString()] = 0
+                            }
+                        }
+                    }
             // xmlHttp.open("GET", baseIP + "sys/sifanygjson/getGJson?idd=" + localStorage.fileId, true);
             // xmlHttp.send();
             // xmlHttp.onreadystatechange = function () {
@@ -121,7 +121,7 @@ function init() {
                                     attr = nodedata.attrs[i];
                                     attr.objId = nodeDataArray[j].key;
                                     node_attr.push(attr);
-                                    swan_redis_data[attr["id"].toString()] = 0;
+                                    swan_redis_data[attr["redisKey"].toString()] = 0;
                                 }
                                 attrs.push(node_attr);
                             }
@@ -568,32 +568,54 @@ function init() {
                         ]
                     }
 
+                    // function changeText(node) {
+                    //     var node_select=node.key;
+                    //     var texts_select=myDiagram.findNodesByExample({"msp":node_select});
+                    //     var attr_panel=myDiagram.findNodesByExample({"panel_objId":node_select});
+                    //     var attr_text=myDiagram.findNodesByExample({"attr_objId":node_select});
+                    //     if(node.isSelected) {
+                    //     // if (texts_select.first() != null) {
+                    //     //     texts_select.each(function (text_select) {
+                    //     //         text_select.category = "Text_selected";
+                    //     //     });
+                    //             attr_panel.each(function (panel_select) {
+                    //                 panel_select.category = "OfNodes_selected";
+                    //             });
+                    //             // attr_text.each(function (attr_select) {
+                    //             //     attr_select.category = "TextNode_selected";
+                    //             // })
+                    //         }
+                    //         else {
+                    //             texts_select.each(function (text_select) {
+                    //                 text_select.category = "Text_0";
+                    //             });
+                    //             attr_panel.each(function (panel_select) {
+                    //                 panel_select.category = "OfNodes";
+                    //             })
+                    //     }
+                    //
+                    // }
+
                     function changeText(node) {
                         var node_select=node.key;
-                        var texts_select=myDiagram.findNodesByExample({"msp":node_select});
                         var attr_panel=myDiagram.findNodesByExample({"panel_objId":node_select});
                         var attr_text=myDiagram.findNodesByExample({"attr_objId":node_select});
-                        if(node.isSelected) {
-                        // if (texts_select.first() != null) {
-                        //     texts_select.each(function (text_select) {
-                        //         text_select.category = "Text_selected";
-                        //     });
-                                attr_panel.each(function (panel_select) {
-                                    panel_select.category = "OfNodes_selected";
-                                });
-                                // attr_text.each(function (attr_select) {
-                                //     attr_select.category = "TextNode_selected";
-                                // })
-                            }
-                            else {
-                                texts_select.each(function (text_select) {
-                                    text_select.category = "Text_0";
-                                });
-                                attr_panel.each(function (panel_select) {
-                                    panel_select.category = "OfNodes";
-                                })
+                        if(node.isSelected){
+                            attr_panel.each(function(panel_select) {
+                                panel_select.category = "OfNodes_selected";
+                            });
+                            attr_text.each(function(attr_select) {
+                                attr_select.category = "TextNode_selected";
+                            })
                         }
-
+                        else {
+                            attr_panel.each(function(panel_select) {
+                                panel_select.category= "OfNodes";
+                            });
+                            attr_text.each(function(attr_select) {
+                                attr_select.category = "TextNode";
+                            })
+                        }
                     }
 
                     myDiagram.addDiagramListener("ObjectSingleClicked", function (e) { //点击事件
@@ -652,7 +674,7 @@ function init() {
                                 Spots.push(Spot);
                             }
                             myDiagram.nodeTemplateMap.add(nodeDataArray[i].key,
-                                $(go.Node, "Spot", SelectNode(),
+                                $(go.Node, "Spot", SelectNode(),{doubleClick:OnmChange},
                                     {
                                         locationSpot: go.Spot.Center,
                                     },
@@ -673,7 +695,7 @@ function init() {
                         }
                     }
                     var busbarsection =
-                        $(go.Node, SelectNode(), {
+                        $(go.Node, SelectNode(), NodeStyle(),{doubleClick:OnmChange}, {
                                 locationObjectName: 'main',
                                 locationSpot: go.Spot.TopLeft,
                             },
@@ -2204,7 +2226,7 @@ function init() {
 
                     //交流线
                     myDiagram.linkTemplateMap.add("ACLineEnd",
-                     $(go.Link,
+                     $(go.Link,{doubleClick:OnmChange},
                             {relinkableFrom: true, relinkableTo: true, reshapable: true},
                             {
                                 routing: go.Link.Normal,
@@ -2801,9 +2823,9 @@ function setTab(tab_id) {
 
 //获取参数列表
 function getParaPanel() {
+    console.log("swan_objs_res:",swan_objs_res);
     for (var i in swan_objs_res) {
         var attrs = swan_objs_res[i].attrs;
-        console.log("attrs:",attrs);
         if (attrs.length > 0) {
             var goKey = swan_objs_res[i].goKey;
             var para = {};
@@ -2812,7 +2834,7 @@ function getParaPanel() {
             var ofs = {};
             var ids={};
             for (var j in attrs) {
-                para[attrs[j]["objName"]] = swan_redis_data[attrs[j]["id"].toString()];
+                para[attrs[j]["objName"]] = swan_redis_data[attrs[j]["redisKey"].toString()];
                 // if(attrs[j]["onlineMonitor"]==true){onm[attrs[j]["objName"]] ="show"}else {onm[attrs[j]["objName"]] ="noshow"}
                 // if(attrs[j]["onlineSim"]==true){ons[attrs[j]["objName"]] ="show"}else {ons[attrs[j]["objName"]] ="noshow"}
                 // if(attrs[j]["offlineSim"]==true){ofs[attrs[j]["objName"]] ="show"}else {ofs[attrs[j]["objName"]] ="noshow"}
@@ -2823,12 +2845,6 @@ function getParaPanel() {
             }
 
             //获取父元素的坐标
-            // var group = myDiagram.model.findNodeDataForKey(goKey);
-            // var pos=group["pos"].trim().split(" ")
-            // var x=new Number(pos[0])-75;
-            // var y=new Number(pos[1])-100;
-            // var loc=(x).toString()+" "+(y).toString();
-            // console.log("loc:",loc);
             var group = myDiagram.model.findNodeDataForKey(goKey);
             var pos=group["pos"].trim().split(" ");
             var x=new Number(pos[0])+30;

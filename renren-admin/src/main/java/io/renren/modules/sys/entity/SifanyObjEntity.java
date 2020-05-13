@@ -257,4 +257,5 @@ public class SifanyObjEntity implements Serializable {
 	public void setOrgId(Long orgId) {
 		this.orgId = orgId;
 	}
+
 }

@@ -36,7 +36,11 @@ public class SifanyClassServiceImpl extends ServiceImpl<SifanyClassDao, SifanyCl
     @Autowired
     private SifanyClassAttrService sifanyClassAttrService;
     @Autowired
+    private SifanyObjAttrService sifanyObjAttrService;
+    @Autowired
     private SifanyObjDataService sifanyObjDataService;
+    @Autowired
+    private SifanyObjPropService sifanyObjPropService;
 
     protected SysUserEntity getUser() {
         return (SysUserEntity) SecurityUtils.getSubject().getPrincipal();
@@ -174,15 +178,6 @@ public class SifanyClassServiceImpl extends ServiceImpl<SifanyClassDao, SifanyCl
             obj.setAttrs(sifanyObjDataEntities);
         }
         res.put("objs",objs);
-
-
         return R.ok(res);
-
-
-
-
     }
-
-
-
 }

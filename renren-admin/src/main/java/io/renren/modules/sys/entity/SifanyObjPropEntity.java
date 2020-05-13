@@ -32,6 +32,7 @@ public class SifanyObjPropEntity implements Serializable {
 	 * 对应类的属性id
 	 */
 	private Long propId;
+	private String objName;
 
 	public Long getId() {
 		return id;
@@ -55,5 +56,13 @@ public class SifanyObjPropEntity implements Serializable {
 
 	public void setPropId(Long propId) {
 		this.propId = propId;
+	}
+
+	public String getObjName() {
+		return objName;
+	}
+
+	public void setObjName(String objName) {
+		this.objName = objName;
 	}
 }
